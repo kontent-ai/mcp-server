@@ -1,7 +1,9 @@
+import 'dotenv/config';
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { createDeliveryClient } from '@kontent-ai/delivery-sdk';
+import { registerCreateItemVariantTool } from './tools/createItemVariant.js';
 
 // Create server instance
 const server = new McpServer({
@@ -13,7 +15,7 @@ const server = new McpServer({
   },
 });
 
-// Register weather tools
+// Register get-item tool
 server.tool(
   "get-item",
   "Get Kontent.ai item by codename",
@@ -40,6 +42,9 @@ server.tool(
     };
   }
 );
+
+// Register create-item-variant tool
+registerCreateItemVariantTool(server);
 
 async function main() {
   const transport = new StdioServerTransport();

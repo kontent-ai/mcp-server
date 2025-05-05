@@ -18,7 +18,9 @@
   "description": "",
   "dependencies": {
     "@kontent-ai/delivery-sdk": "^16.1.0",
+    "@kontent-ai/management-sdk": "^7.8.0",
     "@modelcontextprotocol/sdk": "^1.9.0",
+    "dotenv": "^16.5.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
