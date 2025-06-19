@@ -84,6 +84,12 @@ npx @kontent-ai/mcp-server@latest sse
 
 * **list-languages-mapi** – List all languages configured in the environment
 
+### Webhook Management
+
+* **list-webhooks-mapi** – List all webhooks in the environment
+* **get-webhook-mapi** – Get a specific webhook by ID
+* **add-webhook-mapi** – Create a new webhook with delivery triggers
+
 ## ⚙️ Configuration
 
 The server requires the following environment variables:

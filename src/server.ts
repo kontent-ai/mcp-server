@@ -14,6 +14,9 @@ import { registerTool as registerListContentTypeSnippetsMapi } from "./tools/lis
 import { registerTool as registerAddTaxonomyGroupMapi } from "./tools/add-taxonomy-group-mapi.js";
 import { registerTool as registerListTaxonomyGroupsMapi } from "./tools/list-taxonomy-groups-mapi.js";
 import { registerTool as registerGetTaxonomyGroupMapi } from "./tools/get-taxonomy-group-mapi.js";
+import { registerTool as registerListWebhooksMapi } from "./tools/list-webhooks-mapi.js";
+import { registerTool as registerGetWebhookMapi } from "./tools/get-webhook-mapi.js";
+import { registerTool as registerAddWebhookMapi } from "./tools/add-webhook-mapi.js";
 import packageJson from "../package.json" with { type: "json" };
 
 // Create server instance
@@ -43,6 +46,9 @@ export const createServer = () => {
   registerAddTaxonomyGroupMapi(server);
   registerListTaxonomyGroupsMapi(server);
   registerGetTaxonomyGroupMapi(server);
+  registerListWebhooksMapi(server);
+  registerGetWebhookMapi(server);
+  registerAddWebhookMapi(server);
 
   return { server };
 };
