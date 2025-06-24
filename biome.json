@@ -15,6 +15,7 @@
       "!**/.idea/**",
       "!**/.vscode/**",
       "!**/.cursor/**",
+      "!**/build/**",
       "!**/node_modules/**",
       "!**/package.json"
     ]
