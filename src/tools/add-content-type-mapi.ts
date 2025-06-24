@@ -5,6 +5,8 @@ import {
   contentGroupSchema,
   elementSchema,
 } from "../schemas/contentTypeSchemas.js";
+import { handleMcpToolError } from "../utils/errorHandler.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 
 export const registerTool = (server: McpServer): void => {
   server.tool(
@@ -35,25 +37,22 @@ export const registerTool = (server: McpServer): void => {
     async ({ name, codename, external_id, elements, content_groups }) => {
       const client = createMapiClient();
 
-      const response = await client
-        .addContentType()
-        .withData(() => ({
-          name,
-          codename,
-          external_id,
-          elements,
-          content_groups,
-        }))
-        .toPromise();
+      try {
+        const response = await client
+          .addContentType()
+          .withData(() => ({
+            name,
+            codename,
+            external_id,
+            elements,
+            content_groups,
+          }))
+          .toPromise();
 
-      return {
-        content: [
-          {
-            type: "text",
-            text: JSON.stringify(response.rawData),
-          },
-        ],
-      };
+        return createMcpToolSuccessResponse(response.rawData);
+      } catch (error: any) {
+        return handleMcpToolError(error, "Content Type Creation");
+      }
     },
   );
 };

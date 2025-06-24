@@ -176,6 +176,9 @@ npm run start:stdio  # For STDIO transport
   - `tools/` - MCP tool implementations
   - `clients/` - Kontent.ai API client setup
   - `schemas/` - Data validation schemas
+  - `utils/` - Utility functions
+    - `errorHandler.ts` - Standardized error handling for MCP tools
+    - `throwError.ts` - Generic error throwing utility
   - `server.ts` - Main server setup and tool registration
   - `bin.ts` - Single entry point that handles both transport types
 

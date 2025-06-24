@@ -1,24 +1,24 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createMapiClient } from "../clients/kontentClients.js";
+import { handleMcpToolError } from "../utils/errorHandler.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "list-taxonomy-groups-mapi",
     "Get all taxonomy groups from Management API",
     {},
+    {},
     async () => {
       const client = createMapiClient();
 
-      const response = await client.listTaxonomies().toPromise();
+      try {
+        const response = await client.listTaxonomies().toPromise();
 
-      return {
-        content: [
-          {
-            type: "text",
-            text: JSON.stringify(response.data),
-          },
-        ],
-      };
+        return createMcpToolSuccessResponse(response.data);
+      } catch (error: any) {
+        return handleMcpToolError(error, "Taxonomy Groups Listing");
+      }
     },
   );
 };

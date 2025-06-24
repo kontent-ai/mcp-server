@@ -1,6 +1,8 @@
 import { createDeliveryClient } from "@kontent-ai/delivery-sdk";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
+import { handleMcpToolError } from "../utils/errorHandler.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 
 export const registerTool = (server: McpServer): void => {
   server.tool(
@@ -17,16 +19,13 @@ export const registerTool = (server: McpServer): void => {
         environmentId,
       });
 
-      const response = await client.item(codename).toPromise();
+      try {
+        const response = await client.item(codename).toPromise();
 
-      return {
-        content: [
-          {
-            type: "text",
-            text: JSON.stringify(response.data.item),
-          },
-        ],
-      };
+        return createMcpToolSuccessResponse(response.data.item);
+      } catch (error: any) {
+        return handleMcpToolError(error, "Item Retrieval (Delivery API)");
+      }
     },
   );
 };

@@ -1,5 +1,7 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createMapiClient } from "../clients/kontentClients.js";
+import { handleMcpToolError } from "../utils/errorHandler.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 
 export const registerTool = (server: McpServer): void => {
   server.tool(
@@ -9,16 +11,13 @@ export const registerTool = (server: McpServer): void => {
     async () => {
       const client = createMapiClient();
 
-      const response = await client.listAssets().toAllPromise();
+      try {
+        const response = await client.listAssets().toAllPromise();
 
-      return {
-        content: [
-          {
-            type: "text",
-            text: JSON.stringify(response.data),
-          },
-        ],
-      };
+        return createMcpToolSuccessResponse(response.data);
+      } catch (error: any) {
+        return handleMcpToolError(error, "Assets Listing");
+      }
     },
   );
 };
