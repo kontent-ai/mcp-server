@@ -80,6 +80,19 @@ npx @kontent-ai/mcp-server@latest sse
 * **list-taxonomy-groups-mapi** – List all taxonomy groups
 * **add-taxonomy-group-mapi** – Create a new taxonomy group with terms
 
+### Content Item Management
+
+* **get-item-mapi** – Get a specific content item by codename
+* **get-item-dapi** – Get a content item by codename from Delivery API
+* **get-variant-mapi** – Get a language variant of a content item
+* **add-content-item-mapi** – Create a new content item (structure only)
+* **upsert-language-variant-mapi** – Create or update a language variant with content
+
+### Asset Management
+
+* **get-asset-mapi** – Get a specific asset by codename
+* **list-assets-mapi** – List all assets in the environment
+
 ### Language Management
 
 * **list-languages-mapi** – List all languages configured in the environment

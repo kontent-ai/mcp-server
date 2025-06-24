@@ -1,5 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import packageJson from "../package.json" with { type: "json" };
+import { registerTool as registerAddContentItemMapi } from "./tools/add-content-item-mapi.js";
 import { registerTool as registerAddContentTypeMapi } from "./tools/add-content-type-mapi.js";
 import { registerTool as registerAddContentTypeSnippetMapi } from "./tools/add-content-type-snippet-mapi.js";
 import { registerTool as registerAddTaxonomyGroupMapi } from "./tools/add-taxonomy-group-mapi.js";
@@ -15,6 +16,7 @@ import { registerTool as registerListContentTypeSnippetsMapi } from "./tools/lis
 import { registerTool as registerListContentTypesMapi } from "./tools/list-content-types-mapi.js";
 import { registerTool as registerListLanguagesMapi } from "./tools/list-languages-mapi.js";
 import { registerTool as registerListTaxonomyGroupsMapi } from "./tools/list-taxonomy-groups-mapi.js";
+import { registerTool as registerUpsertLanguageVariantMapi } from "./tools/upsert-language-variant-mapi.js";
 
 // Create server instance
 export const createServer = () => {
@@ -43,6 +45,8 @@ export const createServer = () => {
   registerAddTaxonomyGroupMapi(server);
   registerListTaxonomyGroupsMapi(server);
   registerGetTaxonomyGroupMapi(server);
+  registerAddContentItemMapi(server);
+  registerUpsertLanguageVariantMapi(server);
 
   return { server };
 };
