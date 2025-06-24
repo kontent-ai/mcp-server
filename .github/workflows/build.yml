@@ -2,32 +2,35 @@ name: Build Check
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Use Node.js from .nvmrc
-      uses: actions/setup-node@v4
-      with:
-        node-version-file: ".nvmrc"
-        cache: 'npm'
-    
-    - name: Install dependencies
-      run: npm ci
-    
-    - name: Build
-      run: npm run build
-      
-    - name: Check build output
-      run: |
-        if [ ! -d "build" ] || [ -z "$(ls -A build)" ]; then
-          echo "Build directory is empty or does not exist"
-          exit 1
-        fi 
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js from .nvmrc
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check formatting
+        run: npm run format
+
+      - name: Build
+        run: npm run build
+
+      - name: Check build output
+        run: |
+          if [ ! -d "build" ] || [ -z "$(ls -A build)" ]; then
+            echo "Build directory is empty or does not exist"
+            exit 1
+          fi
