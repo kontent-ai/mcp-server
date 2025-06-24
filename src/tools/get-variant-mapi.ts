@@ -1,6 +1,6 @@
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import { createMapiClient } from '../clients/kontentClients.js';
+import { createMapiClient } from "../clients/kontentClients.js";
 
 export const registerTool = (server: McpServer): void => {
   server.tool(
@@ -8,7 +8,9 @@ export const registerTool = (server: McpServer): void => {
     "Get language variant of a content item from Management API",
     {
       itemCodename: z.string().describe("Codename of the content item"),
-      languageCodename: z.string().describe("Codename of the language variant to get")
+      languageCodename: z
+        .string()
+        .describe("Codename of the language variant to get"),
     },
     async ({ itemCodename, languageCodename }) => {
       const client = createMapiClient();
@@ -27,6 +29,6 @@ export const registerTool = (server: McpServer): void => {
           },
         ],
       };
-    }
+    },
   );
-}; 
+};

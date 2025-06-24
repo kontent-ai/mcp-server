@@ -1,13 +1,15 @@
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import { createMapiClient } from '../clients/kontentClients.js';
+import { createMapiClient } from "../clients/kontentClients.js";
 
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "get-type-snippet-mapi",
     "Get content type snippet by codename from Management API",
     {
-      codename: z.string().describe("Codename of the content type snippet to get")
+      codename: z
+        .string()
+        .describe("Codename of the content type snippet to get"),
     },
     async ({ codename }) => {
       const client = createMapiClient();
@@ -25,6 +27,6 @@ export const registerTool = (server: McpServer): void => {
           },
         ],
       };
-    }
+    },
   );
-}; 
+};

@@ -1,11 +1,13 @@
-import { TaxonomyContracts } from "@kontent-ai/management-sdk";
+import type { TaxonomyContracts } from "@kontent-ai/management-sdk";
 import { z } from "zod";
 
-type TaxonomyTerm = Omit<TaxonomyContracts.ITaxonomyContract, "id" | "last_modified" | "codename" | "terms">
-  & {
-    codename?: string;
-    terms: TaxonomyTerm[];
-  };
+type TaxonomyTerm = Omit<
+  TaxonomyContracts.ITaxonomyContract,
+  "id" | "last_modified" | "codename" | "terms"
+> & {
+  codename?: string;
+  terms: TaxonomyTerm[];
+};
 
 // Schema for a taxonomy term
 const taxonomyTermSchema: z.ZodType<TaxonomyTerm> = z.object({
@@ -18,7 +20,17 @@ const taxonomyTermSchema: z.ZodType<TaxonomyTerm> = z.object({
 // Schema for a taxonomy group
 export const taxonomyGroupSchemas = {
   name: z.string().describe("Display name of the taxonomy group"),
-  codename: z.string().optional().describe("Codename of the taxonomy group (optional, will be generated if not provided)"),
-  external_id: z.string().optional().describe("External ID of the taxonomy group (optional)"),
-  terms: z.array(taxonomyTermSchema).describe("Hierarchical structure of taxonomy terms"),
-} as const; 
+  codename: z
+    .string()
+    .optional()
+    .describe(
+      "Codename of the taxonomy group (optional, will be generated if not provided)",
+    ),
+  external_id: z
+    .string()
+    .optional()
+    .describe("External ID of the taxonomy group (optional)"),
+  terms: z
+    .array(taxonomyTermSchema)
+    .describe("Hierarchical structure of taxonomy terms"),
+} as const;

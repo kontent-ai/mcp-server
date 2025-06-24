@@ -1,13 +1,13 @@
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import { createMapiClient } from '../clients/kontentClients.js';
+import { createMapiClient } from "../clients/kontentClients.js";
 
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "get-asset-mapi",
     "Get a specific asset by codename from Management API",
     {
-      assetCodename: z.string().describe("Codename of the asset to retrieve")
+      assetCodename: z.string().describe("Codename of the asset to retrieve"),
     },
     async ({ assetCodename }) => {
       const client = createMapiClient();
@@ -25,6 +25,6 @@ export const registerTool = (server: McpServer): void => {
           },
         ],
       };
-    }
+    },
   );
-}; 
+};

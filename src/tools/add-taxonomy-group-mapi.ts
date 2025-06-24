@@ -1,6 +1,6 @@
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { createMapiClient } from '../clients/kontentClients.js';
-import { taxonomyGroupSchemas } from '../schemas/taxonomySchemas.js';
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { createMapiClient } from "../clients/kontentClients.js";
+import { taxonomyGroupSchemas } from "../schemas/taxonomySchemas.js";
 
 export const registerTool = (server: McpServer): void => {
   server.tool(
@@ -23,6 +23,6 @@ export const registerTool = (server: McpServer): void => {
           },
         ],
       };
-    }
+    },
   );
 };

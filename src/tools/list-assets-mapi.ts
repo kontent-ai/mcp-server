@@ -1,5 +1,5 @@
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { createMapiClient } from '../clients/kontentClients.js';
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { createMapiClient } from "../clients/kontentClients.js";
 
 export const registerTool = (server: McpServer): void => {
   server.tool(
@@ -9,9 +9,7 @@ export const registerTool = (server: McpServer): void => {
     async () => {
       const client = createMapiClient();
 
-      const response = await client
-        .listAssets()
-        .toAllPromise();
+      const response = await client.listAssets().toAllPromise();
 
       return {
         content: [
@@ -21,6 +19,6 @@ export const registerTool = (server: McpServer): void => {
           },
         ],
       };
-    }
+    },
   );
-}; 
+};

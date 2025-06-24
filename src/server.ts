@@ -1,30 +1,30 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { registerTool as registerGetItemMapi } from "./tools/get-item-mapi.js";
-import { registerTool as registerGetItemDapi } from "./tools/get-item-dapi.js";
-import { registerTool as registerGetVariantMapi } from "./tools/get-variant-mapi.js";
-import { registerTool as registerGetTypeMapi } from "./tools/get-type-mapi.js";
-import { registerTool as registerListContentTypesMapi } from "./tools/list-content-types-mapi.js";
-import { registerTool as registerListLanguagesMapi } from "./tools/list-languages-mapi.js";
-import { registerTool as registerGetAssetMapi } from "./tools/get-asset-mapi.js";
-import { registerTool as registerListAssetsMapi } from "./tools/list-assets-mapi.js";
+import packageJson from "../package.json" with { type: "json" };
 import { registerTool as registerAddContentTypeMapi } from "./tools/add-content-type-mapi.js";
 import { registerTool as registerAddContentTypeSnippetMapi } from "./tools/add-content-type-snippet-mapi.js";
-import { registerTool as registerGetTypeSnippetMapi } from "./tools/get-type-snippet-mapi.js";
-import { registerTool as registerListContentTypeSnippetsMapi } from "./tools/list-content-type-snippets-mapi.js";
 import { registerTool as registerAddTaxonomyGroupMapi } from "./tools/add-taxonomy-group-mapi.js";
-import { registerTool as registerListTaxonomyGroupsMapi } from "./tools/list-taxonomy-groups-mapi.js";
+import { registerTool as registerGetAssetMapi } from "./tools/get-asset-mapi.js";
+import { registerTool as registerGetItemDapi } from "./tools/get-item-dapi.js";
+import { registerTool as registerGetItemMapi } from "./tools/get-item-mapi.js";
 import { registerTool as registerGetTaxonomyGroupMapi } from "./tools/get-taxonomy-group-mapi.js";
-import packageJson from "../package.json" with { type: "json" };
+import { registerTool as registerGetTypeMapi } from "./tools/get-type-mapi.js";
+import { registerTool as registerGetTypeSnippetMapi } from "./tools/get-type-snippet-mapi.js";
+import { registerTool as registerGetVariantMapi } from "./tools/get-variant-mapi.js";
+import { registerTool as registerListAssetsMapi } from "./tools/list-assets-mapi.js";
+import { registerTool as registerListContentTypeSnippetsMapi } from "./tools/list-content-type-snippets-mapi.js";
+import { registerTool as registerListContentTypesMapi } from "./tools/list-content-types-mapi.js";
+import { registerTool as registerListLanguagesMapi } from "./tools/list-languages-mapi.js";
+import { registerTool as registerListTaxonomyGroupsMapi } from "./tools/list-taxonomy-groups-mapi.js";
 
 // Create server instance
 export const createServer = () => {
   const server = new McpServer({
-      name: "kontent-ai",
-      version: packageJson.version,
-      capabilities: {
-        resources: {},
-        tools: {},
-      },
+    name: "kontent-ai",
+    version: packageJson.version,
+    capabilities: {
+      resources: {},
+      tools: {},
+    },
   });
 
   // Register all tools
