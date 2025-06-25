@@ -6,6 +6,8 @@
     "build": "rimraf build && tsc",
     "start:stdio": "node build/bin.js stdio",
     "start:sse": "node build/bin.js sse",
+    "dev:stdio": "tsx watch src/bin.ts stdio",
+    "dev:sse": "tsx watch src/bin.ts sse",
     "format": "cross-env node node_modules/@biomejs/biome/bin/biome ci ./ --config-path=./biome.json",
     "format:fix": "cross-env node node_modules/@biomejs/biome/bin/biome check ./ --fix --unsafe  --config-path=./biome.json"
   },
@@ -32,6 +34,7 @@
     "@types/node": "^22.15.19",
     "cross-env": "^7.0.3",
     "rimraf": "^6.0.1",
+    "tsx": "^4.20.3",
     "typescript": "^5.8.3"
   }
 }

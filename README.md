@@ -168,6 +168,10 @@ npm run build
 # Start the server
 npm run start:sse  # For SSE transport
 npm run start:stdio  # For STDIO transport
+
+# Start the server with automatic reloading (no need to build first)
+npm run dev:sse  # For SSE transport
+npm run dev:stdio  # For STDIO transport
 ```
 
 ### 📂 Project Structure
