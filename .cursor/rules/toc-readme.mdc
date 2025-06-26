@@ -1,0 +1,6 @@
+---
+description: 
+globs: README.md
+alwaysApply: false
+---
+When updating README.md, the table of contents should contain only the second-level headings below it.
