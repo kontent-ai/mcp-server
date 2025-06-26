@@ -4,6 +4,7 @@ import { registerTool as registerAddContentItemMapi } from "./tools/add-content-
 import { registerTool as registerAddContentTypeMapi } from "./tools/add-content-type-mapi.js";
 import { registerTool as registerAddContentTypeSnippetMapi } from "./tools/add-content-type-snippet-mapi.js";
 import { registerTool as registerAddTaxonomyGroupMapi } from "./tools/add-taxonomy-group-mapi.js";
+import { registerTool as registerDeleteContentItemMapi } from "./tools/delete-content-item-mapi.js";
 import { registerTool as registerGetAssetMapi } from "./tools/get-asset-mapi.js";
 import { registerTool as registerGetItemDapi } from "./tools/get-item-dapi.js";
 import { registerTool as registerGetItemMapi } from "./tools/get-item-mapi.js";
@@ -46,6 +47,7 @@ export const createServer = () => {
   registerListTaxonomyGroupsMapi(server);
   registerGetTaxonomyGroupMapi(server);
   registerAddContentItemMapi(server);
+  registerDeleteContentItemMapi(server);
   registerUpsertLanguageVariantMapi(server);
 
   return { server };

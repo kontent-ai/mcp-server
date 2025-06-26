@@ -86,6 +86,7 @@ npx @kontent-ai/mcp-server@latest sse
 * **get-item-dapi** – Get a content item by codename from Delivery API
 * **get-variant-mapi** – Get a language variant of a content item
 * **add-content-item-mapi** – Create a new content item (structure only)
+* **delete-content-item-mapi** – Delete a content item by codename
 * **upsert-language-variant-mapi** – Create or update a language variant with content
 
 ### Asset Management
