@@ -17,6 +17,7 @@ import { registerTool as registerListContentTypeSnippetsMapi } from "./tools/lis
 import { registerTool as registerListContentTypesMapi } from "./tools/list-content-types-mapi.js";
 import { registerTool as registerListLanguagesMapi } from "./tools/list-languages-mapi.js";
 import { registerTool as registerListTaxonomyGroupsMapi } from "./tools/list-taxonomy-groups-mapi.js";
+import { registerTool as registerUpdateContentItemMapi } from "./tools/update-content-item-mapi.js";
 import { registerTool as registerUpsertLanguageVariantMapi } from "./tools/upsert-language-variant-mapi.js";
 
 // Create server instance
@@ -47,6 +48,7 @@ export const createServer = () => {
   registerListTaxonomyGroupsMapi(server);
   registerGetTaxonomyGroupMapi(server);
   registerAddContentItemMapi(server);
+  registerUpdateContentItemMapi(server);
   registerDeleteContentItemMapi(server);
   registerUpsertLanguageVariantMapi(server);
 

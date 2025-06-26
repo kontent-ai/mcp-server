@@ -19,19 +19,13 @@ Kontent.ai MCP Server implements the Model Context Protocol to connect your Kont
 
 ## Table of Contents
 
-* [🔌 Quickstart](#-quickstart)
-  * [🔑 Prerequisites](#-prerequisites)
-  * [🛠 Setup Options](#-setup-options)
-* [🛠️ Available Tools](#️-available-tools)
-* [⚙️ Configuration](#️-configuration)
-* [🚀 Transport Options](#-transport-options)
-  * [📟 STDIO Transport](#-stdio-transport)
-  * [🌐 SSE Transport](#-sse-transport)
-* [💻 Development](#-development)
-  * [🛠 Local Installation](#-local-installation)
-  * [📂 Project Structure](#-project-structure)
-  * [🔍 Debugging](#-debugging)
-* [License](#license)
+- [✨ Key Features](#-key-features)
+- [🔌 Quickstart](#-quickstart)
+- [🛠️ Available Tools](#️-available-tools)
+- [⚙️ Configuration](#️-configuration)
+- [🚀 Transport Options](#-transport-options)
+- [💻 Development](#-development)
+- [License](#license)
 
 ## 🔌 Quickstart
 
@@ -86,6 +80,7 @@ npx @kontent-ai/mcp-server@latest sse
 * **get-item-dapi** – Get a content item by codename from Delivery API
 * **get-variant-mapi** – Get a language variant of a content item
 * **add-content-item-mapi** – Create a new content item (structure only)
+* **update-content-item-mapi** – Update an existing content item by codename (name, collection)
 * **delete-content-item-mapi** – Delete a content item by codename
 * **upsert-language-variant-mapi** – Create or update a language variant with content
 
