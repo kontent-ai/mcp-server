@@ -83,6 +83,7 @@ npx @kontent-ai/mcp-server@latest sse
 * **update-content-item-mapi** – Update an existing content item by codename (name, collection)
 * **delete-content-item-mapi** – Delete a content item by codename
 * **upsert-language-variant-mapi** – Create or update a language variant with content
+* **delete-language-variant-mapi** – Delete a language variant of a content item
 
 ### Asset Management
 
