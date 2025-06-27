@@ -8,12 +8,11 @@ export const registerTool = (server: McpServer): void => {
     "list-taxonomy-groups-mapi",
     "Get all taxonomy groups from Management API",
     {},
-    {},
     async () => {
       const client = createMapiClient();
 
       try {
-        const response = await client.listTaxonomies().toPromise();
+        const response = await client.listTaxonomies().toAllPromise();
 
         return createMcpToolSuccessResponse(response.data);
       } catch (error: any) {
