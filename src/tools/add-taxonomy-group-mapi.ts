@@ -9,17 +9,36 @@ export const registerTool = (server: McpServer): void => {
     "add-taxonomy-group-mapi",
     "Add a new taxonomy group via Management API",
     taxonomyGroupSchemas,
-    async (taxonomyGroup) => {
+    async ({ name, codename, external_id, terms }) => {
       const client = createMapiClient();
 
       try {
+        // Parse JSON string
+        const parsedTerms = JSON.parse(terms);
+
         const response = await client
           .addTaxonomy()
-          .withData(taxonomyGroup)
+          .withData({
+            name,
+            codename,
+            external_id,
+            terms: parsedTerms,
+          })
           .toPromise();
 
         return createMcpToolSuccessResponse(response.data);
       } catch (error: any) {
+        if (error instanceof SyntaxError) {
+          return {
+            content: [
+              {
+                type: "text" as const,
+                text: `JSON parsing error: ${error.message}. Please ensure 'terms' is a valid JSON string representing the taxonomy hierarchy.`,
+              },
+            ],
+            isError: true,
+          };
+        }
         return handleMcpToolError(error, "Taxonomy Group Creation");
       }
     },

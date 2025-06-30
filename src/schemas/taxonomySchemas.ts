@@ -31,6 +31,8 @@ export const taxonomyGroupSchemas = {
     .optional()
     .describe("External ID of the taxonomy group (optional)"),
   terms: z
-    .array(taxonomyTermSchema)
-    .describe("Hierarchical structure of taxonomy terms"),
+    .string()
+    .describe(
+      'JSON string representing the hierarchical structure of taxonomy terms. Each term should have \'name\' and \'terms\' array for nested terms. Example: \'[{"name": "Technology", "terms": [{"name": "Web Development", "terms": []}]}]\'',
+    ),
 } as const;
