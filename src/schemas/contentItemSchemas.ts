@@ -56,7 +56,11 @@ const taxonomyElementValueSchema = z.object({
 });
 
 const richTextElementValueSchema = z.object({
-  value: z.string().describe("The rich text content as HTML string"),
+  value: z
+    .string()
+    .describe(
+      "The rich text content as a subset of HTML string format. Only specific HTML5 elements and attributes are supported as defined by Kontent.ai's rich text specification. See: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/HTML5-elements-allowed-in-rich-text",
+    ),
 });
 
 const urlSlugElementValueSchema = z.object({
@@ -190,10 +194,14 @@ export const elementValueHelpers = {
 
   richText: z
     .object({
-      value: z.string().describe("HTML content as string"),
+      value: z
+        .string()
+        .describe(
+          "Rich text content as a subset of HTML string format. See: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/HTML5-elements-allowed-in-rich-text",
+        ),
     })
     .describe(
-      "Rich text element value - use for formatted content with HTML tags",
+      "Rich text element value - use for formatted content with HTML subset (specific HTML5 elements and attributes supported by Kontent.ai)",
     ),
 
   number: z
