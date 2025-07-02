@@ -3,6 +3,7 @@ import packageJson from "../package.json" with { type: "json" };
 import { registerTool as registerAddContentItemMapi } from "./tools/add-content-item-mapi.js";
 import { registerTool as registerAddContentTypeMapi } from "./tools/add-content-type-mapi.js";
 import { registerTool as registerAddContentTypeSnippetMapi } from "./tools/add-content-type-snippet-mapi.js";
+import { registerTool as registerPatchContentTypeMapi } from "./tools/patch-content-type-mapi.js";
 import { registerTool as registerAddTaxonomyGroupMapi } from "./tools/add-taxonomy-group-mapi.js";
 import { registerTool as registerDeleteContentItemMapi } from "./tools/delete-content-item-mapi.js";
 import { registerTool as registerDeleteLanguageVariantMapi } from "./tools/delete-language-variant-mapi.js";
@@ -44,6 +45,7 @@ export const createServer = () => {
   registerGetAssetMapi(server);
   registerListAssetsMapi(server);
   registerAddContentTypeMapi(server);
+  registerPatchContentTypeMapi(server);
   registerAddContentTypeSnippetMapi(server);
   registerGetTypeSnippetMapi(server);
   registerListContentTypeSnippetsMapi(server);

@@ -65,6 +65,7 @@ npx @kontent-ai/mcp-server@latest sse
 * **get-type-mapi** – Get a specific content type by internal ID
 * **list-content-types-mapi** – List all content types in the environment
 * **add-content-type-mapi** – Create a new content type with elements
+* **patch-content-type-mapi** – Update an existing content type by codename using patch operations (move, addInto, remove, replace)
 
 ### Content Type Snippet Management
 
