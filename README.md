@@ -56,6 +56,10 @@ npx @kontent-ai/mcp-server@latest sse
 
 ## 🛠️ Available Tools
 
+### Context and Setup
+
+* **get-initial-context** – 🚨 **MANDATORY FIRST STEP**: Provides essential context, configuration, and operational guidelines for Kontent.ai. This tool MUST be called before using any other tools to understand the platform structure, core entities, relationships, and best practices.
+
 ### Content Type Management
 
 * **get-type-mapi** – Get a specific content type by codename
