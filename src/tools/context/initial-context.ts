@@ -33,6 +33,24 @@ Example: If a content type has direct elements (title, body) and a metadata snip
 
 **Failure to include snippet elements will result in incomplete content creation.**
 
+## Working with Content Types Containing Taxonomy Groups
+
+**CRITICAL**: When creating language variants for content types with taxonomy elements, you must:
+
+1. **Read the content type** to identify ALL taxonomy elements (type: "taxonomy")
+2. **Retrieve EACH taxonomy group definition** to understand the available terms and their hierarchical structure
+3. **Fill ALL taxonomy elements** in the language variant - DO NOT leave any taxonomy elements empty
+4. **Use appropriate term codenames** when filling taxonomy elements based on the content being created
+
+**MANDATORY REQUIREMENT**: Every taxonomy element in the content type MUST be filled with at least one appropriate term when creating language variants. Empty taxonomy elements are not acceptable and indicate incomplete content creation.
+
+**Example Process**: If a content type has three taxonomy elements:
+- "article_type" (required) → Must select appropriate type like "patient_education"
+- "topics" (optional but must be filled) → Must select relevant topics like "orthopedics", "surgery"
+- "medical_specialties" (optional but must be filled) → Must select relevant specialties
+
+**Failure to fill ALL taxonomy elements will result in incomplete content creation and poor content organization.**
+
 ## Operational Patterns
 
 ### Content Creation Workflow
@@ -61,4 +79,6 @@ Example: If a content type has direct elements (title, body) and a metadata snip
 
 Use snippets for common field groups to maintain consistency and avoid duplication. Plan your content types before creating content to ensure proper structure. Use meaningful codenames consistently throughout your project for better maintainability. Leverage taxonomies for organization to create logical content hierarchies. Consider your multilingual strategy early in the planning process to avoid restructuring later.
 
-When working with snippets, always retrieve and understand the complete element structure before creating content variants.`;
+When working with snippets, always retrieve and understand the complete element structure before creating content variants.
+
+When working with taxonomy elements, always retrieve and understand the taxonomy group structure and available terms before creating content variants. **NEVER leave taxonomy elements empty - all taxonomy elements must be properly categorized.**`;
