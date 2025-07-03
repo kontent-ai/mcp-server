@@ -1,7 +1,7 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
-import { patchOperationsSchema } from "../schemas/patchSchemas/patchOperationsSchemas.js";
+import { patchOperationsSchema } from "../schemas/patchSchemas/contentTypePatchSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 

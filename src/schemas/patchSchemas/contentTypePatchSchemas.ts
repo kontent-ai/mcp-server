@@ -2,7 +2,7 @@
 // Based on: https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#operation/modify-a-content-type
 
 import { z } from "zod";
-import { elementSchema, optionSchema } from "../contentTypeSchemas.js";
+import { allowedBlockSchema, allowedFormattingSchema, allowedTableBlockSchema, allowedTableFormattingSchema, allowedTableTextBlockSchema, allowedTextBlockSchema, elementSchema, optionSchema } from "../contentTypeSchemas.js";
 
 const referenceObjectSchema = z.object({
   codename: z.string().describe("The codename of the object to reference"),
