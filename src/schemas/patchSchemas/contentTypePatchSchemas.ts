@@ -37,8 +37,34 @@ const addIntoOperationSchema = z.object({
     • '/elements/codename:my_element/allowed_elements' - Add allowed element to custom element
     • '/elements/codename:my_element/options' - Add multiple choice option
     • '/elements/codename:my_element/allowed_blocks' - Add block for rich text element
-    (Replace codename:my_element with element codename)`),
-  value: z.any().describe("The item to add (element, content group, option, etc.)"),
+    • '/elements/codename:my_element/allowed_formatting' - Add formatting option for rich text element
+    (Replace codename:my_element with element codename)
+    
+    For allowed_formatting specifically:
+    Specifies which text formatting is allowed in rich text elements. The "unstyled" value must precede any other values in the list.
+    Available formatting options:
+    - "unstyled": Allows text without any formatting
+    - "bold": Allows bold text formatting
+    - "italic": Allows italic text formatting  
+    - "code": Allows monospace text formatting for code snippets
+    - "link": Allows links (assets, content items, email addresses, web URLs)
+    - "subscript": Allows subscript text formatting (below the line)
+    - "superscript": Allows superscript text formatting (above the line)`),
+  value: z.union([
+    z.string(),
+    z.number(),
+    z.boolean(),
+    z.null(),
+    referenceObjectSchema,
+    elementSchema,
+    optionSchema,
+    allowedBlockSchema,
+    allowedFormattingSchema,
+    allowedTextBlockSchema,
+    allowedTableBlockSchema,
+    allowedTableFormattingSchema,
+    allowedTableTextBlockSchema,
+  ]).describe("The item to add (element, content group, option, etc.)"),
 });
 
 // Remove operation - Remove elements from content type
@@ -63,8 +89,20 @@ const replaceOperationSchema = z.object({
     • '/content_groups/codename:my_group/name' - Change the name of a content group
     • '/elements/codename:my_element/name' - Change an element property (property depends on element type)
     • '/elements/codename:my_element/options/codename:my_option/name' - Change multiple choice option property (name or codename)
-    (Replace codename:my_element with element/group codename)`),
-  value: z.any().describe("The new value to replace the existing one"),
+    (Replace codename:my_element with element/group codename)
+    
+    REPLACE OPERATION RULES:
+    • CAN modify: Most element properties based on element type (name, guidelines, validation, etc.)
+    • CANNOT modify: external_id, id, or type of elements
+    • CANNOT replace individual object values - must replace the entire object at once
+    • CANNOT replace allowed_blocks, allowed_formatting, allowed_text_blocks, allowed_table_blocks, allowed_table_formatting, allowed_table_text_blocks for rich text elements - use addInto/remove operations instead for individual blocks
+    • FOR multiple choice options: Can modify name and codename properties`),
+  value: z.union([
+    z.string(),
+    z.number(),
+    z.boolean(),
+    z.null(),
+  ]).describe("The new value to replace the existing one"),
 });
 
 // Union type for all patch operations

@@ -176,17 +176,17 @@ const subpagesElementSchema = {
   item_count_limit: countLimitSchema,
 };
 
+export const optionSchema = z.object({
+  name: z.string(),
+  codename: z.string().optional(),
+  external_id: z.string().optional(),
+});
+
 const multipleChoiceElementSchema = {
   type: z.literal("multiple_choice"),
   ...namedElementSchema,
   mode: z.enum(["single", "multiple"]),
-  options: z.array(
-    z.object({
-      name: z.string(),
-      codename: z.string().optional(),
-      external_id: z.string().optional(),
-    }),
-  ),
+  options: z.array(optionSchema),
   default: arrayDefaultSchema.describe(
     "Default value of the multiple choice element. Reference one of the options by its codename.",
   ),
@@ -198,85 +198,48 @@ const numberElementSchema = {
   default: numberDefaultSchema,
 };
 
+export const allowedBlockSchema = z.enum(["images", "text", "tables", "components-and-items"]);
+export const allowedFormattingSchema = z.enum(["unstyled", "bold", "italic", "code", "link", "subscript", "superscript"]);
+export const allowedTextBlockSchema = z.enum(["paragraph", "heading-one", "heading-two", "heading-three", "heading-four", "heading-five", "heading-six", "ordered-list", "unordered-list"]);
+export const allowedTableBlockSchema = z.enum(["images", "text"]);
+export const allowedTableFormattingSchema = z.enum(["unstyled", "bold", "italic", "code", "link", "subscript", "superscript"]);
+export const allowedTableTextBlockSchema = z.enum(["paragraph", "heading-one", "heading-two", "heading-three", "heading-four", "heading-five", "heading-six", "ordered-list", "unordered-list"]);
+
 const richTextElementSchema = {
   type: z.literal("rich_text"),
   ...namedElementSchema,
   allowed_blocks: z
-    .array(z.enum(["images", "text", "tables", "components-and-items"]))
+    .array(allowedBlockSchema)
     .optional()
     .describe(
       "Specifies allowed blocks. Use an empty array to allow all options.",
     ),
   allowed_formatting: z
-    .array(
-      z.enum([
-        "unstyled",
-        "bold",
-        "italic",
-        "code",
-        "link",
-        "subscript",
-        "superscript",
-      ]),
-    )
+    .array(allowedFormattingSchema)
     .optional()
     .describe(
       "Specifies allowed formatting options. Use an empty array to allow all options.",
     ),
   allowed_text_blocks: z
-    .array(
-      z.enum([
-        "paragraph",
-        "heading-one",
-        "heading-two",
-        "heading-three",
-        "heading-four",
-        "heading-five",
-        "heading-six",
-        "ordered-list",
-        "unordered-list",
-      ]),
-    )
+    .array(allowedTextBlockSchema)
     .optional()
     .describe(
       "Specifies allowed text blocks. Use an empty array to allow all options.",
     ),
   allowed_table_blocks: z
-    .array(z.enum(["images", "text"]))
+    .array(allowedTableBlockSchema)
     .optional()
     .describe(
       "Specifies allowed table blocks. Use an empty array to allow all options.",
     ),
   allowed_table_formatting: z
-    .array(
-      z.enum([
-        "unstyled",
-        "bold",
-        "italic",
-        "code",
-        "link",
-        "subscript",
-        "superscript",
-      ]),
-    )
+    .array(allowedTableFormattingSchema)
     .optional()
     .describe(
       "Specifies allowed table formatting options. Use an empty array to allow all options.",
     ),
   allowed_table_text_blocks: z
-    .array(
-      z.enum([
-        "paragraph",
-        "heading-one",
-        "heading-two",
-        "heading-three",
-        "heading-four",
-        "heading-five",
-        "heading-six",
-        "ordered-list",
-        "unordered-list",
-      ]),
-    )
+    .array(allowedTableTextBlockSchema)
     .optional()
     .describe(
       "Specifies allowed table text blocks. Use an empty array to allow all options.",
