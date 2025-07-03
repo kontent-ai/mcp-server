@@ -29,4 +29,4 @@ export const registerTool = (server: McpServer): void => {
       }
     },
   );
-}; 
+};
