@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 // Define a reusable reference object schema
-const referenceObjectSchema = z
+export const referenceObjectSchema = z
   .object({
     id: z.string().optional(),
     codename: z.string().optional(),
@@ -36,7 +36,7 @@ const namedElementSchema = {
 // Limit schemas
 const conditionEnum = z.enum(["at_most", "exactly", "at_least"]);
 
-const countLimitSchema = z
+export const countLimitSchema = z
   .object({
     value: z.number(),
     condition: conditionEnum,
@@ -59,7 +59,7 @@ const imageLimitSchema = {
 };
 
 // Default value schemas
-const arrayDefaultSchema = z
+export const arrayDefaultSchema = z
   .object({
     global: z.object({
       value: z.array(referenceObjectSchema),
@@ -67,7 +67,7 @@ const arrayDefaultSchema = z
   })
   .optional();
 
-const stringDefaultSchema = z
+export const stringDefaultSchema = z
   .object({
     global: z.object({
       value: z.string(),
@@ -75,7 +75,7 @@ const stringDefaultSchema = z
   })
   .optional();
 
-const numberDefaultSchema = z
+export const numberDefaultSchema = z
   .object({
     global: z.object({
       value: z.number(),
@@ -84,7 +84,7 @@ const numberDefaultSchema = z
   .optional();
 
 // Regex validation schema
-const regexValidationSchema = z
+export const regexValidationSchema = z
   .object({
     is_active: z.boolean(),
     regex: z.string(),
@@ -94,7 +94,7 @@ const regexValidationSchema = z
   .optional();
 
 // Text length limit schema
-const textLengthLimitSchema = z
+export const textLengthLimitSchema = z
   .object({
     value: z.number(),
     applies_to: z.enum(["words", "characters"]),
@@ -176,17 +176,17 @@ const subpagesElementSchema = {
   item_count_limit: countLimitSchema,
 };
 
+export const optionSchema = z.object({
+  name: z.string(),
+  codename: z.string().optional(),
+  external_id: z.string().optional(),
+});
+
 const multipleChoiceElementSchema = {
   type: z.literal("multiple_choice"),
   ...namedElementSchema,
   mode: z.enum(["single", "multiple"]),
-  options: z.array(
-    z.object({
-      name: z.string(),
-      codename: z.string().optional(),
-      external_id: z.string().optional(),
-    }),
-  ),
+  options: z.array(optionSchema),
   default: arrayDefaultSchema.describe(
     "Default value of the multiple choice element. Reference one of the options by its codename.",
   ),
@@ -198,85 +198,89 @@ const numberElementSchema = {
   default: numberDefaultSchema,
 };
 
+export const allowedBlockSchema = z.enum([
+  "images",
+  "text",
+  "tables",
+  "components-and-items",
+]);
+export const allowedFormattingSchema = z.enum([
+  "unstyled",
+  "bold",
+  "italic",
+  "code",
+  "link",
+  "subscript",
+  "superscript",
+]);
+export const allowedTextBlockSchema = z.enum([
+  "paragraph",
+  "heading-one",
+  "heading-two",
+  "heading-three",
+  "heading-four",
+  "heading-five",
+  "heading-six",
+  "ordered-list",
+  "unordered-list",
+]);
+export const allowedTableBlockSchema = z.enum(["images", "text"]);
+export const allowedTableFormattingSchema = z.enum([
+  "unstyled",
+  "bold",
+  "italic",
+  "code",
+  "link",
+  "subscript",
+  "superscript",
+]);
+export const allowedTableTextBlockSchema = z.enum([
+  "paragraph",
+  "heading-one",
+  "heading-two",
+  "heading-three",
+  "heading-four",
+  "heading-five",
+  "heading-six",
+  "ordered-list",
+  "unordered-list",
+]);
+
 const richTextElementSchema = {
   type: z.literal("rich_text"),
   ...namedElementSchema,
   allowed_blocks: z
-    .array(z.enum(["images", "text", "tables", "components-and-items"]))
+    .array(allowedBlockSchema)
     .optional()
     .describe(
       "Specifies allowed blocks. Use an empty array to allow all options.",
     ),
   allowed_formatting: z
-    .array(
-      z.enum([
-        "unstyled",
-        "bold",
-        "italic",
-        "code",
-        "link",
-        "subscript",
-        "superscript",
-      ]),
-    )
+    .array(allowedFormattingSchema)
     .optional()
     .describe(
       "Specifies allowed formatting options. Use an empty array to allow all options.",
     ),
   allowed_text_blocks: z
-    .array(
-      z.enum([
-        "paragraph",
-        "heading-one",
-        "heading-two",
-        "heading-three",
-        "heading-four",
-        "heading-five",
-        "heading-six",
-        "ordered-list",
-        "unordered-list",
-      ]),
-    )
+    .array(allowedTextBlockSchema)
     .optional()
     .describe(
       "Specifies allowed text blocks. Use an empty array to allow all options.",
     ),
   allowed_table_blocks: z
-    .array(z.enum(["images", "text"]))
+    .array(allowedTableBlockSchema)
     .optional()
     .describe(
       "Specifies allowed table blocks. Use an empty array to allow all options.",
     ),
   allowed_table_formatting: z
-    .array(
-      z.enum([
-        "unstyled",
-        "bold",
-        "italic",
-        "code",
-        "link",
-        "subscript",
-        "superscript",
-      ]),
-    )
+    .array(allowedTableFormattingSchema)
     .optional()
     .describe(
       "Specifies allowed table formatting options. Use an empty array to allow all options.",
     ),
   allowed_table_text_blocks: z
-    .array(
-      z.enum([
-        "paragraph",
-        "heading-one",
-        "heading-two",
-        "heading-three",
-        "heading-four",
-        "heading-five",
-        "heading-six",
-        "ordered-list",
-        "unordered-list",
-      ]),
-    )
+    .array(allowedTableTextBlockSchema)
     .optional()
     .describe(
       "Specifies allowed table text blocks. Use an empty array to allow all options.",
@@ -335,23 +339,23 @@ const textElementSchema = {
   default: stringDefaultSchema,
 };
 
+export const dependsOnSchema = z.object({
+  element: referenceObjectSchema.describe(
+    "An object with an id or codename property referencing an element.",
+  ),
+  snippet: referenceObjectSchema
+    .describe(
+      "An object with an id or codename property referencing a content type snippet.",
+    )
+    .optional(),
+});
+
 const urlSlugElementSchema = {
   type: z.literal("url_slug"),
   ...namedElementSchema,
-  depends_on: z
-    .object({
-      element: referenceObjectSchema.describe(
-        "An object with an id or codename property referencing an element.",
-      ),
-      snippet: referenceObjectSchema
-        .describe(
-          "An object with an id or codename property referencing a content type snippet.",
-        )
-        .optional(),
-    })
-    .describe(
-      "The element the URL slug depends on. If this element is within a snippet, the snippet must also be specified.",
-    ),
+  depends_on: dependsOnSchema.describe(
+    "The element the URL slug depends on. If this element is within a snippet, the snippet must also be specified.",
+  ),
   validation_regex: regexValidationSchema,
 };
 
