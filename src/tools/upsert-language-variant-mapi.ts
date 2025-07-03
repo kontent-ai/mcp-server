@@ -1,10 +1,8 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
-import {
-  createValidationErrorResponse,
-  handleMcpToolError,
-} from "../utils/errorHandler.js";
+import { languageVariantElementSchema } from "../schemas/contentItemSchemas.js";
+import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 
 export const registerTool = (server: McpServer): void => {
@@ -18,11 +16,7 @@ export const registerTool = (server: McpServer): void => {
         .describe(
           "Internal ID of the language variant (e.g., '00000000-0000-0000-0000-000000000000' for default language)",
         ),
-      elements: z
-        .string()
-        .describe(
-          'JSON string representing an array of element objects. Each element should have an "element" object with "id" property and a "value" property. Example: \'[{"element": {"id": "title-element-id"}, "value": "My Title"}, {"element": {"id": "content-element-id"}, "value": "<p>My content</p>"}]\'',
-        ),
+      elements: z.array(languageVariantElementSchema),
       workflow_step_id: z
         .string()
         .optional()
@@ -31,22 +25,8 @@ export const registerTool = (server: McpServer): void => {
     async ({ itemId, languageId, elements, workflow_step_id }) => {
       const client = createMapiClient();
 
-      let parsedElements: any;
-      try {
-        parsedElements = JSON.parse(elements);
-      } catch (error) {
-        return createValidationErrorResponse(
-          `Invalid JSON format in elements parameter. ${
-            error instanceof Error
-              ? error.message
-              : "Unknown JSON parsing error"
-          }`,
-          "JSON Parsing Error",
-        );
-      }
-
       const data: any = {
-        elements: parsedElements,
+        elements,
       };
 
       if (workflow_step_id) {

@@ -29,9 +29,24 @@ The content structure flows from Content Type → Content Item → Language Vari
 2. **Retrieve each snippet definition** to understand its internal elements
 3. **Include ALL elements** from both the content type AND all snippets in the language variant
 
-Example: If a content type has direct elements (title, body) and a metadata snippet (meta_title, meta_description), your language variant must include ALL four elements.
+**SNIPPET ELEMENT IMPLEMENTATION DETAILS**:
 
-**Failure to include snippet elements will result in incomplete content creation.**
+When implementing snippet elements in language variants, follow these rules:
+- **Element Reference Format**: Use {"element": {"id": "internal_id_here"}} format with internal IDs
+- **Codename Convention**: Snippet elements use double underscore format: {snippet_codename}__{element_codename}
+- **Example**: For a "metadata" snippet with a "title" element, the codename becomes metadata__title
+
+**CRITICAL**: Always use internal IDs from snippet definitions, never construct codenames manually.
+
+**Complete Example**:
+Content type has: title, body (direct) + metadata snippet (meta_title, meta_description)
+ALL FOUR elements must be included in language variant using their internal IDs:
+- Direct element: title ("title_internal_id_here")
+- Direct element: body ("body_internal_id_here")  
+- Snippet element: metadata title ("metadata_title_internal_id_here")
+- Snippet element: metadata description ("metadata_description_internal_id_here")
+
+**Failure to include snippet elements or using incorrect references will result in incomplete content creation.**
 
 ## Working with Content Types Containing Taxonomy Groups
 
