@@ -66,6 +66,7 @@ npx @kontent-ai/mcp-server@latest sse
 * **list-content-types-mapi** – Get all Kontent.ai content types from Management API
 * **add-content-type-mapi** – Add new Kontent.ai content type via Management API
 * **patch-content-type-mapi** – Update an existing Kontent.ai content type by codename using patch operations (move, addInto, remove, replace)
+* **delete-content-type-mapi** – Delete a Kontent.ai content type by codename
 
 ### Content Type Snippet Management
 

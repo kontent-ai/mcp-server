@@ -7,6 +7,7 @@ import { registerTool as registerPatchContentTypeMapi } from "./tools/patch-cont
 import { registerTool as registerAddTaxonomyGroupMapi } from "./tools/add-taxonomy-group-mapi.js";
 import { registerTool as registerChangeVariantWorkflowStepMapi } from "./tools/change-variant-workflow-step-mapi.js";
 import { registerTool as registerDeleteContentItemMapi } from "./tools/delete-content-item-mapi.js";
+import { registerTool as registerDeleteContentTypeMapi } from "./tools/delete-content-type-mapi.js";
 import { registerTool as registerDeleteLanguageVariantMapi } from "./tools/delete-language-variant-mapi.js";
 import { registerTool as registerFilterVariantsMapi } from "./tools/filter-variants-mapi.js";
 import { registerTool as registerGetAssetMapi } from "./tools/get-asset-mapi.js";
@@ -46,6 +47,7 @@ export const createServer = () => {
   registerGetVariantMapi(server);
   registerGetTypeMapi(server);
   registerListContentTypesMapi(server);
+  registerDeleteContentTypeMapi(server);
   registerListLanguagesMapi(server);
   registerGetAssetMapi(server);
   registerListAssetsMapi(server);
