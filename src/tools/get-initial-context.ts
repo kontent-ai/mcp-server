@@ -1,11 +1,6 @@
-import { readFile } from "node:fs/promises";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import { initialContext } from "./context/initial-context.js";
 
 export const registerTool = (server: McpServer): void => {
   server.tool(
@@ -14,15 +9,12 @@ export const registerTool = (server: McpServer): void => {
     {},
     async () => {
       try {
-        const markdownPath = join(
-          __dirname,
-          "./context/get-initial-context.md",
-        );
-        const kontentaiInstructions = await readFile(markdownPath, "utf-8");
-        return createMcpToolSuccessResponse(kontentaiInstructions);
+        return createMcpToolSuccessResponse(initialContext);
       } catch (error) {
         throw new Error(
-          `Failed to read initial context: ${error instanceof Error ? error.message : "Unknown error"}`,
+          `Failed to read initial context: ${
+            error instanceof Error ? error.message : "Unknown error"
+          }`,
         );
       }
     },
