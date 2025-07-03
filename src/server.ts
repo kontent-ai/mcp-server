@@ -6,6 +6,7 @@ import { registerTool as registerAddContentTypeSnippetMapi } from "./tools/add-c
 import { registerTool as registerPatchContentTypeMapi } from "./tools/patch-content-type-mapi.js";
 import { registerTool as registerAddTaxonomyGroupMapi } from "./tools/add-taxonomy-group-mapi.js";
 import { registerTool as registerDeleteContentItemMapi } from "./tools/delete-content-item-mapi.js";
+import { registerTool as registerDeleteContentTypeMapi } from "./tools/delete-content-type-mapi.js";
 import { registerTool as registerDeleteLanguageVariantMapi } from "./tools/delete-language-variant-mapi.js";
 import { registerTool as registerGetAssetMapi } from "./tools/get-asset-mapi.js";
 import { registerTool as registerGetInitialContext } from "./tools/get-initial-context.js";
@@ -41,6 +42,7 @@ export const createServer = () => {
   registerGetVariantMapi(server);
   registerGetTypeMapi(server);
   registerListContentTypesMapi(server);
+  registerDeleteContentTypeMapi(server);
   registerListLanguagesMapi(server);
   registerGetAssetMapi(server);
   registerListAssetsMapi(server);
