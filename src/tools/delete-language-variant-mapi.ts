@@ -9,23 +9,23 @@ export const registerTool = (server: McpServer): void => {
     "delete-language-variant-mapi",
     "Delete a language variant of a content item from Management API",
     {
-      itemCodename: z.string().describe("Codename of the content item"),
-      languageCodename: z
+      itemId: z.string().describe("Internal ID of the content item"),
+      languageId: z
         .string()
-        .describe("Codename of the language variant to delete"),
+        .describe("Internal ID of the language variant to delete"),
     },
-    async ({ itemCodename, languageCodename }) => {
+    async ({ itemId, languageId }) => {
       const client = createMapiClient();
 
       try {
         const response = await client
           .deleteLanguageVariant()
-          .byItemCodename(itemCodename)
-          .byLanguageCodename(languageCodename)
+          .byItemId(itemId)
+          .byLanguageId(languageId)
           .toPromise();
 
         return createMcpToolSuccessResponse({
-          message: `Language variant '${languageCodename}' of content item '${itemCodename}' deleted successfully`,
+          message: `Language variant '${languageId}' of content item '${itemId}' deleted successfully`,
           deletedVariant: response.data,
         });
       } catch (error: any) {

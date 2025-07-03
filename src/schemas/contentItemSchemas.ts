@@ -8,7 +8,7 @@ const referenceObjectSchema = z
     external_id: z.string().optional(),
   })
   .describe(
-    "An object with an id, codename, or external_id property referencing another item. Using codename is preferred for better readability.",
+    "An object with an id, codename, or external_id property referencing another item. Using id is preferred for better performance.",
   );
 
 // Language variant element value schemas

@@ -7,7 +7,7 @@ const referenceObjectSchema = z
     codename: z.string().optional(),
   })
   .describe(
-    "An object with an id or codename property referencing another item. Using codename is preferred for better readability.",
+    "An object with an id or codename property referencing another item. Using id is preferred for better performance.",
   );
 
 // Common property schemas

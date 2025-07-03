@@ -6,7 +6,7 @@ Kontent.ai is a headless content management system (CMS) that provides two main 
 ## Core Entities
 
 ### Content Items
-Content items are language-neutral content containers that serve as the foundation for your content structure. Each content item has a unique identifier and codename, and references a specific content type. The key relationship to understand is that one content item can have multiple language variants.
+Content items are language-neutral content containers that serve as the foundation for your content structure. Each content item has a unique internal ID and codename, and references a specific content type. The key relationship to understand is that one content item can have multiple language variants.
 
 ### Language Variants
 Language variants contain the actual language-specific content data including field values, workflow state, and language reference. Importantly, each variant is managed independently per language.
@@ -40,14 +40,14 @@ Example: If a content type has direct elements (title, body) and a metadata snip
 1. **Read the content type** to identify ALL taxonomy elements (type: "taxonomy")
 2. **Retrieve EACH taxonomy group definition** to understand the available terms and their hierarchical structure
 3. **Fill ALL taxonomy elements** in the language variant - DO NOT leave any taxonomy elements empty
-4. **Use appropriate term codenames** when filling taxonomy elements based on the content being created
+4. **Use appropriate term internal IDs** when filling taxonomy elements based on the content being created
 
 **MANDATORY REQUIREMENT**: Every taxonomy element in the content type MUST be filled with at least one appropriate term when creating language variants. Empty taxonomy elements are not acceptable and indicate incomplete content creation.
 
 **Example Process**: If a content type has three taxonomy elements:
-- "article_type" (required) → Must select appropriate type like "patient_education"
-- "topics" (optional but must be filled) → Must select relevant topics like "orthopedics", "surgery"
-- "medical_specialties" (optional but must be filled) → Must select relevant specialties
+- "article_type" (required) → Must select appropriate type using its internal ID
+- "topics" (optional but must be filled) → Must select relevant topics using their internal IDs
+- "medical_specialties" (optional but must be filled) → Must select relevant specialties using their internal IDs
 
 **Failure to fill ALL taxonomy elements will result in incomplete content creation and poor content organization.**
 
@@ -73,12 +73,38 @@ Example: If a content type has direct elements (title, body) and a metadata snip
 
 **Workflow states** manage the content lifecycle, tracking whether content is being drafted, is live, or has been archived.
 
-**Codenames** are human-readable unique identifiers that provide a consistent way to reference content programmatically.
+**Internal IDs** are unique identifiers that provide fast and reliable access to content entities. **ALWAYS use internal IDs when working with MCP tools for better performance and reliability.**
+
+**Codenames** are human-readable unique identifiers that provide a consistent way to reference content programmatically, but should be used primarily for readability and debugging.
 
 ## Best Practices
 
-Use snippets for common field groups to maintain consistency and avoid duplication. Plan your content types before creating content to ensure proper structure. Use meaningful codenames consistently throughout your project for better maintainability. Leverage taxonomies for organization to create logical content hierarchies. Consider your multilingual strategy early in the planning process to avoid restructuring later.
+Use snippets for common field groups to maintain consistency and avoid duplication. Plan your content types before creating content to ensure proper structure. **Always use internal IDs when working with MCP tools** for optimal performance and reliability. Leverage taxonomies for organization to create logical content hierarchies. Consider your multilingual strategy early in the planning process to avoid restructuring later.
 
 When working with snippets, always retrieve and understand the complete element structure before creating content variants.
 
-When working with taxonomy elements, always retrieve and understand the taxonomy group structure and available terms before creating content variants. **NEVER leave taxonomy elements empty - all taxonomy elements must be properly categorized.**`;
+When working with taxonomy elements, always retrieve and understand the taxonomy group structure and available terms before creating content variants. **NEVER leave taxonomy elements empty - all taxonomy elements must be properly categorized using internal IDs.**
+
+## MCP Tool Usage Guidelines
+
+**CRITICAL**: When using MCP tools, always prefer internal IDs over codenames:
+
+- **Content Items**: Use internal IDs to reference content items
+- **Language Variants**: Use internal IDs for both item and language references
+- **Content Types**: Use internal IDs to reference content types
+- **Taxonomy Terms**: Use internal IDs when referencing taxonomy terms
+- **Assets**: Use internal IDs when referencing assets
+- **Workflow Steps**: Use internal IDs for workflow step references
+
+**Why Internal IDs?** Internal IDs provide:
+- Better performance (faster lookups)
+- Immutability (won't change if names change)
+- Reliability (consistent across environments)
+- API efficiency (direct database lookups)
+
+**When to use codenames?** Codenames are useful for:
+- Human readability during development
+- Debugging and logging
+- Initial content setup when IDs are not yet known
+
+All MCP tools have been optimized to work with internal IDs for maximum efficiency.`;

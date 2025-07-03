@@ -7,17 +7,17 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "get-asset-mapi",
-    "Get a specific asset by codename from Management API",
+    "Get a specific asset by internal ID from Management API",
     {
-      assetCodename: z.string().describe("Codename of the asset to retrieve"),
+      assetId: z.string().describe("Internal ID of the asset to retrieve"),
     },
-    async ({ assetCodename }) => {
+    async ({ assetId }) => {
       const client = createMapiClient();
 
       try {
         const response = await client
           .viewAsset()
-          .byAssetCodename(assetCodename)
+          .byAssetId(assetId)
           .toPromise();
 
         return createMcpToolSuccessResponse(response.data);

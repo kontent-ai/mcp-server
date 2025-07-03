@@ -62,36 +62,36 @@ npx @kontent-ai/mcp-server@latest sse
 
 ### Content Type Management
 
-* **get-type-mapi** – Get a specific content type by codename
+* **get-type-mapi** – Get a specific content type by internal ID
 * **list-content-types-mapi** – List all content types in the environment
 * **add-content-type-mapi** – Create a new content type with elements
 
 ### Content Type Snippet Management
 
-* **get-type-snippet-mapi** – Get a specific content type snippet by codename
+* **get-type-snippet-mapi** – Get a specific content type snippet by internal ID
 * **list-content-type-snippets-mapi** – List all content type snippets
 * **add-content-type-snippet-mapi** – Create a new content type snippet
 
 ### Taxonomy Management
 
-* **get-taxonomy-group-mapi** – Get a specific taxonomy group by codename
+* **get-taxonomy-group-mapi** – Get a specific taxonomy group by internal ID
 * **list-taxonomy-groups-mapi** – List all taxonomy groups
 * **add-taxonomy-group-mapi** – Create a new taxonomy group with terms
 
 ### Content Item Management
 
-* **get-item-mapi** – Get a specific content item by codename
+* **get-item-mapi** – Get a specific content item by internal ID
 * **get-item-dapi** – Get a content item by codename from Delivery API
-* **get-variant-mapi** – Get a language variant of a content item
+* **get-variant-mapi** – Get a language variant of a content item by internal IDs
 * **add-content-item-mapi** – Create a new content item (structure only)
-* **update-content-item-mapi** – Update an existing content item by codename (name, collection)
-* **delete-content-item-mapi** – Delete a content item by codename
-* **upsert-language-variant-mapi** – Create or update a language variant with content
-* **delete-language-variant-mapi** – Delete a language variant of a content item
+* **update-content-item-mapi** – Update an existing content item by internal ID (name, collection)
+* **delete-content-item-mapi** – Delete a content item by internal ID
+* **upsert-language-variant-mapi** – Create or update a language variant with content using internal IDs
+* **delete-language-variant-mapi** – Delete a language variant of a content item by internal IDs
 
 ### Asset Management
 
-* **get-asset-mapi** – Get a specific asset by codename
+* **get-asset-mapi** – Get a specific asset by internal ID
 * **list-assets-mapi** – List all assets in the environment
 
 ### Language Management
