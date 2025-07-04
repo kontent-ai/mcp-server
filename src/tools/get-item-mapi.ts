@@ -7,17 +7,17 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "get-item-mapi",
-    "Get Kontent.ai item by codename from Management API",
+    "Get Kontent.ai item by internal ID from Management API",
     {
-      codename: z.string().describe("Codename of the item to get"),
+      id: z.string().describe("Internal ID of the item to get"),
     },
-    async ({ codename }) => {
+    async ({ id }) => {
       const client = createMapiClient();
 
       try {
         const response = await client
           .viewContentItem()
-          .byItemCodename(codename)
+          .byItemId(id)
           .toPromise();
 
         return createMcpToolSuccessResponse(response.data);

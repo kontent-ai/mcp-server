@@ -12,28 +12,23 @@ export const registerTool = (server: McpServer): void => {
     "upsert-language-variant-mapi",
     "Create or update a language variant of a content item via Management API. This adds actual content to the content item elements. Elements should be provided as JSON string in the format expected by the SDK.",
     {
-      itemCodename: z.string().describe("Codename of the content item"),
-      languageCodename: z
+      itemId: z.string().describe("Internal ID of the content item"),
+      languageId: z
         .string()
         .describe(
-          "Codename of the language variant (e.g., 'default', 'en-US', 'es-ES')",
+          "Internal ID of the language variant (e.g., '00000000-0000-0000-0000-000000000000' for default language)",
         ),
       elements: z
         .string()
         .describe(
-          'JSON string representing an array of element objects. Each element should have an "element" object with "codename" property and a "value" property. Example: \'[{"element": {"codename": "title"}, "value": "My Title"}, {"element": {"codename": "content"}, "value": "<p>My content</p>"}]\'',
+          'JSON string representing an array of element objects. Each element should have an "element" object with "id" property and a "value" property. Example: \'[{"element": {"id": "title-element-id"}, "value": "My Title"}, {"element": {"id": "content-element-id"}, "value": "<p>My content</p>"}]\'',
         ),
-      workflow_step_codename: z
+      workflow_step_id: z
         .string()
         .optional()
-        .describe("Codename of the workflow step (optional)"),
+        .describe("Internal ID of the workflow step (optional)"),
     },
-    async ({
-      itemCodename,
-      languageCodename,
-      elements,
-      workflow_step_codename,
-    }) => {
+    async ({ itemId, languageId, elements, workflow_step_id }) => {
       const client = createMapiClient();
 
       let parsedElements: any;
@@ -41,7 +36,11 @@ export const registerTool = (server: McpServer): void => {
         parsedElements = JSON.parse(elements);
       } catch (error) {
         return createValidationErrorResponse(
-          `Invalid JSON format in elements parameter. ${error instanceof Error ? error.message : "Unknown JSON parsing error"}`,
+          `Invalid JSON format in elements parameter. ${
+            error instanceof Error
+              ? error.message
+              : "Unknown JSON parsing error"
+          }`,
           "JSON Parsing Error",
         );
       }
@@ -50,15 +49,15 @@ export const registerTool = (server: McpServer): void => {
         elements: parsedElements,
       };
 
-      if (workflow_step_codename) {
-        data.workflow_step = { codename: workflow_step_codename };
+      if (workflow_step_id) {
+        data.workflow_step = { id: workflow_step_id };
       }
 
       try {
         const response = await client
           .upsertLanguageVariant()
-          .byItemCodename(itemCodename)
-          .byLanguageCodename(languageCodename)
+          .byItemId(itemId)
+          .byLanguageId(languageId)
           .withData(() => data)
           .toPromise();
 

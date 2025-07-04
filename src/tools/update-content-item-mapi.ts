@@ -7,9 +7,9 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "update-content-item-mapi",
-    "Update an existing content item by codename via Management API. The content item must already exist - this tool will not create new items.",
+    "Update an existing content item by internal ID via Management API. The content item must already exist - this tool will not create new items.",
     {
-      codename: z.string().describe("Codename of the content item to update"),
+      id: z.string().describe("Internal ID of the content item to update"),
       name: z
         .string()
         .min(1)
@@ -29,12 +29,12 @@ export const registerTool = (server: McpServer): void => {
           "Reference to a collection by id, codename, or external_id (optional)",
         ),
     },
-    async ({ codename, name, collection }) => {
+    async ({ id, name, collection }) => {
       const client = createMapiClient();
 
       try {
         // First, verify the item exists by trying to get it
-        await client.viewContentItem().byItemCodename(codename).toPromise();
+        await client.viewContentItem().byItemId(id).toPromise();
 
         // If we get here, the item exists, so we can update it
         const updateData: any = {};
@@ -62,12 +62,12 @@ export const registerTool = (server: McpServer): void => {
 
         const response = await client
           .upsertContentItem()
-          .byItemCodename(codename)
+          .byItemId(id)
           .withData(updateData)
           .toPromise();
 
         return createMcpToolSuccessResponse({
-          message: `Content item '${codename}' updated successfully`,
+          message: `Content item '${id}' updated successfully`,
           updatedItem: response.rawData,
         });
       } catch (error: any) {
@@ -80,7 +80,7 @@ export const registerTool = (server: McpServer): void => {
             content: [
               {
                 type: "text",
-                text: `Update Content Item: Content item with codename '${codename}' does not exist. Use add-content-item-mapi to create new items.`,
+                text: `Update Content Item: Content item with ID '${id}' does not exist. Use add-content-item-mapi to create new items.`,
               },
             ],
             isError: true,
