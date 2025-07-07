@@ -12,7 +12,12 @@ export const registerTool = (server: McpServer): void => {
     {
       codename: z.string().describe("Codename of the content type to update"),
       operations: patchOperationsSchema.describe(
-        "Array of patch operations to apply. Supports: 'move' (reorganize elements), 'addInto' (add new elements), 'remove' (delete elements), 'replace' (update existing elements/properties). ATOMIC TECHNIQUE: To remove content groups while keeping elements at top level, set ALL elements' content_group to null AND remove ALL content groups in ONE request."
+        `Array of patch operations to apply. Supports: 'move' (reorganize elements), 'addInto' (add new elements), 'remove' (delete elements), 'replace' (update existing elements/properties).
+        
+        RULES:
+        - Replace operations cannot modify individual array items - use addInto/remove instead
+        - External_id and type cannot be modified after creation
+        - To remove content groups while keeping elements at top level, set ALL elements' content_group to null AND remove ALL content groups in ONE request.`
       ),
     },
     async ({ codename, operations }) => {

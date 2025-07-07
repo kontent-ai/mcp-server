@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 // Define a reusable reference object schema
-const referenceObjectSchema = z
+export const referenceObjectSchema = z
   .object({
     id: z.string().optional(),
     codename: z.string().optional(),
