@@ -36,7 +36,7 @@ const namedElementSchema = {
 // Limit schemas
 const conditionEnum = z.enum(["at_most", "exactly", "at_least"]);
 
-const countLimitSchema = z
+export const countLimitSchema = z
   .object({
     value: z.number(),
     condition: conditionEnum,
@@ -59,7 +59,7 @@ const imageLimitSchema = {
 };
 
 // Default value schemas
-const arrayDefaultSchema = z
+export const arrayDefaultSchema = z
   .object({
     global: z.object({
       value: z.array(referenceObjectSchema),
@@ -67,7 +67,7 @@ const arrayDefaultSchema = z
   })
   .optional();
 
-const stringDefaultSchema = z
+export const stringDefaultSchema = z
   .object({
     global: z.object({
       value: z.string(),
@@ -75,7 +75,7 @@ const stringDefaultSchema = z
   })
   .optional();
 
-const numberDefaultSchema = z
+export const numberDefaultSchema = z
   .object({
     global: z.object({
       value: z.number(),
@@ -84,7 +84,7 @@ const numberDefaultSchema = z
   .optional();
 
 // Regex validation schema
-const regexValidationSchema = z
+export const regexValidationSchema = z
   .object({
     is_active: z.boolean(),
     regex: z.string(),
@@ -94,7 +94,7 @@ const regexValidationSchema = z
   .optional();
 
 // Text length limit schema
-const textLengthLimitSchema = z
+export const textLengthLimitSchema = z
   .object({
     value: z.number(),
     applies_to: z.enum(["words", "characters"]),
@@ -298,20 +298,19 @@ const textElementSchema = {
   default: stringDefaultSchema,
 };
 
+export const dependsOnSchema = z.object({
+  element: referenceObjectSchema.describe(
+    "An object with an id or codename property referencing an element.",
+  ),
+  snippet: referenceObjectSchema
+    .describe("An object with an id or codename property referencing a content type snippet.")
+    .optional(),
+});
+
 const urlSlugElementSchema = {
   type: z.literal("url_slug"),
   ...namedElementSchema,
-  depends_on: z
-    .object({
-      element: referenceObjectSchema.describe(
-        "An object with an id or codename property referencing an element.",
-      ),
-      snippet: referenceObjectSchema
-        .describe(
-          "An object with an id or codename property referencing a content type snippet.",
-        )
-        .optional(),
-    })
+  depends_on: dependsOnSchema
     .describe(
       "The element the URL slug depends on. If this element is within a snippet, the snippet must also be specified.",
     ),

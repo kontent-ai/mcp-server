@@ -12,10 +12,11 @@ export const registerTool = (server: McpServer): void => {
     {
       codename: z.string().describe("Codename of the content type to update"),
       operations: patchOperationsSchema.describe(
-        `Array of patch operations to apply. Supports: 'move' (reorganize elements), 'addInto' (add new elements), 'remove' (delete elements), 'replace' (update existing elements/properties).
+        `Array of patch operations to apply. Supports: 'move' (reorganize elements), 'addInto' (add new elements / values into arrays in existing elements), 'remove' (delete elements / values from arrays in existing elements), 'replace' (update existing basic properties (name, codename,..)).
         
         RULES:
-        - Replace operations cannot modify individual array items - use addInto/remove instead
+        - CRITICAL: Replace operations CANNOT (YOU CAN'T USE THEM) modify individual array items for element properties - use addInto/remove instead
+          - If you need want allow everything, remove limitations until array is empty.
         - External_id and type cannot be modified after creation
         - To remove content groups while keeping elements at top level, set ALL elements' content_group to null AND remove ALL content groups in ONE request.`
       ),
