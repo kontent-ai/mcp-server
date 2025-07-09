@@ -4,6 +4,7 @@ import { registerTool as registerAddContentItemMapi } from "./tools/add-content-
 import { registerTool as registerAddContentTypeMapi } from "./tools/add-content-type-mapi.js";
 import { registerTool as registerAddContentTypeSnippetMapi } from "./tools/add-content-type-snippet-mapi.js";
 import { registerTool as registerAddTaxonomyGroupMapi } from "./tools/add-taxonomy-group-mapi.js";
+import { registerTool as registerChangeVariantWorkflowStepMapi } from "./tools/change-variant-workflow-step-mapi.js";
 import { registerTool as registerDeleteContentItemMapi } from "./tools/delete-content-item-mapi.js";
 import { registerTool as registerDeleteLanguageVariantMapi } from "./tools/delete-language-variant-mapi.js";
 import { registerTool as registerFilterVariantsMapi } from "./tools/filter-variants-mapi.js";
@@ -20,6 +21,7 @@ import { registerTool as registerListContentTypeSnippetsMapi } from "./tools/lis
 import { registerTool as registerListContentTypesMapi } from "./tools/list-content-types-mapi.js";
 import { registerTool as registerListLanguagesMapi } from "./tools/list-languages-mapi.js";
 import { registerTool as registerListTaxonomyGroupsMapi } from "./tools/list-taxonomy-groups-mapi.js";
+import { registerTool as registerListWorkflowsMapi } from "./tools/list-workflows-mapi.js";
 import { registerTool as registerUpdateContentItemMapi } from "./tools/update-content-item-mapi.js";
 import { registerTool as registerUpsertLanguageVariantMapi } from "./tools/upsert-language-variant-mapi.js";
 
@@ -56,6 +58,8 @@ export const createServer = () => {
   registerDeleteContentItemMapi(server);
   registerUpsertLanguageVariantMapi(server);
   registerDeleteLanguageVariantMapi(server);
+  registerListWorkflowsMapi(server);
+  registerChangeVariantWorkflowStepMapi(server);
   registerFilterVariantsMapi(server);
 
   return { server };

@@ -80,6 +80,24 @@ ALL FOUR elements must be included in language variant using their internal IDs:
 - Create new language variants when expanding to additional languages
 - Organize with taxonomies for better content categorization
 
+### Workflow Step Management
+
+**CRITICAL**: When changing workflow steps of language variants, you must:
+
+1. **Provide the workflowId parameter** - This is mandatory for all workflow step changes
+2. **Use internal IDs** for itemId, languageId, and workflowStepId parameters
+3. **Ensure the target workflow step exists** in the specified workflow
+
+**WORKFLOW ID REQUIREMENT**: The workflowId parameter identifies which workflow contains the target step. Different content types may use different workflows, so always specify the correct workflow ID when changing workflow steps.
+
+**Example**: To move a language variant to a "review" step:
+- itemId: "content_item_internal_id"
+- languageId: "language_internal_id" 
+- workflowStepId: "review_step_internal_id"
+- workflowId: "workflow_internal_id" (MANDATORY)
+
+**Failure to provide the workflowId parameter will result in workflow step change failures.**
+
 ## Essential Concepts
 
 **Taxonomies** provide hierarchical content categorization, allowing you to organize and tag content systematically.

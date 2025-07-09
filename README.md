@@ -99,6 +99,11 @@ npx @kontent-ai/mcp-server@latest sse
 
 * **list-languages-mapi** – List all languages configured in the environment
 
+### Workflow Management
+
+* **list-workflows-mapi** – List all workflows in the environment with their lifecycle stages and transitions
+* **change-variant-workflow-step-mapi** – Change the workflow step of a language variant (move content through workflow stages)
+
 ## ⚙️ Configuration
 
 The server requires the following environment variables:
