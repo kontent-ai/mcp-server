@@ -98,6 +98,10 @@ ALL FOUR elements must be included in language variant using their internal IDs:
 
 **Failure to provide the workflowId parameter will result in workflow step change failures.**
 
+### Current date and time
+
+**CRITICAL**: Always use the **get-current-datetime tool** to obtain the current UTC time. Never assume the current time.
+
 ## Essential Concepts
 
 **Taxonomies** provide hierarchical content categorization, allowing you to organize and tag content systematically.

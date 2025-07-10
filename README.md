@@ -103,6 +103,11 @@ npx @kontent-ai/mcp-server@latest sse
 
 * **list-workflows-mapi** – List all workflows in the environment with their lifecycle stages and transitions
 * **change-variant-workflow-step-mapi** – Change the workflow step of a language variant (move content through workflow stages)
+* **publish-variant-mapi** – Publish or schedule a language variant for publication. Supports immediate publishing (happens right now) or scheduled publishing at a specific future date and time with optional timezone specification
+
+### Utility
+
+* **get-current-datetime** – Get the current date and time in UTC (ISO-8601 format)
 
 ## ⚙️ Configuration
 
