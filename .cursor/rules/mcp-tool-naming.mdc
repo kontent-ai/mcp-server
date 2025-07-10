@@ -1,0 +1,6 @@
+---
+description: 
+globs: src/tools/*
+alwaysApply: false
+---
+When creating or modifying MCP tools (including renaming), ensure that the name of the tool is below 35 characters in length.
