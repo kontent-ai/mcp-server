@@ -24,6 +24,7 @@ import { registerTool as registerListLanguagesMapi } from "./tools/list-language
 import { registerTool as registerListTaxonomyGroupsMapi } from "./tools/list-taxonomy-groups-mapi.js";
 import { registerTool as registerListWorkflowsMapi } from "./tools/list-workflows-mapi.js";
 import { registerTool as registerPublishVariantMapi } from "./tools/publish-variant-mapi.js";
+import { registerTool as registerUnpublishVariantMapi } from "./tools/unpublish-variant-mapi.js";
 import { registerTool as registerUpdateContentItemMapi } from "./tools/update-content-item-mapi.js";
 import { registerTool as registerUpsertLanguageVariantMapi } from "./tools/upsert-language-variant-mapi.js";
 
@@ -64,6 +65,7 @@ export const createServer = () => {
   registerChangeVariantWorkflowStepMapi(server);
   registerFilterVariantsMapi(server);
   registerPublishVariantMapi(server);
+  registerUnpublishVariantMapi(server);
   registerGetCurrentDatetime(server);
 
   return { server };
