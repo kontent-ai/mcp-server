@@ -6,6 +6,7 @@ import { registerTool as registerAddContentTypeSnippetMapi } from "./tools/add-c
 import { registerTool as registerAddTaxonomyGroupMapi } from "./tools/add-taxonomy-group-mapi.js";
 import { registerTool as registerChangeVariantWorkflowStepMapi } from "./tools/change-variant-workflow-step-mapi.js";
 import { registerTool as registerDeleteContentItemMapi } from "./tools/delete-content-item-mapi.js";
+import { registerTool as registerDeleteContentTypeMapi } from "./tools/delete-content-type-mapi.js";
 import { registerTool as registerDeleteLanguageVariantMapi } from "./tools/delete-language-variant-mapi.js";
 import { registerTool as registerFilterVariantsMapi } from "./tools/filter-variants-mapi.js";
 import { registerTool as registerGetAssetMapi } from "./tools/get-asset-mapi.js";
@@ -13,6 +14,7 @@ import { registerTool as registerGetCurrentDatetime } from "./tools/get-current-
 import { registerTool as registerGetInitialContext } from "./tools/get-initial-context.js";
 import { registerTool as registerGetItemDapi } from "./tools/get-item-dapi.js";
 import { registerTool as registerGetItemMapi } from "./tools/get-item-mapi.js";
+import { registerTool as registerGetPatchOperationsContext } from "./tools/get-patch-operations-context.js";
 import { registerTool as registerGetTaxonomyGroupMapi } from "./tools/get-taxonomy-group-mapi.js";
 import { registerTool as registerGetTypeMapi } from "./tools/get-type-mapi.js";
 import { registerTool as registerGetTypeSnippetMapi } from "./tools/get-type-snippet-mapi.js";
@@ -23,6 +25,7 @@ import { registerTool as registerListContentTypesMapi } from "./tools/list-conte
 import { registerTool as registerListLanguagesMapi } from "./tools/list-languages-mapi.js";
 import { registerTool as registerListTaxonomyGroupsMapi } from "./tools/list-taxonomy-groups-mapi.js";
 import { registerTool as registerListWorkflowsMapi } from "./tools/list-workflows-mapi.js";
+import { registerTool as registerPatchContentTypeMapi } from "./tools/patch-content-type-mapi.js";
 import { registerTool as registerPublishVariantMapi } from "./tools/publish-variant-mapi.js";
 import { registerTool as registerUnpublishVariantMapi } from "./tools/unpublish-variant-mapi.js";
 import { registerTool as registerUpdateContentItemMapi } from "./tools/update-content-item-mapi.js";
@@ -46,10 +49,13 @@ export const createServer = () => {
   registerGetVariantMapi(server);
   registerGetTypeMapi(server);
   registerListContentTypesMapi(server);
+  registerDeleteContentTypeMapi(server);
   registerListLanguagesMapi(server);
   registerGetAssetMapi(server);
   registerListAssetsMapi(server);
   registerAddContentTypeMapi(server);
+  registerPatchContentTypeMapi(server);
+  registerGetPatchOperationsContext(server);
   registerAddContentTypeSnippetMapi(server);
   registerGetTypeSnippetMapi(server);
   registerListContentTypeSnippetsMapi(server);
