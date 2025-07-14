@@ -23,7 +23,7 @@ export const registerTool = (server: McpServer): void => {
         ),
       scheduledTo: z
         .string()
-        .datetime()
+        .datetime({ offset: true })
         .optional()
         .describe(
           "ISO 8601 formatted date and time when the unpublish action should occur (e.g., '2024-12-25T10:00:00Z' for UTC or '2024-12-25T10:00:00+02:00' for specific timezone). If not provided, the variant will be unpublished immediately. If provided, must be a future date/time. The actual execution may have up to 5 minutes delay from the specified time. When unpublished, the content will no longer be available through the Delivery API.",
