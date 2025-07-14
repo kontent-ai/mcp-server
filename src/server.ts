@@ -9,7 +9,6 @@ import { registerTool as registerDeleteContentItemMapi } from "./tools/delete-co
 import { registerTool as registerDeleteLanguageVariantMapi } from "./tools/delete-language-variant-mapi.js";
 import { registerTool as registerFilterVariantsMapi } from "./tools/filter-variants-mapi.js";
 import { registerTool as registerGetAssetMapi } from "./tools/get-asset-mapi.js";
-import { registerTool as registerGetCurrentDatetime } from "./tools/get-current-datetime.js";
 import { registerTool as registerGetInitialContext } from "./tools/get-initial-context.js";
 import { registerTool as registerGetItemDapi } from "./tools/get-item-dapi.js";
 import { registerTool as registerGetItemMapi } from "./tools/get-item-mapi.js";
@@ -66,7 +65,6 @@ export const createServer = () => {
   registerFilterVariantsMapi(server);
   registerPublishVariantMapi(server);
   registerUnpublishVariantMapi(server);
-  registerGetCurrentDatetime(server);
 
   return { server };
 };

@@ -98,9 +98,6 @@ ALL FOUR elements must be included in language variant using their internal IDs:
 
 **Failure to provide the workflowId parameter will result in workflow step change failures.**
 
-### Current date and time
-
-**CRITICAL**: Always use the **get-current-datetime tool** to obtain the current UTC time. Never assume the current time.
 
 ## Essential Concepts
 
@@ -115,6 +112,8 @@ ALL FOUR elements must be included in language variant using their internal IDs:
 **Codenames** are human-readable unique identifiers that provide a consistent way to reference content programmatically, but should be used primarily for readability and debugging.
 
 ## Best Practices
+
+**CRITICAL**: Never assume the current time. Always obtain the current date and time when needed for time-sensitive operations like scheduling. If the current date and time in UTC format cannot be decisively obtained by any available tool, force the user to specify the current date and time explicitly.
 
 Use snippets for common field groups to maintain consistency and avoid duplication. Plan your content types before creating content to ensure proper structure. **Always use internal IDs when working with MCP tools** for optimal performance and reliability. Leverage taxonomies for organization to create logical content hierarchies. Consider your multilingual strategy early in the planning process to avoid restructuring later.
 
