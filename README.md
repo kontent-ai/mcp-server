@@ -58,53 +58,53 @@ npx @kontent-ai/mcp-server@latest sse
 
 ### Context and Setup
 
-* **get-initial-context** – 🚨 **MANDATORY FIRST STEP**: Provides essential context, configuration, and operational guidelines for Kontent.ai. This tool MUST be called before using any other tools to understand the platform structure, core entities, relationships, and best practices.
+* **get-initial-context** – 🚨 **MANDATORY FIRST STEP**: This tool MUST be called before using ANY other tools. It provides essential context, configuration, and operational guidelines for Kontent.ai
 
 ### Content Type Management
 
-* **get-type-mapi** – Get a specific content type by internal ID
-* **list-content-types-mapi** – List all content types in the environment
-* **add-content-type-mapi** – Create a new content type with elements
+* **get-type-mapi** – Get Kontent.ai content type by internal ID from Management API
+* **list-content-types-mapi** – Get all Kontent.ai content types from Management API
+* **add-content-type-mapi** – Add new Kontent.ai content type via Management API
 
 ### Content Type Snippet Management
 
-* **get-type-snippet-mapi** – Get a specific content type snippet by internal ID
-* **list-content-type-snippets-mapi** – List all content type snippets
-* **add-content-type-snippet-mapi** – Create a new content type snippet
+* **get-type-snippet-mapi** – Get Kontent.ai content type snippet by internal ID from Management API
+* **list-content-type-snippets-mapi** – Get all Kontent.ai content type snippets from Management API
+* **add-content-type-snippet-mapi** – Add new Kontent.ai content type snippet via Management API
 
 ### Taxonomy Management
 
-* **get-taxonomy-group-mapi** – Get a specific taxonomy group by internal ID
-* **list-taxonomy-groups-mapi** – List all taxonomy groups
-* **add-taxonomy-group-mapi** – Create a new taxonomy group with terms
+* **get-taxonomy-group-mapi** – Get Kontent.ai taxonomy group by internal ID from Management API
+* **list-taxonomy-groups-mapi** – Get all Kontent.ai taxonomy groups from Management API
+* **add-taxonomy-group-mapi** – Add new Kontent.ai taxonomy group via Management API
 
 ### Content Item Management
 
-* **get-item-mapi** – Get a specific content item by internal ID
-* **get-item-dapi** – Get a content item by codename from Delivery API
-* **get-variant-mapi** – Get a language variant of a content item by internal IDs
-* **add-content-item-mapi** – Create a new content item (structure only)
-* **update-content-item-mapi** – Update an existing content item by internal ID (name, collection)
-* **delete-content-item-mapi** – Delete a content item by internal ID
-* **upsert-language-variant-mapi** – Create or update a language variant with content using internal IDs
-* **delete-language-variant-mapi** – Delete a language variant of a content item by internal IDs
-* **filter-variants-mapi** – Search and filter language variants using filters and search phrases
+* **get-item-mapi** – Get Kontent.ai item by internal ID from Management API
+* **get-item-dapi** – Get Kontent.ai item by codename from Delivery API
+* **get-variant-mapi** – Get Kontent.ai language variant of content item from Management API
+* **add-content-item-mapi** – Add new Kontent.ai content item via Management API. This creates the content item structure but does not add content to language variants. Use upsert-language-variant-mapi to add content to the item
+* **update-content-item-mapi** – Update existing Kontent.ai content item by internal ID via Management API. The content item must already exist - this tool will not create new items
+* **delete-content-item-mapi** – Delete Kontent.ai content item by internal ID from Management API
+* **upsert-language-variant-mapi** – Create or update Kontent.ai language variant of a content item via Management API. This adds actual content to the content item elements. Elements should be provided as JSON string in the format expected by the SDK
+* **delete-language-variant-mapi** – Delete Kontent.ai language variant from Management API
+* **filter-variants-mapi** – Search and filter Kontent.ai language variants of content items using Management API
 
 ### Asset Management
 
-* **get-asset-mapi** – Get a specific asset by internal ID
-* **list-assets-mapi** – List all assets in the environment
+* **get-asset-mapi** – Get a specific Kontent.ai asset by internal ID from Management API
+* **list-assets-mapi** – Get all Kontent.ai assets from Management API
 
 ### Language Management
 
-* **list-languages-mapi** – List all languages configured in the environment
+* **list-languages-mapi** – Get all Kontent.ai languages from Management API
 
 ### Workflow Management
 
-* **list-workflows-mapi** – List all workflows in the environment with their lifecycle stages and transitions
-* **change-variant-workflow-step-mapi** – Change the workflow step of a language variant (move content through workflow stages)
-* **publish-variant-mapi** – Publish or schedule a language variant for publication. Supports immediate publishing (happens right now) or scheduled publishing at a specific future date and time with optional timezone specification
-* **unpublish-variant-mapi** – Unpublish or schedule unpublishing of a language variant. Supports immediate unpublishing (removes content from Delivery API right now) or scheduled unpublishing at a specific future date and time with optional timezone specification
+* **list-workflows-mapi** – Get all Kontent.ai workflows from Management API. Workflows define the content lifecycle stages and transitions between them
+* **change-variant-workflow-step-mapi** – Change the workflow step of a language variant in Kontent.ai. This operation moves a language variant to a different step in the workflow, enabling content lifecycle management such as moving content from draft to review, review to published, etc.
+* **publish-variant-mapi** – Publish or schedule a language variant of a content item in Kontent.ai. This operation can either immediately publish the variant or schedule it for publication at a specific future date and time with optional timezone specification
+* **unpublish-variant-mapi** – Unpublish or schedule unpublishing of a language variant of a content item in Kontent.ai. This operation can either immediately unpublish the variant (making it unavailable through the Delivery API) or schedule it for unpublishing at a specific future date and time with optional timezone specification
 
 ### Utility
 

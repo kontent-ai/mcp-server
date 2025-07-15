@@ -6,7 +6,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "list-languages-mapi",
-    "Get all languages from Management API",
+    "Get all Kontent.ai languages from Management API",
     {},
     async () => {
       const client = createMapiClient();

@@ -7,7 +7,7 @@ import { throwError } from "../utils/throwError.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "filter-variants-mapi",
-    "Search and filter language variants of content items using the Management API.",
+    "Search and filter Kontent.ai language variants of content items using Management API",
     filterVariantsSchema.shape,
     async ({
       search_phrase,

@@ -7,7 +7,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "update-content-item-mapi",
-    "Update an existing content item by internal ID via Management API. The content item must already exist - this tool will not create new items.",
+    "Update existing Kontent.ai content item by internal ID via Management API. The content item must already exist - this tool will not create new items.",
     {
       id: z.string().describe("Internal ID of the content item to update"),
       name: z
