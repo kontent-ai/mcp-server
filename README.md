@@ -159,6 +159,30 @@ Then configure your MCP client:
 }
 ```
 
+### 🌊 Streamable HTTP Transport
+
+For Streamable HTTP transport, first start the server:
+
+```bash
+npx @kontent-ai/mcp-server@latest shttp
+```
+
+With environment variables in a `.env` file, or otherwise accessible to the process:
+```env
+KONTENT_API_KEY=<management-api-key>
+KONTENT_ENVIRONMENT_ID=<environment-id>
+PORT=3001  # optional, defaults to 3001
+```
+
+Then configure your MCP client:
+```json
+{
+  "kontent-ai-http": {
+    "url": "http://localhost:3001/mcp"
+  }
+}
+```
+
 ## 💻 Development
 
 ### 🛠 Local Installation
@@ -177,10 +201,12 @@ npm run build
 # Start the server
 npm run start:sse  # For SSE transport
 npm run start:stdio  # For STDIO transport
+npm run start:shttp  # For Streamable HTTP transport
 
 # Start the server with automatic reloading (no need to build first)
 npm run dev:sse  # For SSE transport
 npm run dev:stdio  # For STDIO transport
+npm run dev:shttp  # For Streamable HTTP transport
 ```
 
 ### 📂 Project Structure
