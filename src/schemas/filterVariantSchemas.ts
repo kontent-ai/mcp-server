@@ -53,6 +53,28 @@ export const filterVariantsSchema = z.object({
     .min(1)
     .optional()
     .describe("Array of workflows with workflow steps"),
+  taxonomy_groups: z
+    .array(
+      z.object({
+        taxonomy_identifier: referenceObjectSchema.describe(
+          "Reference to a taxonomy group by its id, codename, or external id",
+        ),
+        term_identifiers: z
+          .array(referenceObjectSchema)
+          .min(1)
+          .describe(
+            "Array of references to taxonomy terms by their id, codename, or external id",
+          ),
+        include_uncategorized: z
+          .boolean()
+          .describe(
+            "Whether to include content item language variants that don't have any taxonomy terms assigned in this taxonomy group",
+          ),
+      }),
+    )
+    .min(1)
+    .optional()
+    .describe("Array of taxonomy groups with taxonomy terms to filter by"),
   order_by: z
     .enum(["name", "due", "last_modified"])
     .optional()
