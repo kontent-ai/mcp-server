@@ -24,6 +24,12 @@ export const filterVariantsSchema = z.object({
     .min(1)
     .optional()
     .describe("Array of references to users by their id or email"),
+  has_no_contributors: z
+    .boolean()
+    .optional()
+    .describe(
+      "Filter for content item language variants that have no contributors assigned",
+    ),
   completion_statuses: z
     .array(z.enum(["unfinished", "completed", "not_translated", "all_done"]))
     .min(1)
