@@ -67,7 +67,6 @@ export const filterVariantsSchema = z.object({
         ),
         term_identifiers: z
           .array(referenceObjectSchema)
-          .min(1)
           .describe(
             "Array of references to taxonomy terms by their id, codename, or external id",
           ),
