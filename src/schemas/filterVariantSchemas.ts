@@ -79,7 +79,7 @@ export const filterVariantsSchema = z.object({
     )
     .min(1)
     .optional()
-    .describe("Array of taxonomy groups with taxonomy terms to filter by"),
+    .describe("Array of taxonomy groups with taxonomy terms"),
   order_by: z
     .enum(["name", "due", "last_modified"])
     .optional()
