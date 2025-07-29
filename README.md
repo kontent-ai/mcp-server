@@ -89,6 +89,7 @@ npx @kontent-ai/mcp-server@latest sse
 * **update-content-item-mapi** – Update existing Kontent.ai content item by internal ID via Management API. The content item must already exist - this tool will not create new items
 * **delete-content-item-mapi** – Delete Kontent.ai content item by internal ID from Management API
 * **upsert-language-variant-mapi** – Create or update Kontent.ai language variant of a content item via Management API. This adds actual content to the content item elements. When updating an existing variant, only the provided elements will be modified
+* **create-variant-version-mapi** – Create new version of Kontent.ai language variant via Management API. This operation creates a new version of an existing language variant, useful for content versioning and creating new drafts from published content
 * **delete-language-variant-mapi** – Delete Kontent.ai language variant from Management API
 * **filter-variants-mapi** – Search and filter Kontent.ai language variants of content items using Management API
 

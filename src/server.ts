@@ -5,6 +5,7 @@ import { registerTool as registerAddContentTypeMapi } from "./tools/add-content-
 import { registerTool as registerAddContentTypeSnippetMapi } from "./tools/add-content-type-snippet-mapi.js";
 import { registerTool as registerAddTaxonomyGroupMapi } from "./tools/add-taxonomy-group-mapi.js";
 import { registerTool as registerChangeVariantWorkflowStepMapi } from "./tools/change-variant-workflow-step-mapi.js";
+import { registerTool as registerCreateVariantVersionMapi } from "./tools/create-variant-version-mapi.js";
 import { registerTool as registerDeleteContentItemMapi } from "./tools/delete-content-item-mapi.js";
 import { registerTool as registerDeleteContentTypeMapi } from "./tools/delete-content-type-mapi.js";
 import { registerTool as registerDeleteLanguageVariantMapi } from "./tools/delete-language-variant-mapi.js";
@@ -63,6 +64,7 @@ export const createServer = () => {
   registerUpdateContentItemMapi(server);
   registerDeleteContentItemMapi(server);
   registerUpsertLanguageVariantMapi(server);
+  registerCreateVariantVersionMapi(server);
   registerDeleteLanguageVariantMapi(server);
   registerListWorkflowsMapi(server);
   registerChangeVariantWorkflowStepMapi(server);
