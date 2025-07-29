@@ -8,7 +8,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "upsert-language-variant-mapi",
-    "Create or update Kontent.ai language variant of a content item via Management API. This adds actual content to the content item elements. Elements should be provided as JSON string in the format expected by the SDK.",
+    "Create or update Kontent.ai language variant of a content item via Management API. This adds actual content to the content item elements. When updating an existing variant, only the provided elements will be modified.",
     {
       itemId: z.string().describe("Internal ID of the content item"),
       languageId: z
@@ -16,7 +16,11 @@ export const registerTool = (server: McpServer): void => {
         .describe(
           "Internal ID of the language variant (e.g., '00000000-0000-0000-0000-000000000000' for default language)",
         ),
-      elements: z.array(languageVariantElementSchema),
+      elements: z
+        .array(languageVariantElementSchema)
+        .describe(
+          "Array of content elements, each with 'element' (reference object with id/codename/external_id) and 'value' properties. Additional properties may be required depending on element type (e.g., 'mode' for URL slugs).",
+        ),
       workflow_step_id: z
         .string()
         .optional()

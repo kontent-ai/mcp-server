@@ -88,7 +88,7 @@ npx @kontent-ai/mcp-server@latest sse
 * **add-content-item-mapi** – Add new Kontent.ai content item via Management API. This creates the content item structure but does not add content to language variants. Use upsert-language-variant-mapi to add content to the item
 * **update-content-item-mapi** – Update existing Kontent.ai content item by internal ID via Management API. The content item must already exist - this tool will not create new items
 * **delete-content-item-mapi** – Delete Kontent.ai content item by internal ID from Management API
-* **upsert-language-variant-mapi** – Create or update Kontent.ai language variant of a content item via Management API. This adds actual content to the content item elements. Elements should be provided as JSON string in the format expected by the SDK
+* **upsert-language-variant-mapi** – Create or update Kontent.ai language variant of a content item via Management API. This adds actual content to the content item elements. When updating an existing variant, only the provided elements will be modified
 * **delete-language-variant-mapi** – Delete Kontent.ai language variant from Management API
 * **filter-variants-mapi** – Search and filter Kontent.ai language variants of content items using Management API
 
