@@ -41,6 +41,7 @@ export const registerTool = (server: McpServer): void => {
                   order_direction === "desc" ? "Descending" : "Ascending",
               }
             : null,
+          include_content: true
         };
 
         const environmentId = process.env.KONTENT_ENVIRONMENT_ID;
