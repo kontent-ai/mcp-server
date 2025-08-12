@@ -62,8 +62,11 @@ export const registerTool = (server: McpServer): void => {
         - When adding to allowed_formatting or allowed_table_formatting, always ensure 'unstyled' is the first item in the array`,
       ),
     },
-    async ({ codename, operations }) => {
-      const client = createMapiClient();
+    async (
+      { codename, operations },
+      { authInfo: { token, clientId } = {} },
+    ) => {
+      const client = createMapiClient(clientId, token);
 
       try {
         // Apply patch operations using the modifyContentType method

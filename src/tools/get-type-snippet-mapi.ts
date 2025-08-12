@@ -11,8 +11,8 @@ export const registerTool = (server: McpServer): void => {
     {
       id: z.string().describe("Internal ID of the content type snippet to get"),
     },
-    async ({ id }) => {
-      const client = createMapiClient();
+    async ({ id }, { authInfo: { token, clientId } = {} }) => {
+      const client = createMapiClient(clientId, token);
 
       try {
         const response = await client

@@ -26,8 +26,11 @@ export const registerTool = (server: McpServer): void => {
         .optional()
         .describe("Internal ID of the workflow step (optional)"),
     },
-    async ({ itemId, languageId, elements, workflow_step_id }) => {
-      const client = createMapiClient();
+    async (
+      { itemId, languageId, elements, workflow_step_id },
+      { authInfo: { token, clientId } = {} },
+    ) => {
+      const client = createMapiClient(clientId, token);
 
       const data: any = {
         elements,

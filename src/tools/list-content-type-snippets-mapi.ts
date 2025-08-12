@@ -8,8 +8,8 @@ export const registerTool = (server: McpServer): void => {
     "list-content-type-snippets-mapi",
     "Get all Kontent.ai content type snippets from Management API",
     {},
-    async () => {
-      const client = createMapiClient();
+    async (_, { authInfo: { token, clientId } = {} }) => {
+      const client = createMapiClient(clientId, token);
 
       try {
         const response = await client.listContentTypeSnippets().toAllPromise();

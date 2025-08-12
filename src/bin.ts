@@ -3,9 +3,12 @@ import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import "dotenv/config";
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import express from "express";
 import packageJson from "../package.json" with { type: "json" };
 import { createServer } from "./server.js";
+import { extractBearerToken } from "./utils/extractBearerToken.js";
+import { isValidGuid } from "./utils/isValidGuid.js";
 
 const version = packageJson.version;
 
@@ -42,7 +45,6 @@ async function startStreamableHTTP() {
   });
 
   app.get("/mcp", async (_, res) => {
-    console.log("Received GET MCP request");
     res.writeHead(405).end(
       JSON.stringify({
         jsonrpc: "2.0",
@@ -56,7 +58,6 @@ async function startStreamableHTTP() {
   });
 
   app.delete("/mcp", async (_, res) => {
-    console.log("Received DELETE MCP request");
     res.writeHead(405).end(
       JSON.stringify({
         jsonrpc: "2.0",
@@ -79,23 +80,118 @@ async function startStreamableHTTP() {
 
 async function startSSE() {
   const app = express();
-  const { server } = createServer();
 
-  let transport: SSEServerTransport;
+  // Keep separate instances for each environment
+  const serversByEnvironment = new Map<string | null, McpServer>();
+  const transportsByEnvironment = new Map<string | null, SSEServerTransport>();
+
+  const close = (environmentId: string | null) => {
+    const server = serversByEnvironment.get(environmentId);
+    if (server) {
+      server.server.close();
+    }
+
+    const transport = transportsByEnvironment.get(environmentId);
+    if (transport) {
+      transport.close();
+    }
+  };
+
+  const connect = async (
+    environmentId: string | null,
+    endpoint: string,
+    res: express.Response,
+  ) => {
+    const { server } = createServer();
+    const transport = new SSEServerTransport(endpoint, res);
+
+    serversByEnvironment.set(environmentId, server);
+    transportsByEnvironment.set(environmentId, transport);
+
+    await server.server.connect(transport);
+
+    res.on("close", () => close(environmentId));
+  };
 
   app.get("/sse", async (_req, res) => {
-    transport = new SSEServerTransport("/message", res);
-    await server.connect(transport);
+    await connect(null, "/message", res);
   });
 
   app.post("/message", async (req, res) => {
+    const server = serversByEnvironment.get(null);
+    const transport = transportsByEnvironment.get(null);
+
+    if (!server || !transport) {
+      res.status(404).json({
+        error: "No active SSE connection found.",
+      });
+      return;
+    }
+
     await transport.handlePostMessage(req, res);
+  });
+
+  // Routes for environment-specific SSE connections
+  app.get("/:environmentId/sse", async (req, res) => {
+    const { environmentId } = req.params;
+
+    if (!isValidGuid(environmentId)) {
+      res.status(400).json({
+        error: "Invalid environment ID format. Must be a valid GUID.",
+      });
+      return;
+    }
+
+    await connect(environmentId, `/${environmentId}/message`, res);
+  });
+
+  app.post("/:environmentId/message", async (req, res) => {
+    const { environmentId } = req.params;
+
+    if (!isValidGuid(environmentId)) {
+      res.status(400).json({
+        error: "Invalid environment ID format. Must be a valid GUID.",
+      });
+      return;
+    }
+
+    const server = serversByEnvironment.get(environmentId);
+    const transport = transportsByEnvironment.get(environmentId);
+
+    if (!server || !transport) {
+      res.status(404).json({
+        error: "No active SSE connection found for this environment ID.",
+      });
+      return;
+    }
+
+    const authToken = extractBearerToken(req);
+    if (!authToken) {
+      res.status(401).json({
+        error: "Authorization header with Bearer token is required.",
+      });
+      return;
+    }
+
+    await transport.handlePostMessage(
+      Object.assign(req, {
+        auth: {
+          clientId: environmentId,
+          token: authToken,
+          scopes: [],
+        },
+      }),
+      res,
+    );
   });
 
   const PORT = process.env.PORT || 3001;
   app.listen(PORT, () => {
     console.log(
-      `Kontent.ai MCP Server v${version} (SSE) running on port ${PORT}`,
+      `Kontent.ai MCP Server v${version} (SSE) running on port ${PORT}.
+Available endpoints:
+/sse
+/{environmentId}/sse (requires Bearer authentication)`,
     );
   });
 }

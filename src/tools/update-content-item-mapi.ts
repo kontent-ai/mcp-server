@@ -29,8 +29,11 @@ export const registerTool = (server: McpServer): void => {
           "Reference to a collection by id, codename, or external_id (optional)",
         ),
     },
-    async ({ id, name, collection }) => {
-      const client = createMapiClient();
+    async (
+      { id, name, collection },
+      { authInfo: { token, clientId } = {} },
+    ) => {
+      const client = createMapiClient(clientId, token);
 
       try {
         // First, verify the item exists by trying to get it

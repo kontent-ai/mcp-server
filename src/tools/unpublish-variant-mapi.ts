@@ -35,8 +35,11 @@ export const registerTool = (server: McpServer): void => {
           "The timezone identifier for displaying the scheduled time in the Kontent.ai UI (e.g., 'America/New_York', 'Europe/London', 'UTC'). This parameter is used for scheduled unpublishing to specify the timezone context for the scheduled_to parameter. If not provided, the system will use the default timezone. This helps content creators understand when content will be unpublished in their local context.",
         ),
     },
-    async ({ itemId, languageId, scheduledTo, displayTimezone }) => {
-      const client = createMapiClient();
+    async (
+      { itemId, languageId, scheduledTo, displayTimezone },
+      { authInfo: { token, clientId } = {} },
+    ) => {
+      const client = createMapiClient(clientId, token);
 
       try {
         // Validate that displayTimezone can only be used with scheduledTo

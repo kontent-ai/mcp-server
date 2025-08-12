@@ -34,8 +34,11 @@ export const registerTool = (server: McpServer): void => {
           "Internal ID (UUID) of the target workflow step. This must be a valid step ID from the specified workflow. Common steps include Draft, Review, Published, and Archived, but the actual IDs depend on your specific workflow configuration",
         ),
     },
-    async ({ itemId, languageId, workflowId, workflowStepId }) => {
-      const client = createMapiClient();
+    async (
+      { itemId, languageId, workflowId, workflowStepId },
+      { authInfo: { token, clientId } = {} },
+    ) => {
+      const client = createMapiClient(clientId, token);
 
       try {
         const response = await client

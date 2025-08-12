@@ -11,8 +11,8 @@ export const registerTool = (server: McpServer): void => {
     {
       codename: z.string().describe("Codename of the content type to delete"),
     },
-    async ({ codename }) => {
-      const client = createMapiClient();
+    async ({ codename }, { authInfo: { token, clientId } = {} }) => {
+      const client = createMapiClient(clientId, token);
 
       try {
         const response = await client

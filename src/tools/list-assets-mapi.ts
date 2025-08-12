@@ -8,8 +8,8 @@ export const registerTool = (server: McpServer): void => {
     "list-assets-mapi",
     "Get all Kontent.ai assets from Management API",
     {},
-    async () => {
-      const client = createMapiClient();
+    async (_, { authInfo: { token, clientId } = {} }) => {
+      const client = createMapiClient(clientId, token);
 
       try {
         const response = await client.listAssets().toAllPromise();

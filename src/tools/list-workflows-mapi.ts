@@ -8,8 +8,8 @@ export const registerTool = (server: McpServer): void => {
     "list-workflows-mapi",
     "Get all Kontent.ai workflows from Management API. Workflows define the content lifecycle stages and transitions between them.",
     {},
-    async () => {
-      const client = createMapiClient();
+    async (_, { authInfo: { token, clientId } = {} }) => {
+      const client = createMapiClient(clientId, token);
 
       try {
         const response = await client.listWorkflows().toPromise();

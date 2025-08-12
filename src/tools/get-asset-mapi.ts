@@ -11,8 +11,8 @@ export const registerTool = (server: McpServer): void => {
     {
       assetId: z.string().describe("Internal ID of the asset to retrieve"),
     },
-    async ({ assetId }) => {
-      const client = createMapiClient();
+    async ({ assetId }, { authInfo: { token, clientId } = {} }) => {
+      const client = createMapiClient(clientId, token);
 
       try {
         const response = await client

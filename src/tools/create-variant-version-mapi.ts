@@ -22,8 +22,8 @@ export const registerTool = (server: McpServer): void => {
           "Internal ID (UUID) of the language variant to create a new version of. Use '00000000-0000-0000-0000-000000000000' for the default language",
         ),
     },
-    async ({ itemId, languageId }) => {
-      const client = createMapiClient();
+    async ({ itemId, languageId }, { authInfo: { token, clientId } = {} }) => {
+      const client = createMapiClient(clientId, token);
 
       try {
         const response = await client

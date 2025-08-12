@@ -9,8 +9,8 @@ export const registerTool = (server: McpServer): void => {
     "add-taxonomy-group-mapi",
     "Add new Kontent.ai taxonomy group via Management API",
     taxonomyGroupSchemas,
-    async (taxonomyGroup) => {
-      const client = createMapiClient();
+    async (taxonomyGroup, { authInfo: { token, clientId } = {} }) => {
+      const client = createMapiClient(clientId, token);
 
       try {
         const response = await client

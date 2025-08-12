@@ -9,19 +9,22 @@ export const registerTool = (server: McpServer): void => {
     "filter-variants-mapi",
     "Search and filter Kontent.ai language variants of content items using Management API",
     filterVariantsSchema.shape,
-    async ({
-      search_phrase,
-      content_types,
-      contributors,
-      has_no_contributors,
-      completion_statuses,
-      language,
-      workflow_steps,
-      taxonomy_groups,
-      order_by,
-      order_direction,
-      continuation_token,
-    }) => {
+    async (
+      {
+        search_phrase,
+        content_types,
+        contributors,
+        has_no_contributors,
+        completion_statuses,
+        language,
+        workflow_steps,
+        taxonomy_groups,
+        order_by,
+        order_direction,
+        continuation_token,
+      },
+      { authInfo: { token, clientId } = {} },
+    ) => {
       try {
         const requestPayload = {
           filters: {
@@ -43,11 +46,14 @@ export const registerTool = (server: McpServer): void => {
             : null,
         };
 
-        const environmentId = process.env.KONTENT_ENVIRONMENT_ID;
-        const apiKey = process.env.KONTENT_API_KEY;
+        const environmentId = clientId ?? process.env.KONTENT_ENVIRONMENT_ID;
+        if (!environmentId) {
+          throwError("Missing required environment ID");
+        }
 
-        if (!environmentId || !apiKey) {
-          throwError("Missing required environment variables");
+        const apiKey = token;
+        if (!apiKey) {
+          throwError("Missing required API key");
         }
 
         const url = `https://manage.kontent.ai/v2/projects/${environmentId}/early-access/variants/filter`;

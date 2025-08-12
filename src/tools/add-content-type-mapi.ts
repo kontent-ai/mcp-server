@@ -34,8 +34,11 @@ export const registerTool = (server: McpServer): void => {
         .optional()
         .describe("Array of content groups (optional)"),
     },
-    async ({ name, codename, external_id, elements, content_groups }) => {
-      const client = createMapiClient();
+    async (
+      { name, codename, external_id, elements, content_groups },
+      { authInfo: { token, clientId } = {} },
+    ) => {
+      const client = createMapiClient(clientId, token);
 
       try {
         const response = await client

@@ -14,8 +14,8 @@ export const registerTool = (server: McpServer): void => {
         .string()
         .describe("Internal ID of the language variant to delete"),
     },
-    async ({ itemId, languageId }) => {
-      const client = createMapiClient();
+    async ({ itemId, languageId }, { authInfo: { token, clientId } = {} }) => {
+      const client = createMapiClient(clientId, token);
 
       try {
         const response = await client
