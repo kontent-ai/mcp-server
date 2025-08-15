@@ -51,7 +51,7 @@ export const registerTool = (server: McpServer): void => {
           throwError("Missing required environment ID");
         }
 
-        const apiKey = token;
+        const apiKey = token ?? process.env.KONTENT_API_KEY;;
         if (!apiKey) {
           throwError("Missing required API key");
         }

@@ -48,9 +48,9 @@ This is a Model Context Protocol (MCP) server for Kontent.ai that enables AI mod
 ### Core Components
 
 1. **Transport Layer** (`src/bin.ts`): Single entry point supporting three transport protocols:
-   - STDIO: Direct process communication
-   - SSE (Server-Sent Events): HTTP-based real-time communication
-   - Streamable HTTP: Request-response based HTTP communication
+   - STDIO: Direct process communication (single-tenant only)
+   - SSE (Server-Sent Events): HTTP-based real-time communication (supports multi-tenant)
+   - Streamable HTTP: Request-response based HTTP communication (supports multi-tenant)
 
 2. **Server Core** (`src/server.ts`): Central server instance that:
    - Registers all available tools
@@ -98,10 +98,16 @@ When modifying tools (enforced in `.cursor/rules/tools-in-readme.mdc`):
 
 ### Environment Requirements
 
+#### Single-Tenant Mode
 Required environment variables:
 - `KONTENT_API_KEY`: Management API key
 - `KONTENT_ENVIRONMENT_ID`: Environment ID
 - `PORT`: Server port (optional, defaults to 3001)
+
+#### Multi-Tenant Mode (SSE and Streamable HTTP only)
+No environment variables required. Instead:
+- Environment ID is provided via URL path: `/{environmentId}/mcp` or `/{environmentId}/sse`
+- API key is provided via Bearer token: `Authorization: Bearer <api-key>`
 
 ### Code Style
 

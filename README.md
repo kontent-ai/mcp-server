@@ -111,13 +111,25 @@ npx @kontent-ai/mcp-server@latest sse
 
 ## ⚙️ Configuration
 
-The server requires the following environment variables:
+The server supports two configuration modes:
+
+### Single-Tenant Mode (Default)
+
+For single-tenant mode, configure environment variables:
 
 | Variable | Description | Required |
 |----------|-------------|----------|
 | KONTENT_API_KEY | Your Kontent.ai Management API key | ✅ |
 | KONTENT_ENVIRONMENT_ID | Your environment ID | ✅ |
-| PORT | Port for SSE transport (defaults to 3001) | ❌ |
+| PORT | Port for SSE/HTTP transport (defaults to 3001) | ❌ |
+
+### Multi-Tenant Mode
+
+For multi-tenant mode (SSE and Streamable HTTP only), the server accepts:
+- **Environment ID** as a URL path parameter: `/{environmentId}/mcp` or `/{environmentId}/sse`
+- **API Key** via Bearer token in the Authorization header: `Authorization: Bearer <api-key>`
+
+This mode allows a single server instance to handle requests for multiple Kontent.ai environments securely without requiring environment variables.
 
 ## 🚀 Transport Options
 
@@ -146,6 +158,8 @@ For SSE transport, first start the server:
 npx @kontent-ai/mcp-server@latest sse
 ```
 
+#### Single-Tenant Mode
+
 With environment variables in a `.env` file, or otherwise accessible to the process:
 ```env
 KONTENT_API_KEY=<management-api-key>
@@ -162,6 +176,20 @@ Then configure your MCP client:
 }
 ```
 
+#### Multi-Tenant Mode
+
+No environment variables required. Configure your MCP client:
+```json
+{
+  "kontent-ai-sse-multi": {
+    "url": "http://localhost:3001/<environment-id>/sse",
+    "headers": {
+      "Authorization": "Bearer <management-api-key>"
+    }
+  }
+}
+```
+
 ### 🌊 Streamable HTTP Transport
 
 For Streamable HTTP transport, first start the server:
@@ -169,6 +197,8 @@ For Streamable HTTP transport, first start the server:
 ```bash
 npx @kontent-ai/mcp-server@latest shttp
 ```
+
+#### Single-Tenant Mode
 
 With environment variables in a `.env` file, or otherwise accessible to the process:
 ```env
@@ -182,6 +212,20 @@ Then configure your MCP client:
 {
   "kontent-ai-http": {
     "url": "http://localhost:3001/mcp"
+  }
+}
+```
+
+#### Multi-Tenant Mode
+
+No environment variables required. Configure your MCP client:
+```json
+{
+  "kontent-ai-http-multi": {
+    "url": "http://localhost:3001/<environment-id>/mcp",
+    "headers": {
+      "Authorization": "Bearer <management-api-key>"
+    }
   }
 }
 ```
