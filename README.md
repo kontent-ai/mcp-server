@@ -48,10 +48,10 @@ You can run the Kontent.ai MCP Server with npx:
 npx @kontent-ai/mcp-server@latest stdio
 ```
 
-#### SSE Transport
+#### Streamable HTTP Transport
 
 ```bash
-npx @kontent-ai/mcp-server@latest sse
+npx @kontent-ai/mcp-server@latest shttp
 ```
 
 ## 🛠️ Available Tools
@@ -121,12 +121,12 @@ For single-tenant mode, configure environment variables:
 |----------|-------------|----------|
 | KONTENT_API_KEY | Your Kontent.ai Management API key | ✅ |
 | KONTENT_ENVIRONMENT_ID | Your environment ID | ✅ |
-| PORT | Port for SSE/HTTP transport (defaults to 3001) | ❌ |
+| PORT | Port for HTTP transport (defaults to 3001) | ❌ |
 
 ### Multi-Tenant Mode
 
-For multi-tenant mode (SSE and Streamable HTTP only), the server accepts:
-- **Environment ID** as a URL path parameter: `/{environmentId}/mcp` or `/{environmentId}/sse`
+For multi-tenant mode (Streamable HTTP only), the server accepts:
+- **Environment ID** as a URL path parameter: `/{environmentId}/mcp`
 - **API Key** via Bearer token in the Authorization header: `Authorization: Bearer <api-key>`
 
 This mode allows a single server instance to handle requests for multiple Kontent.ai environments securely without requiring environment variables.
@@ -147,46 +147,6 @@ To run the server with STDIO transport, configure your MCP client with:
         "KONTENT_ENVIRONMENT_ID": "<environment-id>"
       }
     }
-}
-```
-
-### 🌐 SSE Transport
-
-For SSE transport, first start the server:
-
-```bash
-npx @kontent-ai/mcp-server@latest sse
-```
-
-#### Single-Tenant Mode
-
-With environment variables in a `.env` file, or otherwise accessible to the process:
-```env
-KONTENT_API_KEY=<management-api-key>
-KONTENT_ENVIRONMENT_ID=<environment-id>
-PORT=3001  # optional, defaults to 3001
-```
-
-Then configure your MCP client:
-```json
-{
-  "kontent-ai-sse": {
-    "url": "http://localhost:3001/sse"
-  }
-}
-```
-
-#### Multi-Tenant Mode
-
-No environment variables required. Configure your MCP client:
-```json
-{
-  "kontent-ai-sse-multi": {
-    "url": "http://localhost:3001/<environment-id>/sse",
-    "headers": {
-      "Authorization": "Bearer <management-api-key>"
-    }
-  }
 }
 ```
 
@@ -246,12 +206,10 @@ npm ci
 npm run build
 
 # Start the server
-npm run start:sse  # For SSE transport
 npm run start:stdio  # For STDIO transport
 npm run start:shttp  # For Streamable HTTP transport
 
 # Start the server with automatic reloading (no need to build first)
-npm run dev:sse  # For SSE transport
 npm run dev:stdio  # For STDIO transport
 npm run dev:shttp  # For Streamable HTTP transport
 ```
@@ -276,7 +234,7 @@ For debugging, you can use the MCP inspector:
 npx @modelcontextprotocol/inspector -e KONTENT_API_KEY=<key> -e KONTENT_ENVIRONMENT_ID=<env-id> node path/to/build/bin.js
 ```
 
-Or use the MCP inspector on a running sse server:
+Or use the MCP inspector on a running streamable HTTP server:
 
 ```bash
 npx @modelcontextprotocol/inspector

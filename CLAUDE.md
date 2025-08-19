@@ -14,12 +14,10 @@ npm run build
 
 # Start development server with auto-reload (no build required)
 npm run dev:stdio   # For STDIO transport
-npm run dev:sse     # For SSE transport  
 npm run dev:shttp   # For Streamable HTTP transport
 
 # Start production server (requires build)
 npm run start:stdio  # For STDIO transport
-npm run start:sse    # For SSE transport
 npm run start:shttp  # For Streamable HTTP transport
 ```
 
@@ -37,7 +35,7 @@ npm run format:fix
 # Debug with MCP inspector
 npx @modelcontextprotocol/inspector -e KONTENT_API_KEY=<key> -e KONTENT_ENVIRONMENT_ID=<env-id> node build/bin.js
 
-# Or inspect a running SSE server
+# Or inspect streamable HTTP server
 npx @modelcontextprotocol/inspector
 ```
 
@@ -47,9 +45,8 @@ This is a Model Context Protocol (MCP) server for Kontent.ai that enables AI mod
 
 ### Core Components
 
-1. **Transport Layer** (`src/bin.ts`): Single entry point supporting three transport protocols:
+1. **Transport Layer** (`src/bin.ts`): Single entry point supporting two transport protocols:
    - STDIO: Direct process communication (single-tenant only)
-   - SSE (Server-Sent Events): HTTP-based real-time communication (supports multi-tenant)
    - Streamable HTTP: Request-response based HTTP communication (supports multi-tenant)
 
 2. **Server Core** (`src/server.ts`): Central server instance that:
@@ -104,9 +101,9 @@ Required environment variables:
 - `KONTENT_ENVIRONMENT_ID`: Environment ID
 - `PORT`: Server port (optional, defaults to 3001)
 
-#### Multi-Tenant Mode (SSE and Streamable HTTP only)
+#### Multi-Tenant Mode (Streamable HTTP only)
 No environment variables required. Instead:
-- Environment ID is provided via URL path: `/{environmentId}/mcp` or `/{environmentId}/sse`
+- Environment ID is provided via URL path: `/{environmentId}/mcp`
 - API key is provided via Bearer token: `Authorization: Bearer <api-key>`
 
 ### Code Style

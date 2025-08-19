@@ -5,10 +5,8 @@
   "scripts": {
     "build": "rimraf build && tsc",
     "start:stdio": "node build/bin.js stdio",
-    "start:sse": "node build/bin.js sse",
     "start:shttp": "node build/bin.js shttp",
     "dev:stdio": "tsx watch src/bin.ts stdio",
-    "dev:sse": "tsx watch src/bin.ts sse",
     "dev:shttp": "tsx watch src/bin.ts shttp",
     "format": "cross-env node node_modules/@biomejs/biome/bin/biome ci ./ --config-path=./biome.json",
     "format:fix": "cross-env node node_modules/@biomejs/biome/bin/biome check ./ --fix --unsafe  --config-path=./biome.json"
