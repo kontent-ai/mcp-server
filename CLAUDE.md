@@ -106,6 +106,47 @@ No environment variables required. Instead:
 - Environment ID is provided via URL path: `/{environmentId}/mcp`
 - API key is provided via Bearer token: `Authorization: Bearer <api-key>`
 
+##### Client Configuration Examples
+
+**VS Code**: Create `.vscode/mcp.json` in your workspace:
+```json
+{
+  "servers": {
+    "kontent-ai-multi": {
+      "uri": "http://localhost:3001/{environmentId}/mcp",
+      "headers": {
+        "Authorization": "Bearer {api-key}"
+      }
+    }
+  }
+}
+```
+
+**Claude Desktop**: Use `mcp-remote` as proxy in `claude_desktop_config.json`:
+```json
+{
+  "mcpServers": {
+    "kontent-ai-multi": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "http://localhost:3001/{environmentId}/mcp",
+        "--header",
+        "Authorization: Bearer {api-key}"
+      ]
+    }
+  }
+}
+```
+
+**Claude Code**: Configure via CLI or settings:
+```bash
+claude mcp add \
+  --url "http://localhost:3001/{environmentId}/mcp" \
+  --header "Authorization: Bearer {api-key}" \
+  kontent-ai-multi
+```
+
 ### Code Style
 
 - TypeScript with ES2022 target, NodeNext modules

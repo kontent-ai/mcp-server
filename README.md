@@ -178,10 +178,94 @@ Then configure your MCP client:
 
 #### Multi-Tenant Mode
 
-No environment variables required. Configure your MCP client:
+No environment variables required. The server accepts requests for multiple environments using URL path parameters and Bearer authentication.
+
+##### VS Code Configuration
+
+Create a `.vscode/mcp.json` file in your workspace:
+
 ```json
 {
-  "kontent-ai-http-multi": {
+  "servers": {
+    "kontent-ai-multi": {
+      "uri": "http://localhost:3001/<environment-id>/mcp",
+      "headers": {
+        "Authorization": "Bearer <management-api-key>"
+      }
+    }
+  }
+}
+```
+
+For secure configuration with input prompts:
+
+```json
+{
+  "inputs": [
+    {
+      "id": "apiKey",
+      "type": "password",
+      "description": "Kontent.ai API Key"
+    },
+    {
+      "id": "environmentId",
+      "type": "text",
+      "description": "Environment ID"
+    }
+  ],
+  "servers": {
+    "kontent-ai-multi": {
+      "uri": "http://localhost:3001/${inputs.environmentId}/mcp",
+      "headers": {
+        "Authorization": "Bearer ${inputs.apiKey}"
+      }
+    }
+  }
+}
+```
+
+##### Claude Desktop Configuration
+
+Update your Claude Desktop configuration file:
+- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+- **Linux**: `~/.config/Claude/claude_desktop_config.json`
+
+Use `mcp-remote` as a proxy to add authentication headers:
+
+```json
+{
+  "mcpServers": {
+    "kontent-ai-multi": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "http://localhost:3001/<environment-id>/mcp",
+        "--header",
+        "Authorization: Bearer <management-api-key>"
+      ]
+    }
+  }
+}
+```
+
+##### Claude Code Configuration
+
+For Claude Code (claude.ai/code), add the server configuration:
+
+```bash
+# Add the multi-tenant server
+claude mcp add \
+  --url "http://localhost:3001/<environment-id>/mcp" \
+  --header "Authorization: Bearer <management-api-key>" \
+  kontent-ai-multi
+```
+
+Or configure directly in the settings:
+
+```json
+{
+  "kontent-ai-multi": {
     "url": "http://localhost:3001/<environment-id>/mcp",
     "headers": {
       "Authorization": "Bearer <management-api-key>"
@@ -189,6 +273,8 @@ No environment variables required. Configure your MCP client:
   }
 }
 ```
+
+**Important**: Replace `<environment-id>` with your actual Kontent.ai environment ID (GUID format) and `<management-api-key>` with your Management API key.
 
 ## 💻 Development
 
