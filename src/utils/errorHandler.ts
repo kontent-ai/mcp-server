@@ -72,7 +72,7 @@ export const handleMcpToolError = (
       content: [
         {
           type: "text",
-          text: `${contextPrefix}HTTP Error ${error.response.status}: ${error.response.statusText || "Unknown HTTP error"}\n\nResponse: ${JSON.stringify(error.response.data, null, 2)}`,
+          text: `${contextPrefix}HTTP Error ${error.response.status}: ${error.response.statusText || "Unknown HTTP error"}\n\nResponse: ${JSON.stringify(error.response.data)}`,
         },
       ],
       isError: true,
@@ -84,7 +84,7 @@ export const handleMcpToolError = (
     content: [
       {
         type: "text",
-        text: `${contextPrefix}Unexpected error: ${error instanceof Error ? error.message : "Unknown error occurred"}\n\nFull error: ${JSON.stringify(error, null, 2)}`,
+        text: `${contextPrefix}Unexpected error: ${error instanceof Error ? error.message : "Unknown error occurred"}\n\nFull error: ${JSON.stringify(error)}`,
       },
     ],
     isError: true,

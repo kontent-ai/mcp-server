@@ -23,7 +23,7 @@ export const createMcpToolSuccessResponse = (
     content: [
       {
         type: "text",
-        text: JSON.stringify(data, null, 2),
+        text: JSON.stringify(data),
       },
     ],
   };
