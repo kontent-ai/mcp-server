@@ -97,13 +97,17 @@ async function startStreamableHTTP() {
       }
 
       await server.connect(transport);
-      await transport.handleRequest(Object.assign(req, {
+      await transport.handleRequest(
+        Object.assign(req, {
           auth: {
             clientId: environmentId,
             token: authToken,
             scopes: [],
           },
-        }), res, req.body);
+        }),
+        res,
+        req.body,
+      );
     } catch (error) {
       console.error("Error handling MCP request:", error);
       if (!res.headersSent) {
@@ -169,12 +173,9 @@ async function main() {
 
   if (
     !transportType ||
-    (transportType !== "stdio" &&
-      transportType !== "shttp")
+    (transportType !== "stdio" && transportType !== "shttp")
   ) {
-    console.error(
-      "Please specify a valid transport type: stdio or shttp",
-    );
+    console.error("Please specify a valid transport type: stdio or shttp");
     process.exit(1);
   }
 
