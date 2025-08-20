@@ -4,6 +4,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 export interface AppConfiguration {
   manageApiUrl?: string;
   deliveryApiUrl?: string;
+  applicationInsightsConnectionString?: string;
+  projectLocation?: string;
 }
 
 function loadIndexedEnvVars(prefix: string): string[] {
@@ -54,6 +56,14 @@ export async function loadAppConfiguration(): Promise<AppConfiguration | null> {
     });
 
     return {
+      applicationInsightsConnectionString: getConfigValue(
+        configMap,
+        "ApplicationInsights:ConnectionString",
+      ),
+      projectLocation: getConfigValue(
+        configMap,
+        "Global:Runtime:ProjectLocation",
+      ),
       manageApiUrl: getConfigValue(configMap, "Draft:ManageApi:Url"),
       deliveryApiUrl: getConfigValue(
         configMap,

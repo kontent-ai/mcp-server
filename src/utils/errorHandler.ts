@@ -1,7 +1,7 @@
 /**
  * Utility for handling errors in MCP tools and returning standardized error responses
  */
-
+import { trackException } from "../telemetry/applicationInsights.js";
 import type { McpToolSuccessResponse } from "./responseHelper.js";
 
 export interface McpToolErrorResponse {
@@ -27,7 +27,8 @@ export const handleMcpToolError = (
 ): McpToolErrorResponse => {
   const contextPrefix = context ? `${context}: ` : "";
 
-  // Handle Kontent.ai Management API specific errors
+  trackException(error, context);
+
   if (error?.name === "ContentManagementBaseKontentError" || error?.requestId) {
     const errorMessage = [
       `${contextPrefix}Kontent.ai Management API Error:`,

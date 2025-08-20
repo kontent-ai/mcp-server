@@ -9,6 +9,11 @@ import {
   loadAppConfiguration,
 } from "./config/appConfiguration.js";
 import { createServer } from "./server.js";
+import {
+  initializeApplicationInsights,
+  trackException,
+  trackServerStartup,
+} from "./telemetry/applicationInsights.js";
 import { extractBearerToken } from "./utils/extractBearerToken.js";
 import { isValidGuid } from "./utils/isValidGuid.js";
 
@@ -33,6 +38,7 @@ async function startStreamableHTTP(config: AppConfiguration | null) {
       await transport.handleRequest(req, res, req.body);
     } catch (error) {
       console.error("Error handling MCP request:", error);
+      trackException(error, "MCP Request Handler");
       if (!res.headersSent) {
         res.status(500).json({
           jsonrpc: "2.0",
@@ -114,6 +120,7 @@ async function startStreamableHTTP(config: AppConfiguration | null) {
       );
     } catch (error) {
       console.error("Error handling MCP request:", error);
+      trackException(error, "MCP Multi-tenant Request Handler");
       if (!res.headersSent) {
         res.status(500).json({
           jsonrpc: "2.0",
@@ -153,6 +160,18 @@ async function startStreamableHTTP(config: AppConfiguration | null) {
     );
   });
 
+  app.use(
+    (
+      err: Error,
+      _req: express.Request,
+      _res: express.Response,
+      next: express.NextFunction,
+    ) => {
+      trackException(err, "Express Error Handler");
+      next(err);
+    },
+  );
+
   const PORT = process.env.PORT || 3001;
   app.listen(PORT, () => {
     console.log(
@@ -173,6 +192,10 @@ async function startStdio(config: AppConfiguration | null) {
 
 async function main() {
   const config = await loadAppConfiguration();
+  if (config) {
+    initializeApplicationInsights(config);
+    trackServerStartup(version);
+  }
 
   const args = process.argv.slice(2);
   const transportType = args[0]?.toLowerCase();
@@ -194,5 +217,6 @@ async function main() {
 
 main().catch((error) => {
   console.error("Fatal error:", error);
+  trackException(error, "Server Startup");
   process.exit(1);
 });
