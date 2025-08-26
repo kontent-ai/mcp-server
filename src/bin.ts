@@ -4,7 +4,13 @@ import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/
 import "dotenv/config";
 import express from "express";
 import packageJson from "../package.json" with { type: "json" };
+import { loadAppConfiguration } from "./config/appConfiguration.js";
 import { createServer } from "./server.js";
+import {
+  initializeApplicationInsights,
+  trackException,
+  trackServerStartup,
+} from "./telemetry/applicationInsights.js";
 import { extractBearerToken } from "./utils/extractBearerToken.js";
 import { isValidGuid } from "./utils/isValidGuid.js";
 
@@ -29,6 +35,7 @@ async function startStreamableHTTP() {
       await transport.handleRequest(req, res, req.body);
     } catch (error) {
       console.error("Error handling MCP request:", error);
+      trackException(error instanceof Error ? error : new Error(String(error)));
       if (!res.headersSent) {
         res.status(500).json({
           jsonrpc: "2.0",
@@ -110,6 +117,7 @@ async function startStreamableHTTP() {
       );
     } catch (error) {
       console.error("Error handling MCP request:", error);
+      trackException(error instanceof Error ? error : new Error(String(error)));
       if (!res.headersSent) {
         res.status(500).json({
           jsonrpc: "2.0",
@@ -149,6 +157,18 @@ async function startStreamableHTTP() {
     );
   });
 
+  app.use(
+    (
+      err: Error,
+      _req: express.Request,
+      _res: express.Response,
+      next: express.NextFunction,
+    ) => {
+      trackException(err);
+      next(err);
+    },
+  );
+
   const PORT = process.env.PORT || 3001;
   app.listen(PORT, () => {
     console.log(
@@ -168,6 +188,12 @@ async function startStdio() {
 }
 
 async function main() {
+  if (process.env.ConfigStore__Endpoints__0) {
+    const config = await loadAppConfiguration();
+    initializeApplicationInsights(config, version);
+    trackServerStartup(version);
+  }
+
   const args = process.argv.slice(2);
   const transportType = args[0]?.toLowerCase();
 
@@ -188,5 +214,6 @@ async function main() {
 
 main().catch((error) => {
   console.error("Fatal error:", error);
+  trackException(error);
   process.exit(1);
 });
