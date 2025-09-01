@@ -1,10 +1,14 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
+import type { AppConfiguration } from "../config/appConfiguration.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 
-export const registerTool = (server: McpServer): void => {
+export const registerTool = (
+  server: McpServer,
+  config: AppConfiguration | null,
+): void => {
   server.tool(
     "create-variant-version-mapi",
     "Create new version of Kontent.ai language variant via Management API. This operation creates a new version of an existing language variant, useful for content versioning and creating new drafts from published content.",
@@ -23,7 +27,7 @@ export const registerTool = (server: McpServer): void => {
         ),
     },
     async ({ itemId, languageId }, { authInfo: { token, clientId } = {} }) => {
-      const client = createMapiClient(clientId, token);
+      const client = createMapiClient(clientId, token, config);
 
       try {
         const response = await client

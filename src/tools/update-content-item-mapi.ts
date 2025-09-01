@@ -1,10 +1,14 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
+import type { AppConfiguration } from "../config/appConfiguration.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 
-export const registerTool = (server: McpServer): void => {
+export const registerTool = (
+  server: McpServer,
+  config: AppConfiguration | null,
+): void => {
   server.tool(
     "update-content-item-mapi",
     "Update existing Kontent.ai content item by internal ID via Management API. The content item must already exist - this tool will not create new items.",
@@ -33,7 +37,7 @@ export const registerTool = (server: McpServer): void => {
       { id, name, collection },
       { authInfo: { token, clientId } = {} },
     ) => {
-      const client = createMapiClient(clientId, token);
+      const client = createMapiClient(clientId, token, config);
 
       try {
         // First, verify the item exists by trying to get it

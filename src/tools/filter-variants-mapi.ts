@@ -1,10 +1,14 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { AppConfiguration } from "../config/appConfiguration.js";
 import { filterVariantsSchema } from "../schemas/filterVariantSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { throwError } from "../utils/throwError.js";
 
-export const registerTool = (server: McpServer): void => {
+export const registerTool = (
+  server: McpServer,
+  config: AppConfiguration | null,
+): void => {
   server.tool(
     "filter-variants-mapi",
     "Search and filter Kontent.ai language variants of content items using Management API",
@@ -56,7 +60,11 @@ export const registerTool = (server: McpServer): void => {
           throwError("Missing required API key");
         }
 
-        const url = `https://manage.kontent.ai/v2/projects/${environmentId}/early-access/variants/filter`;
+        const baseUrl = config
+          ? `${config.manageApiUrl}`
+          : `https://manage.kontent.ai/`;
+        const url = `${baseUrl}v2/projects/${environmentId}/early-access/variants/filter`;
+
         const headers: Record<string, string> = {
           Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json",

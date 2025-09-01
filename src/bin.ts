@@ -4,19 +4,23 @@ import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/
 import "dotenv/config";
 import express from "express";
 import packageJson from "../package.json" with { type: "json" };
+import {
+  type AppConfiguration,
+  loadAppConfiguration,
+} from "./config/appConfiguration.js";
 import { createServer } from "./server.js";
 import { extractBearerToken } from "./utils/extractBearerToken.js";
 import { isValidGuid } from "./utils/isValidGuid.js";
 
 const version = packageJson.version;
 
-async function startStreamableHTTP() {
+async function startStreamableHTTP(config: AppConfiguration | null) {
   const app = express();
   app.use(express.json());
 
   app.post("/mcp", async (req, res) => {
     try {
-      const { server } = createServer();
+      const { server } = createServer(config);
       const transport = new StreamableHTTPServerTransport({
         sessionIdGenerator: undefined,
       });
@@ -78,7 +82,7 @@ async function startStreamableHTTP() {
         return;
       }
 
-      const { server } = createServer();
+      const { server } = createServer(config);
       const transport = new StreamableHTTPServerTransport({
         sessionIdGenerator: undefined,
       });
@@ -160,14 +164,16 @@ Available endpoints:
   });
 }
 
-async function startStdio() {
-  const { server } = createServer();
+async function startStdio(config: AppConfiguration | null) {
+  const { server } = createServer(config);
   const transport = new StdioServerTransport();
   console.log(`Kontent.ai MCP Server v${version} (stdio) starting`);
   await server.connect(transport);
 }
 
 async function main() {
+  const config = await loadAppConfiguration();
+
   const args = process.argv.slice(2);
   const transportType = args[0]?.toLowerCase();
 
@@ -180,9 +186,9 @@ async function main() {
   }
 
   if (transportType === "stdio") {
-    await startStdio();
+    await startStdio(config);
   } else if (transportType === "shttp") {
-    await startStreamableHTTP();
+    await startStreamableHTTP(config);
   }
 }
 

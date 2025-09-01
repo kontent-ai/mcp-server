@@ -1,10 +1,14 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
+import type { AppConfiguration } from "../config/appConfiguration.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 
-export const registerTool = (server: McpServer): void => {
+export const registerTool = (
+  server: McpServer,
+  config: AppConfiguration | null,
+): void => {
   server.tool(
     "get-type-mapi",
     "Get Kontent.ai content type by internal ID from Management API",
@@ -12,7 +16,7 @@ export const registerTool = (server: McpServer): void => {
       id: z.string().describe("Internal ID of the content type to get"),
     },
     async ({ id }, { authInfo: { token, clientId } = {} }) => {
-      const client = createMapiClient(clientId, token);
+      const client = createMapiClient(clientId, token, config);
 
       try {
         const response = await client

@@ -1,5 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import packageJson from "../package.json" with { type: "json" };
+import type { AppConfiguration } from "./config/appConfiguration.js";
 import { registerTool as registerAddContentItemMapi } from "./tools/add-content-item-mapi.js";
 import { registerTool as registerAddContentTypeMapi } from "./tools/add-content-type-mapi.js";
 import { registerTool as registerAddContentTypeSnippetMapi } from "./tools/add-content-type-snippet-mapi.js";
@@ -31,7 +32,7 @@ import { registerTool as registerUpdateContentItemMapi } from "./tools/update-co
 import { registerTool as registerUpsertLanguageVariantMapi } from "./tools/upsert-language-variant-mapi.js";
 
 // Create server instance
-export const createServer = () => {
+export const createServer = (config: AppConfiguration | null) => {
   const server = new McpServer({
     name: "kontent-ai",
     version: packageJson.version,
@@ -43,34 +44,34 @@ export const createServer = () => {
 
   // Register all tools
   registerGetInitialContext(server);
-  registerGetItemMapi(server);
-  registerGetItemDapi(server);
-  registerGetVariantMapi(server);
-  registerGetTypeMapi(server);
-  registerListContentTypesMapi(server);
-  registerDeleteContentTypeMapi(server);
-  registerListLanguagesMapi(server);
-  registerGetAssetMapi(server);
-  registerListAssetsMapi(server);
-  registerAddContentTypeMapi(server);
-  registerPatchContentTypeMapi(server);
-  registerAddContentTypeSnippetMapi(server);
-  registerGetTypeSnippetMapi(server);
-  registerListContentTypeSnippetsMapi(server);
-  registerAddTaxonomyGroupMapi(server);
-  registerListTaxonomyGroupsMapi(server);
-  registerGetTaxonomyGroupMapi(server);
-  registerAddContentItemMapi(server);
-  registerUpdateContentItemMapi(server);
-  registerDeleteContentItemMapi(server);
-  registerUpsertLanguageVariantMapi(server);
-  registerCreateVariantVersionMapi(server);
-  registerDeleteLanguageVariantMapi(server);
-  registerListWorkflowsMapi(server);
-  registerChangeVariantWorkflowStepMapi(server);
-  registerFilterVariantsMapi(server);
-  registerPublishVariantMapi(server);
-  registerUnpublishVariantMapi(server);
+  registerGetItemMapi(server, config);
+  registerGetItemDapi(server, config);
+  registerGetVariantMapi(server, config);
+  registerGetTypeMapi(server, config);
+  registerListContentTypesMapi(server, config);
+  registerDeleteContentTypeMapi(server, config);
+  registerListLanguagesMapi(server, config);
+  registerGetAssetMapi(server, config);
+  registerListAssetsMapi(server, config);
+  registerAddContentTypeMapi(server, config);
+  registerPatchContentTypeMapi(server, config);
+  registerAddContentTypeSnippetMapi(server, config);
+  registerGetTypeSnippetMapi(server, config);
+  registerListContentTypeSnippetsMapi(server, config);
+  registerAddTaxonomyGroupMapi(server, config);
+  registerListTaxonomyGroupsMapi(server, config);
+  registerGetTaxonomyGroupMapi(server, config);
+  registerAddContentItemMapi(server, config);
+  registerUpdateContentItemMapi(server, config);
+  registerDeleteContentItemMapi(server, config);
+  registerUpsertLanguageVariantMapi(server, config);
+  registerCreateVariantVersionMapi(server, config);
+  registerDeleteLanguageVariantMapi(server, config);
+  registerListWorkflowsMapi(server, config);
+  registerChangeVariantWorkflowStepMapi(server, config);
+  registerFilterVariantsMapi(server, config);
+  registerPublishVariantMapi(server, config);
+  registerUnpublishVariantMapi(server, config);
 
   return { server };
 };

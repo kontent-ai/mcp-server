@@ -1,11 +1,15 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
+import type { AppConfiguration } from "../config/appConfiguration.js";
 import { patchOperationsSchema } from "../schemas/patchSchemas/contentTypePatchSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 
-export const registerTool = (server: McpServer): void => {
+export const registerTool = (
+  server: McpServer,
+  config: AppConfiguration | null,
+): void => {
   server.tool(
     "patch-content-type-mapi",
     "Update an existing Kontent.ai content type by codename via Management API. Supports move, addInto, remove, and replace operations following RFC 6902 JSON Patch specification.",
@@ -66,7 +70,7 @@ export const registerTool = (server: McpServer): void => {
       { codename, operations },
       { authInfo: { token, clientId } = {} },
     ) => {
-      const client = createMapiClient(clientId, token);
+      const client = createMapiClient(clientId, token, config);
 
       try {
         // Apply patch operations using the modifyContentType method

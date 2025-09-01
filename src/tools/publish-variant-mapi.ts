@@ -1,10 +1,14 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
+import type { AppConfiguration } from "../config/appConfiguration.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 
-export const registerTool = (server: McpServer): void => {
+export const registerTool = (
+  server: McpServer,
+  config: AppConfiguration | null,
+): void => {
   server.tool(
     "publish-variant-mapi",
     "Publish or schedule a language variant of a content item in Kontent.ai. This operation can either immediately publish the variant (publishing happens right now) or schedule it for publication at a specific future date and time. For immediate publishing: the variant is published immediately and becomes available through the Delivery API. For scheduled publishing: the variant moves to a 'Scheduled' workflow state and will automatically transition to 'Published' at the specified time. The variant must be in a valid state with all required fields filled and validation rules satisfied. A variant can only be published if a transition is defined between the variant's current workflow step and the Published workflow step.",
@@ -39,7 +43,7 @@ export const registerTool = (server: McpServer): void => {
       { itemId, languageId, scheduledTo, displayTimezone },
       { authInfo: { token, clientId } = {} },
     ) => {
-      const client = createMapiClient(clientId, token);
+      const client = createMapiClient(clientId, token, config);
 
       try {
         // Validate that displayTimezone can only be used with scheduledTo

@@ -1,10 +1,14 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
+import type { AppConfiguration } from "../config/appConfiguration.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 
-export const registerTool = (server: McpServer): void => {
+export const registerTool = (
+  server: McpServer,
+  config: AppConfiguration | null,
+): void => {
   server.tool(
     "unpublish-variant-mapi",
     "Unpublish or schedule unpublishing of a language variant of a content item in Kontent.ai. This operation can either immediately unpublish the variant (making it unavailable through the Delivery API) or schedule it for unpublishing at a specific future date and time. For immediate unpublishing: the variant is unpublished right away and moves to the 'Archived' workflow step, becoming unavailable through the Delivery API. For scheduled unpublishing: the variant remains published but is scheduled to be automatically unpublished at the specified time. The variant must currently be in the 'Published' state for this operation to succeed.",
@@ -39,7 +43,7 @@ export const registerTool = (server: McpServer): void => {
       { itemId, languageId, scheduledTo, displayTimezone },
       { authInfo: { token, clientId } = {} },
     ) => {
-      const client = createMapiClient(clientId, token);
+      const client = createMapiClient(clientId, token, config);
 
       try {
         // Validate that displayTimezone can only be used with scheduledTo
