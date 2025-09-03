@@ -11,7 +11,7 @@ export const registerTool = (
 ): void => {
   server.tool(
     "filter-variants-mapi",
-    "Search and filter Kontent.ai language variants of content items using Management API",
+    "Filter Kontent.ai language variants of content items using Management API. Use for: finding specific names, codes, IDs, exact phrases, or when you need keyword matches in content",
     filterVariantsSchema.shape,
     async (
       {
