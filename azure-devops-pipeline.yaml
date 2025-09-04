@@ -1,6 +1,6 @@
 trigger:
   - master
-  - DEVOPS-3448_Pipeline
+  - DEVOPS-3448_Pipeline # remove
 
 resources:
   repositories:
@@ -12,7 +12,7 @@ resources:
     - repository: devops-yaml-templates
       name: devops-yaml-templates
       type: git
-      ref: test_matejl
+      ref: test_matejl # master
 
 extends:
   template: Definitions/Build - Repository/mcp-server.yaml@devops-yaml-templates
