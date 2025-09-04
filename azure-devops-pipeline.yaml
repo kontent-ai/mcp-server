@@ -1,0 +1,18 @@
+trigger:
+  - master
+  - DEVOPS-3448_Pipeline
+
+resources:
+  repositories:
+    - repository: self
+      name: $(Build.Repository.Name)
+      type: github
+      endpoint: GitHubKontentDevOps
+      ref: $(Build.SourceBranch)
+    - repository: devops-yaml-templates
+      name: devops-yaml-templates
+      type: git
+      ref: test_matejl
+
+extends:
+  template: Definitions/Build - Repository/mcp-server.yaml@devops-yaml-templates
