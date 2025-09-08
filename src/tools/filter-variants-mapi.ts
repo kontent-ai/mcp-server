@@ -11,7 +11,13 @@ export const registerTool = (
 ): void => {
   server.tool(
     "filter-variants-mapi",
-    "Search and filter Kontent.ai language variants of content items using Management API",
+    `Filter Kontent.ai language variants of content items using Management API.
+    
+    USE FOR:
+    - EXACT keyword matching: finding specific words, phrases, names, codes, or IDs in content. Example: 'find items containing rabbit' → search 'rabbit'
+    - Advanced filtering by content type, contributors, workflow steps, taxonomies etc
+    - CAN expand concepts to keywords when using filter (e.g., "neurology-related" → "neurology neurological brain nervous system")
+    - Also use as fallback when AI search is unavailable`,
     filterVariantsSchema.shape,
     async (
       {

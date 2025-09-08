@@ -123,6 +123,8 @@ When working with taxonomy elements, always retrieve and understand the taxonomy
 
 ## MCP Tool Usage Guidelines
 
+### ID Reference Preferences
+
 **CRITICAL**: When using MCP tools, always prefer internal IDs over codenames:
 
 - **Content Items**: Use internal IDs to reference content items
@@ -143,4 +145,12 @@ When working with taxonomy elements, always retrieve and understand the taxonomy
 - Debugging and logging
 - Initial content setup when IDs are not yet known
 
-All MCP tools have been optimized to work with internal IDs for maximum efficiency.`;
+All MCP tools have been optimized to work with internal IDs for maximum efficiency.
+
+### Content Search Tools
+
+The MCP server provides two search tools with distinct purposes:
+- **filter-variants-mapi**: Exact keyword matching with advanced filtering capabilities
+- **search-variants-mapi**: AI-powered semantic/conceptual search (when available)
+
+See each tool's description for detailed usage guidelines and selection criteria.`;

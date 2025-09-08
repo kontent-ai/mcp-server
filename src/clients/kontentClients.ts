@@ -10,13 +10,23 @@ const sourceTrackingHeaderName = "X-KC-SOURCE";
  * @param environmentId Optional environment ID (defaults to process.env.KONTENT_ENVIRONMENT_ID)
  * @param apiKey Optional API key (defaults to process.env.KONTENT_API_KEY)
  * @param config Optional configuration object
+ * @param additionalHeaders Optional additional headers to include in requests
  * @returns Management API client instance
  */
 export const createMapiClient = (
   environmentId?: string,
   apiKey?: string,
   config?: Pick<AppConfiguration, "manageApiUrl"> | null,
+  additionalHeaders?: Array<{ header: string; value: string }>,
 ) => {
+  const allHeaders = [
+    {
+      header: sourceTrackingHeaderName,
+      value: `${packageJson.name};${packageJson.version}`,
+    },
+    ...(additionalHeaders || []),
+  ];
+
   return createManagementClient({
     apiKey:
       apiKey ??
@@ -26,12 +36,7 @@ export const createMapiClient = (
       environmentId ??
       process.env.KONTENT_ENVIRONMENT_ID ??
       throwError("KONTENT_ENVIRONMENT_ID is not set"),
-    headers: [
-      {
-        header: sourceTrackingHeaderName,
-        value: `${packageJson.name};${packageJson.version}`,
-      },
-    ],
     baseUrl: config ? `${config.manageApiUrl}v2` : undefined,
+    headers: allHeaders,
   });
 };
