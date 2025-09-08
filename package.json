@@ -1,6 +1,6 @@
 {
   "name": "@kontent-ai/mcp-server",
-  "version": "0.18.0",
+  "version": "0.19.0",
   "type": "module",
   "scripts": {
     "build": "rimraf build && tsc",
@@ -29,6 +29,7 @@
     "applicationinsights": "^2.9.8",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "p-retry": "^7.0.0",
     "zod": "^3.25.30"
   },
   "devDependencies": {

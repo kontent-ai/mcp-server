@@ -26,6 +26,7 @@ import { registerTool as registerListTaxonomyGroupsMapi } from "./tools/list-tax
 import { registerTool as registerListWorkflowsMapi } from "./tools/list-workflows-mapi.js";
 import { registerTool as registerPatchContentTypeMapi } from "./tools/patch-content-type-mapi.js";
 import { registerTool as registerPublishVariantMapi } from "./tools/publish-variant-mapi.js";
+import { registerTool as registerSearchVariantsMapi } from "./tools/search-variants-mapi.js";
 import { registerTool as registerUnpublishVariantMapi } from "./tools/unpublish-variant-mapi.js";
 import { registerTool as registerUpdateContentItemMapi } from "./tools/update-content-item-mapi.js";
 import { registerTool as registerUpsertLanguageVariantMapi } from "./tools/upsert-language-variant-mapi.js";
@@ -68,6 +69,7 @@ export const createServer = (config: AppConfiguration | null) => {
   registerListWorkflowsMapi(server, config);
   registerChangeVariantWorkflowStepMapi(server, config);
   registerFilterVariantsMapi(server, config);
+  registerSearchVariantsMapi(server, config);
   registerPublishVariantMapi(server, config);
   registerUnpublishVariantMapi(server, config);
 
