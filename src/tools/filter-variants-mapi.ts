@@ -1,4 +1,5 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { createMapiClient } from "../clients/kontentClients.js";
 import type { AppConfiguration } from "../config/appConfiguration.js";
 import { filterVariantsSchema } from "../schemas/filterVariantSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
@@ -36,6 +37,22 @@ export const registerTool = (
       { authInfo: { token, clientId } = {} },
     ) => {
       try {
+        const environmentId = clientId ?? process.env.KONTENT_ENVIRONMENT_ID;
+        if (!environmentId) {
+          throwError("Missing required environment ID");
+        }
+
+        const additionalHeaders = continuation_token
+          ? [{ header: "X-Continuation", value: continuation_token }]
+          : undefined;
+
+        const client = createMapiClient(
+          environmentId,
+          token,
+          config,
+          additionalHeaders,
+        );
+
         const requestPayload = {
           filters: {
             search_phrase,
@@ -56,69 +73,16 @@ export const registerTool = (
             : null,
         };
 
-        const environmentId = clientId ?? process.env.KONTENT_ENVIRONMENT_ID;
-        if (!environmentId) {
-          throwError("Missing required environment ID");
-        }
+        const response = await client
+          .post()
+          .withAction(`projects/${environmentId}/early-access/variants/filter`)
+          .withData(requestPayload)
+          .toPromise();
 
-        const apiKey = token ?? process.env.KONTENT_API_KEY;
-        if (!apiKey) {
-          throwError("Missing required API key");
-        }
-
-        const baseUrl = config
-          ? `${config.manageApiUrl}`
-          : `https://manage.kontent.ai/`;
-        const url = `${baseUrl}v2/projects/${environmentId}/early-access/variants/filter`;
-
-        const headers: Record<string, string> = {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-        };
-        if (continuation_token) {
-          headers["X-Continuation"] = continuation_token;
-        }
-
-        const response = await fetch(url, {
-          method: "POST",
-          headers: headers,
-          body: JSON.stringify(requestPayload),
-        });
-
-        if (!response.ok) {
-          const responseText = await response.text();
-          let responseData: string;
-          try {
-            responseData = JSON.parse(responseText);
-          } catch {
-            responseData = responseText;
-          }
-
-          const error: HttpError = new Error(
-            `HTTP error! status: ${response.status}`,
-          );
-          error.response = {
-            status: response.status,
-            statusText: response.statusText,
-            data: responseData,
-          };
-          throw error;
-        }
-
-        const responseData = await response.json();
-
-        return createMcpToolSuccessResponse(responseData);
+        return createMcpToolSuccessResponse(response.data);
       } catch (error: unknown) {
         return handleMcpToolError(error, "Variant Search");
       }
     },
   );
 };
-
-interface HttpError extends Error {
-  response?: {
-    status: number;
-    statusText: string;
-    data: any;
-  };
-}
