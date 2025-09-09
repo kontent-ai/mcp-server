@@ -24,7 +24,7 @@ export const registerTool = (
           .byTypeId(id)
           .toPromise();
 
-        return createMcpToolSuccessResponse(response.data);
+        return createMcpToolSuccessResponse(response.rawData);
       } catch (error: any) {
         return handleMcpToolError(error, "Content Type Snippet Retrieval");
       }

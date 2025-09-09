@@ -22,7 +22,7 @@ export const registerTool = (
           .withData(taxonomyGroup)
           .toPromise();
 
-        return createMcpToolSuccessResponse(response.data);
+        return createMcpToolSuccessResponse(response.rawData);
       } catch (error: any) {
         return handleMcpToolError(error, "Taxonomy Group Creation");
       }

@@ -18,7 +18,7 @@ export const registerTool = (
       try {
         const response = await client.listWorkflows().toPromise();
 
-        return createMcpToolSuccessResponse(response.data);
+        return createMcpToolSuccessResponse(response.rawData);
       } catch (error: any) {
         return handleMcpToolError(error, "Workflows Listing");
       }

@@ -24,7 +24,7 @@ export const registerTool = (
           .byAssetId(assetId)
           .toPromise();
 
-        return createMcpToolSuccessResponse(response.data);
+        return createMcpToolSuccessResponse(response.rawData);
       } catch (error: any) {
         return handleMcpToolError(error, "Asset Retrieval");
       }

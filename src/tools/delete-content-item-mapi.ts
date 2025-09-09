@@ -26,7 +26,7 @@ export const registerTool = (
 
         return createMcpToolSuccessResponse({
           message: `Content item '${id}' deleted successfully`,
-          deletedItem: response.data,
+          deletedItem: response.rawData,
         });
       } catch (error: any) {
         return handleMcpToolError(error, "Content Item Deletion");

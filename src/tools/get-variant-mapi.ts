@@ -28,7 +28,7 @@ export const registerTool = (
           .byLanguageId(languageId)
           .toPromise();
 
-        return createMcpToolSuccessResponse(response.data);
+        return createMcpToolSuccessResponse(response.rawData);
       } catch (error: any) {
         return handleMcpToolError(error, "Language Variant Retrieval");
       }
