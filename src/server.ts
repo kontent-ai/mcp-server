@@ -13,7 +13,6 @@ import { registerTool as registerDeleteLanguageVariantMapi } from "./tools/delet
 import { registerTool as registerFilterVariantsMapi } from "./tools/filter-variants-mapi.js";
 import { registerTool as registerGetAssetMapi } from "./tools/get-asset-mapi.js";
 import { registerTool as registerGetInitialContext } from "./tools/get-initial-context.js";
-import { registerTool as registerGetItemDapi } from "./tools/get-item-dapi.js";
 import { registerTool as registerGetItemMapi } from "./tools/get-item-mapi.js";
 import { registerTool as registerGetTaxonomyGroupMapi } from "./tools/get-taxonomy-group-mapi.js";
 import { registerTool as registerGetTypeMapi } from "./tools/get-type-mapi.js";
@@ -45,7 +44,6 @@ export const createServer = (config: AppConfiguration | null) => {
   // Register all tools
   registerGetInitialContext(server);
   registerGetItemMapi(server, config);
-  registerGetItemDapi(server, config);
   registerGetVariantMapi(server, config);
   registerGetTypeMapi(server, config);
   registerListContentTypesMapi(server, config);

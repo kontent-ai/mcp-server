@@ -3,7 +3,6 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 export interface AppConfiguration {
   manageApiUrl?: string;
-  deliveryApiUrl?: string;
   applicationInsightsConnectionString?: string;
   projectLocation?: string;
 }
@@ -44,7 +43,6 @@ export async function loadAppConfiguration(): Promise<AppConfiguration | null> {
       { keyFilter: "ApplicationInsights:*", labelFilter: label },
       { keyFilter: "Global:Runtime:*", labelFilter: label },
       { keyFilter: "Draft:ManageApi:*", labelFilter: label },
-      { keyFilter: "Deliver:ApiClient:Domains:*", labelFilter: label },
     ]);
 
     const credential = new DefaultAzureCredential();
@@ -65,10 +63,6 @@ export async function loadAppConfiguration(): Promise<AppConfiguration | null> {
         "Global:Runtime:ProjectLocation",
       ),
       manageApiUrl: getConfigValue(configMap, "Draft:ManageApi:Url"),
-      deliveryApiUrl: getConfigValue(
-        configMap,
-        "Deliver:ApiClient:Domains:LiveContentDomain",
-      ),
     };
   } catch (error) {
     console.log("Failed to load App Configuration:", error);
