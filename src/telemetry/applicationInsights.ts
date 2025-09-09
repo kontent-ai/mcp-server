@@ -106,7 +106,7 @@ export function trackException(error: any, context?: string): void {
       return;
     }
 
-    if (error instanceof AxiosError) {
+    if (error.isAxiosError) {
       trackHttpError(error, context);
       return;
     }
