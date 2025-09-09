@@ -18,7 +18,9 @@ export const registerTool = (
       try {
         const response = await client.listTaxonomies().toAllPromise();
 
-        return createMcpToolSuccessResponse(response.data);
+        const rawData = response.responses.flatMap((r) => r.rawData.taxonomies);
+
+        return createMcpToolSuccessResponse(rawData);
       } catch (error: any) {
         return handleMcpToolError(error, "Taxonomy Groups Listing");
       }

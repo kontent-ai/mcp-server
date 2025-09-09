@@ -18,7 +18,9 @@ export const registerTool = (
       try {
         const response = await client.listAssets().toAllPromise();
 
-        return createMcpToolSuccessResponse(response.data);
+        const rawData = response.responses.flatMap((r) => r.rawData.assets);
+
+        return createMcpToolSuccessResponse(rawData);
       } catch (error: any) {
         return handleMcpToolError(error, "Assets Listing");
       }

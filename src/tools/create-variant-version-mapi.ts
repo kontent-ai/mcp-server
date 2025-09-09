@@ -38,7 +38,7 @@ export const registerTool = (
 
         return createMcpToolSuccessResponse({
           message: `Successfully created new version of language variant '${languageId}' for content item '${itemId}'`,
-          result: response.data,
+          result: response.rawData,
         });
       } catch (error: any) {
         return handleMcpToolError(error, "Variant Version Creation");

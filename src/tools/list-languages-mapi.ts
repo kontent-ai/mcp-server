@@ -18,7 +18,9 @@ export const registerTool = (
       try {
         const response = await client.listLanguages().toAllPromise();
 
-        return createMcpToolSuccessResponse(response.data);
+        const rawData = response.responses.flatMap((r) => r.rawData.languages);
+
+        return createMcpToolSuccessResponse(rawData);
       } catch (error: any) {
         return handleMcpToolError(error, "Languages Listing");
       }

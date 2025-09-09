@@ -18,7 +18,9 @@ export const registerTool = (
       try {
         const response = await client.listContentTypes().toAllPromise();
 
-        return createMcpToolSuccessResponse(response.data);
+        const rawData = response.responses.flatMap((r) => r.rawData.types);
+
+        return createMcpToolSuccessResponse(rawData);
       } catch (error: any) {
         return handleMcpToolError(error, "Content Types Listing");
       }

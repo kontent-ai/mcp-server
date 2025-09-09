@@ -24,7 +24,7 @@ export const registerTool = (
           .byItemId(id)
           .toPromise();
 
-        return createMcpToolSuccessResponse(response.data);
+        return createMcpToolSuccessResponse(response.rawData);
       } catch (error: any) {
         return handleMcpToolError(error, "Item Retrieval");
       }

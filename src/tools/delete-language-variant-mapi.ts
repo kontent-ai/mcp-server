@@ -30,7 +30,7 @@ export const registerTool = (
 
         return createMcpToolSuccessResponse({
           message: `Language variant '${languageId}' of content item '${itemId}' deleted successfully`,
-          deletedVariant: response.data,
+          deletedVariant: response.rawData,
         });
       } catch (error: any) {
         return handleMcpToolError(error, "Language Variant Deletion");

@@ -61,7 +61,7 @@ export const registerTool = (
 
         return createMcpToolSuccessResponse({
           message: `Successfully changed workflow step of language variant '${languageId}' for content item '${itemId}' to workflow step '${workflowStepId}'`,
-          result: response.data,
+          result: response.rawData,
         });
       } catch (error: any) {
         return handleMcpToolError(error, "Workflow Step Change");
