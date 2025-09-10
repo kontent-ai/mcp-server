@@ -39,7 +39,7 @@ export const registerTool = (
     - Thematic content discovery based on meaning and context`,
     searchOperationSchema.shape,
     async (
-      { actionName, type, inputs, trackingData },
+      { searchPhrase, filter },
       { authInfo: { token, clientId } = {} },
     ) => {
       try {
@@ -52,10 +52,21 @@ export const registerTool = (
 
         // Step 1: Initiate the AI search operation
         const searchPayload = {
-          actionName,
-          type,
-          inputs,
-          trackingData,
+          actionName: "Search",
+          type: "multiple-inputs-request-v1",
+          inputs: {
+            searchPhrase: {
+              type: "string",
+              value: searchPhrase,
+            },
+            filter: {
+              type: "content-item-variant-filter",
+              value: filter,
+            },
+          },
+          trackingData: {
+            type: "empty-operation-tracking-data-v1",
+          },
         };
 
         let searchResponse: any;
