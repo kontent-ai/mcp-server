@@ -4,10 +4,6 @@ import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/
 import "dotenv/config";
 import express from "express";
 import packageJson from "../package.json" with { type: "json" };
-import {
-  type AppConfiguration,
-  loadAppConfiguration,
-} from "./config/appConfiguration.js";
 import { createServer } from "./server.js";
 import {
   initializeApplicationInsights,
@@ -19,13 +15,13 @@ import { isValidGuid } from "./utils/isValidGuid.js";
 
 const version = packageJson.version;
 
-async function startStreamableHTTP(config: AppConfiguration | null) {
+async function startStreamableHTTP() {
   const app = express();
   app.use(express.json());
 
   app.post("/mcp", async (req, res) => {
     try {
-      const { server } = createServer(config);
+      const { server } = createServer();
       const transport = new StreamableHTTPServerTransport({
         sessionIdGenerator: undefined,
       });
@@ -88,7 +84,7 @@ async function startStreamableHTTP(config: AppConfiguration | null) {
         return;
       }
 
-      const { server } = createServer(config);
+      const { server } = createServer();
       const transport = new StreamableHTTPServerTransport({
         sessionIdGenerator: undefined,
       });
@@ -183,19 +179,16 @@ Available endpoints:
   });
 }
 
-async function startStdio(config: AppConfiguration | null) {
-  const { server } = createServer(config);
+async function startStdio() {
+  const { server } = createServer();
   const transport = new StdioServerTransport();
   console.log(`Kontent.ai MCP Server v${version} (stdio) starting`);
   await server.connect(transport);
 }
 
 async function main() {
-  const config = await loadAppConfiguration();
-  if (config) {
-    initializeApplicationInsights(config);
-    trackServerStartup(version);
-  }
+  initializeApplicationInsights();
+  trackServerStartup(version);
 
   const args = process.argv.slice(2);
   const transportType = args[0]?.toLowerCase();
@@ -209,9 +202,9 @@ async function main() {
   }
 
   if (transportType === "stdio") {
-    await startStdio(config);
+    await startStdio();
   } else if (transportType === "shttp") {
-    await startStreamableHTTP(config);
+    await startStreamableHTTP();
   }
 }
 

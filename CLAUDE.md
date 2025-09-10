@@ -101,6 +101,11 @@ Required environment variables:
 - `KONTENT_ENVIRONMENT_ID`: Environment ID
 - `PORT`: Server port (optional, defaults to 3001)
 
+Optional telemetry and configuration variables:
+- `appInsightsConnectionString`: Application Insights connection string for telemetry
+- `projectLocation`: Project location identifier for telemetry tracking
+- `manageApiUrl`: Custom Management API base URL (e.g., for preview environments)
+
 #### Multi-Tenant Mode (Streamable HTTP only)
 No environment variables required. Instead:
 - Environment ID is provided via URL path: `/{environmentId}/mcp`

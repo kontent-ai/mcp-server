@@ -21,9 +21,6 @@
   "author": "Jiri Lojda",
   "license": "MIT",
   "dependencies": {
-    "@azure/app-configuration": "^1.9.0",
-    "@azure/app-configuration-provider": "^2.2.0",
-    "@azure/identity": "^4.11.1",
     "@kontent-ai/management-sdk": "^7.9.0",
     "@modelcontextprotocol/sdk": "^1.12.0",
     "applicationinsights": "^2.9.8",

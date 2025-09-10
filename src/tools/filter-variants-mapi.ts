@@ -1,15 +1,11 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createMapiClient } from "../clients/kontentClients.js";
-import type { AppConfiguration } from "../config/appConfiguration.js";
 import { filterVariantsSchema } from "../schemas/filterVariantSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { throwError } from "../utils/throwError.js";
 
-export const registerTool = (
-  server: McpServer,
-  config: AppConfiguration | null,
-): void => {
+export const registerTool = (server: McpServer): void => {
   server.tool(
     "filter-variants-mapi",
     `Filter Kontent.ai language variants of content items using Management API.
@@ -49,7 +45,6 @@ export const registerTool = (
         const client = createMapiClient(
           environmentId,
           token,
-          config,
           additionalHeaders,
         );
 
