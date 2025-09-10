@@ -1,7 +1,6 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import pRetry from "p-retry";
 import { createMapiClient } from "../clients/kontentClients.js";
-import type { AppConfiguration } from "../config/appConfiguration.js";
 import { searchOperationSchema } from "../schemas/searchOperationSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
@@ -16,10 +15,7 @@ interface AiOperationResultResponse {
   result?: unknown;
 }
 
-export const registerTool = (
-  server: McpServer,
-  config: AppConfiguration | null,
-): void => {
+export const registerTool = (server: McpServer): void => {
   server.tool(
     "search-variants-mapi",
     `AI-powered semantic search for finding Kontent.ai content by meaning, concepts, themes, and content similarity in a specific language variant. This tool uses vector database and AI to enable searching by meaning and similarity rather than exact keyword matching.
@@ -48,7 +44,7 @@ export const registerTool = (
           throwError("Missing required environment ID");
         }
 
-        const client = createMapiClient(environmentId, token, config);
+        const client = createMapiClient(environmentId, token);
 
         // Step 1: Initiate the AI search operation
         const searchPayload = {

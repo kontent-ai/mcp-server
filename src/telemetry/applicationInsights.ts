@@ -3,11 +3,6 @@ import appInsights from "applicationinsights";
 import { AxiosError } from "axios";
 import { sanitizeTelemetry, sanitizeUrl } from "./telemetrySanitizer.js";
 
-export interface ApplicationInsightsConfig {
-  applicationInsightsConnectionString?: string;
-  projectLocation?: string;
-}
-
 let isInitialized = false;
 
 function trackKontentApiError(
@@ -139,7 +134,7 @@ export function trackServerStartup(version: string): void {
   }
 }
 
-function createTelemetryProcessor(config: ApplicationInsightsConfig) {
+function createTelemetryProcessor() {
   return (envelope: any) => {
     sanitizeTelemetry(envelope);
 
@@ -148,22 +143,21 @@ function createTelemetryProcessor(config: ApplicationInsightsConfig) {
         envelope.data.baseData.properties || {};
       envelope.data.baseData.properties["component.name"] = "mcp-server";
       envelope.data.baseData.properties["component.location"] =
-        config.projectLocation || "unknown";
+        process.env.projectLocation || "unknown";
     }
     return true;
   };
 }
 
-export function initializeApplicationInsights(
-  config: ApplicationInsightsConfig | null,
-): void {
+export function initializeApplicationInsights(): void {
   try {
-    if (!config?.applicationInsightsConnectionString) {
+    const connectionString = process.env.appInsightsConnectionString;
+    if (!connectionString) {
       return;
     }
 
     appInsights
-      .setup(config.applicationInsightsConnectionString)
+      .setup(connectionString)
       .setAutoCollectExceptions(true)
       .setAutoCollectRequests(true)
       .setAutoCollectConsole(false)
@@ -177,9 +171,7 @@ export function initializeApplicationInsights(
 
     isInitialized = true;
 
-    appInsights.defaultClient.addTelemetryProcessor(
-      createTelemetryProcessor(config),
-    );
+    appInsights.defaultClient.addTelemetryProcessor(createTelemetryProcessor());
   } catch (error) {
     console.log("Failed to initialize Application Insights:", error);
   }

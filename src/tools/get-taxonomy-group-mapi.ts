@@ -1,14 +1,10 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
-import type { AppConfiguration } from "../config/appConfiguration.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 
-export const registerTool = (
-  server: McpServer,
-  config: AppConfiguration | null,
-): void => {
+export const registerTool = (server: McpServer): void => {
   server.tool(
     "get-taxonomy-group-mapi",
     "Get Kontent.ai taxonomy group by internal ID from Management API",
@@ -16,7 +12,7 @@ export const registerTool = (
       id: z.string().describe("Internal ID of the taxonomy group to get"),
     },
     async ({ id }, { authInfo: { token, clientId } = {} }) => {
-      const client = createMapiClient(clientId, token, config);
+      const client = createMapiClient(clientId, token);
 
       try {
         const response = await client

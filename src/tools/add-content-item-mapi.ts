@@ -1,14 +1,10 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
-import type { AppConfiguration } from "../config/appConfiguration.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 
-export const registerTool = (
-  server: McpServer,
-  config: AppConfiguration | null,
-): void => {
+export const registerTool = (server: McpServer): void => {
   server.tool(
     "add-content-item-mapi",
     "Add new Kontent.ai content item via Management API. This creates the content item structure but does not add content to language variants. Use upsert-language-variant-mapi to add content to the item.",
@@ -54,7 +50,7 @@ export const registerTool = (
       { name, type, codename, external_id, collection },
       { authInfo: { token, clientId } = {} },
     ) => {
-      const client = createMapiClient(clientId, token, config);
+      const client = createMapiClient(clientId, token);
 
       try {
         const response = await client

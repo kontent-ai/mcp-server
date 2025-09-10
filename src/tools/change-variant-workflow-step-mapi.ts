@@ -1,14 +1,10 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
-import type { AppConfiguration } from "../config/appConfiguration.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 
-export const registerTool = (
-  server: McpServer,
-  config: AppConfiguration | null,
-): void => {
+export const registerTool = (server: McpServer): void => {
   server.tool(
     "change-variant-workflow-step-mapi",
     "Change the workflow step of a language variant in Kontent.ai. This operation moves a language variant to a different step in the workflow, enabling content lifecycle management such as moving content from draft to review, review to published, etc.",
@@ -42,7 +38,7 @@ export const registerTool = (
       { itemId, languageId, workflowId, workflowStepId },
       { authInfo: { token, clientId } = {} },
     ) => {
-      const client = createMapiClient(clientId, token, config);
+      const client = createMapiClient(clientId, token);
 
       try {
         const response = await client

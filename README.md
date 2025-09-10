@@ -123,6 +123,9 @@ For single-tenant mode, configure environment variables:
 | KONTENT_API_KEY | Your Kontent.ai Management API key | ✅ |
 | KONTENT_ENVIRONMENT_ID | Your environment ID | ✅ |
 | PORT | Port for HTTP transport (defaults to 3001) | ❌ |
+| appInsightsConnectionString | Application Insights connection string for telemetry | ❌ |
+| projectLocation | Project location identifier for telemetry tracking | ❌ |
+| manageApiUrl | Custom Management API base URL (for preview environments) | ❌ |
 
 ### Multi-Tenant Mode
 
