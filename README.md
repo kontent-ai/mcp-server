@@ -122,6 +122,7 @@ For single-tenant mode, configure environment variables:
 |----------|-------------|----------|
 | KONTENT_API_KEY | Your Kontent.ai Management API key | ✅ |
 | KONTENT_ENVIRONMENT_ID | Your environment ID | ✅ |
+| KONTENT_MANAGE_API_URL | Kontent.ai Management API URL (defaults to https://manage.kontent.ai/) | ❌ |
 | PORT | Port for HTTP transport (defaults to 3001) | ❌ |
 
 ### Multi-Tenant Mode

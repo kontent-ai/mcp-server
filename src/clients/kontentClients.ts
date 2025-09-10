@@ -27,6 +27,9 @@ export const createMapiClient = (
     ...(additionalHeaders || []),
   ];
 
+  const manageApiUrl =
+    config?.manageApiUrl ?? process.env.KONTENT_MANAGE_API_URL;
+
   return createManagementClient({
     apiKey:
       apiKey ??
@@ -36,7 +39,7 @@ export const createMapiClient = (
       environmentId ??
       process.env.KONTENT_ENVIRONMENT_ID ??
       throwError("KONTENT_ENVIRONMENT_ID is not set"),
-    baseUrl: config ? `${config.manageApiUrl}v2` : undefined,
     headers: allHeaders,
+    baseUrl: manageApiUrl && `${manageApiUrl}v2`,
   });
 };
