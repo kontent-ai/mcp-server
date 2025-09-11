@@ -68,12 +68,24 @@ export const handleMcpToolError = (
   }
 
   // Handle network or other HTTP errors
-  if (error?.response) {
+  if (error.isAxiosError) {
+    if (error.response) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: `${contextPrefix}HTTP Error ${error?.response?.status}: ${error?.response?.statusText || "Unknown HTTP error"}\n\nResponse: ${JSON.stringify(error?.response?.data)}`,
+          },
+        ],
+        isError: true,
+      };
+    }
+
     return {
       content: [
         {
           type: "text",
-          text: `${contextPrefix}HTTP Error ${error.response.status}: ${error.response.statusText || "Unknown HTTP error"}\n\nResponse: ${JSON.stringify(error.response.data)}`,
+          text: `${contextPrefix}HTTP Error ${error.message}`,
         },
       ],
       isError: true,
