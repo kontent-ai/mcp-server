@@ -1,6 +1,6 @@
 import { SharedModels } from "@kontent-ai/management-sdk";
 import appInsights from "applicationinsights";
-import { AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import { sanitizeTelemetry, sanitizeUrl } from "./telemetrySanitizer.js";
 
 let isInitialized = false;
@@ -9,6 +9,11 @@ function trackKontentApiError(
   error: SharedModels.ContentManagementBaseKontentError,
   context?: string,
 ): void {
+  if (error.validationErrors && error.validationErrors.length > 0) {
+    // Don't log 400 responses as exceptions
+    return;
+  }
+
   const safeError = new Error(error.message);
   safeError.stack = error.originalError.stack || safeError.stack;
 
