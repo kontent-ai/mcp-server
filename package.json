@@ -1,6 +1,6 @@
 {
   "name": "@kontent-ai/mcp-server",
-  "version": "0.19.0",
+  "version": "0.20.0",
   "type": "module",
   "scripts": {
     "build": "rimraf build && tsc",
