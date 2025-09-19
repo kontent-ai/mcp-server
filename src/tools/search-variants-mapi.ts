@@ -1,5 +1,5 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import pRetry from "p-retry";
+import pRetry, { AbortError } from "p-retry";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { searchOperationSchema } from "../schemas/searchOperationSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
@@ -8,11 +8,6 @@ import { throwError } from "../utils/throwError.js";
 
 interface AiOperationResponse {
   operationId: string;
-}
-
-interface AiOperationResultResponse {
-  message: string;
-  result?: unknown;
 }
 
 export const registerTool = (server: McpServer): void => {
@@ -91,22 +86,26 @@ export const registerTool = (server: McpServer): void => {
         // Step 2: Poll for results with exponential backoff
         const resultData = await pRetry(
           async () => {
-            const pollResponse = await client
-              .get()
-              .withAction(
-                `projects/${environmentId}/early-access/ai-operation/${operationId}`,
-              )
-              .toPromise();
+            try {
+              const pollResponse = await client
+                .get()
+                .withAction(
+                  `projects/${environmentId}/early-access/ai-operation-result/${operationId}`,
+                )
+                .toPromise();
 
-            const data: AiOperationResultResponse = pollResponse.data;
-
-            if (data.message.includes("still in progress")) {
-              throw new Error("Operation still in progress");
+              return pollResponse.data;
+            } catch (error: any) {
+              if (error?.response?.status === 404) {
+                throw new Error(
+                  "Operation result not available yet. Retrying.",
+                );
+              }
+              throw new AbortError(error);
             }
-
-            return data;
           },
           {
+            // Worst-case retry time: ~1 minute
             retries: 10,
             minTimeout: 1000,
             maxTimeout: 10000,
@@ -114,15 +113,9 @@ export const registerTool = (server: McpServer): void => {
           },
         );
 
-        if (resultData.message.includes("completed successfully")) {
-          return createMcpToolSuccessResponse({
-            result: resultData.result,
-          });
-        }
-
-        throw new Error(
-          `Search operation error: ${resultData.message}. Operation ID: ${operationId}`,
-        );
+        return createMcpToolSuccessResponse({
+          result: resultData,
+        });
       } catch (error: unknown) {
         return handleMcpToolError(error, "AI-powered Variant Search");
       }
