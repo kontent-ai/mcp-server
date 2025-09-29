@@ -1,10 +1,19 @@
 import { z } from "zod";
 import { referenceObjectSchema } from "./referenceObjectSchema.js";
 
-const userReferenceSchema = z.object({
-  id: z.string().optional().describe("User identifier"),
-  email: z.string().email().optional().describe("User email address"),
-});
+// UserReferenceDataContract is a union type - either id or email, but not both
+const userReferenceSchema = z
+  .union([
+    z.object({
+      id: z.string().describe("User identifier"),
+      email: z.never().optional(),
+    }),
+    z.object({
+      id: z.never().optional(),
+      email: z.string().email().describe("User email address"),
+    }),
+  ])
+  .describe("Reference to a user by either their id or email (but not both)");
 
 // Search variants tool input schema
 export const filterVariantsSchema = z.object({
@@ -23,7 +32,9 @@ export const filterVariantsSchema = z.object({
     .array(userReferenceSchema)
     .min(1)
     .optional()
-    .describe("Array of references to users by their id or email"),
+    .describe(
+      "Array of references to users by their id or email (but not both per user)",
+    ),
   has_no_contributors: z
     .boolean()
     .optional()
@@ -31,7 +42,7 @@ export const filterVariantsSchema = z.object({
       "Filter for content item language variants that have no contributors assigned",
     ),
   completion_statuses: z
-    .array(z.enum(["unfinished", "completed", "not_translated", "all_done"]))
+    .array(z.enum(["unfinished", "ready", "not_translated", "all_done"]))
     .min(1)
     .optional()
     .describe(
@@ -67,11 +78,13 @@ export const filterVariantsSchema = z.object({
         ),
         term_identifiers: z
           .array(referenceObjectSchema)
+          .optional()
           .describe(
             "Array of references to taxonomy terms by their id, codename, or external id",
           ),
         include_uncategorized: z
           .boolean()
+          .optional()
           .describe(
             "Whether to include content item language variants that don't have any taxonomy terms assigned in this taxonomy group",
           ),
@@ -81,15 +94,17 @@ export const filterVariantsSchema = z.object({
     .optional()
     .describe("Array of taxonomy groups with taxonomy terms"),
   order_by: z
-    .enum(["name", "due", "last_modified"])
+    .enum(["name", "due_date", "last_modified"])
     .optional()
     .describe("Field to order by"),
   order_direction: z
     .enum(["asc", "desc"])
     .optional()
     .describe("Order direction"),
-  continuation_token: z
-    .string()
+  include_content: z
+    .boolean()
     .optional()
-    .describe("Continuation token for pagination"),
+    .describe(
+      "Whether to include the full content of language variants in the response",
+    ),
 });

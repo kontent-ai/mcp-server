@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.0.5/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
   "assist": {
     "actions": {
       "source": {
@@ -12,11 +12,11 @@
       "**",
       "!**/*-lock.json",
       "!**/.DS_Store",
-      "!**/.idea/**",
-      "!**/.vscode/**",
-      "!**/.cursor/**",
-      "!**/build/**",
-      "!**/node_modules/**",
+      "!**/.idea",
+      "!**/.vscode",
+      "!**/.cursor",
+      "!**/build",
+      "!**/node_modules",
       "!**/package.json"
     ]
   },

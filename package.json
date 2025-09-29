@@ -1,6 +1,6 @@
 {
   "name": "@kontent-ai/mcp-server",
-  "version": "0.20.0",
+  "version": "0.21.0",
   "type": "module",
   "scripts": {
     "build": "rimraf build && tsc",
@@ -8,8 +8,8 @@
     "start:shttp": "node build/bin.js shttp",
     "dev:stdio": "tsx watch src/bin.ts stdio",
     "dev:shttp": "tsx watch src/bin.ts shttp",
-    "format": "cross-env node node_modules/@biomejs/biome/bin/biome ci ./ --config-path=./biome.json",
-    "format:fix": "cross-env node node_modules/@biomejs/biome/bin/biome check ./ --fix --unsafe  --config-path=./biome.json"
+    "format": "cross-env node node_modules/@biomejs/biome/bin/biome ci ./",
+    "format:fix": "cross-env node node_modules/@biomejs/biome/bin/biome check ./ --fix --unsafe"
   },
   "bin": {
     "@kontent-ai/mcp-server": "./build/bin.js"
@@ -21,7 +21,7 @@
   "author": "Jiri Lojda",
   "license": "MIT",
   "dependencies": {
-    "@kontent-ai/management-sdk": "^7.9.0",
+    "@kontent-ai/management-sdk": "^7.11.0",
     "@modelcontextprotocol/sdk": "^1.12.0",
     "applicationinsights": "^2.9.8",
     "dotenv": "^16.5.0",
