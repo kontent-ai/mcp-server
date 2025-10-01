@@ -149,8 +149,8 @@ All MCP tools have been optimized to work with internal IDs for maximum efficien
 
 ### Content Search Tools
 
-The MCP server provides two search tools with distinct purposes:
-- **filter-variants-mapi**: Exact keyword matching with advanced filtering capabilities
-- **search-variants-mapi**: AI-powered semantic/conceptual search (when available)
+**CRITICAL DISTINCTION**:
+- **search-variants-mapi**: Finds content WHERE THE MAIN TOPIC matches a concept (e.g., "articles about wildlife")
+- **filter-variants-mapi**: Finds SPECIFIC WORDS anywhere in content, regardless of topic (e.g., brand compliance, detecting prohibited terms in any content)
 
-See each tool's description for detailed usage guidelines and selection criteria.`;
+See each tool's description for detailed usage guidelines.`;
