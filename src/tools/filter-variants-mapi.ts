@@ -11,11 +11,16 @@ export const registerTool = (server: McpServer): void => {
     `Filter Kontent.ai language variants of content items using Management API.
 
     USE FOR:
-    - EXACT keyword matching: finding specific words, phrases, names, codes, or IDs in content. Example: 'find items containing rabbit' → search 'rabbit'
-    - Advanced filtering by content type, contributors, workflow steps, taxonomies etc
+    - EXACT keyword matching: finding specific words, phrases, names, codes, or IDs anywhere in content, regardless of overall topic
+      ✓ Example: 'find items containing rabbit' → search 'rabbit'
+    - Brand guideline compliance: detecting prohibited terms across all content
+      ✓ Example: Search "hunt beast prey" to find content containing ANY of these terms (natural OR operator)
     - CAN expand concepts to keywords when using filter (e.g., "neurology-related" → "neurology neurological brain nervous system")
+    - Advanced filtering by content type, contributors, workflow steps, taxonomies etc
     - Also use as fallback when AI search is unavailable
-    - Optionally includes full content of variants with include_content parameter`,
+    - Optionally includes full content of variants with include_content parameter
+
+    BEST FOR: Finding needles in haystacks - specific words in otherwise unrelated content. Multiple search terms use OR logic.`,
     filterVariantsSchema.shape,
     async (
       {

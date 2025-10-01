@@ -14,7 +14,7 @@ export const registerTool = (server: McpServer): void => {
   server.tool(
     "search-variants-mapi",
     `AI-powered semantic search for finding Kontent.ai content by meaning, concepts, themes, and content similarity in a specific language variant. This tool uses vector database and AI to enable searching by meaning and similarity rather than exact keyword matching.
-    
+
     CRITICAL REQUIREMENTS:
     - The AI search feature may not be available for all Kontent.ai environments
     - If you receive an "unavailable" status response, DO NOT attempt to use this tool again in the same session
@@ -22,12 +22,24 @@ export const registerTool = (server: McpServer): void => {
     - Requires language variant filter parameter (e.g., default language '00000000-0000-0000-0000-000000000000')
     - The tool always RETURNS ONLY TOP 50 most relevant items at max
     - Limited filtering options (only by variant ID) - use filter-variants-mapi for advanced filtering by content types, workflow steps, taxonomies, etc.
-    
+
     USE FOR:
-    - Conceptual search: NEVER extract keywords, pass the single concept/theme as-is (e.g., "find content about keeping beverages cold" → searchPhrase: "beverage coolers")
-    - Finding content about topics: Use topic as-is (e.g., "find fairy tales" → searchPhrase: "fairy tales")
-    - Content similarity: Find articles similar to a given topic or story theme (e.g. "<<larger piece of content to search similar items>>" -> searchPhrase: "<<larger piece of content to search similar items>>")
-    - Thematic content discovery based on meaning and context`,
+    - Finding content WHERE THE OVERALL TOPIC/THEME matches a concept
+      ✓ Example: "fairy tales" → finds articles primarily about fairy tales
+      ✓ Example: "beverage temperature control" → finds content focused on keeping drinks cold/hot
+    - Content similarity: Finding articles with similar overall themes
+    - Thematic content discovery when the main subject matter is what you're looking for
+
+    DO NOT USE FOR:
+    - Finding specific words scattered in otherwise unrelated content
+      ✗ Example: Finding "challenge" term in articles about various topics (use filter-variants-mapi)
+    - Brand guideline violations or prohibited term detection (use filter-variants-mapi)
+    - Compliance audits looking for specific keywords (use filter-variants-mapi)
+    - Finding exhaustive and exact number of results (use filter-variants-mapi)
+
+    CRITICAL: This is SEMANTIC search for topic matching. Pass natural language concepts AS-IS. DO NOT generate keyword lists or concatenate multiple keywords.
+    ✓ CORRECT: "animal predators" or "articles about temperature control"
+    ✗ WRONG: "animal beast creature wild hunt predator prey attack"`,
     searchOperationSchema.shape,
     async (
       { searchPhrase, filter },
