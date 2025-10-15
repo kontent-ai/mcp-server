@@ -2,7 +2,11 @@ on:
   release:
     types: [published]
 
-name: publish-to-npm
+permissions:
+  # Required for MCP Publisher for publishing using OIDC
+  id-token: write
+
+name: publish
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -16,6 +20,9 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - run: npm ci
+
+      - name: Check version consistency
+        run: npm run sync-version check
       - run: npm run build
       
       - run: npm publish --access=public
@@ -26,3 +33,16 @@ jobs:
         if: ${{github.event.release.prerelease}}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_API_KEY }}
+
+      # Publish to MCP Registry only for non-prerelease releases
+      - name: Install MCP Publisher
+        if: ${{!github.event.release.prerelease}}
+        run: |
+          curl -LsSf https://github.com/modelcontextprotocol/mcp-publisher/releases/latest/download/mcp-publisher-installer.sh | sh
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+      
+      - name: Publish to MCP Registry
+        if: ${{!github.event.release.prerelease}}
+        run: |
+          mcp-publisher login --github-oidc
+          mcp-publisher publish
