@@ -3,13 +3,15 @@
   "version": "0.21.2",
   "type": "module",
   "scripts": {
-    "build": "rimraf build && tsc",
+    "build": "rimraf build && tsc --project scripts/tsconfig.json && tsc",
     "start:stdio": "node build/bin.js stdio",
     "start:shttp": "node build/bin.js shttp",
     "dev:stdio": "tsx watch src/bin.ts stdio",
     "dev:shttp": "tsx watch src/bin.ts shttp",
-    "format": "cross-env node node_modules/@biomejs/biome/bin/biome ci ./",
-    "format:fix": "cross-env node node_modules/@biomejs/biome/bin/biome check ./ --fix --unsafe"
+    "format": "cross-env biome ci",
+    "format:fix": "cross-env biome check --fix --unsafe",
+    "sync-version": "node --experimental-strip-types scripts/syncVersion.ts",
+    "version": "npm run sync-version sync && npm run format:fix -- server.json && git add server.json"
   },
   "bin": {
     "@kontent-ai/mcp-server": "./build/bin.js"

@@ -25,6 +25,10 @@ Kontent.ai MCP Server implements the Model Context Protocol to connect your Kont
 - [⚙️ Configuration](#️-configuration)
 - [🚀 Transport Options](#-transport-options)
 - [💻 Development](#-development)
+  - [🛠 Local Installation](#-local-installation)
+  - [📂 Project Structure](#-project-structure)
+  - [🔍 Debugging](#-debugging)
+  - [📦 Release Process](#-release-process)
 - [License](#license)
 
 ## 🔌 Quickstart
@@ -331,6 +335,16 @@ npx @modelcontextprotocol/inspector
 ```
 
 This provides a web interface for inspecting and testing the available tools.
+
+### 📦 Release Process
+
+To release a new version:
+
+1. Bump the version using `npm version [patch|minor|major]` - this updates `package.json`, `package-lock.json`, and syncs to `server.json`
+2. Push the commit to your branch and create a pull request
+3. Merge the pull request
+4. Create a new GitHub release with the version number as both name and tag, using auto-generated release notes
+5. Publishing the release triggers an automated workflow that publishes to npm and GitHub MCP registry
 
 ## License
 

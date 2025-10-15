@@ -1,0 +1,79 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-16/server.schema.json",
+  "name": "io.github.kontent-ai/mcp-server",
+  "description": "Connect to Kontent.ai to manage content, types, taxonomies, and workflows via natural language",
+  "status": "active",
+  "websiteUrl": "https://kontent.ai",
+  "repository": {
+    "url": "https://github.com/kontent-ai/mcp-server",
+    "source": "github"
+  },
+  "version": "0.21.2",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@kontent-ai/mcp-server",
+      "version": "0.21.2",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "stdio"
+        }
+      ],
+      "environmentVariables": [
+        {
+          "name": "KONTENT_API_KEY",
+          "description": "Kontent.ai Management API key",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "KONTENT_ENVIRONMENT_ID",
+          "description": "Kontent.ai environment ID",
+          "isRequired": true,
+          "isSecret": false
+        }
+      ]
+    },
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@kontent-ai/mcp-server",
+      "version": "0.21.2",
+      "transport": {
+        "type": "streamableHttp",
+        "url": "http://localhost:3001/mcp"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "shttp"
+        }
+      ],
+      "environmentVariables": [
+        {
+          "name": "KONTENT_API_KEY",
+          "description": "Kontent.ai Management API key",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "KONTENT_ENVIRONMENT_ID",
+          "description": "Kontent.ai environment ID",
+          "isRequired": true,
+          "isSecret": false
+        },
+        {
+          "name": "PORT",
+          "description": "Server port for HTTP transport (shttp mode only)",
+          "isRequired": false,
+          "isSecret": false
+        }
+      ]
+    }
+  ]
+}
