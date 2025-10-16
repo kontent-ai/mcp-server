@@ -10,6 +10,22 @@ interface AiOperationResponse {
   operationId: string;
 }
 
+interface AiOperationResultResponse {
+  type: string;
+  result?: AiOperationResult;
+}
+
+interface AiOperationResult {
+  isFinished: boolean;
+}
+
+class OperationResultIncompleteError extends Error {
+  constructor() {
+    super("AI operation result is incomplete");
+    this.name = "OperationResultIncompleteError";
+  }
+}
+
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "search-variants-mapi",
@@ -106,12 +122,22 @@ export const registerTool = (server: McpServer): void => {
                 )
                 .toPromise();
 
-              return pollResponse.data;
+              const [response]: AiOperationResultResponse[] = pollResponse.data;
+
+              if (
+                response.type === "cumulated-result-v1" &&
+                !response.result?.isFinished
+              ) {
+                throw new OperationResultIncompleteError();
+              }
+
+              return response;
             } catch (error: any) {
-              if (error?.response?.status === 404) {
-                throw new Error(
-                  "Operation result not available yet. Retrying.",
-                );
+              if (
+                error?.response?.status === 404 ||
+                error instanceof OperationResultIncompleteError
+              ) {
+                throw error;
               }
               throw new AbortError(error);
             }
