@@ -38,11 +38,14 @@ jobs:
       - name: Install MCP Publisher
         if: ${{!github.event.release.prerelease}}
         run: |
-          curl -LsSf https://github.com/modelcontextprotocol/mcp-publisher/releases/latest/download/mcp-publisher-installer.sh | sh
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          curl -L "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisherH
       
+      - name: Login to MCP Registry
+        if: ${{!github.event.release.prerelease}}
+        run: |
+          ./mcp-publisher login --github-oidc
+              
       - name: Publish to MCP Registry
         if: ${{!github.event.release.prerelease}}
         run: |
-          mcp-publisher login --github-oidc
-          mcp-publisher publish
+          ./mcp-publisher publish
