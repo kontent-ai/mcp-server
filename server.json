@@ -44,7 +44,7 @@
       "identifier": "@kontent-ai/mcp-server",
       "version": "0.21.7",
       "transport": {
-        "type": "streamableHttp",
+        "type": "streamable-http",
         "url": "http://localhost:3001/mcp"
       },
       "packageArguments": [
