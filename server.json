@@ -2,7 +2,6 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
   "name": "io.github.kontent-ai/mcp-server",
   "description": "Connect to Kontent.ai to manage content, types, taxonomies, and workflows via natural language",
-  "websiteUrl": "https://kontent.ai",
   "repository": {
     "url": "https://github.com/kontent-ai/mcp-server",
     "source": "github"

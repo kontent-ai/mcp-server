@@ -2,6 +2,7 @@
   "name": "@kontent-ai/mcp-server",
   "version": "0.21.8",
   "type": "module",
+  "mcpName": "io.github.kontent-ai/mcp-server",
   "scripts": {
     "build": "rimraf build && tsc --project scripts/tsconfig.json && tsc",
     "start:stdio": "node build/bin.js stdio",
