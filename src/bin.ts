@@ -156,6 +156,14 @@ async function startStreamableHTTP() {
     );
   });
 
+  app.get("/health", (_, res) => {
+    res.json({
+      status: "ok",
+      timestamp: new Date().toISOString(),
+      currentVersion: version,
+    });
+  });
+
   app.use(
     (
       err: Error,
