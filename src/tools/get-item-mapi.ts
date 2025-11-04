@@ -9,7 +9,7 @@ export const registerTool = (server: McpServer): void => {
     "get-item-mapi",
     "Get Kontent.ai item by internal ID from Management API",
     {
-      id: z.string().describe("Internal ID of the item to get"),
+      id: z.string().describe("Item ID"),
     },
     async ({ id }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

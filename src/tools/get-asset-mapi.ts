@@ -7,9 +7,9 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "get-asset-mapi",
-    "Get a specific Kontent.ai asset by internal ID from Management API",
+    "Get Kontent.ai asset by internal ID from Management API",
     {
-      assetId: z.string().describe("Internal ID of the asset to retrieve"),
+      assetId: z.string().describe("Asset ID"),
     },
     async ({ assetId }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

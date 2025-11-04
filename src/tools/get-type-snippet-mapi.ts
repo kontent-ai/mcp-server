@@ -9,7 +9,7 @@ export const registerTool = (server: McpServer): void => {
     "get-type-snippet-mapi",
     "Get Kontent.ai content type snippet by internal ID from Management API",
     {
-      id: z.string().describe("Internal ID of the content type snippet to get"),
+      id: z.string().describe("Snippet ID"),
     },
     async ({ id }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

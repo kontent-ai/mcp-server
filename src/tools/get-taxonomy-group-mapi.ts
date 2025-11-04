@@ -9,7 +9,7 @@ export const registerTool = (server: McpServer): void => {
     "get-taxonomy-group-mapi",
     "Get Kontent.ai taxonomy group by internal ID from Management API",
     {
-      id: z.string().describe("Internal ID of the taxonomy group to get"),
+      id: z.string().describe("Taxonomy group ID"),
     },
     async ({ id }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

@@ -19,18 +19,11 @@ const taxonomyTermSchema: z.ZodType<TaxonomyTerm> = z.object({
 
 // Schema for a taxonomy group
 export const taxonomyGroupSchemas = {
-  name: z.string().describe("Display name of the taxonomy group"),
+  name: z.string().describe("Taxonomy group name"),
   codename: z
     .string()
     .optional()
-    .describe(
-      "Codename of the taxonomy group (optional, will be generated if not provided)",
-    ),
-  external_id: z
-    .string()
-    .optional()
-    .describe("External ID of the taxonomy group (optional)"),
-  terms: z
-    .array(taxonomyTermSchema)
-    .describe("Hierarchical structure of taxonomy terms"),
+    .describe("Codename (auto-generated if omitted)"),
+  external_id: z.string().optional().describe("External ID"),
+  terms: z.array(taxonomyTermSchema).describe("Taxonomy terms hierarchy"),
 } as const;

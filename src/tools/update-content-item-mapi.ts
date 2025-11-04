@@ -7,17 +7,15 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "update-content-item-mapi",
-    "Update existing Kontent.ai content item by internal ID via Management API. The content item must already exist - this tool will not create new items.",
+    "Update existing Kontent.ai content item via Management API",
     {
-      id: z.string().describe("Internal ID of the content item to update"),
+      id: z.string().describe("Content item ID"),
       name: z
         .string()
         .min(1)
         .max(200)
         .optional()
-        .describe(
-          "New display name of the content item (1-200 characters, optional)",
-        ),
+        .describe("New name (1-200 chars)"),
       collection: z
         .object({
           id: z.string().optional(),
@@ -25,9 +23,7 @@ export const registerTool = (server: McpServer): void => {
           external_id: z.string().optional(),
         })
         .optional()
-        .describe(
-          "Reference to a collection by id, codename, or external_id (optional)",
-        ),
+        .describe("Collection reference"),
     },
     async (
       { id, name, collection },

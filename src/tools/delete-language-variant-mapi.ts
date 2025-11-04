@@ -9,10 +9,8 @@ export const registerTool = (server: McpServer): void => {
     "delete-language-variant-mapi",
     "Delete Kontent.ai language variant from Management API",
     {
-      itemId: z.string().describe("Internal ID of the content item"),
-      languageId: z
-        .string()
-        .describe("Internal ID of the language variant to delete"),
+      itemId: z.string().describe("Item ID"),
+      languageId: z.string().describe("Language variant ID"),
     },
     async ({ itemId, languageId }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);
