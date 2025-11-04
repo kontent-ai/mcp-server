@@ -8,7 +8,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "add-content-type-snippet-mapi",
-    "Add new Kontent.ai content type snippet via Management API",
+    "Add new Kontent.ai content type snippet",
     {
       name: z.string().describe("Snippet name"),
       codename: z

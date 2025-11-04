@@ -7,7 +7,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "add-content-item-mapi",
-    "Add new Kontent.ai content item via Management API (creates structure only, use upsert-language-variant-mapi for content)",
+    "Add new Kontent.ai content item (creates structure only, use upsert-language-variant-mapi for content)",
     {
       name: z.string().min(1).max(200).describe("Item name (1-200 chars)"),
       type: z

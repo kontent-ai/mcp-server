@@ -7,7 +7,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "delete-content-type-mapi",
-    "Delete Kontent.ai content type by codename from Management API",
+    "Delete Kontent.ai content type by codename",
     {
       codename: z.string().describe("Content type codename"),
     },

@@ -8,7 +8,7 @@ import { throwError } from "../utils/throwError.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "filter-variants-mapi",
-    "Filter Kontent.ai language variants using Management API. For EXACT keyword matching and compliance checks (terms use OR logic). Use search-variants-mapi for semantic/topic-based search.",
+    "Filter Kontent.ai variants. For EXACT keyword matching and compliance (terms use OR). Use search-variants-mapi for semantic/topic search.",
     filterVariantsSchema.shape,
     async (
       {

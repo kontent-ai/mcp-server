@@ -7,7 +7,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "delete-language-variant-mapi",
-    "Delete Kontent.ai language variant from Management API",
+    "Delete Kontent.ai variant",
     {
       itemId: z.string().describe("Item ID"),
       languageId: z.string().describe("Language variant ID"),

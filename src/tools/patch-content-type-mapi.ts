@@ -8,7 +8,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "patch-content-type-mapi",
-    "Update Kontent.ai content type via Management API using RFC 6902 JSON Patch operations (move, addInto, remove, replace)",
+    "Update Kontent.ai content type using JSON Patch (move, addInto, remove, replace)",
     {
       codename: z.string().describe("Content type codename"),
       operations: patchOperationsSchema.describe(

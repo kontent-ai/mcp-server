@@ -7,7 +7,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "get-item-mapi",
-    "Get Kontent.ai item by internal ID from Management API",
+    "Get Kontent.ai item by ID",
     {
       id: z.string().describe("Item ID"),
     },

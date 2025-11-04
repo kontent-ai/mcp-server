@@ -7,7 +7,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "update-content-item-mapi",
-    "Update existing Kontent.ai content item via Management API",
+    "Update Kontent.ai content item",
     {
       id: z.string().describe("Content item ID"),
       name: z

@@ -7,7 +7,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "unpublish-variant-mapi",
-    "Unpublish or schedule unpublishing of Kontent.ai language variant immediately or for future",
+    "Unpublish or schedule unpublishing of Kontent.ai variant",
     {
       itemId: z.string().uuid().describe("Content item UUID"),
       languageId: z

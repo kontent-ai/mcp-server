@@ -7,7 +7,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "create-variant-version-mapi",
-    "Create new version of Kontent.ai language variant via Management API",
+    "Create new version of Kontent.ai variant",
     {
       itemId: z.string().uuid().describe("Content item UUID"),
       languageId: z

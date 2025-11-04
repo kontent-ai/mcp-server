@@ -7,7 +7,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "change-variant-workflow-step-mapi",
-    "Change workflow step of Kontent.ai language variant for content lifecycle management",
+    "Change Kontent.ai variant workflow step",
     {
       itemId: z.string().uuid().describe("Content item UUID"),
       languageId: z

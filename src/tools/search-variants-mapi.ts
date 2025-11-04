@@ -29,7 +29,7 @@ class OperationResultIncompleteError extends Error {
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "search-variants-mapi",
-    "AI-powered semantic search for Kontent.ai content by topic/theme/meaning. For topic-based discovery (returns top 50 max). Use filter-variants-mapi for exact keyword matching. May be unavailable in some environments.",
+    "AI semantic search for Kontent.ai content by topic/theme (max 50 results). Use filter-variants-mapi for exact keywords. May be unavailable.",
     searchOperationSchema.shape,
     async (
       { searchPhrase, filter },
