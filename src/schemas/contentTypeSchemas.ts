@@ -1,14 +1,10 @@
 import { z } from "zod";
 
-// Define a reusable reference object schema
-export const referenceObjectSchema = z
-  .object({
-    id: z.string().optional(),
-    codename: z.string().optional(),
-  })
-  .describe(
-    "An object with an id or codename property referencing another item. Using id is preferred for better performance.",
-  );
+// Reference by id or codename (id preferred)
+export const referenceObjectSchema = z.object({
+  id: z.string().optional(),
+  codename: z.string().optional(),
+});
 
 // Common property schemas
 const baseElementSchema = {
@@ -18,11 +14,7 @@ const baseElementSchema = {
 
 // Content group schema for content type elements only
 const contentGroupElementSchema = {
-  content_group: referenceObjectSchema
-    .describe(
-      "An object with an id or codename property referencing a content group.",
-    )
-    .optional(),
+  content_group: referenceObjectSchema.optional(),
 };
 
 const namedElementSchema = {
@@ -109,9 +101,7 @@ const assetElementSchema = {
   maximum_file_size: z.number().optional(),
   allowed_file_types: z.enum(["adjustable", "any"]).optional(),
   ...imageLimitSchema,
-  default: arrayDefaultSchema.describe(
-    "Default value of the asset element. Reference an existing asset by its id or codename.",
-  ),
+  default: arrayDefaultSchema,
 };
 
 const customElementSchema = {
@@ -119,16 +109,7 @@ const customElementSchema = {
   ...namedElementSchema,
   source_url: z.string(),
   json_parameters: z.string().optional(),
-  allowed_elements: z
-    .array(
-      referenceObjectSchema.describe(
-        "An object with an id or codename property referencing an element.",
-      ),
-    )
-    .optional()
-    .describe(
-      "Specifies which elements from the content type can be used within this custom element.",
-    ),
+  allowed_elements: z.array(referenceObjectSchema).optional(),
 };
 
 const dateTimeElementSchema = {
@@ -140,27 +121,15 @@ const dateTimeElementSchema = {
 const guidelinesElementSchema = {
   type: z.literal("guidelines"),
   ...baseElementSchema,
-  guidelines: z
-    .string()
-    .describe(
-      "Value of the guidelines element. This is rich text and can include HTML formatting. Check the documentation here https://kontent.ai/learn/docs/apis/openapi/management-api-v2/#section/HTML5-elements-allowed-in-rich-text for the supported format, but keep in mind that content items and components are not supported in guidelines. Use empty `<p>` tag for empty guidelines.",
-    ),
+  guidelines: z.string(),
 };
 
 const modularContentElementSchema = {
   type: z.literal("modular_content"),
   ...namedElementSchema,
-  allowed_content_types: z
-    .array(
-      referenceObjectSchema.describe(
-        "An object with an id or codename property referencing a content type. Use an empty array to allow all content types.",
-      ),
-    )
-    .optional(),
+  allowed_content_types: z.array(referenceObjectSchema).optional(),
   item_count_limit: countLimitSchema,
-  default: arrayDefaultSchema.describe(
-    "Default value of the modular content element. Reference an existing content item by its id or codename.",
-  ),
+  default: arrayDefaultSchema,
 };
 
 const subpagesElementSchema = {
@@ -187,9 +156,7 @@ const multipleChoiceElementSchema = {
   ...namedElementSchema,
   mode: z.enum(["single", "multiple"]),
   options: z.array(optionSchema),
-  default: arrayDefaultSchema.describe(
-    "Default value of the multiple choice element. Reference one of the options by its codename.",
-  ),
+  default: arrayDefaultSchema,
 };
 
 const numberElementSchema = {
@@ -249,62 +216,14 @@ export const allowedTableTextBlockSchema = z.enum([
 const richTextElementSchema = {
   type: z.literal("rich_text"),
   ...namedElementSchema,
-  allowed_blocks: z
-    .array(allowedBlockSchema)
-    .optional()
-    .describe(
-      "Specifies allowed blocks. Use an empty array to allow all options.",
-    ),
-  allowed_formatting: z
-    .array(allowedFormattingSchema)
-    .optional()
-    .describe(
-      "Specifies allowed formatting options. Use an empty array to allow all options.",
-    ),
-  allowed_text_blocks: z
-    .array(allowedTextBlockSchema)
-    .optional()
-    .describe(
-      "Specifies allowed text blocks. Use an empty array to allow all options.",
-    ),
-  allowed_table_blocks: z
-    .array(allowedTableBlockSchema)
-    .optional()
-    .describe(
-      "Specifies allowed table blocks. Use an empty array to allow all options.",
-    ),
-  allowed_table_formatting: z
-    .array(allowedTableFormattingSchema)
-    .optional()
-    .describe(
-      "Specifies allowed table formatting options. Use an empty array to allow all options.",
-    ),
-  allowed_table_text_blocks: z
-    .array(allowedTableTextBlockSchema)
-    .optional()
-    .describe(
-      "Specifies allowed table text blocks. Use an empty array to allow all options.",
-    ),
-  allowed_content_types: z
-    .array(
-      referenceObjectSchema.describe(
-        "An object with an id or codename property referencing a content type.",
-      ),
-    )
-    .optional()
-    .describe(
-      "Specifies allowed content types. Use an empty array to allow all content types.",
-    ),
-  allowed_item_link_types: z
-    .array(
-      referenceObjectSchema.describe(
-        "An object with an id or codename property referencing a content type.",
-      ),
-    )
-    .optional()
-    .describe(
-      "Specifies allowed item link types. Use an empty array to allow all link types.",
-    ),
+  allowed_blocks: z.array(allowedBlockSchema).optional(),
+  allowed_formatting: z.array(allowedFormattingSchema).optional(),
+  allowed_text_blocks: z.array(allowedTextBlockSchema).optional(),
+  allowed_table_blocks: z.array(allowedTableBlockSchema).optional(),
+  allowed_table_formatting: z.array(allowedTableFormattingSchema).optional(),
+  allowed_table_text_blocks: z.array(allowedTableTextBlockSchema).optional(),
+  allowed_content_types: z.array(referenceObjectSchema).optional(),
+  allowed_item_link_types: z.array(referenceObjectSchema).optional(),
   ...imageLimitSchema,
   allowed_image_types: z.enum(["adjustable", "any"]).optional(),
   maximum_image_size: z.number().optional(),
@@ -313,22 +232,16 @@ const richTextElementSchema = {
 
 const snippetElement = {
   type: z.literal("snippet"),
-  snippet: referenceObjectSchema.describe(
-    "An object with an id or codename property referencing a snippet.",
-  ),
+  snippet: referenceObjectSchema,
   ...baseElementSchema,
 };
 
 const taxonomyElementSchema = {
   type: z.literal("taxonomy"),
-  taxonomy_group: referenceObjectSchema.describe(
-    "An object with an id or codename property referencing a taxonomy group.",
-  ),
+  taxonomy_group: referenceObjectSchema,
   ...namedElementSchema,
   term_count_limit: countLimitSchema,
-  default: arrayDefaultSchema.describe(
-    "Default value of the taxonomy element. Reference one of the terms from the specified taxonomy group by its codename.",
-  ),
+  default: arrayDefaultSchema,
 };
 
 const textElementSchema = {
@@ -340,22 +253,14 @@ const textElementSchema = {
 };
 
 export const dependsOnSchema = z.object({
-  element: referenceObjectSchema.describe(
-    "An object with an id or codename property referencing an element.",
-  ),
-  snippet: referenceObjectSchema
-    .describe(
-      "An object with an id or codename property referencing a content type snippet.",
-    )
-    .optional(),
+  element: referenceObjectSchema,
+  snippet: referenceObjectSchema.optional(),
 });
 
 const urlSlugElementSchema = {
   type: z.literal("url_slug"),
   ...namedElementSchema,
-  depends_on: dependsOnSchema.describe(
-    "The element the URL slug depends on. If this element is within a snippet, the snippet must also be specified.",
-  ),
+  depends_on: dependsOnSchema,
   validation_regex: regexValidationSchema,
 };
 

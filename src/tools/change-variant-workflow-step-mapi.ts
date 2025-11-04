@@ -7,32 +7,17 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "change-variant-workflow-step-mapi",
-    "Change the workflow step of a language variant in Kontent.ai. This operation moves a language variant to a different step in the workflow, enabling content lifecycle management such as moving content from draft to review, review to published, etc.",
+    "Change workflow step of Kontent.ai language variant for content lifecycle management",
     {
-      itemId: z
-        .string()
-        .uuid()
-        .describe(
-          "Internal ID (UUID) of the content item whose language variant workflow step you want to change",
-        ),
+      itemId: z.string().uuid().describe("Content item UUID"),
       languageId: z
         .string()
         .uuid()
         .describe(
-          "Internal ID (UUID) of the language variant. Use '00000000-0000-0000-0000-000000000000' for the default language",
+          "Language variant UUID (default: 00000000-0000-0000-0000-000000000000)",
         ),
-      workflowId: z
-        .string()
-        .uuid()
-        .describe(
-          "Internal ID (UUID) of the workflow. This is the workflow that contains the target step",
-        ),
-      workflowStepId: z
-        .string()
-        .uuid()
-        .describe(
-          "Internal ID (UUID) of the target workflow step. This must be a valid step ID from the specified workflow. Common steps include Draft, Review, Published, and Archived, but the actual IDs depend on your specific workflow configuration",
-        ),
+      workflowId: z.string().uuid().describe("Workflow UUID"),
+      workflowStepId: z.string().uuid().describe("Target workflow step UUID"),
     },
     async (
       { itemId, languageId, workflowId, workflowStepId },

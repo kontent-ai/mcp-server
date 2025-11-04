@@ -13,26 +13,17 @@ export const registerTool = (server: McpServer): void => {
     "add-content-type-mapi",
     "Add new Kontent.ai content type via Management API",
     {
-      name: z.string().describe("Display name of the content type"),
+      name: z.string().describe("Content type name"),
       codename: z
         .string()
         .optional()
-        .describe(
-          "Codename of the content type (optional, will be generated if not provided)",
-        ),
-      external_id: z
-        .string()
-        .optional()
-        .describe("External ID of the content type (optional)"),
-      elements: z
-        .array(elementSchema)
-        .describe(
-          "Array of elements that define the structure of the content type",
-        ),
+        .describe("Codename (auto-generated if omitted)"),
+      external_id: z.string().optional().describe("External ID"),
+      elements: z.array(elementSchema).describe("Elements defining structure"),
       content_groups: z
         .array(contentGroupSchema)
         .optional()
-        .describe("Array of content groups (optional)"),
+        .describe("Content groups"),
     },
     async (
       { name, codename, external_id, elements, content_groups },
