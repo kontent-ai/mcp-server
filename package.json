@@ -12,7 +12,12 @@
     "format": "cross-env biome ci",
     "format:fix": "cross-env biome check --fix --unsafe",
     "sync-version": "node --experimental-strip-types scripts/syncVersion.ts",
-    "version": "npm run sync-version sync && npm run format:fix -- server.json && git add server.json"
+    "version": "npm run sync-version sync && npm run format:fix -- server.json && git add server.json",
+    "measure-context": "tsx measure-context.ts",
+    "measure-context:detailed": "tsx measure-context.ts --detailed",
+    "measure-context:json": "tsx measure-context.ts --json",
+    "measure-context:baseline": "tsx measure-context.ts --save-baseline",
+    "measure-context:compare": "tsx measure-context.ts --compare"
   },
   "bin": {
     "@kontent-ai/mcp-server": "./build/bin.js"
@@ -38,7 +43,9 @@
     "@types/node": "^22.15.19",
     "cross-env": "^7.0.3",
     "rimraf": "^6.0.1",
+    "tiktoken": "^1.0.19",
     "tsx": "^4.20.3",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "zod-to-json-schema": "^3.24.6"
   }
 }

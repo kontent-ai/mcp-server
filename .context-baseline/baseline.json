@@ -1,0 +1,124 @@
+{
+  "timestamp": "2025-11-05T09:45:02.259Z",
+  "totalTokens": 33126,
+  "toolCount": 29,
+  "averageTokensPerTool": 1142,
+  "tools": [
+    {
+      "name": "get-initial-context",
+      "totalTokens": 91
+    },
+    {
+      "name": "get-item-mapi",
+      "totalTokens": 89
+    },
+    {
+      "name": "get-variant-mapi",
+      "totalTokens": 123
+    },
+    {
+      "name": "get-type-mapi",
+      "totalTokens": 91
+    },
+    {
+      "name": "list-content-types-mapi",
+      "totalTokens": 48
+    },
+    {
+      "name": "delete-content-type-mapi",
+      "totalTokens": 91
+    },
+    {
+      "name": "list-languages-mapi",
+      "totalTokens": 47
+    },
+    {
+      "name": "get-asset-mapi",
+      "totalTokens": 93
+    },
+    {
+      "name": "list-assets-mapi",
+      "totalTokens": 47
+    },
+    {
+      "name": "add-content-type-mapi",
+      "totalTokens": 7200
+    },
+    {
+      "name": "patch-content-type-mapi",
+      "totalTokens": 11460
+    },
+    {
+      "name": "add-content-type-snippet-mapi",
+      "totalTokens": 5447
+    },
+    {
+      "name": "get-type-snippet-mapi",
+      "totalTokens": 93
+    },
+    {
+      "name": "list-content-type-snippets-mapi",
+      "totalTokens": 49
+    },
+    {
+      "name": "add-taxonomy-group-mapi",
+      "totalTokens": 288
+    },
+    {
+      "name": "list-taxonomy-groups-mapi",
+      "totalTokens": 48
+    },
+    {
+      "name": "get-taxonomy-group-mapi",
+      "totalTokens": 91
+    },
+    {
+      "name": "add-content-item-mapi",
+      "totalTokens": 408
+    },
+    {
+      "name": "update-content-item-mapi",
+      "totalTokens": 250
+    },
+    {
+      "name": "delete-content-item-mapi",
+      "totalTokens": 91
+    },
+    {
+      "name": "upsert-language-variant-mapi",
+      "totalTokens": 2857
+    },
+    {
+      "name": "create-variant-version-mapi",
+      "totalTokens": 209
+    },
+    {
+      "name": "delete-language-variant-mapi",
+      "totalTokens": 120
+    },
+    {
+      "name": "list-workflows-mapi",
+      "totalTokens": 60
+    },
+    {
+      "name": "change-variant-workflow-step-mapi",
+      "totalTokens": 340
+    },
+    {
+      "name": "filter-variants-mapi",
+      "totalTokens": 1652
+    },
+    {
+      "name": "search-variants-mapi",
+      "totalTokens": 634
+    },
+    {
+      "name": "publish-variant-mapi",
+      "totalTokens": 544
+    },
+    {
+      "name": "unpublish-variant-mapi",
+      "totalTokens": 565
+    }
+  ]
+}
