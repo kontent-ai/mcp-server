@@ -107,4 +107,10 @@ export const filterVariantsSchema = z.object({
     .describe(
       "Whether to include the full content of language variants in the response",
     ),
+  continuation_token: z
+    .string()
+    .optional()
+    .describe(
+      "Continuation token from a previous response to fetch the next page of results",
+    ),
 });

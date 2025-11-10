@@ -20,6 +20,11 @@ export const registerTool = (server: McpServer): void => {
     - Also use as fallback when AI search is unavailable
     - Optionally includes full content of variants with include_content parameter
 
+    PAGINATION:
+    - Returns one page of results at a time
+    - Response includes continuation_token for fetching the next page
+    - Sets continuation_token to null in response when no more pages are available
+
     BEST FOR: Finding needles in haystacks - specific words in otherwise unrelated content. Multiple search terms use OR logic.`,
     filterVariantsSchema.shape,
     async (
@@ -35,6 +40,7 @@ export const registerTool = (server: McpServer): void => {
         order_by,
         order_direction,
         include_content,
+        continuation_token,
       },
       { authInfo: { token, clientId } = {} },
     ) => {
@@ -46,7 +52,7 @@ export const registerTool = (server: McpServer): void => {
 
         const client = createMapiClient(environmentId, token);
 
-        const response = await client.earlyAccess
+        const query = client.earlyAccess
           .filterLanguageVariants()
           .withData({
             filters: {
@@ -66,12 +72,19 @@ export const registerTool = (server: McpServer): void => {
                 }
               : undefined,
             include_content: include_content ?? false,
-          })
-          .toAllPromise();
+          });
 
-        return createMcpToolSuccessResponse(
-          response.responses.flatMap((r) => r.rawData.data),
-        );
+        const response = await (continuation_token
+          ? query.xContinuationToken(continuation_token)
+          : query
+        ).toPromise();
+
+        return createMcpToolSuccessResponse({
+          data: response.rawData.data,
+          pagination: {
+            continuation_token: response.data.pagination.continuationToken,
+          },
+        });
       } catch (error: unknown) {
         return handleMcpToolError(error, "Variant Filter");
       }
