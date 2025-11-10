@@ -95,7 +95,7 @@ npx @kontent-ai/mcp-server@latest shttp
 * **upsert-language-variant-mapi** – Create or update Kontent.ai language variant of a content item via Management API. This adds actual content to the content item elements. When updating an existing variant, only the provided elements will be modified
 * **create-variant-version-mapi** – Create new version of Kontent.ai language variant via Management API. This operation creates a new version of an existing language variant, useful for content versioning and creating new drafts from published content
 * **delete-language-variant-mapi** – Delete Kontent.ai language variant from Management API
-* **filter-variants-mapi** – Filter Kontent.ai language variants of content items using Management API. Use for exact keyword matching and finding specific terms in content. Supports full filtering capabilities (content types, workflow steps, taxonomies, etc.) and optionally includes full content of variants
+* **filter-variants-mapi** – Filter Kontent.ai language variants of content items using Management API. Use for exact keyword matching and finding specific terms in content. Supports full filtering capabilities (content types, workflow steps, taxonomies, etc.) and optionally includes full content of variants. Returns paginated results with continuation token for fetching subsequent pages
 * **search-variants-mapi** – AI-powered semantic search for finding content by meaning and concepts in a specific language variant. Use for: conceptual searches when you don't know exact keywords. Limited filtering options (variant ID only)
 
 ### Asset Management
