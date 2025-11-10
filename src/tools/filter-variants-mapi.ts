@@ -52,27 +52,25 @@ export const registerTool = (server: McpServer): void => {
 
         const client = createMapiClient(environmentId, token);
 
-        const query = client.earlyAccess
-          .filterLanguageVariants()
-          .withData({
-            filters: {
-              search_phrase,
-              content_types,
-              contributors,
-              has_no_contributors,
-              completion_statuses,
-              language,
-              workflow_steps,
-              taxonomy_groups,
-            },
-            order: order_by
-              ? {
-                  by: order_by,
-                  direction: order_direction || "asc",
-                }
-              : undefined,
-            include_content: include_content ?? false,
-          });
+        const query = client.earlyAccess.filterLanguageVariants().withData({
+          filters: {
+            search_phrase,
+            content_types,
+            contributors,
+            has_no_contributors,
+            completion_statuses,
+            language,
+            workflow_steps,
+            taxonomy_groups,
+          },
+          order: order_by
+            ? {
+                by: order_by,
+                direction: order_direction || "asc",
+              }
+            : undefined,
+          include_content: include_content ?? false,
+        });
 
         const response = await (continuation_token
           ? query.xContinuationToken(continuation_token)
