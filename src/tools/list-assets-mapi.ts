@@ -1,22 +1,31 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createMapiClient } from "../clients/kontentClients.js";
+import { listAssetsSchema } from "../schemas/listSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "list-assets-mapi",
-    "Get all Kontent.ai assets from Management API",
-    {},
-    async (_, { authInfo: { token, clientId } = {} }) => {
+    "List Kontent.ai assets from Management API (paginated)",
+    listAssetsSchema.shape,
+    async ({ continuation_token }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);
 
       try {
-        const response = await client.listAssets().toAllPromise();
+        const query = client.listAssets();
 
-        const rawData = response.responses.flatMap((r) => r.rawData.assets);
+        const response = await (continuation_token
+          ? query.xContinuationToken(continuation_token)
+          : query
+        ).toPromise();
 
-        return createMcpToolSuccessResponse(rawData);
+        return createMcpToolSuccessResponse({
+          data: response.rawData.assets,
+          pagination: {
+            continuation_token: response.data.pagination.continuationToken,
+          },
+        });
       } catch (error: any) {
         return handleMcpToolError(error, "Assets Listing");
       }
