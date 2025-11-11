@@ -19,12 +19,7 @@ export const registerTool = (server: McpServer): void => {
     - Advanced filtering by content type, contributors, workflow steps, taxonomies etc
     - Also use as fallback when AI search is unavailable
     - Optionally includes full content of variants with include_content parameter
-
-    PAGINATION:
-    - Returns one page of results at a time
-    - Response includes continuation_token for fetching the next page
-    - Sets continuation_token to null in response when no more pages are available
-
+    
     BEST FOR: Finding needles in haystacks - specific words in otherwise unrelated content. Multiple search terms use OR logic.`,
     filterVariantsSchema.shape,
     async (
