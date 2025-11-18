@@ -23,6 +23,7 @@ export const registerTool = (server: McpServer): void => {
         order_by,
         order_direction,
         include_content,
+        continuation_token,
       },
       { authInfo: { token, clientId } = {} },
     ) => {
@@ -34,32 +35,37 @@ export const registerTool = (server: McpServer): void => {
 
         const client = createMapiClient(environmentId, token);
 
-        const response = await client.earlyAccess
-          .filterLanguageVariants()
-          .withData({
-            filters: {
-              search_phrase,
-              content_types,
-              contributors,
-              has_no_contributors,
-              completion_statuses,
-              language,
-              workflow_steps,
-              taxonomy_groups,
-            },
-            order: order_by
-              ? {
-                  by: order_by,
-                  direction: order_direction || "asc",
-                }
-              : undefined,
-            include_content: include_content ?? false,
-          })
-          .toAllPromise();
+        const query = client.earlyAccess.filterLanguageVariants().withData({
+          filters: {
+            search_phrase,
+            content_types,
+            contributors,
+            has_no_contributors,
+            completion_statuses,
+            language,
+            workflow_steps,
+            taxonomy_groups,
+          },
+          order: order_by
+            ? {
+                by: order_by,
+                direction: order_direction || "asc",
+              }
+            : undefined,
+          include_content: include_content ?? false,
+        });
 
-        return createMcpToolSuccessResponse(
-          response.responses.flatMap((r) => r.rawData.data),
-        );
+        const response = await (continuation_token
+          ? query.xContinuationToken(continuation_token)
+          : query
+        ).toPromise();
+
+        return createMcpToolSuccessResponse({
+          data: response.rawData.data,
+          pagination: {
+            continuation_token: response.data.pagination.continuationToken,
+          },
+        });
       } catch (error: unknown) {
         return handleMcpToolError(error, "Variant Filter");
       }

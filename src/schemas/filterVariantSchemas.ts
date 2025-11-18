@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { continuationTokenField } from "./listSchemas.js";
 import { referenceObjectSchema } from "./referenceObjectSchema.js";
 
 // UserReferenceDataContract is a union type - either id or email, but not both
@@ -107,4 +108,5 @@ export const filterVariantsSchema = z.object({
     .describe(
       "Whether to include the full content of language variants in the response",
     ),
+  continuation_token: continuationTokenField,
 });
