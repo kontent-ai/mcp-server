@@ -7,7 +7,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "add-taxonomy-group-mapi",
-    "Add new Kontent.ai taxonomy group via Management API",
+    "Add new Kontent.ai taxonomy group",
     taxonomyGroupSchemas,
     async (taxonomyGroup, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

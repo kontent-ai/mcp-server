@@ -1,6 +1,7 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { initialContext } from "./context/initial-context.js";
+import { patchOperationsGuide } from "./context/patch-operations-guide.js";
 
 export const registerTool = (server: McpServer): void => {
   server.tool(
@@ -9,7 +10,9 @@ export const registerTool = (server: McpServer): void => {
     {},
     async () => {
       try {
-        return createMcpToolSuccessResponse(initialContext);
+        return createMcpToolSuccessResponse(
+          `${initialContext}\n\n${patchOperationsGuide}`,
+        );
       } catch (error) {
         throw new Error(
           `Failed to read initial context: ${

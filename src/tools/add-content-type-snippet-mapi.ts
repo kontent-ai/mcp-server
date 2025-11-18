@@ -8,24 +8,17 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "add-content-type-snippet-mapi",
-    "Add new Kontent.ai content type snippet via Management API",
+    "Add new Kontent.ai content type snippet",
     {
-      name: z.string().describe("Display name of the content type snippet"),
+      name: z.string().describe("Snippet name"),
       codename: z
         .string()
         .optional()
-        .describe(
-          "Codename of the content type snippet (optional, will be generated if not provided)",
-        ),
-      external_id: z
-        .string()
-        .optional()
-        .describe("External ID of the content type snippet (optional)"),
+        .describe("Codename (auto-generated if omitted)"),
+      external_id: z.string().optional().describe("External ID"),
       elements: z
         .array(snippetElementSchema)
-        .describe(
-          "Array of elements that define the structure of the content type snippet",
-        ),
+        .describe("Elements defining structure"),
     },
     async (
       { name, codename, external_id, elements },

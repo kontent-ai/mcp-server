@@ -7,9 +7,9 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "delete-content-item-mapi",
-    "Delete Kontent.ai content item by internal ID from Management API",
+    "Delete Kontent.ai content item",
     {
-      id: z.string().describe("Internal ID of the content item to delete"),
+      id: z.string().describe("Item ID"),
     },
     async ({ id }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

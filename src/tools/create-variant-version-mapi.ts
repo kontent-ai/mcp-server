@@ -7,19 +7,14 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "create-variant-version-mapi",
-    "Create new version of Kontent.ai language variant via Management API. This operation creates a new version of an existing language variant, useful for content versioning and creating new drafts from published content.",
+    "Create new version of Kontent.ai variant",
     {
-      itemId: z
-        .string()
-        .uuid()
-        .describe(
-          "Internal ID (UUID) of the content item whose language variant you want to create a new version of",
-        ),
+      itemId: z.string().uuid().describe("Content item UUID"),
       languageId: z
         .string()
         .uuid()
         .describe(
-          "Internal ID (UUID) of the language variant to create a new version of. Use '00000000-0000-0000-0000-000000000000' for the default language",
+          "Language variant UUID (default: 00000000-0000-0000-0000-000000000000)",
         ),
     },
     async ({ itemId, languageId }, { authInfo: { token, clientId } = {} }) => {

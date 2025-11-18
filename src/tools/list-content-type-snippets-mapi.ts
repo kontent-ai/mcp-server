@@ -7,7 +7,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "list-content-type-snippets-mapi",
-    "List Kontent.ai content type snippets from Management API (paginated)",
+    "Get all Kontent.ai content type snippets (paginated)",
     listContentTypeSnippetsSchema.shape,
     async ({ continuation_token }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);
