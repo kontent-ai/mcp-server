@@ -168,29 +168,6 @@ The server automatically removes empty/default values from responses to reduce t
    - Arrays (assets, taxonomy, etc.): `[]`
 3. When creating/updating content, always send complete data
 
-### Example
-
-**Before optimization:**
-```json
-{
-  "elements": [
-    {"element": {"id": "text-id"}, "value": ""},
-    {"element": {"id": "rich-id"}, "value": "<p><br/></p>", "components": []},
-    {"element": {"id": "number-id"}, "value": null},
-    {"element": {"id": "assets-id"}, "value": []}
-  ]
-}
-```
-
-**After optimization (reduced tokens):**
-```json
-{
-  "elements": []
-}
-```
-
-All empty elements are removed, significantly reducing token usage while preserving data integrity.
-
 ## 🚀 Transport Options
 
 ### 📟 STDIO Transport

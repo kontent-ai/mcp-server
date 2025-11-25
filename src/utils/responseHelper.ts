@@ -24,7 +24,7 @@ export interface McpToolSuccessResponse {
  * @param value The value to check
  * @returns true if the value is empty/default, false otherwise
  */
-function isEmptyOrDefault(value: any): boolean {
+export function isEmptyOrDefault(value: any): boolean {
   // null or undefined
   if (value === null || value === undefined) {
     return true;
@@ -66,7 +66,7 @@ function isEmptyOrDefault(value: any): boolean {
  * @param obj The object to process (should be already cleaned of empty values)
  * @returns The object with empty elements removed from all 'elements' arrays
  */
-function removeEmptyElementsFromVariant(obj: any): any {
+export function removeEmptyElementsFromVariant(obj: any): any {
   // Handle non-objects
   if (obj === null || obj === undefined || typeof obj !== "object") {
     return obj;
@@ -125,7 +125,7 @@ function removeEmptyElementsFromVariant(obj: any): any {
  * @param obj The object or array to process
  * @returns The processed object with empty values removed
  */
-function removeEmptyValues(obj: any): any {
+export function removeEmptyValues(obj: any): any {
   // Handle primitives and null/undefined
   if (obj === null || obj === undefined) {
     return undefined;
