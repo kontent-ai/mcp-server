@@ -23,6 +23,7 @@ Kontent.ai MCP Server implements the Model Context Protocol to connect your Kont
 - [🔌 Quickstart](#-quickstart)
 - [🛠️ Available Tools](#️-available-tools)
 - [⚙️ Configuration](#️-configuration)
+- [🔧 Response Optimization](#-response-optimization)
 - [🚀 Transport Options](#-transport-options)
 - [💻 Development](#-development)
   - [🛠 Local Installation](#-local-installation)
@@ -138,6 +139,34 @@ For multi-tenant mode (Streamable HTTP only), the server accepts:
 - **API Key** via Bearer token in the Authorization header: `Authorization: Bearer <api-key>`
 
 This mode allows a single server instance to handle requests for multiple Kontent.ai environments securely without requiring environment variables.
+
+## 🔧 Response Optimization
+
+The MCP server implements automatic token optimization to reduce AI model costs and improve performance:
+
+### Token Reduction Strategy
+
+The server automatically removes empty/default values from responses to reduce token usage. This includes:
+
+- Null and undefined values
+- Empty strings (`""`)
+- Empty arrays (`[]`)
+- Empty objects (`{}`)
+- Rich text placeholders (`"<p><br/></p>"`)
+- Elements with only an ID after empty value removal
+
+### Impact on AI Agents
+
+**Important for AI implementations**: When consuming responses from this MCP server:
+
+1. **Missing properties indicate default values**, not missing data
+2. Missing elements in variants have their type-specific defaults:
+   - Text elements: `""` (empty string)
+   - Rich text: `"<p><br/></p>"` (empty placeholder)
+   - Number/Date: `null`
+   - Custom elements: `null` (for value and searchable_value)
+   - Arrays (assets, taxonomy, etc.): `[]`
+3. When creating/updating content, always send complete data
 
 ## 🚀 Transport Options
 

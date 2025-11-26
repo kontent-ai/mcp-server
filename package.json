@@ -11,6 +11,7 @@
     "dev:shttp": "tsx watch src/bin.ts shttp",
     "format": "cross-env biome ci",
     "format:fix": "cross-env biome check --fix --unsafe",
+    "test": "npm run build && mocha --timeout 10s -- \"build/test/**/*.spec.js\"",
     "sync-version": "node --experimental-strip-types scripts/syncVersion.ts",
     "version": "npm run sync-version sync && npm run format:fix -- server.json && git add server.json"
   },
@@ -35,8 +36,10 @@
   "devDependencies": {
     "@biomejs/biome": "^2.0.5",
     "@types/express": "^5.0.2",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^22.15.19",
     "cross-env": "^7.0.3",
+    "mocha": "^11.7.5",
     "rimraf": "^6.0.1",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3"

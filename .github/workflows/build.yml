@@ -1,4 +1,4 @@
-name: Build Check
+name: Build & Test
 
 on:
   push:
@@ -27,6 +27,9 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Run tests
+        run: npm run test
 
       - name: Check build output
         run: |

@@ -2,7 +2,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createVariantMcpToolSuccessResponse } from "../utils/responseHelper.js";
 
 export const registerTool = (server: McpServer): void => {
   server.tool(
@@ -22,7 +22,7 @@ export const registerTool = (server: McpServer): void => {
           .byLanguageId(languageId)
           .toPromise();
 
-        return createMcpToolSuccessResponse(response.rawData);
+        return createVariantMcpToolSuccessResponse(response.rawData);
       } catch (error: any) {
         return handleMcpToolError(error, "Language Variant Retrieval");
       }
