@@ -6,13 +6,13 @@
     "url": "https://github.com/kontent-ai/mcp-server",
     "source": "github"
   },
-  "version": "0.21.11",
+  "version": "0.21.12",
   "packages": [
     {
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@kontent-ai/mcp-server",
-      "version": "0.21.11",
+      "version": "0.21.12",
       "transport": {
         "type": "stdio"
       },
@@ -41,7 +41,7 @@
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@kontent-ai/mcp-server",
-      "version": "0.21.11",
+      "version": "0.21.12",
       "transport": {
         "type": "streamable-http",
         "url": "http://localhost:3001/mcp"
