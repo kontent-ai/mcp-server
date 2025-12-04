@@ -121,6 +121,10 @@ npx @kontent-ai/mcp-server@latest shttp
 * **list-collections-mapi** – Get all Kontent.ai collections from Management API. Collections set boundaries for content items in your environment and help organize content by team, brand, or project
 * **patch-collections-mapi** – Update Kontent.ai collections using patch operations (addInto to add new collections, move to reorder, remove to delete empty collections, replace to rename)
 
+### Space Management
+
+* **list-spaces-mapi** – Get all Kontent.ai spaces from Management API
+
 ### Workflow Management
 
 * **list-workflows-mapi** – Get all Kontent.ai workflows from Management API. Workflows define the content lifecycle stages and transitions between them

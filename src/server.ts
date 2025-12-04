@@ -24,6 +24,7 @@ import { registerTool as registerListCollectionsMapi } from "./tools/list-collec
 import { registerTool as registerListContentTypeSnippetsMapi } from "./tools/list-content-type-snippets-mapi.js";
 import { registerTool as registerListContentTypesMapi } from "./tools/list-content-types-mapi.js";
 import { registerTool as registerListLanguagesMapi } from "./tools/list-languages-mapi.js";
+import { registerTool as registerListSpacesMapi } from "./tools/list-spaces-mapi.js";
 import { registerTool as registerListTaxonomyGroupsMapi } from "./tools/list-taxonomy-groups-mapi.js";
 import { registerTool as registerListVariantsCollectionMapi } from "./tools/list-variants-collection-mapi.js";
 import { registerTool as registerListVariantsComponentsTypeMapi } from "./tools/list-variants-components-type-mapi.js";
@@ -69,6 +70,7 @@ export const createServer = () => {
   registerPatchLanguageMapi(server);
   registerListCollectionsMapi(server);
   registerPatchCollectionsMapi(server);
+  registerListSpacesMapi(server);
   registerGetAssetMapi(server);
   registerListAssetsMapi(server);
   registerAddContentTypeMapi(server);
