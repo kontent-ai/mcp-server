@@ -234,7 +234,8 @@ Then configure your MCP client:
 
 No environment variables required. The server accepts requests for multiple environments using URL path parameters and Bearer authentication.
 
-##### VS Code Configuration
+<details>
+<summary><strong>VS Code</strong></summary>
 
 Create a `.vscode/mcp.json` file in your workspace:
 
@@ -278,7 +279,10 @@ For secure configuration with input prompts:
 }
 ```
 
-##### Claude Desktop Configuration
+</details>
+
+<details>
+<summary><strong>Claude Desktop</strong></summary>
 
 Update your Claude Desktop configuration file:
 - **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
@@ -303,32 +307,25 @@ Use `mcp-remote` as a proxy to add authentication headers:
 }
 ```
 
-##### Claude Code Configuration
+</details>
 
-For Claude Code (claude.ai/code), add the server configuration:
+<details>
+<summary><strong>Claude Code</strong></summary>
+
+Add the server using the CLI:
 
 ```bash
-# Add the multi-tenant server
-claude mcp add \
-  --url "http://localhost:3001/<environment-id>/mcp" \
-  --header "Authorization: Bearer <management-api-key>" \
-  kontent-ai-multi
+claude mcp add --transport http kontent-ai-multi \
+  "http://localhost:3001/<environment-id>/mcp" \
+  --header "Authorization: Bearer <management-api-key>"
 ```
 
-Or configure directly in the settings:
+> **Note**: You can also configure this in your Claude Code settings JSON with the `url` and `headers` properties.
 
-```json
-{
-  "kontent-ai-multi": {
-    "url": "http://localhost:3001/<environment-id>/mcp",
-    "headers": {
-      "Authorization": "Bearer <management-api-key>"
-    }
-  }
-}
-```
+</details>
 
-**Important**: Replace `<environment-id>` with your actual Kontent.ai environment ID (GUID format) and `<management-api-key>` with your Management API key.
+> [!IMPORTANT]
+> Replace `<environment-id>` with your Kontent.ai environment ID (GUID) and `<management-api-key>` with your Management API key.
 
 ## 💻 Development
 
