@@ -89,7 +89,13 @@ npx @kontent-ai/mcp-server@latest shttp
 
 * **get-item-mapi** – Get Kontent.ai item by internal ID from Management API
 * **get-item-dapi** – Get Kontent.ai item by codename from Delivery API
-* **get-variant-mapi** – Get Kontent.ai language variant of content item from Management API
+* **get-latest-variant-mapi** – Get latest version of Kontent.ai language variant from Management API
+* **get-published-variant-mapi** – Get published version of Kontent.ai language variant from Management API
+* **list-variants-item-mapi** – List all Kontent.ai language variants of a content item from Management API
+* **list-variants-collection-mapi** – List Kontent.ai language variants by collection from Management API (paginated)
+* **list-variants-type-mapi** – List Kontent.ai language variants by content type from Management API (paginated)
+* **list-variants-components-type-mapi** – List Kontent.ai language variants containing components of a specific content type from Management API (paginated)
+* **list-variants-space-mapi** – List Kontent.ai language variants by space from Management API (paginated)
 * **add-content-item-mapi** – Add new Kontent.ai content item via Management API. This creates the content item structure but does not add content to language variants. Use upsert-language-variant-mapi to add content to the item
 * **update-content-item-mapi** – Update existing Kontent.ai content item by internal ID via Management API. The content item must already exist - this tool will not create new items
 * **delete-content-item-mapi** – Delete Kontent.ai content item by internal ID from Management API

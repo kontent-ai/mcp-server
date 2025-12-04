@@ -6,8 +6,8 @@ import { createVariantMcpToolSuccessResponse } from "../utils/responseHelper.js"
 
 export const registerTool = (server: McpServer): void => {
   server.tool(
-    "get-variant-mapi",
-    "Get Kontent.ai variant",
+    "get-published-variant-mapi",
+    "Get published version of Kontent.ai language variant from Management API",
     {
       itemId: z.string().describe("Item ID"),
       languageId: z.string().describe("Language variant ID"),
@@ -20,11 +20,15 @@ export const registerTool = (server: McpServer): void => {
           .viewLanguageVariant()
           .byItemId(itemId)
           .byLanguageId(languageId)
+          .published()
           .toPromise();
 
         return createVariantMcpToolSuccessResponse(response.rawData);
-      } catch (error: any) {
-        return handleMcpToolError(error, "Language Variant Retrieval");
+      } catch (error: unknown) {
+        return handleMcpToolError(
+          error,
+          "Published Language Variant Retrieval",
+        );
       }
     },
   );

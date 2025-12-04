@@ -32,3 +32,23 @@ export const listContentTypeSnippetsSchema = z.object({
 export const listAssetsSchema = z.object({
   continuation_token: continuationTokenField,
 });
+
+export const listVariantsCollectionSchema = z.object({
+  collectionId: z.string().describe("Collection ID"),
+  continuation_token: continuationTokenField,
+});
+
+export const listVariantsTypeSchema = z.object({
+  contentTypeId: z.string().describe("Content type ID"),
+  continuation_token: continuationTokenField,
+});
+
+export const listVariantsComponentsTypeSchema = z.object({
+  contentTypeId: z.string().describe("Content type ID"),
+  continuation_token: continuationTokenField,
+});
+
+export const listVariantsSpaceSchema = z.object({
+  spaceId: z.string().describe("Space ID"),
+  continuation_token: continuationTokenField,
+});

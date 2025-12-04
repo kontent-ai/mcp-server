@@ -13,16 +13,22 @@ import { registerTool as registerFilterVariantsMapi } from "./tools/filter-varia
 import { registerTool as registerGetAssetMapi } from "./tools/get-asset-mapi.js";
 import { registerTool as registerGetInitialContext } from "./tools/get-initial-context.js";
 import { registerTool as registerGetItemMapi } from "./tools/get-item-mapi.js";
+import { registerTool as registerGetLatestVariantMapi } from "./tools/get-latest-variant-mapi.js";
+import { registerTool as registerGetPublishedVariantMapi } from "./tools/get-published-variant-mapi.js";
 import { registerTool as registerGetTaxonomyGroupMapi } from "./tools/get-taxonomy-group-mapi.js";
 import { registerTool as registerGetTypeMapi } from "./tools/get-type-mapi.js";
 import { registerTool as registerGetTypeSnippetMapi } from "./tools/get-type-snippet-mapi.js";
-import { registerTool as registerGetVariantMapi } from "./tools/get-variant-mapi.js";
 import { registerTool as registerListAssetsMapi } from "./tools/list-assets-mapi.js";
 import { registerTool as registerListCollectionsMapi } from "./tools/list-collections-mapi.js";
 import { registerTool as registerListContentTypeSnippetsMapi } from "./tools/list-content-type-snippets-mapi.js";
 import { registerTool as registerListContentTypesMapi } from "./tools/list-content-types-mapi.js";
 import { registerTool as registerListLanguagesMapi } from "./tools/list-languages-mapi.js";
 import { registerTool as registerListTaxonomyGroupsMapi } from "./tools/list-taxonomy-groups-mapi.js";
+import { registerTool as registerListVariantsCollectionMapi } from "./tools/list-variants-collection-mapi.js";
+import { registerTool as registerListVariantsComponentsTypeMapi } from "./tools/list-variants-components-type-mapi.js";
+import { registerTool as registerListVariantsItemMapi } from "./tools/list-variants-item-mapi.js";
+import { registerTool as registerListVariantsSpaceMapi } from "./tools/list-variants-space-mapi.js";
+import { registerTool as registerListVariantsTypeMapi } from "./tools/list-variants-type-mapi.js";
 import { registerTool as registerListWorkflowsMapi } from "./tools/list-workflows-mapi.js";
 import { registerTool as registerPatchCollectionsMapi } from "./tools/patch-collections-mapi.js";
 import { registerTool as registerPatchContentTypeMapi } from "./tools/patch-content-type-mapi.js";
@@ -46,7 +52,13 @@ export const createServer = () => {
   // Register all tools
   registerGetInitialContext(server);
   registerGetItemMapi(server);
-  registerGetVariantMapi(server);
+  registerGetLatestVariantMapi(server);
+  registerGetPublishedVariantMapi(server);
+  registerListVariantsItemMapi(server);
+  registerListVariantsCollectionMapi(server);
+  registerListVariantsTypeMapi(server);
+  registerListVariantsComponentsTypeMapi(server);
+  registerListVariantsSpaceMapi(server);
   registerGetTypeMapi(server);
   registerListContentTypesMapi(server);
   registerDeleteContentTypeMapi(server);
