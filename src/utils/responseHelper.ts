@@ -112,11 +112,12 @@ export function removeEmptyValues(obj: any): any {
 export const createMcpToolSuccessResponse = (
   data: any,
 ): McpToolSuccessResponse => {
+  const cleaned = removeEmptyValues(data);
   return {
     content: [
       {
         type: "text",
-        text: JSON.stringify(removeEmptyValues(data)),
+        text: typeof cleaned === "string" ? cleaned : JSON.stringify(cleaned),
       },
     ],
   };
@@ -132,7 +133,7 @@ export const createVariantMcpToolSuccessResponse = (
     content: [
       {
         type: "text",
-        text: JSON.stringify(optimized),
+        text: typeof optimized === "string" ? optimized : JSON.stringify(optimized),
       },
     ],
   };
