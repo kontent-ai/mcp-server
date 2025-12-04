@@ -3,6 +3,7 @@ import packageJson from "../package.json" with { type: "json" };
 import { registerTool as registerAddContentItemMapi } from "./tools/add-content-item-mapi.js";
 import { registerTool as registerAddContentTypeMapi } from "./tools/add-content-type-mapi.js";
 import { registerTool as registerAddContentTypeSnippetMapi } from "./tools/add-content-type-snippet-mapi.js";
+import { registerTool as registerAddLanguageMapi } from "./tools/add-language-mapi.js";
 import { registerTool as registerAddTaxonomyGroupMapi } from "./tools/add-taxonomy-group-mapi.js";
 import { registerTool as registerChangeVariantWorkflowStepMapi } from "./tools/change-variant-workflow-step-mapi.js";
 import { registerTool as registerCreateVariantVersionMapi } from "./tools/create-variant-version-mapi.js";
@@ -32,6 +33,7 @@ import { registerTool as registerListVariantsTypeMapi } from "./tools/list-varia
 import { registerTool as registerListWorkflowsMapi } from "./tools/list-workflows-mapi.js";
 import { registerTool as registerPatchCollectionsMapi } from "./tools/patch-collections-mapi.js";
 import { registerTool as registerPatchContentTypeMapi } from "./tools/patch-content-type-mapi.js";
+import { registerTool as registerPatchLanguageMapi } from "./tools/patch-language-mapi.js";
 import { registerTool as registerPublishVariantMapi } from "./tools/publish-variant-mapi.js";
 import { registerTool as registerSearchVariantsMapi } from "./tools/search-variants-mapi.js";
 import { registerTool as registerUnpublishVariantMapi } from "./tools/unpublish-variant-mapi.js";
@@ -63,6 +65,8 @@ export const createServer = () => {
   registerListContentTypesMapi(server);
   registerDeleteContentTypeMapi(server);
   registerListLanguagesMapi(server);
+  registerAddLanguageMapi(server);
+  registerPatchLanguageMapi(server);
   registerListCollectionsMapi(server);
   registerPatchCollectionsMapi(server);
   registerGetAssetMapi(server);

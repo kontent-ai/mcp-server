@@ -113,6 +113,8 @@ npx @kontent-ai/mcp-server@latest shttp
 ### Language Management
 
 * **list-languages-mapi** – Get all Kontent.ai languages from Management API
+* **add-language-mapi** – Add new Kontent.ai language via Management API
+* **patch-language-mapi** – Update Kontent.ai language using replace operations via Management API
 
 ### Collection Management
 
