@@ -17,6 +17,12 @@ Content types define the structure and blueprint for language variants. They spe
 ### Content Type Snippets
 Content type snippets are reusable field groups that promote consistency across multiple content types. Following the DRY principle (define once, use everywhere), one snippet can be used across multiple content types. This prevents duplication and ensures consistency when you need the same fields across different content types.
 
+### Collections
+Collections organize content items into logical groups by team, brand, or project. Each content item belongs to exactly one collection.
+
+### Languages
+Languages define available locales for content. Each language can have a fallback language for content inheritance and can be activated or deactivated.
+
 ## Understanding Key Relationships
 
 The content structure flows from Content Type → Content Item → Language Variant(s). For reusability, Content Type Snippets can be included in multiple Content Types. For localization, each Content Item can have one Language Variant per language.
