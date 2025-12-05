@@ -78,7 +78,7 @@ export function removeEmptyElementsFromVariant(obj: any): any {
   return result;
 }
 
-export function removeEmptyValues(obj: any): any {
+function removeEmptyValuesRecursive(obj: any): any {
   if (obj === null || obj === undefined) {
     return undefined;
   }
@@ -89,7 +89,7 @@ export function removeEmptyValues(obj: any): any {
 
   if (Array.isArray(obj)) {
     const cleaned = obj
-      .map((item) => removeEmptyValues(item))
+      .map((item) => removeEmptyValuesRecursive(item))
       .filter((item) => item !== undefined);
 
     return cleaned.length === 0 ? undefined : cleaned;
@@ -98,7 +98,7 @@ export function removeEmptyValues(obj: any): any {
   const cleaned: any = {};
 
   for (const [key, value] of Object.entries(obj)) {
-    const cleanedValue = removeEmptyValues(value);
+    const cleanedValue = removeEmptyValuesRecursive(value);
 
     if (cleanedValue !== undefined) {
       cleaned[key] = cleanedValue;
@@ -107,6 +107,31 @@ export function removeEmptyValues(obj: any): any {
 
   const keys = Object.keys(cleaned);
   return keys.length === 0 ? undefined : cleaned;
+}
+
+export function removeEmptyValues(obj: any): any {
+  // At root level, preserve the structure even if empty
+  if (typeof obj !== "object" || obj === null) {
+    return obj;
+  }
+
+  if (Array.isArray(obj)) {
+    return obj
+      .map((item) => removeEmptyValuesRecursive(item))
+      .filter((item) => item !== undefined);
+  }
+
+  const cleaned: any = {};
+
+  for (const [key, value] of Object.entries(obj)) {
+    const cleanedValue = removeEmptyValuesRecursive(value);
+
+    if (cleanedValue !== undefined) {
+      cleaned[key] = cleanedValue;
+    }
+  }
+
+  return cleaned;
 }
 
 export const createMcpToolSuccessResponse = (
