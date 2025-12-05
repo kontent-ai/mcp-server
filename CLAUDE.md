@@ -144,12 +144,11 @@ No environment variables required. Instead:
 }
 ```
 
-**Claude Code**: Configure via CLI or settings:
+**Claude Code**: Configure via CLI:
 ```bash
-claude mcp add \
-  --url "http://localhost:3001/{environmentId}/mcp" \
-  --header "Authorization: Bearer {api-key}" \
-  kontent-ai-multi
+claude mcp add --transport http kontent-ai-multi \
+  "http://localhost:3001/{environmentId}/mcp" \
+  --header "Authorization: Bearer {api-key}"
 ```
 
 ### Code Style

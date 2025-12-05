@@ -89,7 +89,13 @@ npx @kontent-ai/mcp-server@latest shttp
 
 * **get-item-mapi** – Get Kontent.ai item by internal ID from Management API
 * **get-item-dapi** – Get Kontent.ai item by codename from Delivery API
-* **get-variant-mapi** – Get Kontent.ai language variant of content item from Management API
+* **get-latest-variant-mapi** – Get latest version of Kontent.ai language variant from Management API
+* **get-published-variant-mapi** – Get published version of Kontent.ai language variant from Management API
+* **list-variants-item-mapi** – List all Kontent.ai language variants of a content item from Management API
+* **list-variants-collection-mapi** – List Kontent.ai language variants by collection from Management API (paginated)
+* **list-variants-type-mapi** – List Kontent.ai language variants by content type from Management API (paginated)
+* **list-variants-components-type-mapi** – List Kontent.ai language variants containing components of a specific content type from Management API (paginated)
+* **list-variants-space-mapi** – List Kontent.ai language variants by space from Management API (paginated)
 * **add-content-item-mapi** – Add new Kontent.ai content item via Management API. This creates the content item structure but does not add content to language variants. Use upsert-language-variant-mapi to add content to the item
 * **update-content-item-mapi** – Update existing Kontent.ai content item by internal ID via Management API. The content item must already exist - this tool will not create new items
 * **delete-content-item-mapi** – Delete Kontent.ai content item by internal ID from Management API
@@ -107,6 +113,17 @@ npx @kontent-ai/mcp-server@latest shttp
 ### Language Management
 
 * **list-languages-mapi** – Get all Kontent.ai languages from Management API
+* **add-language-mapi** – Add new Kontent.ai language via Management API
+* **patch-language-mapi** – Update Kontent.ai language using replace operations via Management API
+
+### Collection Management
+
+* **list-collections-mapi** – Get all Kontent.ai collections from Management API. Collections set boundaries for content items in your environment and help organize content by team, brand, or project
+* **patch-collections-mapi** – Update Kontent.ai collections using patch operations (addInto to add new collections, move to reorder, remove to delete empty collections, replace to rename)
+
+### Space Management
+
+* **list-spaces-mapi** – Get all Kontent.ai spaces from Management API
 
 ### Workflow Management
 
@@ -217,7 +234,8 @@ Then configure your MCP client:
 
 No environment variables required. The server accepts requests for multiple environments using URL path parameters and Bearer authentication.
 
-##### VS Code Configuration
+<details>
+<summary><strong>VS Code</strong></summary>
 
 Create a `.vscode/mcp.json` file in your workspace:
 
@@ -261,7 +279,10 @@ For secure configuration with input prompts:
 }
 ```
 
-##### Claude Desktop Configuration
+</details>
+
+<details>
+<summary><strong>Claude Desktop</strong></summary>
 
 Update your Claude Desktop configuration file:
 - **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
@@ -286,32 +307,25 @@ Use `mcp-remote` as a proxy to add authentication headers:
 }
 ```
 
-##### Claude Code Configuration
+</details>
 
-For Claude Code (claude.ai/code), add the server configuration:
+<details>
+<summary><strong>Claude Code</strong></summary>
+
+Add the server using the CLI:
 
 ```bash
-# Add the multi-tenant server
-claude mcp add \
-  --url "http://localhost:3001/<environment-id>/mcp" \
-  --header "Authorization: Bearer <management-api-key>" \
-  kontent-ai-multi
+claude mcp add --transport http kontent-ai-multi \
+  "http://localhost:3001/<environment-id>/mcp" \
+  --header "Authorization: Bearer <management-api-key>"
 ```
 
-Or configure directly in the settings:
+> **Note**: You can also configure this in your Claude Code settings JSON with the `url` and `headers` properties.
 
-```json
-{
-  "kontent-ai-multi": {
-    "url": "http://localhost:3001/<environment-id>/mcp",
-    "headers": {
-      "Authorization": "Bearer <management-api-key>"
-    }
-  }
-}
-```
+</details>
 
-**Important**: Replace `<environment-id>` with your actual Kontent.ai environment ID (GUID format) and `<management-api-key>` with your Management API key.
+> [!IMPORTANT]
+> Replace `<environment-id>` with your Kontent.ai environment ID (GUID) and `<management-api-key>` with your Management API key.
 
 ## 💻 Development
 
