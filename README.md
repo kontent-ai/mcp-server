@@ -86,6 +86,8 @@ npx @kontent-ai/mcp-server@latest shttp
 * **get-taxonomy-group-mapi** – Get Kontent.ai taxonomy group by internal ID from Management API
 * **list-taxonomy-groups-mapi** – Get all Kontent.ai taxonomy groups from Management API
 * **add-taxonomy-group-mapi** – Add new Kontent.ai taxonomy group via Management API
+* **patch-taxonomy-group-mapi** – Update Kontent.ai taxonomy group using JSON Patch operations (addInto, move, remove, replace) via Management API
+* **delete-taxonomy-group-mapi** – Delete Kontent.ai taxonomy group by ID from Management API
 
 ### Content Item Management
 

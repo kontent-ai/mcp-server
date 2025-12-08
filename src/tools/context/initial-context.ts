@@ -23,6 +23,9 @@ Collections organize content items into logical groups by team, brand, or projec
 ### Languages
 Languages define available locales for content. Each language can have a fallback language for content inheritance and can be activated or deactivated.
 
+### Taxonomy Groups
+Taxonomy groups are hierarchical classification systems with a tree structure. Each group contains terms that can be nested to any depth, enabling flexible content categorization.
+
 ## Understanding Key Relationships
 
 The content structure flows from Content Type → Content Item → Language Variant(s). For reusability, Content Type Snippets can be included in multiple Content Types. For localization, each Content Item can have one Language Variant per language.
@@ -106,8 +109,6 @@ ALL FOUR elements must be included in language variant using their internal IDs:
 
 
 ## Essential Concepts
-
-**Taxonomies** provide hierarchical content categorization, allowing you to organize and tag content systematically.
 
 **Assets** are digital files including images, videos, and documents that can be referenced throughout your content.
 
