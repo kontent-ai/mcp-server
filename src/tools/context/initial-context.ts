@@ -23,6 +23,9 @@ Collections organize content items into logical groups by team, brand, or projec
 ### Languages
 Languages define available locales for content. Each language can have a fallback language for content inheritance and can be activated or deactivated.
 
+### Roles
+Roles define permissions for users to access and manage content. Each role has a set of permissions that determine what actions a user of said role can perform. Project Manager is the predefined default role and is also the only role that has a codename.
+
 ## Understanding Key Relationships
 
 The content structure flows from Content Type → Content Item → Language Variant(s). For reusability, Content Type Snippets can be included in multiple Content Types. For localization, each Content Item can have one Language Variant per language.

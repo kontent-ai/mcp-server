@@ -16,6 +16,7 @@ import { registerTool as registerGetInitialContext } from "./tools/get-initial-c
 import { registerTool as registerGetItemMapi } from "./tools/get-item-mapi.js";
 import { registerTool as registerGetLatestVariantMapi } from "./tools/get-latest-variant-mapi.js";
 import { registerTool as registerGetPublishedVariantMapi } from "./tools/get-published-variant-mapi.js";
+import { registerTool as registerGetRoleMapi } from "./tools/get-role-mapi.js";
 import { registerTool as registerGetTaxonomyGroupMapi } from "./tools/get-taxonomy-group-mapi.js";
 import { registerTool as registerGetTypeMapi } from "./tools/get-type-mapi.js";
 import { registerTool as registerGetTypeSnippetMapi } from "./tools/get-type-snippet-mapi.js";
@@ -24,6 +25,7 @@ import { registerTool as registerListCollectionsMapi } from "./tools/list-collec
 import { registerTool as registerListContentTypeSnippetsMapi } from "./tools/list-content-type-snippets-mapi.js";
 import { registerTool as registerListContentTypesMapi } from "./tools/list-content-types-mapi.js";
 import { registerTool as registerListLanguagesMapi } from "./tools/list-languages-mapi.js";
+import { registerTool as registerListRolesMapi } from "./tools/list-roles-mapi.js";
 import { registerTool as registerListSpacesMapi } from "./tools/list-spaces-mapi.js";
 import { registerTool as registerListTaxonomyGroupsMapi } from "./tools/list-taxonomy-groups-mapi.js";
 import { registerTool as registerListVariantsCollectionMapi } from "./tools/list-variants-collection-mapi.js";
@@ -71,6 +73,8 @@ export const createServer = () => {
   registerListCollectionsMapi(server);
   registerPatchCollectionsMapi(server);
   registerListSpacesMapi(server);
+  registerListRolesMapi(server);
+  registerGetRoleMapi(server);
   registerGetAssetMapi(server);
   registerListAssetsMapi(server);
   registerAddContentTypeMapi(server);

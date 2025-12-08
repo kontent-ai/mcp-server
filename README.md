@@ -125,6 +125,11 @@ npx @kontent-ai/mcp-server@latest shttp
 
 * **list-spaces-mapi** – Get all Kontent.ai spaces from Management API
 
+### Role Management
+
+* **list-roles-mapi** – Get all Kontent.ai roles from Management API. Requires Enterprise or Flex plan with "Manage custom roles" permission
+* **get-role-mapi** – Get a specific Kontent.ai role by ID or codename from Management API. Requires Enterprise or Flex plan with "Manage custom roles" permission
+
 ### Workflow Management
 
 * **list-workflows-mapi** – Get all Kontent.ai workflows from Management API. Workflows define the content lifecycle stages and transitions between them
