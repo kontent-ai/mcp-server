@@ -137,11 +137,21 @@ export function removeEmptyValues(obj: any): any {
 export const createMcpToolSuccessResponse = (
   data: any,
 ): McpToolSuccessResponse => {
+  const cleaned = removeEmptyValues(data);
+  // Handle undefined separately as JSON.stringify(undefined) returns undefined (not a string)
+  // Skip stringify for strings as they don't need JSON encoding for MCP text response
+  const text =
+    cleaned === undefined
+      ? "undefined"
+      : typeof cleaned === "string"
+        ? cleaned
+        : JSON.stringify(cleaned);
+
   return {
     content: [
       {
         type: "text",
-        text: JSON.stringify(removeEmptyValues(data)),
+        text,
       },
     ],
   };
@@ -152,12 +162,20 @@ export const createVariantMcpToolSuccessResponse = (
 ): McpToolSuccessResponse => {
   const cleaned = removeEmptyValues(data);
   const optimized = removeEmptyElementsFromVariant(cleaned);
+  // Handle undefined separately as JSON.stringify(undefined) returns undefined (not a string)
+  // Skip stringify for strings as they don't need JSON encoding for MCP text response
+  const text =
+    optimized === undefined
+      ? "undefined"
+      : typeof optimized === "string"
+        ? optimized
+        : JSON.stringify(optimized);
 
   return {
     content: [
       {
         type: "text",
-        text: JSON.stringify(optimized),
+        text,
       },
     ],
   };

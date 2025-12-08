@@ -634,3 +634,41 @@ describe("top-level empty value preservation", () => {
     });
   });
 });
+
+describe("undefined input handling - MCP protocol compliance", () => {
+  describe("createMcpToolSuccessResponse", () => {
+    it("returns string when input is undefined", () => {
+      const response = createMcpToolSuccessResponse(undefined);
+      assert.strictEqual(typeof response.content[0].text, "string");
+    });
+
+    it("returns 'undefined' text when input is undefined", () => {
+      const response = createMcpToolSuccessResponse(undefined);
+      assert.strictEqual(response.content[0].text, "undefined");
+    });
+
+    it("returns valid JSON string when input is null", () => {
+      const response = createMcpToolSuccessResponse(null);
+      assert.strictEqual(typeof response.content[0].text, "string");
+      assert.doesNotThrow(() => JSON.parse(response.content[0].text));
+    });
+  });
+
+  describe("createVariantMcpToolSuccessResponse", () => {
+    it("returns string when input is undefined", () => {
+      const response = createVariantMcpToolSuccessResponse(undefined);
+      assert.strictEqual(typeof response.content[0].text, "string");
+    });
+
+    it("returns 'undefined' text when input is undefined", () => {
+      const response = createVariantMcpToolSuccessResponse(undefined);
+      assert.strictEqual(response.content[0].text, "undefined");
+    });
+
+    it("returns valid JSON string when input is null", () => {
+      const response = createVariantMcpToolSuccessResponse(null);
+      assert.strictEqual(typeof response.content[0].text, "string");
+      assert.doesNotThrow(() => JSON.parse(response.content[0].text));
+    });
+  });
+});
