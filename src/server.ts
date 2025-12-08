@@ -44,6 +44,7 @@ import { registerTool as registerSearchVariantsMapi } from "./tools/search-varia
 import { registerTool as registerUnpublishVariantMapi } from "./tools/unpublish-variant-mapi.js";
 import { registerTool as registerUpdateContentItemMapi } from "./tools/update-content-item-mapi.js";
 import { registerTool as registerUpdateWorkflowMapi } from "./tools/update-workflow-mapi.js";
+import { registerTool as registerUpsertAssetMapi } from "./tools/upsert-asset-mapi.js";
 import { registerTool as registerUpsertLanguageVariantMapi } from "./tools/upsert-language-variant-mapi.js";
 
 // Create server instance
@@ -80,6 +81,7 @@ export const createServer = () => {
   registerGetRoleMapi(server);
   registerGetAssetMapi(server);
   registerListAssetsMapi(server);
+  registerUpsertAssetMapi(server);
   registerAddContentTypeMapi(server);
   registerPatchContentTypeMapi(server);
   registerAddContentTypeSnippetMapi(server);
