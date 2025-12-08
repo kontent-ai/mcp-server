@@ -10,6 +10,7 @@ import { registerTool as registerCreateVariantVersionMapi } from "./tools/create
 import { registerTool as registerDeleteContentItemMapi } from "./tools/delete-content-item-mapi.js";
 import { registerTool as registerDeleteContentTypeMapi } from "./tools/delete-content-type-mapi.js";
 import { registerTool as registerDeleteLanguageVariantMapi } from "./tools/delete-language-variant-mapi.js";
+import { registerTool as registerDeleteTaxonomyGroupMapi } from "./tools/delete-taxonomy-group-mapi.js";
 import { registerTool as registerDeleteTypeSnippetMapi } from "./tools/delete-type-snippet-mapi.js";
 import { registerTool as registerFilterVariantsMapi } from "./tools/filter-variants-mapi.js";
 import { registerTool as registerGetAssetMapi } from "./tools/get-asset-mapi.js";
@@ -36,6 +37,7 @@ import { registerTool as registerListWorkflowsMapi } from "./tools/list-workflow
 import { registerTool as registerPatchCollectionsMapi } from "./tools/patch-collections-mapi.js";
 import { registerTool as registerPatchContentTypeMapi } from "./tools/patch-content-type-mapi.js";
 import { registerTool as registerPatchLanguageMapi } from "./tools/patch-language-mapi.js";
+import { registerTool as registerPatchTaxonomyGroupMapi } from "./tools/patch-taxonomy-group-mapi.js";
 import { registerTool as registerPatchTypeSnippetMapi } from "./tools/patch-type-snippet-mapi.js";
 import { registerTool as registerPublishVariantMapi } from "./tools/publish-variant-mapi.js";
 import { registerTool as registerSearchVariantsMapi } from "./tools/search-variants-mapi.js";
@@ -81,6 +83,8 @@ export const createServer = () => {
   registerAddTaxonomyGroupMapi(server);
   registerListTaxonomyGroupsMapi(server);
   registerGetTaxonomyGroupMapi(server);
+  registerPatchTaxonomyGroupMapi(server);
+  registerDeleteTaxonomyGroupMapi(server);
   registerAddContentItemMapi(server);
   registerUpdateContentItemMapi(server);
   registerDeleteContentItemMapi(server);
