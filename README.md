@@ -78,6 +78,8 @@ npx @kontent-ai/mcp-server@latest shttp
 * **get-type-snippet-mapi** – Get Kontent.ai content type snippet by internal ID from Management API
 * **list-content-type-snippets-mapi** – Get all Kontent.ai content type snippets from Management API
 * **add-content-type-snippet-mapi** – Add new Kontent.ai content type snippet via Management API
+* **patch-type-snippet-mapi** – Update an existing Kontent.ai content type snippet by codename using patch operations (move, addInto, remove, replace)
+* **delete-type-snippet-mapi** – Delete a Kontent.ai content type snippet by codename
 
 ### Taxonomy Management
 

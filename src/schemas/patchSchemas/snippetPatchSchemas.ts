@@ -1,9 +1,5 @@
 import { z } from "zod";
-import {
-  contentGroupSchema,
-  dependsOnSchema,
-  elementSchema,
-} from "../contentTypeAndSnippetSchemas.js";
+import { snippetElementSchema } from "../contentTypeAndSnippetSchemas.js";
 import {
   moveOperationSchema,
   removeOperationSchema,
@@ -14,24 +10,22 @@ import {
 const addIntoOperationSchema = z.object({
   op: z.literal("addInto"),
   path: z.string().describe("Path where to add item (format: id:{uuid})"),
-  value: z.union([
-    elementSchema,
-    contentGroupSchema,
-    ...sharedAddIntoValueSchemas,
-  ]),
+  value: z.union([snippetElementSchema, ...sharedAddIntoValueSchemas]),
 });
 
 const replaceOperationSchema = z.object({
   op: z.literal("replace"),
   path: z.string().describe("Path to property to replace (format: id:{uuid})"),
-  value: z.union([dependsOnSchema, ...sharedReplaceValueSchemas]),
+  value: z.union(sharedReplaceValueSchemas),
 });
 
-export const patchOperationSchema = z.discriminatedUnion("op", [
+export const snippetPatchOperationSchema = z.discriminatedUnion("op", [
   moveOperationSchema,
   addIntoOperationSchema,
   removeOperationSchema,
   replaceOperationSchema,
 ]);
 
-export const patchOperationsSchema = z.array(patchOperationSchema).min(1);
+export const snippetPatchOperationsSchema = z
+  .array(snippetPatchOperationSchema)
+  .min(1);
