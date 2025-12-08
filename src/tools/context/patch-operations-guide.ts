@@ -1,21 +1,23 @@
 export const patchOperationsGuide = `
-# Content Type Patch Operations Guide
+# Content Type & Snippet Patch Operations Guide
 
 ## Overview
-Modify content types using RFC 6902 JSON Patch operations: move, addInto, remove, replace.
+Modify content types and snippets using RFC 6902 JSON Patch operations: move, addInto, remove, replace.
 
 ## Critical Requirements
-- **Always call get-type-mapi first** to get current schema
+- **Always call get-type-mapi or get-type-snippet-mapi first** to get current schema
 - **Use addInto/remove for arrays** (elements, allowed_content_types, allowed_blocks, etc.)
 - **Never use replace for array properties** - use addInto/remove instead
 - **Use replace for primitives/objects** (name, maximum_text_length, validation_regex)
 - **external_id and type cannot be modified** after creation
 - **When adding allowed_formatting/allowed_table_formatting**, 'unstyled' must be first
+- **Empty arrays enable all options** - For allowed_blocks, allowed_formatting, allowed_content_types, etc., an empty array means "allow all"
+- **Snippets cannot contain**: content_groups, subpages, snippet, or url_slug elements
 
 ## Operation Types
 
 ### move
-Reorganize elements, options, or content groups using 'before' or 'after' reference.
+Reorganize elements, options, or content groups (content types only) using 'before' or 'after' reference.
 
 ### addInto
 Add new items to arrays. Use for all array operations (elements, options, allowed_blocks, etc.).
@@ -31,7 +33,7 @@ Use JSON Pointer with id:{uuid} format:
 - Element: /elements/id:{uuid}
 - Element property: /elements/id:{uuid}/name
 - Option: /elements/id:{uuid}/options/id:{uuid}
-- Content group: /content_groups/id:{uuid}
+- Content group: /content_groups/id:{uuid} (content types only)
 - Array item: /elements/id:{uuid}/allowed_content_types/id:{uuid}
 
 ## Rich Text Properties
@@ -46,8 +48,8 @@ Use JSON Pointer with id:{uuid} format:
 - **allowed_table_formatting**: Same as allowed_formatting (empty=all, unstyled must be first)
 
 ## Special Techniques
-- **Remove content groups**: Set ALL elements' content_group to null AND remove ALL groups in one request
-- **URL Slug with snippet**: Add snippet element first, then URL slug with depends_on reference
+- **Remove content groups** (content types only): Set ALL elements' content_group to null AND remove ALL groups in one request
+- **URL Slug with snippet** (content types only): Add snippet element first, then URL slug with depends_on reference
 
 ## Best Practices
 - Use descriptive codenames

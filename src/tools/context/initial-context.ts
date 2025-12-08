@@ -136,6 +136,7 @@ When working with taxonomy elements, always retrieve and understand the taxonomy
 - **Content Items**: Use internal IDs to reference content items
 - **Language Variants**: Use internal IDs for both item and language references
 - **Content Types**: Use internal IDs to reference content types
+- **Content Type Snippets**: Use internal IDs to reference content type snippets
 - **Taxonomy Terms**: Use internal IDs when referencing taxonomy terms
 - **Assets**: Use internal IDs when referencing assets
 - **Workflow Steps**: Use internal IDs for workflow step references

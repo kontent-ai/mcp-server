@@ -1,10 +1,5 @@
 import { z } from "zod";
-
-// Reference by id or codename (id preferred)
-export const referenceObjectSchema = z.object({
-  id: z.string().optional(),
-  codename: z.string().optional(),
-});
+import { referenceObjectSchema } from "./referenceObjectSchema.js";
 
 // Common property schemas
 const baseElementSchema = {
@@ -327,14 +322,12 @@ export const contentGroupSchema = z.object({
   codename: z.string().optional(),
 });
 
-// Define a union type for snippet elements (excluding url_slug and snippet elements)
 export const snippetElementSchema = z.discriminatedUnion("type", [
   z.object(assetElementSchema),
   z.object(customElementSchema),
   z.object(dateTimeElementSchema),
   z.object(guidelinesElementSchema),
   z.object(modularContentElementSchema),
-  z.object(subpagesElementSchema),
   z.object(multipleChoiceElementSchema),
   z.object(numberElementSchema),
   z.object(richTextElementSchema),
