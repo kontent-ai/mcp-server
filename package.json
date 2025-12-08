@@ -1,6 +1,6 @@
 {
   "name": "@kontent-ai/mcp-server",
-  "version": "0.22.0",
+  "version": "0.22.1",
   "type": "module",
   "mcpName": "io.github.kontent-ai/mcp-server",
   "repository": {
