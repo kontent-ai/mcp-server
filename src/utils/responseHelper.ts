@@ -78,7 +78,7 @@ export function removeEmptyElementsFromVariant(obj: any): any {
   return result;
 }
 
-export function removeEmptyValues(obj: any): any {
+function removeEmptyValuesRecursive(obj: any): any {
   if (obj === null || obj === undefined) {
     return undefined;
   }
@@ -89,7 +89,7 @@ export function removeEmptyValues(obj: any): any {
 
   if (Array.isArray(obj)) {
     const cleaned = obj
-      .map((item) => removeEmptyValues(item))
+      .map((item) => removeEmptyValuesRecursive(item))
       .filter((item) => item !== undefined);
 
     return cleaned.length === 0 ? undefined : cleaned;
@@ -98,7 +98,7 @@ export function removeEmptyValues(obj: any): any {
   const cleaned: any = {};
 
   for (const [key, value] of Object.entries(obj)) {
-    const cleanedValue = removeEmptyValues(value);
+    const cleanedValue = removeEmptyValuesRecursive(value);
 
     if (cleanedValue !== undefined) {
       cleaned[key] = cleanedValue;
@@ -109,17 +109,59 @@ export function removeEmptyValues(obj: any): any {
   return keys.length === 0 ? undefined : cleaned;
 }
 
-export const createMcpToolSuccessResponse = (
-  data: any,
-): McpToolSuccessResponse => {
+export function removeEmptyValues(obj: any): any {
+  // At root level, preserve the structure even if empty
+  if (typeof obj !== "object" || obj === null) {
+    return obj;
+  }
+
+  if (Array.isArray(obj)) {
+    return obj
+      .map((item) => removeEmptyValuesRecursive(item))
+      .filter((item) => item !== undefined);
+  }
+
+  const cleaned: any = {};
+
+  for (const [key, value] of Object.entries(obj)) {
+    const cleanedValue = removeEmptyValuesRecursive(value);
+
+    if (cleanedValue !== undefined) {
+      cleaned[key] = cleanedValue;
+    }
+  }
+
+  return cleaned;
+}
+
+/**
+ * Converts data to MCP tool success response format.
+ * Handles undefined separately as JSON.stringify(undefined) returns undefined (not a string).
+ * Skips stringify for strings as they don't need JSON encoding for MCP text response.
+ */
+const toMcpSuccessResponse = (data: any): McpToolSuccessResponse => {
+  const text =
+    data === undefined
+      ? "undefined"
+      : typeof data === "string"
+        ? data
+        : JSON.stringify(data);
+
   return {
     content: [
       {
         type: "text",
-        text: JSON.stringify(removeEmptyValues(data)),
+        text,
       },
     ],
   };
+};
+
+export const createMcpToolSuccessResponse = (
+  data: any,
+): McpToolSuccessResponse => {
+  const cleaned = removeEmptyValues(data);
+  return toMcpSuccessResponse(cleaned);
 };
 
 export const createVariantMcpToolSuccessResponse = (
@@ -127,13 +169,5 @@ export const createVariantMcpToolSuccessResponse = (
 ): McpToolSuccessResponse => {
   const cleaned = removeEmptyValues(data);
   const optimized = removeEmptyElementsFromVariant(cleaned);
-
-  return {
-    content: [
-      {
-        type: "text",
-        text: JSON.stringify(optimized),
-      },
-    ],
-  };
+  return toMcpSuccessResponse(optimized);
 };

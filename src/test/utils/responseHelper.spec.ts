@@ -75,21 +75,21 @@ describe("isEmptyOrDefault", () => {
 });
 
 describe("removeEmptyValues", () => {
-  describe("primitive values", () => {
-    it("returns undefined for null", () => {
-      assert.strictEqual(removeEmptyValues(null), undefined);
+  describe("primitive values at root level - preserved as-is", () => {
+    it("returns null for null", () => {
+      assert.strictEqual(removeEmptyValues(null), null);
     });
 
     it("returns undefined for undefined", () => {
       assert.strictEqual(removeEmptyValues(undefined), undefined);
     });
 
-    it("returns undefined for empty string", () => {
-      assert.strictEqual(removeEmptyValues(""), undefined);
+    it("preserves empty string at root level", () => {
+      assert.strictEqual(removeEmptyValues(""), "");
     });
 
-    it("returns undefined for rich text empty paragraph", () => {
-      assert.strictEqual(removeEmptyValues("<p><br/></p>"), undefined);
+    it("preserves rich text empty paragraph at root level", () => {
+      assert.strictEqual(removeEmptyValues("<p><br/></p>"), "<p><br/></p>");
     });
 
     it("preserves non-empty string", () => {
@@ -106,16 +106,16 @@ describe("removeEmptyValues", () => {
   });
 
   describe("arrays", () => {
-    it("returns undefined for empty array", () => {
-      assert.strictEqual(removeEmptyValues([]), undefined);
+    it("returns empty array for empty array at root level", () => {
+      assert.deepStrictEqual(removeEmptyValues([]), []);
     });
 
     it("removes empty values from array", () => {
       assert.deepStrictEqual(removeEmptyValues([1, null, 2, "", 3]), [1, 2, 3]);
     });
 
-    it("returns undefined when all array items are empty", () => {
-      assert.strictEqual(removeEmptyValues([null, "", [], {}]), undefined);
+    it("returns empty array when all array items are empty at root level", () => {
+      assert.deepStrictEqual(removeEmptyValues([null, "", [], {}]), []);
     });
 
     it("recursively cleans nested arrays", () => {
@@ -127,8 +127,8 @@ describe("removeEmptyValues", () => {
   });
 
   describe("objects", () => {
-    it("returns undefined for empty object", () => {
-      assert.strictEqual(removeEmptyValues({}), undefined);
+    it("returns empty object for empty object at root level", () => {
+      assert.deepStrictEqual(removeEmptyValues({}), {});
     });
 
     it("removes null properties", () => {
@@ -159,10 +159,10 @@ describe("removeEmptyValues", () => {
       });
     });
 
-    it("returns undefined when all properties are empty", () => {
-      assert.strictEqual(
+    it("returns empty object when all properties are empty at root level", () => {
+      assert.deepStrictEqual(
         removeEmptyValues({ a: null, b: "", c: [], d: {} }),
-        undefined,
+        {},
       );
     });
   });
@@ -517,5 +517,158 @@ describe("variant with all empty elements", () => {
       {},
       "All empty elements should be removed, resulting in an empty object",
     );
+  });
+});
+
+describe("top-level empty value preservation", () => {
+  describe("createMcpToolSuccessResponse", () => {
+    it("returns empty array when input is empty array", () => {
+      const response = createMcpToolSuccessResponse([]);
+      const parsed = JSON.parse(response.content[0].text);
+      assert.deepStrictEqual(parsed, []);
+    });
+
+    it("returns empty object when input is empty object", () => {
+      const response = createMcpToolSuccessResponse({});
+      const parsed = JSON.parse(response.content[0].text);
+      assert.deepStrictEqual(parsed, {});
+    });
+
+    it("returns empty object when all properties are removed", () => {
+      const input = { a: null, b: "", c: [] };
+      const response = createMcpToolSuccessResponse(input);
+      const parsed = JSON.parse(response.content[0].text);
+      assert.deepStrictEqual(parsed, {});
+    });
+
+    it("returns empty array when all array items are removed", () => {
+      const input = [null, "", [], {}];
+      const response = createMcpToolSuccessResponse(input);
+      const parsed = JSON.parse(response.content[0].text);
+      assert.deepStrictEqual(parsed, []);
+    });
+
+    it("returns valid JSON string (not undefined)", () => {
+      const response = createMcpToolSuccessResponse([]);
+      assert.strictEqual(typeof response.content[0].text, "string");
+      assert.doesNotThrow(() => JSON.parse(response.content[0].text));
+    });
+
+    it("handles filter-variants-like response with empty data array", () => {
+      const input = {
+        data: [],
+        pagination: {
+          continuation_token: null,
+        },
+      };
+      const response = createMcpToolSuccessResponse(input);
+      const parsed = JSON.parse(response.content[0].text);
+      assert.deepStrictEqual(parsed, {});
+    });
+  });
+
+  describe("createVariantMcpToolSuccessResponse", () => {
+    it("returns empty array when input is empty array", () => {
+      const response = createVariantMcpToolSuccessResponse([]);
+      const parsed = JSON.parse(response.content[0].text);
+      assert.deepStrictEqual(parsed, []);
+    });
+
+    it("returns empty object when input is empty object", () => {
+      const response = createVariantMcpToolSuccessResponse({});
+      const parsed = JSON.parse(response.content[0].text);
+      assert.deepStrictEqual(parsed, {});
+    });
+
+    it("returns empty object when all properties are removed", () => {
+      const input = { a: null, b: "", c: [] };
+      const response = createVariantMcpToolSuccessResponse(input);
+      const parsed = JSON.parse(response.content[0].text);
+      assert.deepStrictEqual(parsed, {});
+    });
+
+    it("returns empty array when all array items are removed", () => {
+      const input = [null, "", [], {}];
+      const response = createVariantMcpToolSuccessResponse(input);
+      const parsed = JSON.parse(response.content[0].text);
+      assert.deepStrictEqual(parsed, []);
+    });
+
+    it("returns valid JSON string (not undefined)", () => {
+      const response = createVariantMcpToolSuccessResponse([]);
+      assert.strictEqual(typeof response.content[0].text, "string");
+      assert.doesNotThrow(() => JSON.parse(response.content[0].text));
+    });
+
+    it("handles filter-variants-like response with empty data array", () => {
+      const input = {
+        data: [],
+        pagination: {
+          continuation_token: null,
+        },
+      };
+      const response = createVariantMcpToolSuccessResponse(input);
+      const parsed = JSON.parse(response.content[0].text);
+      assert.deepStrictEqual(parsed, {});
+    });
+
+    it("handles filter-variants response with variants array becoming empty", () => {
+      const input = {
+        variants: [
+          {
+            elements: [
+              { element: { id: "el-1" }, value: null },
+              { element: { id: "el-2" }, value: "" },
+            ],
+          },
+        ],
+        pagination: {
+          continuation_token: null,
+        },
+      };
+      const response = createVariantMcpToolSuccessResponse(input);
+      const parsed = JSON.parse(response.content[0].text);
+      // variants array should still be present (with empty variant objects)
+      assert.ok(parsed.variants !== undefined);
+      assert.strictEqual(parsed.variants.length, 1);
+    });
+  });
+});
+
+describe("undefined input handling - MCP protocol compliance", () => {
+  describe("createMcpToolSuccessResponse", () => {
+    it("returns string when input is undefined", () => {
+      const response = createMcpToolSuccessResponse(undefined);
+      assert.strictEqual(typeof response.content[0].text, "string");
+    });
+
+    it("returns 'undefined' text when input is undefined", () => {
+      const response = createMcpToolSuccessResponse(undefined);
+      assert.strictEqual(response.content[0].text, "undefined");
+    });
+
+    it("returns valid JSON string when input is null", () => {
+      const response = createMcpToolSuccessResponse(null);
+      assert.strictEqual(typeof response.content[0].text, "string");
+      assert.doesNotThrow(() => JSON.parse(response.content[0].text));
+    });
+  });
+
+  describe("createVariantMcpToolSuccessResponse", () => {
+    it("returns string when input is undefined", () => {
+      const response = createVariantMcpToolSuccessResponse(undefined);
+      assert.strictEqual(typeof response.content[0].text, "string");
+    });
+
+    it("returns 'undefined' text when input is undefined", () => {
+      const response = createVariantMcpToolSuccessResponse(undefined);
+      assert.strictEqual(response.content[0].text, "undefined");
+    });
+
+    it("returns valid JSON string when input is null", () => {
+      const response = createVariantMcpToolSuccessResponse(null);
+      assert.strictEqual(typeof response.content[0].text, "string");
+      assert.doesNotThrow(() => JSON.parse(response.content[0].text));
+    });
   });
 });
