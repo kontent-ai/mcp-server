@@ -4,12 +4,14 @@ import { registerTool as registerAddContentItemMapi } from "./tools/add-content-
 import { registerTool as registerAddContentTypeMapi } from "./tools/add-content-type-mapi.js";
 import { registerTool as registerAddContentTypeSnippetMapi } from "./tools/add-content-type-snippet-mapi.js";
 import { registerTool as registerAddLanguageMapi } from "./tools/add-language-mapi.js";
+import { registerTool as registerAddSpaceMapi } from "./tools/add-space-mapi.js";
 import { registerTool as registerAddTaxonomyGroupMapi } from "./tools/add-taxonomy-group-mapi.js";
 import { registerTool as registerChangeVariantWorkflowStepMapi } from "./tools/change-variant-workflow-step-mapi.js";
 import { registerTool as registerCreateVariantVersionMapi } from "./tools/create-variant-version-mapi.js";
 import { registerTool as registerDeleteContentItemMapi } from "./tools/delete-content-item-mapi.js";
 import { registerTool as registerDeleteContentTypeMapi } from "./tools/delete-content-type-mapi.js";
 import { registerTool as registerDeleteLanguageVariantMapi } from "./tools/delete-language-variant-mapi.js";
+import { registerTool as registerDeleteSpaceMapi } from "./tools/delete-space-mapi.js";
 import { registerTool as registerDeleteTaxonomyGroupMapi } from "./tools/delete-taxonomy-group-mapi.js";
 import { registerTool as registerDeleteTypeSnippetMapi } from "./tools/delete-type-snippet-mapi.js";
 import { registerTool as registerFilterVariantsMapi } from "./tools/filter-variants-mapi.js";
@@ -34,6 +36,7 @@ import { registerTool as registerListVariantsItemMapi } from "./tools/list-varia
 import { registerTool as registerListVariantsSpaceMapi } from "./tools/list-variants-space-mapi.js";
 import { registerTool as registerListVariantsTypeMapi } from "./tools/list-variants-type-mapi.js";
 import { registerTool as registerListWorkflowsMapi } from "./tools/list-workflows-mapi.js";
+import { registerTool as registerModifySpaceMapi } from "./tools/modify-space-mapi.js";
 import { registerTool as registerPatchCollectionsMapi } from "./tools/patch-collections-mapi.js";
 import { registerTool as registerPatchContentTypeMapi } from "./tools/patch-content-type-mapi.js";
 import { registerTool as registerPatchLanguageMapi } from "./tools/patch-language-mapi.js";
@@ -71,6 +74,9 @@ export const createServer = () => {
   registerListCollectionsMapi(server);
   registerPatchCollectionsMapi(server);
   registerListSpacesMapi(server);
+  registerAddSpaceMapi(server);
+  registerModifySpaceMapi(server);
+  registerDeleteSpaceMapi(server);
   registerGetAssetMapi(server);
   registerListAssetsMapi(server);
   registerAddContentTypeMapi(server);
