@@ -128,6 +128,9 @@ npx @kontent-ai/mcp-server@latest shttp
 ### Space Management
 
 * **list-spaces-mapi** – Get all Kontent.ai spaces from Management API
+* **add-space-mapi** – Add Kontent.ai space to environment from Management API
+* **modify-space-mapi** – Modify Kontent.ai space using replace operations from Management API
+* **delete-space-mapi** – Delete Kontent.ai space from Management API
 
 ### Workflow Management
 

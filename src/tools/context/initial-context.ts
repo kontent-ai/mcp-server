@@ -26,6 +26,9 @@ Languages define available locales for content. Each language can have a fallbac
 ### Taxonomy Groups
 Taxonomy groups are hierarchical classification systems with a tree structure. Each group contains terms that can be nested to any depth, enabling flexible content categorization.
 
+### Spaces
+Spaces provide channel-specific context for your content, enabling management of multiple websites or channels within a single project. Each space can have its own domain and preview URLs. Collections connect to spaces to organize which content belongs to specific channels.
+
 ## Understanding Key Relationships
 
 The content structure flows from Content Type → Content Item → Language Variant(s). For reusability, Content Type Snippets can be included in multiple Content Types. For localization, each Content Item can have one Language Variant per language.
