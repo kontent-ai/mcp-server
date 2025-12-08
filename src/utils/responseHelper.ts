@@ -134,18 +134,18 @@ export function removeEmptyValues(obj: any): any {
   return cleaned;
 }
 
-export const createMcpToolSuccessResponse = (
-  data: any,
-): McpToolSuccessResponse => {
-  const cleaned = removeEmptyValues(data);
-  // Handle undefined separately as JSON.stringify(undefined) returns undefined (not a string)
-  // Skip stringify for strings as they don't need JSON encoding for MCP text response
+/**
+ * Converts data to MCP tool success response format.
+ * Handles undefined separately as JSON.stringify(undefined) returns undefined (not a string).
+ * Skips stringify for strings as they don't need JSON encoding for MCP text response.
+ */
+const toMcpSuccessResponse = (data: any): McpToolSuccessResponse => {
   const text =
-    cleaned === undefined
+    data === undefined
       ? "undefined"
-      : typeof cleaned === "string"
-        ? cleaned
-        : JSON.stringify(cleaned);
+      : typeof data === "string"
+        ? data
+        : JSON.stringify(data);
 
   return {
     content: [
@@ -157,26 +157,17 @@ export const createMcpToolSuccessResponse = (
   };
 };
 
+export const createMcpToolSuccessResponse = (
+  data: any,
+): McpToolSuccessResponse => {
+  const cleaned = removeEmptyValues(data);
+  return toMcpSuccessResponse(cleaned);
+};
+
 export const createVariantMcpToolSuccessResponse = (
   data: any,
 ): McpToolSuccessResponse => {
   const cleaned = removeEmptyValues(data);
   const optimized = removeEmptyElementsFromVariant(cleaned);
-  // Handle undefined separately as JSON.stringify(undefined) returns undefined (not a string)
-  // Skip stringify for strings as they don't need JSON encoding for MCP text response
-  const text =
-    optimized === undefined
-      ? "undefined"
-      : typeof optimized === "string"
-        ? optimized
-        : JSON.stringify(optimized);
-
-  return {
-    content: [
-      {
-        type: "text",
-        text,
-      },
-    ],
-  };
+  return toMcpSuccessResponse(optimized);
 };
