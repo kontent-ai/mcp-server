@@ -45,6 +45,7 @@ import { registerTool as registerPatchTypeSnippetMapi } from "./tools/patch-type
 import { registerTool as registerPublishVariantMapi } from "./tools/publish-variant-mapi.js";
 import { registerTool as registerSearchVariantsMapi } from "./tools/search-variants-mapi.js";
 import { registerTool as registerUnpublishVariantMapi } from "./tools/unpublish-variant-mapi.js";
+import { registerTool as registerUpsertAssetMapi } from "./tools/update-asset-mapi.js";
 import { registerTool as registerUpdateContentItemMapi } from "./tools/update-content-item-mapi.js";
 import { registerTool as registerUpsertLanguageVariantMapi } from "./tools/upsert-language-variant-mapi.js";
 
@@ -79,6 +80,7 @@ export const createServer = () => {
   registerDeleteSpaceMapi(server);
   registerGetAssetMapi(server);
   registerListAssetsMapi(server);
+  registerUpsertAssetMapi(server);
   registerAddContentTypeMapi(server);
   registerPatchContentTypeMapi(server);
   registerAddContentTypeSnippetMapi(server);

@@ -113,6 +113,7 @@ npx @kontent-ai/mcp-server@latest shttp
 
 * **get-asset-mapi** – Get a specific Kontent.ai asset by internal ID from Management API
 * **list-assets-mapi** – Get all Kontent.ai assets from Management API
+* **update-asset-mapi** – Create or update Kontent.ai asset by ID via Management API
 
 ### Language Management
 
