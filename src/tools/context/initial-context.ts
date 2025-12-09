@@ -26,6 +26,9 @@ Languages define available locales for content. Each language can have a fallbac
 ### Roles
 Roles define permissions for users to access and manage content. Each role has a set of permissions that determine what actions a user of said role can perform. Project Manager is the predefined default role and is also the only role that has a codename.
 
+### Workflows
+Workflows define the process for content to move through different stages of the content lifecycle. They come with two predefined steps: Published/Scheduled and Archived. Each workflow can be scoped to one or more content types and collections.
+
 ## Understanding Key Relationships
 
 The content structure flows from Content Type → Content Item → Language Variant(s). For reusability, Content Type Snippets can be included in multiple Content Types. For localization, each Content Item can have one Language Variant per language.
