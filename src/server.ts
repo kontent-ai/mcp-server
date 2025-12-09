@@ -5,11 +5,13 @@ import { registerTool as registerAddContentTypeMapi } from "./tools/add-content-
 import { registerTool as registerAddContentTypeSnippetMapi } from "./tools/add-content-type-snippet-mapi.js";
 import { registerTool as registerAddLanguageMapi } from "./tools/add-language-mapi.js";
 import { registerTool as registerAddTaxonomyGroupMapi } from "./tools/add-taxonomy-group-mapi.js";
+import { registerTool as registerAddWorkflowMapi } from "./tools/add-workflow-mapi.js";
 import { registerTool as registerChangeVariantWorkflowStepMapi } from "./tools/change-variant-workflow-step-mapi.js";
 import { registerTool as registerCreateVariantVersionMapi } from "./tools/create-variant-version-mapi.js";
 import { registerTool as registerDeleteContentItemMapi } from "./tools/delete-content-item-mapi.js";
 import { registerTool as registerDeleteContentTypeMapi } from "./tools/delete-content-type-mapi.js";
 import { registerTool as registerDeleteLanguageVariantMapi } from "./tools/delete-language-variant-mapi.js";
+import { registerTool as registerDeleteWorkflowMapi } from "./tools/delete-workflow-mapi.js";
 import { registerTool as registerFilterVariantsMapi } from "./tools/filter-variants-mapi.js";
 import { registerTool as registerGetAssetMapi } from "./tools/get-asset-mapi.js";
 import { registerTool as registerGetItemMapi } from "./tools/get-item-mapi.js";
@@ -41,6 +43,7 @@ import { registerTool as registerPublishVariantMapi } from "./tools/publish-vari
 import { registerTool as registerSearchVariantsMapi } from "./tools/search-variants-mapi.js";
 import { registerTool as registerUnpublishVariantMapi } from "./tools/unpublish-variant-mapi.js";
 import { registerTool as registerUpdateContentItemMapi } from "./tools/update-content-item-mapi.js";
+import { registerTool as registerUpdateWorkflowMapi } from "./tools/update-workflow-mapi.js";
 import { registerTool as registerUpsertLanguageVariantMapi } from "./tools/upsert-language-variant-mapi.js";
 
 // Create server instance
@@ -88,6 +91,9 @@ export const createServer = () => {
   registerCreateVariantVersionMapi(server);
   registerDeleteLanguageVariantMapi(server);
   registerListWorkflowsMapi(server);
+  registerAddWorkflowMapi(server);
+  registerUpdateWorkflowMapi(server);
+  registerDeleteWorkflowMapi(server);
   registerChangeVariantWorkflowStepMapi(server);
   registerFilterVariantsMapi(server);
   registerSearchVariantsMapi(server);
