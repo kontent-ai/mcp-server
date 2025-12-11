@@ -9,15 +9,13 @@ export const registerTool = (server: McpServer): void => {
     "change-variant-workflow-step-mapi",
     "Change Kontent.ai variant workflow step",
     {
-      itemId: z.string().uuid().describe("Content item UUID"),
-      languageId: z
-        .string()
-        .uuid()
+      itemId: z.uuid().describe("Content item UUID"),
+      languageId: z.uuid()
         .describe(
           "Language variant UUID (default: 00000000-0000-0000-0000-000000000000)",
         ),
-      workflowId: z.string().uuid().describe("Workflow UUID"),
-      workflowStepId: z.string().uuid().describe("Target workflow step UUID"),
+      workflowId: z.uuid().describe("Workflow UUID"),
+      workflowStepId: z.uuid().describe("Target workflow step UUID"),
     },
     async (
       { itemId, languageId, workflowId, workflowStepId },

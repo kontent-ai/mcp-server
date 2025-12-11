@@ -46,10 +46,6 @@ export const createServer = () => {
   const server = new McpServer({
     name: "kontent-ai",
     version: packageJson.version,
-    capabilities: {
-      resources: {},
-      tools: {},
-    },
   });
 
   // Register all tools

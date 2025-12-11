@@ -169,7 +169,7 @@ export function initializeApplicationInsights(): void {
       .setAutoCollectDependencies(false)
       .setAutoDependencyCorrelation(false)
       .setAutoCollectHeartbeat(false)
-      .setAutoCollectPerformance(false)
+      .setAutoCollectPerformance(false, false)
       .setAutoCollectIncomingRequestAzureFunctions(false)
       .setAutoCollectPreAggregatedMetrics(false)
       .start();

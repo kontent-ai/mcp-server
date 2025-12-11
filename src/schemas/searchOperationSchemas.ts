@@ -8,9 +8,7 @@ export const searchOperationSchema = z.object({
     ),
   filter: z
     .object({
-      variantId: z
-        .string()
-        .uuid()
+      variantId: z.uuid()
         .describe("UUID of the language variant to filter by"),
     })
     .describe(

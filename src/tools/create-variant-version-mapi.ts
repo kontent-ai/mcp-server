@@ -9,10 +9,8 @@ export const registerTool = (server: McpServer): void => {
     "create-variant-version-mapi",
     "Create new version of Kontent.ai variant",
     {
-      itemId: z.string().uuid().describe("Content item UUID"),
-      languageId: z
-        .string()
-        .uuid()
+      itemId: z.uuid().describe("Content item UUID"),
+      languageId: z.uuid()
         .describe(
           "Language variant UUID (default: 00000000-0000-0000-0000-000000000000)",
         ),
