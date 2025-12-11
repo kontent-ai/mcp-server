@@ -1,9 +1,16 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "assist": {
     "actions": {
       "source": {
         "organizeImports": "on"
+      }
+    }
+  },
+  "linter": {
+    "rules": {
+      "suspicious": {
+        "noExplicitAny": "off"
       }
     }
   },
@@ -17,7 +24,8 @@
       "!**/.cursor",
       "!**/build",
       "!**/node_modules",
-      "!**/package.json"
+      "!**/package.json",
+      "!**/management-sdk-js"
     ]
   },
   "formatter": {
