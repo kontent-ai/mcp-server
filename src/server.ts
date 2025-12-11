@@ -23,6 +23,7 @@ import { registerTool as registerGetPublishedVariantMapi } from "./tools/get-pub
 import { registerTool as registerGetTaxonomyGroupMapi } from "./tools/get-taxonomy-group-mapi.js";
 import { registerTool as registerGetTypeMapi } from "./tools/get-type-mapi.js";
 import { registerTool as registerGetTypeSnippetMapi } from "./tools/get-type-snippet-mapi.js";
+import { registerTool as registerListAssetFoldersMapi } from "./tools/list-asset-folders-mapi.js";
 import { registerTool as registerListAssetsMapi } from "./tools/list-assets-mapi.js";
 import { registerTool as registerListCollectionsMapi } from "./tools/list-collections-mapi.js";
 import { registerTool as registerListContentTypeSnippetsMapi } from "./tools/list-content-type-snippets-mapi.js";
@@ -37,6 +38,7 @@ import { registerTool as registerListVariantsSpaceMapi } from "./tools/list-vari
 import { registerTool as registerListVariantsTypeMapi } from "./tools/list-variants-type-mapi.js";
 import { registerTool as registerListWorkflowsMapi } from "./tools/list-workflows-mapi.js";
 import { registerTool as registerModifySpaceMapi } from "./tools/modify-space-mapi.js";
+import { registerTool as registerPatchAssetFoldersMapi } from "./tools/patch-asset-folders-mapi.js";
 import { registerTool as registerPatchCollectionsMapi } from "./tools/patch-collections-mapi.js";
 import { registerTool as registerPatchContentTypeMapi } from "./tools/patch-content-type-mapi.js";
 import { registerTool as registerPatchLanguageMapi } from "./tools/patch-language-mapi.js";
@@ -81,6 +83,8 @@ export const createServer = () => {
   registerGetAssetMapi(server);
   registerListAssetsMapi(server);
   registerUpsertAssetMapi(server);
+  registerListAssetFoldersMapi(server);
+  registerPatchAssetFoldersMapi(server);
   registerAddContentTypeMapi(server);
   registerPatchContentTypeMapi(server);
   registerAddContentTypeSnippetMapi(server);
