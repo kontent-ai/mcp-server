@@ -12,7 +12,11 @@ export const registerTool = (server: McpServer): void => {
     {
       codename: z.string().describe("Content type codename"),
       operations: patchOperationsSchema.describe(
-        "Patch operations array. CRITICAL: Always call get-type-mapi first. Use addInto/remove for arrays, replace for primitives/objects. See context for details.",
+        `Patch operations array. CRITICAL: Always call get-type-mapi first.
+- Use addInto/remove for arrays, replace for primitives/objects
+- Only one url_slug element allowed per content type
+- To remove content groups: set ALL elements' content_group to null AND remove ALL groups in one request
+- URL slug with snippet: add snippet element first, then url_slug with depends_on reference`,
       ),
     },
     async (

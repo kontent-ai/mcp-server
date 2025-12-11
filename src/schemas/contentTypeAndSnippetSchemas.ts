@@ -15,7 +15,10 @@ const contentGroupElementSchema = {
 const namedElementSchema = {
   ...baseElementSchema,
   name: z.string(),
-  guidelines: z.string().optional(),
+  guidelines: z
+    .string()
+    .optional()
+    .describe("Plain text guidelines shown to editors"),
   is_required: z.boolean().optional(),
   is_non_localizable: z.boolean().optional(),
 };
@@ -116,7 +119,9 @@ const dateTimeElementSchema = {
 const guidelinesElementSchema = {
   type: z.literal("guidelines"),
   ...baseElementSchema,
-  guidelines: z.string(),
+  guidelines: z
+    .string()
+    .describe("HTML content for guidelines element. Must be valid HTML."),
 };
 
 const modularContentElementSchema = {
