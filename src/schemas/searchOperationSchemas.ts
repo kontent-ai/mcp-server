@@ -8,8 +8,7 @@ export const searchOperationSchema = z.object({
     ),
   filter: z
     .object({
-      variantId: z.uuid()
-        .describe("UUID of the language variant to filter by"),
+      variantId: z.uuid().describe("UUID of the language variant to filter by"),
     })
     .describe(
       "Mandatory content item variant filter to restrict search scope. Must specify a valid variant UUID",

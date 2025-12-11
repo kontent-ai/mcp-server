@@ -12,9 +12,9 @@ import { registerTool as registerDeleteContentTypeMapi } from "./tools/delete-co
 import { registerTool as registerDeleteLanguageVariantMapi } from "./tools/delete-language-variant-mapi.js";
 import { registerTool as registerFilterVariantsMapi } from "./tools/filter-variants-mapi.js";
 import { registerTool as registerGetAssetMapi } from "./tools/get-asset-mapi.js";
-import { registerTool as registerGetInitialContext } from "./tools/get-initial-context.js";
 import { registerTool as registerGetItemMapi } from "./tools/get-item-mapi.js";
 import { registerTool as registerGetLatestVariantMapi } from "./tools/get-latest-variant-mapi.js";
+import { registerTool as registerGetPatchGuide } from "./tools/get-patch-guide.js";
 import { registerTool as registerGetPublishedVariantMapi } from "./tools/get-published-variant-mapi.js";
 import { registerTool as registerGetTaxonomyGroupMapi } from "./tools/get-taxonomy-group-mapi.js";
 import { registerTool as registerGetTypeMapi } from "./tools/get-type-mapi.js";
@@ -49,7 +49,7 @@ export const createServer = () => {
   });
 
   // Register all tools
-  registerGetInitialContext(server);
+  registerGetPatchGuide(server);
   registerGetItemMapi(server);
   registerGetLatestVariantMapi(server);
   registerGetPublishedVariantMapi(server);

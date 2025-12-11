@@ -10,7 +10,8 @@ export const registerTool = (server: McpServer): void => {
     "Change Kontent.ai variant workflow step",
     {
       itemId: z.uuid().describe("Content item UUID"),
-      languageId: z.uuid()
+      languageId: z
+        .uuid()
         .describe(
           "Language variant UUID (default: 00000000-0000-0000-0000-000000000000)",
         ),

@@ -7,7 +7,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "get-type-snippet-mapi",
-    "Get Kontent.ai content type snippet by ID",
+    "Get Kontent.ai content type snippet. Snippets are reusable element sets included in content types via snippet element.",
     {
       id: z.string().describe("Snippet ID"),
     },

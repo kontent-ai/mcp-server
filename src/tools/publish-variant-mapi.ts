@@ -7,14 +7,16 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "publish-variant-mapi",
-    "Publish or schedule Kontent.ai variant",
+    "Publish or schedule Kontent.ai variant. For scheduling, verify current time before using scheduledTo.",
     {
       itemId: z.uuid().describe("Content item UUID"),
-      languageId: z.uuid()
+      languageId: z
+        .uuid()
         .describe(
           "Language variant UUID (default: 00000000-0000-0000-0000-000000000000)",
         ),
-      scheduledTo: z.iso.datetime({ offset: true })
+      scheduledTo: z.iso
+        .datetime({ offset: true })
         .optional()
         .describe(
           "ISO 8601 datetime for scheduled publish (omit for immediate)",

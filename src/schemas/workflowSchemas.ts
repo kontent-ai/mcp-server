@@ -2,7 +2,8 @@ import { z } from "zod";
 
 // Schema for a workflow step
 const workflowStepSchema = z.object({
-  id: z.uuid()
+  id: z
+    .uuid()
     .describe("The unique identifier of the workflow step in UUID format"),
   name: z.string().describe("The human-readable name of the workflow step"),
   codename: z
@@ -20,7 +21,8 @@ const workflowStepSchema = z.object({
 
 // Schema for the published step
 const publishedStepSchema = z.object({
-  id: z.uuid()
+  id: z
+    .uuid()
     .describe("The unique identifier of the published step in UUID format"),
   name: z
     .string()
@@ -42,7 +44,8 @@ const publishedStepSchema = z.object({
 
 // Schema for the scheduled step
 const scheduledStepSchema = z.object({
-  id: z.uuid()
+  id: z
+    .uuid()
     .describe("The unique identifier of the scheduled step in UUID format"),
   name: z
     .string()
@@ -54,7 +57,8 @@ const scheduledStepSchema = z.object({
 
 // Schema for the archived step
 const archivedStepSchema = z.object({
-  id: z.uuid()
+  id: z
+    .uuid()
     .describe("The unique identifier of the archived step in UUID format"),
   name: z
     .string()
@@ -73,7 +77,8 @@ const workflowScopeSchema = z.object({
   content_types: z
     .array(
       z.object({
-        id: z.uuid()
+        id: z
+          .uuid()
           .describe("The unique identifier of the content type in UUID format"),
       }),
     )
@@ -82,8 +87,7 @@ const workflowScopeSchema = z.object({
 
 // Main workflow schema
 export const workflowSchema = z.object({
-  id: z.uuid()
-    .describe("The unique identifier of the workflow in UUID format"),
+  id: z.uuid().describe("The unique identifier of the workflow in UUID format"),
   name: z.string().describe("The human-readable name of the workflow"),
   codename: z
     .string()
