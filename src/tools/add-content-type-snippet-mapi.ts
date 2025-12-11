@@ -1,7 +1,7 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
-import { snippetElementSchema } from "../schemas/contentTypeSchemas.js";
+import { snippetElementSchema } from "../schemas/contentTypeAndSnippetSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 

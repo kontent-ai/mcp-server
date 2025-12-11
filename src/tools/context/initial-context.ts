@@ -23,6 +23,12 @@ Collections organize content items into logical groups by team, brand, or projec
 ### Languages
 Languages define available locales for content. Each language can have a fallback language for content inheritance and can be activated or deactivated.
 
+### Taxonomy Groups
+Taxonomy groups are hierarchical classification systems with a tree structure. Each group contains terms that can be nested to any depth, enabling flexible content categorization.
+
+### Spaces
+Spaces provide channel-specific context for your content, enabling management of multiple websites or channels within a single project. Each space can have its own domain and preview URLs. Collections connect to spaces to organize which content belongs to specific channels.
+
 ## Understanding Key Relationships
 
 The content structure flows from Content Type → Content Item → Language Variant(s). For reusability, Content Type Snippets can be included in multiple Content Types. For localization, each Content Item can have one Language Variant per language.
@@ -107,8 +113,6 @@ ALL FOUR elements must be included in language variant using their internal IDs:
 
 ## Essential Concepts
 
-**Taxonomies** provide hierarchical content categorization, allowing you to organize and tag content systematically.
-
 **Assets** are digital files including images, videos, and documents that can be referenced throughout your content.
 
 **Workflow states** manage the content lifecycle, tracking whether content is being drafted, is live, or has been archived.
@@ -136,6 +140,7 @@ When working with taxonomy elements, always retrieve and understand the taxonomy
 - **Content Items**: Use internal IDs to reference content items
 - **Language Variants**: Use internal IDs for both item and language references
 - **Content Types**: Use internal IDs to reference content types
+- **Content Type Snippets**: Use internal IDs to reference content type snippets
 - **Taxonomy Terms**: Use internal IDs when referencing taxonomy terms
 - **Assets**: Use internal IDs when referencing assets
 - **Workflow Steps**: Use internal IDs for workflow step references
