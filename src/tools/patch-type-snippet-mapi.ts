@@ -12,7 +12,9 @@ export const registerTool = (server: McpServer): void => {
     {
       codename: z.string().describe("Content type snippet codename"),
       operations: snippetPatchOperationsSchema.describe(
-        "Patch operations array. CRITICAL: Always call get-type-snippet-mapi first. Use addInto/remove for arrays, replace for primitives/objects.",
+        `Patch operations array. CRITICAL: Always call get-type-snippet-mapi first.
+- Use addInto/remove for arrays, replace for primitives/objects
+- Snippets cannot contain: content_groups, subpages, snippet, or url_slug elements`,
       ),
     },
     async (
