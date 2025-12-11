@@ -11,7 +11,7 @@ const userReferenceSchema = z
     }),
     z.object({
       id: z.never().optional(),
-      email: z.string().email().describe("User email address"),
+      email: z.email().describe("User email address"),
     }),
   ])
   .describe("Reference to a user by either their id or email (but not both)");

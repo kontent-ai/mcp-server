@@ -7,7 +7,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "list-assets-mapi",
-    "Get all Kontent.ai assets (paginated)",
+    "Get all Kontent.ai assets (paginated). Assets are digital files (images, videos, documents) referenced in content.",
     listAssetsSchema.shape,
     async ({ continuation_token }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);
