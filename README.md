@@ -115,6 +115,11 @@ npx @kontent-ai/mcp-server@latest shttp
 * **list-assets-mapi** – Get all Kontent.ai assets from Management API
 * **update-asset-mapi** – Create or update Kontent.ai asset by ID via Management API
 
+### Asset Folder Management
+
+* **list-asset-folders-mapi** – Get all Kontent.ai asset folders from Management API
+* **patch-asset-folders-mapi** – Modify Kontent.ai asset folders using patch operations (addInto to add new folders, rename to change names, remove to delete folders)
+
 ### Language Management
 
 * **list-languages-mapi** – Get all Kontent.ai languages from Management API
