@@ -7,7 +7,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "unpublish-variant-mapi",
-    "Unpublish or schedule unpublishing Kontent.ai variant. For scheduling, verify current time before using scheduledTo.",
+    "Unpublish or schedule unpublishing Kontent.ai variant. For scheduling, verify current UTC time before using scheduledTo.",
     {
       itemId: z.uuid().describe("Content item UUID"),
       languageId: z
