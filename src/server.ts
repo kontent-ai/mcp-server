@@ -18,7 +18,6 @@ import { registerTool as registerGetItemMapi } from "./tools/get-item-mapi.js";
 import { registerTool as registerGetLatestVariantMapi } from "./tools/get-latest-variant-mapi.js";
 import { registerTool as registerGetPatchGuide } from "./tools/get-patch-guide.js";
 import { registerTool as registerGetPublishedVariantMapi } from "./tools/get-published-variant-mapi.js";
-import { registerTool as registerGetRoleMapi } from "./tools/get-role-mapi.js";
 import { registerTool as registerGetTaxonomyGroupMapi } from "./tools/get-taxonomy-group-mapi.js";
 import { registerTool as registerGetTypeMapi } from "./tools/get-type-mapi.js";
 import { registerTool as registerGetTypeSnippetMapi } from "./tools/get-type-snippet-mapi.js";
@@ -73,7 +72,6 @@ export const createServer = () => {
   registerPatchCollectionsMapi(server);
   registerListSpacesMapi(server);
   registerListRolesMapi(server);
-  registerGetRoleMapi(server);
   registerGetAssetMapi(server);
   registerListAssetsMapi(server);
   registerAddContentTypeMapi(server);
