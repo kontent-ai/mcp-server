@@ -117,10 +117,6 @@ export const listWorkflowsResponseSchema = z
   .array(workflowSchema)
   .describe("Array of workflows in the project");
 
-// ============================================
-// INPUT SCHEMAS FOR WORKFLOW CREATION/UPDATE
-// ============================================
-
 // Step color options (matching SDK WorkflowColor type)
 const workflowStepColorSchema = z
   .enum([

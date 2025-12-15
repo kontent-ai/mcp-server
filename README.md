@@ -140,7 +140,6 @@ npx @kontent-ai/mcp-server@latest shttp
 ### Role Management
 
 * **list-roles-mapi** – Get all Kontent.ai roles from Management API. Requires Enterprise or Flex plan with "Manage custom roles" permission
-* **get-role-mapi** – Get a specific Kontent.ai role by ID or codename from Management API. Requires Enterprise or Flex plan with "Manage custom roles" permission
 
 ### Workflow Management
 
