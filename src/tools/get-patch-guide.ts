@@ -5,7 +5,7 @@ import { patchOperationsGuide } from "./context/patch-operations-guide.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "get-patch-guide",
-    "REQUIRED before using patch-content-type-mapi, patch-collections-mapi, or patch-language-mapi. Provides JSON Patch operations guide.",
+    "REQUIRED before any patch operation. Get JSON Patch operations guide for Kontent.ai Management API.",
     {},
     async () => {
       try {
