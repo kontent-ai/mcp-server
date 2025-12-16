@@ -13,12 +13,6 @@ const codenameReplaceOperationSchema = z.object({
   value: z.string(),
 });
 
-const webSpotlightRootItemReplaceOperationSchema = z.object({
-  op: z.literal("replace"),
-  property_name: z.literal("web_spotlight_root_item"),
-  value: referenceObjectSchema,
-});
-
 const collectionsReplaceOperationSchema = z.object({
   op: z.literal("replace"),
   property_name: z.literal("collections"),
@@ -28,7 +22,6 @@ const collectionsReplaceOperationSchema = z.object({
 export const spacePatchOperationSchema = z.discriminatedUnion("property_name", [
   nameReplaceOperationSchema,
   codenameReplaceOperationSchema,
-  webSpotlightRootItemReplaceOperationSchema,
   collectionsReplaceOperationSchema,
 ]);
 

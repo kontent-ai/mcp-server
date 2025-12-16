@@ -10,7 +10,7 @@ export const registerTool = (server: McpServer): void => {
     "Add Kontent.ai space to environment",
     addSpaceSchema.shape,
     async (
-      { name, codename, web_spotlight_root_item, collections },
+      { name, codename, collections },
       { authInfo: { token, clientId } = {} },
     ) => {
       const client = createMapiClient(clientId, token);
@@ -21,7 +21,6 @@ export const registerTool = (server: McpServer): void => {
           .withData({
             name,
             codename,
-            web_spotlight_root_item,
             collections,
           })
           .toPromise();
