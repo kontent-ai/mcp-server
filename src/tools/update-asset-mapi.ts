@@ -11,7 +11,7 @@ export const registerTool = (server: McpServer): void => {
     "upsert-asset-mapi",
     "Create or update Kontent.ai asset by ID",
     {
-      id: z.string(),
+      id: z.uuid(),
       data: updateAssetDataSchema,
     },
     async ({ id, data }, { authInfo: { token, clientId } = {} }) => {

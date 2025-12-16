@@ -9,7 +9,7 @@ export const registerTool = (server: McpServer): void => {
     "delete-space-mapi",
     "Delete Kontent.ai space",
     {
-      id: z.string(),
+      id: z.uuid(),
     },
     async ({ id }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

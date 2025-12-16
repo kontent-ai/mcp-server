@@ -10,7 +10,7 @@ export const registerTool = (server: McpServer): void => {
     "patch-content-type-mapi",
     "Update Kontent.ai content type using JSON Patch. Call get-patch-guide first for operations reference.",
     {
-      id: z.string(),
+      id: z.uuid(),
       operations: patchOperationsSchema.describe(
         `Patch operations array. CRITICAL: Always call get-type-mapi first.
 - Use addInto/remove for arrays, replace for primitives/objects

@@ -10,7 +10,7 @@ export const registerTool = (server: McpServer): void => {
     "patch-type-snippet-mapi",
     "Update Kontent.ai content type snippet using JSON Patch (move, addInto, remove, replace)",
     {
-      id: z.string(),
+      id: z.uuid(),
       operations: snippetPatchOperationsSchema.describe(
         `Patch operations array. CRITICAL: Always call get-type-snippet-mapi first.
 - Use addInto/remove for arrays, replace for primitives/objects

@@ -105,7 +105,7 @@ const assetElementSchema = {
 const customElementSchema = {
   type: z.literal("custom"),
   ...namedElementSchema,
-  source_url: z.string(),
+  source_url: z.url(),
   json_parameters: z.string().optional(),
   allowed_elements: z.array(referenceObjectSchema).optional(),
 };
