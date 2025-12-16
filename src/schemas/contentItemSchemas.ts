@@ -1,16 +1,37 @@
 import { z } from "zod";
 import { referenceObjectSchema } from "./referenceObjectSchema.js";
 
-const languageVariantElementBaseSchema = z.object({
-  element: referenceObjectSchema,
-  value: z.any(),
-});
+// Forward declaration for recursive schema
+type RichTextComponent = {
+  id: string;
+  type: { id?: string; codename?: string; external_id?: string };
+  elements: RichTextElementInComponent[];
+};
 
-const richTextComponentSchema = z.object({
-  id: z.string(),
-  type: referenceObjectSchema,
-  elements: z.array(languageVariantElementBaseSchema),
-});
+type RichTextElementInComponent = {
+  element: { id?: string; codename?: string; external_id?: string };
+  value: string | null;
+  components?: RichTextComponent[] | null;
+};
+
+// Recursive schema for rich text elements within components
+const richTextElementInComponentSchema: z.ZodType<RichTextElementInComponent> =
+  z.lazy(() =>
+    z.object({
+      element: referenceObjectSchema,
+      value: z.string().nullable(),
+      components: z.array(richTextComponentSchema).nullable().optional(),
+    }),
+  );
+
+// Recursive schema for rich text components
+const richTextComponentSchema: z.ZodType<RichTextComponent> = z.lazy(() =>
+  z.object({
+    id: z.string(),
+    type: referenceObjectSchema,
+    elements: z.array(richTextElementInComponentSchema),
+  }),
+);
 
 const assetInVariantElementSchema = z.object({
   element: referenceObjectSchema,
