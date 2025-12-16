@@ -6,7 +6,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "list-asset-folders-mapi",
-    "Get all Kontent.ai asset folders from Management API",
+    "List all Kontent.ai asset folders",
     {},
     async (_params, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

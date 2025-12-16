@@ -20,7 +20,7 @@ const addIntoOperationSchema = z.object({
   reference: referenceObjectSchema
     .optional()
     .describe("Parent folder reference. Omit to add at root level."),
-  value: assetFolderValueSchema.describe("Folder data to add"),
+  value: assetFolderValueSchema,
   before: referenceObjectSchema
     .optional()
     .describe("Position before this folder. Mutually exclusive with 'after'."),
@@ -31,16 +31,16 @@ const addIntoOperationSchema = z.object({
 
 const renameOperationSchema = z.object({
   op: z.literal("rename"),
-  reference: referenceObjectSchema.describe("Folder to rename"),
-  value: z.string().describe("New folder name"),
+  reference: referenceObjectSchema,
+  value: z.string(),
 });
 
 const removeOperationSchema = z.object({
   op: z.literal("remove"),
-  reference: referenceObjectSchema.describe("Folder to remove"),
+  reference: referenceObjectSchema,
 });
 
-export const assetFolderPatchOperationSchema = z.discriminatedUnion("op", [
+const assetFolderPatchOperationSchema = z.discriminatedUnion("op", [
   addIntoOperationSchema,
   renameOperationSchema,
   removeOperationSchema,
@@ -48,4 +48,7 @@ export const assetFolderPatchOperationSchema = z.discriminatedUnion("op", [
 
 export const assetFolderPatchOperationsSchema = z
   .array(assetFolderPatchOperationSchema)
-  .min(1);
+  .min(1)
+  .describe(
+    "Patch operations array. Use addInto to add new folders (with optional reference for parent, before/after for positioning), rename to change folder names, remove to delete folders.",
+  );

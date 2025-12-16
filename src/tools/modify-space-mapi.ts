@@ -8,7 +8,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "modify-space-mapi",
-    "Modify Kontent.ai space using replace operations from Management API",
+    "Modify Kontent.ai space using replace operations",
     {
       spaceId: z.string(),
       operations: spacePatchOperationsSchema,

@@ -10,9 +10,7 @@ export const registerTool = (server: McpServer): void => {
     "patch-asset-folders-mapi",
     "Modify Kontent.ai asset folders using patch operations (addInto, rename, remove)",
     {
-      operations: assetFolderPatchOperationsSchema.describe(
-        "Patch operations array. Use addInto to add new folders (with optional reference for parent, before/after for positioning), rename to change folder names, remove to delete folders.",
-      ),
+      operations: assetFolderPatchOperationsSchema,
     },
     async ({ operations }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

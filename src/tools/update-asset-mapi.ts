@@ -9,7 +9,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "upsert-asset-mapi",
-    "Create or update Kontent.ai asset by ID from Management API",
+    "Create or update Kontent.ai asset by ID",
     {
       assetId: z.string(),
       data: updateAssetDataSchema,

@@ -9,7 +9,7 @@ export const registerTool = (server: McpServer): void => {
     "delete-type-snippet-mapi",
     "Delete Kontent.ai content type snippet by codename",
     {
-      codename: z.string().describe("Content type snippet codename"),
+      codename: z.string(),
     },
     async ({ codename }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

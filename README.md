@@ -87,7 +87,7 @@ npx @kontent-ai/mcp-server@latest shttp
 * **list-taxonomy-groups-mapi** – Get all Kontent.ai taxonomy groups from Management API
 * **add-taxonomy-group-mapi** – Add new Kontent.ai taxonomy group via Management API
 * **patch-taxonomy-group-mapi** – Update Kontent.ai taxonomy group using JSON Patch operations (addInto, move, remove, replace) via Management API
-* **delete-taxonomy-group-mapi** – Delete Kontent.ai taxonomy group by ID from Management API
+* **delete-taxonomy-group-mapi** – Delete Kontent.ai taxonomy group by ID
 
 ### Content Item Management
 
@@ -113,11 +113,11 @@ npx @kontent-ai/mcp-server@latest shttp
 
 * **get-asset-mapi** – Get a specific Kontent.ai asset by internal ID from Management API
 * **list-assets-mapi** – Get all Kontent.ai assets from Management API
-* **update-asset-mapi** – Create or update Kontent.ai asset by ID via Management API
+* **upsert-asset-mapi** – Create or update Kontent.ai asset by ID
 
 ### Asset Folder Management
 
-* **list-asset-folders-mapi** – Get all Kontent.ai asset folders from Management API
+* **list-asset-folders-mapi** – List all Kontent.ai asset folders
 * **patch-asset-folders-mapi** – Modify Kontent.ai asset folders using patch operations (addInto to add new folders, rename to change names, remove to delete folders)
 
 ### Language Management
@@ -134,9 +134,9 @@ npx @kontent-ai/mcp-server@latest shttp
 ### Space Management
 
 * **list-spaces-mapi** – Get all Kontent.ai spaces from Management API
-* **add-space-mapi** – Add Kontent.ai space to environment from Management API
-* **modify-space-mapi** – Modify Kontent.ai space using replace operations from Management API
-* **delete-space-mapi** – Delete Kontent.ai space from Management API
+* **add-space-mapi** – Add Kontent.ai space to environment
+* **modify-space-mapi** – Modify Kontent.ai space using replace operations
+* **delete-space-mapi** – Delete Kontent.ai space
 
 ### Workflow Management
 

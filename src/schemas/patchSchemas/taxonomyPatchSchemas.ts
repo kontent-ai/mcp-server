@@ -22,7 +22,7 @@ const addIntoOperationSchema = z.object({
     .describe(
       "Parent term reference. Omit to add at root level of taxonomy group.",
     ),
-  value: taxonomyTermValueSchema.describe("Term data to add"),
+  value: taxonomyTermValueSchema,
   before: referenceObjectSchema
     .optional()
     .describe("Position before this term. Mutually exclusive with 'after'."),
@@ -33,7 +33,7 @@ const addIntoOperationSchema = z.object({
 
 const moveOperationSchema = z.object({
   op: z.literal("move"),
-  reference: referenceObjectSchema.describe("Term to move"),
+  reference: referenceObjectSchema,
   before: referenceObjectSchema
     .optional()
     .describe(
@@ -53,7 +53,7 @@ const moveOperationSchema = z.object({
 
 const removeOperationSchema = z.object({
   op: z.literal("remove"),
-  reference: referenceObjectSchema.describe("Term to remove"),
+  reference: referenceObjectSchema,
 });
 
 const replaceOperationSchema = z.object({

@@ -7,7 +7,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "delete-space-mapi",
-    "Delete Kontent.ai space from Management API",
+    "Delete Kontent.ai space",
     {
       spaceId: z.string(),
     },

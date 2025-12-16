@@ -7,9 +7,9 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "delete-taxonomy-group-mapi",
-    "Delete Kontent.ai taxonomy group by ID from Management API",
+    "Delete Kontent.ai taxonomy group by ID",
     {
-      id: z.string().describe("Taxonomy group ID"),
+      id: z.string(),
     },
     async ({ id }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

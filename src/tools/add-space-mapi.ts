@@ -7,7 +7,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "add-space-mapi",
-    "Add Kontent.ai space to environment from Management API",
+    "Add Kontent.ai space to environment",
     addSpaceSchema.shape,
     async (
       { name, codename, web_spotlight_root_item, collections },
