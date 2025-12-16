@@ -11,16 +11,16 @@ export const registerTool = (server: McpServer): void => {
     "upsert-asset-mapi",
     "Create or update Kontent.ai asset by ID",
     {
-      assetId: z.string(),
+      id: z.string(),
       data: updateAssetDataSchema,
     },
-    async ({ assetId, data }, { authInfo: { token, clientId } = {} }) => {
+    async ({ id, data }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);
 
       try {
         const response = await client
           .upsertAsset()
-          .byAssetId(assetId)
+          .byAssetId(id)
           .withData(
             () => data as unknown as AssetModels.IUpsertAssetRequestData,
           )

@@ -10,28 +10,25 @@ export const registerTool = (server: McpServer): void => {
     "patch-type-snippet-mapi",
     "Update Kontent.ai content type snippet using JSON Patch (move, addInto, remove, replace)",
     {
-      codename: z.string(),
+      id: z.string(),
       operations: snippetPatchOperationsSchema.describe(
         `Patch operations array. CRITICAL: Always call get-type-snippet-mapi first.
 - Use addInto/remove for arrays, replace for primitives/objects
 - Snippets cannot contain: content_groups, subpages, snippet, or url_slug elements`,
       ),
     },
-    async (
-      { codename, operations },
-      { authInfo: { token, clientId } = {} },
-    ) => {
+    async ({ id, operations }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);
 
       try {
         const response = await client
           .modifyContentTypeSnippet()
-          .byTypeCodename(codename)
+          .byTypeId(id)
           .withData(operations)
           .toPromise();
 
         return createMcpToolSuccessResponse({
-          message: `Content type snippet '${codename}' updated successfully with ${operations.length} operation(s)`,
+          message: `Content type snippet '${response.data.codename}' updated successfully with ${operations.length} operation(s)`,
           snippet: response.rawData,
           appliedOperations: operations,
         });

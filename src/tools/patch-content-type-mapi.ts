@@ -10,7 +10,7 @@ export const registerTool = (server: McpServer): void => {
     "patch-content-type-mapi",
     "Update Kontent.ai content type using JSON Patch. Call get-patch-guide first for operations reference.",
     {
-      codename: z.string(),
+      id: z.string(),
       operations: patchOperationsSchema.describe(
         `Patch operations array. CRITICAL: Always call get-type-mapi first.
 - Use addInto/remove for arrays, replace for primitives/objects
@@ -19,22 +19,19 @@ export const registerTool = (server: McpServer): void => {
 - URL slug with snippet: add snippet element first, then url_slug with depends_on reference`,
       ),
     },
-    async (
-      { codename, operations },
-      { authInfo: { token, clientId } = {} },
-    ) => {
+    async ({ id, operations }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);
 
       try {
         // Apply patch operations using the modifyContentType method
         const response = await client
           .modifyContentType()
-          .byTypeCodename(codename)
+          .byTypeId(id)
           .withData(operations)
           .toPromise();
 
         return createMcpToolSuccessResponse({
-          message: `Content type '${codename}' updated successfully with ${operations.length} operation(s)`,
+          message: `Content type '${response.data.codename}' updated successfully with ${operations.length} operation(s)`,
           contentType: response.rawData,
           appliedOperations: operations,
         });

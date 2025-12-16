@@ -10,16 +10,16 @@ export const registerTool = (server: McpServer): void => {
     "modify-space-mapi",
     "Modify Kontent.ai space using replace operations",
     {
-      spaceId: z.string(),
+      id: z.string(),
       operations: spacePatchOperationsSchema,
     },
-    async ({ spaceId, operations }, { authInfo: { token, clientId } = {} }) => {
+    async ({ id, operations }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);
 
       try {
         const response = await client
           .modifySpace()
-          .bySpaceId(spaceId)
+          .bySpaceId(id)
           .withData(operations)
           .toPromise();
 

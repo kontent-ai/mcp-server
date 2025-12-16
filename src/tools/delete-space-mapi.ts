@@ -9,16 +9,16 @@ export const registerTool = (server: McpServer): void => {
     "delete-space-mapi",
     "Delete Kontent.ai space",
     {
-      spaceId: z.string(),
+      id: z.string(),
     },
-    async ({ spaceId }, { authInfo: { token, clientId } = {} }) => {
+    async ({ id }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);
 
       try {
-        await client.deleteSpace().bySpaceId(spaceId).toPromise();
+        await client.deleteSpace().bySpaceId(id).toPromise();
 
         return createMcpToolSuccessResponse({
-          message: `Space '${spaceId}' deleted successfully`,
+          message: `Space '${id}' deleted successfully`,
         });
       } catch (error: unknown) {
         return handleMcpToolError(error, "Space Deletion");
