@@ -37,17 +37,17 @@ import { registerTool as registerListVariantsItemMapi } from "./tools/list-varia
 import { registerTool as registerListVariantsSpaceMapi } from "./tools/list-variants-space-mapi.js";
 import { registerTool as registerListVariantsTypeMapi } from "./tools/list-variants-type-mapi.js";
 import { registerTool as registerListWorkflowsMapi } from "./tools/list-workflows-mapi.js";
-import { registerTool as registerModifySpaceMapi } from "./tools/modify-space-mapi.js";
 import { registerTool as registerPatchAssetFoldersMapi } from "./tools/patch-asset-folders-mapi.js";
 import { registerTool as registerPatchCollectionsMapi } from "./tools/patch-collections-mapi.js";
 import { registerTool as registerPatchContentTypeMapi } from "./tools/patch-content-type-mapi.js";
 import { registerTool as registerPatchLanguageMapi } from "./tools/patch-language-mapi.js";
+import { registerTool as registerPatchSpaceMapi } from "./tools/patch-space-mapi.js";
 import { registerTool as registerPatchTaxonomyGroupMapi } from "./tools/patch-taxonomy-group-mapi.js";
 import { registerTool as registerPatchTypeSnippetMapi } from "./tools/patch-type-snippet-mapi.js";
 import { registerTool as registerPublishVariantMapi } from "./tools/publish-variant-mapi.js";
 import { registerTool as registerSearchVariantsMapi } from "./tools/search-variants-mapi.js";
 import { registerTool as registerUnpublishVariantMapi } from "./tools/unpublish-variant-mapi.js";
-import { registerTool as registerUpsertAssetMapi } from "./tools/update-asset-mapi.js";
+import { registerTool as registerUpdateAssetMapi } from "./tools/update-asset-mapi.js";
 import { registerTool as registerUpdateContentItemMapi } from "./tools/update-content-item-mapi.js";
 import { registerTool as registerUpsertLanguageVariantMapi } from "./tools/upsert-language-variant-mapi.js";
 
@@ -78,11 +78,11 @@ export const createServer = () => {
   registerPatchCollectionsMapi(server);
   registerListSpacesMapi(server);
   registerAddSpaceMapi(server);
-  registerModifySpaceMapi(server);
+  registerPatchSpaceMapi(server);
   registerDeleteSpaceMapi(server);
   registerGetAssetMapi(server);
   registerListAssetsMapi(server);
-  registerUpsertAssetMapi(server);
+  registerUpdateAssetMapi(server);
   registerListAssetFoldersMapi(server);
   registerPatchAssetFoldersMapi(server);
   registerAddContentTypeMapi(server);

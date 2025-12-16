@@ -8,8 +8,8 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 
 export const registerTool = (server: McpServer): void => {
   server.tool(
-    "upsert-asset-mapi",
-    "Create or update Kontent.ai asset by ID",
+    "update-asset-mapi",
+    "Update Kontent.ai asset by ID",
     {
       id: z.uuid(),
       data: updateAssetDataSchema,
@@ -28,7 +28,7 @@ export const registerTool = (server: McpServer): void => {
 
         return createMcpToolSuccessResponse(response.rawData);
       } catch (error: unknown) {
-        return handleMcpToolError(error, "Asset Upsert");
+        return handleMcpToolError(error, "Asset Update");
       }
     },
   );

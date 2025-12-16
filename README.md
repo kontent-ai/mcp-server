@@ -113,7 +113,7 @@ npx @kontent-ai/mcp-server@latest shttp
 
 * **get-asset-mapi** – Get a specific Kontent.ai asset by internal ID from Management API
 * **list-assets-mapi** – Get all Kontent.ai assets from Management API
-* **upsert-asset-mapi** – Create or update Kontent.ai asset by ID
+* **update-asset-mapi** – Update Kontent.ai asset by ID
 
 ### Asset Folder Management
 
@@ -135,7 +135,7 @@ npx @kontent-ai/mcp-server@latest shttp
 
 * **list-spaces-mapi** – Get all Kontent.ai spaces from Management API
 * **add-space-mapi** – Add Kontent.ai space to environment
-* **modify-space-mapi** – Modify Kontent.ai space using replace operations
+* **patch-space-mapi** – Patch Kontent.ai space using replace operations
 * **delete-space-mapi** – Delete Kontent.ai space
 
 ### Workflow Management
