@@ -7,7 +7,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "patch-collections-mapi",
-    "Update Kontent.ai collections using patch operations (addInto, move, remove, replace)",
+    "Update Kontent.ai collections using patch operations. Call get-patch-guide first for operations reference.",
     {
       operations: collectionPatchOperationsSchema.describe(
         "Patch operations array. Call list-collections-mapi first. Use addInto to add new collections, move to reorder, remove to delete empty collections, replace to rename.",

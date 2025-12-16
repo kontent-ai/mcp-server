@@ -7,7 +7,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "get-type-mapi",
-    "Get Kontent.ai content type by ID",
+    "Get Kontent.ai content type. Types define variant structure: field definitions, validation rules, and element types.",
     {
       id: z.string().describe("Content type ID"),
     },

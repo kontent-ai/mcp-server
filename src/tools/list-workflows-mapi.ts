@@ -6,7 +6,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "list-workflows-mapi",
-    "Get all Kontent.ai workflows",
+    "Get all Kontent.ai workflows. Workflow states manage content lifecycle: drafting, review, published, archived.",
     {},
     async (_, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

@@ -58,7 +58,7 @@ This is a Model Context Protocol (MCP) server for Kontent.ai that enables AI mod
    - Implements a specific Kontent.ai operation
    - Uses standardized error handling via `errorHandler.ts`
    - Returns responses using `createMcpToolSuccessResponse`
-   - Must call `get-initial-context` before any other operation
+   - Must call `get-patch-guide` before any patch operation
 
 4. **API Clients** (`src/clients/kontentClients.ts`): Manages Kontent.ai SDK instances:
    - Management API client for content operations

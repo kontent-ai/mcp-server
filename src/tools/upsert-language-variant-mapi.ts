@@ -8,7 +8,7 @@ import { createVariantMcpToolSuccessResponse } from "../utils/responseHelper.js"
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "upsert-language-variant-mapi",
-    "Create or update Kontent.ai variant",
+    "Create or update Kontent.ai variant. Element values must fulfill limitations and guidelines defined in content type.",
     {
       itemId: z.string().describe("Content item ID"),
       languageId: z

@@ -7,7 +7,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "get-asset-mapi",
-    "Get Kontent.ai asset by ID",
+    "Get Kontent.ai asset. Assets are digital files (images, videos, documents) referenced in content.",
     {
       assetId: z.string().describe("Asset ID"),
     },

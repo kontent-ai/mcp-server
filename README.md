@@ -61,9 +61,9 @@ npx @kontent-ai/mcp-server@latest shttp
 
 ## 🛠️ Available Tools
 
-### Context and Setup
+### Patch Operations Guide
 
-* **get-initial-context** – 🚨 **MANDATORY FIRST STEP**: This tool MUST be called before using ANY other tools. It provides essential context, configuration, and operational guidelines for Kontent.ai
+* **get-patch-guide** – 🚨 **REQUIRED before any patch operation**. Get JSON Patch operations guide for Kontent.ai Management API
 
 ### Content Type Management
 
@@ -99,7 +99,7 @@ npx @kontent-ai/mcp-server@latest shttp
 * **add-content-item-mapi** – Add new Kontent.ai content item via Management API. This creates the content item structure but does not add content to language variants. Use upsert-language-variant-mapi to add content to the item
 * **update-content-item-mapi** – Update existing Kontent.ai content item by internal ID via Management API. The content item must already exist - this tool will not create new items
 * **delete-content-item-mapi** – Delete Kontent.ai content item by internal ID from Management API
-* **upsert-language-variant-mapi** – Create or update Kontent.ai language variant of a content item via Management API. This adds actual content to the content item elements. When updating an existing variant, only the provided elements will be modified
+* **upsert-language-variant-mapi** – Create or update Kontent.ai language variant of a content item via Management API. Element values must fulfill limitations and guidelines defined in content type. When updating, only provided elements will be modified
 * **create-variant-version-mapi** – Create new version of Kontent.ai language variant via Management API. This operation creates a new version of an existing language variant, useful for content versioning and creating new drafts from published content
 * **delete-language-variant-mapi** – Delete Kontent.ai language variant from Management API
 * **filter-variants-mapi** – Filter Kontent.ai language variants of content items using Management API. Use for exact keyword matching and finding specific terms in content. Supports full filtering capabilities (content types, workflow steps, taxonomies, etc.) and optionally includes full content of variants. Returns paginated results with continuation token for fetching subsequent pages

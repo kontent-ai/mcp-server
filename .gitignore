@@ -34,3 +34,4 @@ coverage/
 
 # Optional eslint cache
 .eslintcache 
+nul
