@@ -15,19 +15,25 @@ const assetFolderValueSchema: z.ZodType<AssetFolderValue> = z.object({
   folders: z.lazy(() => z.array(assetFolderValueSchema)).optional(),
 });
 
-const addIntoOperationSchema = z.object({
+const addIntoBaseSchema = {
   op: z.literal("addInto"),
   reference: referenceObjectSchema
     .optional()
     .describe("Parent folder reference. Omit to add at root level."),
   value: assetFolderValueSchema,
-  before: referenceObjectSchema
-    .optional()
-    .describe("Position before this folder. Mutually exclusive with 'after'."),
-  after: referenceObjectSchema
-    .optional()
-    .describe("Position after this folder. Mutually exclusive with 'before'."),
+};
+
+const addIntoBeforeOperationSchema = z.object({
+  ...addIntoBaseSchema,
+  before: referenceObjectSchema,
 });
+
+const addIntoAfterOperationSchema = z.object({
+  ...addIntoBaseSchema,
+  after: referenceObjectSchema,
+});
+
+const addIntoDefaultOperationSchema = z.object(addIntoBaseSchema);
 
 const renameOperationSchema = z.object({
   op: z.literal("rename"),
@@ -40,8 +46,10 @@ const removeOperationSchema = z.object({
   reference: referenceObjectSchema,
 });
 
-const assetFolderPatchOperationSchema = z.discriminatedUnion("op", [
-  addIntoOperationSchema,
+const assetFolderPatchOperationSchema = z.union([
+  addIntoBeforeOperationSchema,
+  addIntoAfterOperationSchema,
+  addIntoDefaultOperationSchema,
   renameOperationSchema,
   removeOperationSchema,
 ]);
