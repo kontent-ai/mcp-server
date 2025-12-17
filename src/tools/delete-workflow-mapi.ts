@@ -7,22 +7,17 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "delete-workflow-mapi",
-    "Delete Kontent.ai workflow",
     {
-      identifier: z.string().describe("Workflow ID (UUID) to delete"),
+      id: z.guid().describe("Workflow ID"),
     },
-    async ({ identifier }, { authInfo: { token, clientId } = {} }) => {
+    async ({ id }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);
 
       try {
-        const response = await client
-          .deleteWorkflow()
-          .byWorkflowId(identifier)
-          .toPromise();
+        await client.deleteWorkflow().byWorkflowId(id).toPromise();
 
         return createMcpToolSuccessResponse({
-          message: `Workflow '${identifier}' deleted successfully`,
-          deletedWorkflow: response.rawData,
+          message: `Workflow '${id}' deleted successfully`,
         });
       } catch (error: unknown) {
         return handleMcpToolError(error, "Workflow Deletion");

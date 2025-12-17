@@ -10,19 +10,11 @@ export const registerTool = (server: McpServer): void => {
     "update-workflow-mapi",
     "Update Kontent.ai workflow",
     {
-      identifier: z.string().describe("Workflow ID (UUID) to update"),
+      id: z.guid().describe("Workflow ID"),
       ...workflowInputSchema.shape,
     },
     async (
-      {
-        identifier,
-        name,
-        codename,
-        scopes,
-        steps,
-        published_step,
-        archived_step,
-      },
+      { id, name, codename, scopes, steps, published_step, archived_step },
       { authInfo: { token, clientId } = {} },
     ) => {
       const client = createMapiClient(clientId, token);
@@ -39,7 +31,7 @@ export const registerTool = (server: McpServer): void => {
       try {
         const response = await client
           .updateWorkflow()
-          .byWorkflowId(identifier)
+          .byWorkflowId(id)
           .withData(data)
           .toPromise();
 
