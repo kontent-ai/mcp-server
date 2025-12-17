@@ -6,7 +6,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "list-roles-mapi",
-    "Get all Kontent.ai roles from Management API",
+    "Get all Kontent.ai roles",
     {},
     async (_, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

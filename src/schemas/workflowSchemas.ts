@@ -1,122 +1,6 @@
 import { z } from "zod";
 import { referenceObjectSchema } from "./referenceObjectSchema.js";
 
-// Schema for a workflow step
-const workflowStepSchema = z.object({
-  id: z
-    .guid()
-    .describe("The unique identifier of the workflow step in UUID format"),
-  name: z.string().describe("The human-readable name of the workflow step"),
-  codename: z
-    .string()
-    .describe("The codename of the workflow step used for API operations"),
-  transitions_to: z
-    .array(z.guid())
-    .describe("Array of workflow step IDs that this step can transition to")
-    .optional(),
-  role_ids: z
-    .array(z.guid())
-    .describe("Array of role IDs that have permissions for this workflow step")
-    .optional(),
-});
-
-// Schema for the published step
-const publishedStepSchema = z.object({
-  id: z
-    .guid()
-    .describe("The unique identifier of the published step in UUID format"),
-  name: z
-    .string()
-    .describe("The name of the published step - typically 'Published'"),
-  codename: z
-    .string()
-    .describe("The codename of the published step - typically 'published'"),
-  unpublish_role_ids: z
-    .array(z.guid())
-    .describe("Array of role IDs that can unpublish content from this step")
-    .optional(),
-  create_new_version_role_ids: z
-    .array(z.guid())
-    .describe(
-      "Array of role IDs that can create new versions of content in this step",
-    )
-    .optional(),
-});
-
-// Schema for the scheduled step
-const scheduledStepSchema = z.object({
-  id: z
-    .guid()
-    .describe("The unique identifier of the scheduled step in UUID format"),
-  name: z
-    .string()
-    .describe("The name of the scheduled step - typically 'Scheduled'"),
-  codename: z
-    .string()
-    .describe("The codename of the scheduled step - typically 'scheduled'"),
-});
-
-// Schema for the archived step
-const archivedStepSchema = z.object({
-  id: z
-    .guid()
-    .describe("The unique identifier of the archived step in UUID format"),
-  name: z
-    .string()
-    .describe("The name of the archived step - typically 'Archived'"),
-  codename: z
-    .string()
-    .describe("The codename of the archived step - typically 'archived'"),
-  role_ids: z
-    .array(z.guid())
-    .describe("Array of role IDs that can unarchive content from this step")
-    .optional(),
-});
-
-// Schema for workflow scope
-const workflowScopeSchema = z.object({
-  content_types: z
-    .array(
-      z.object({
-        id: z
-          .guid()
-          .describe("The unique identifier of the content type in UUID format"),
-      }),
-    )
-    .describe("Array of content types that this workflow applies to"),
-});
-
-// Main workflow schema
-export const workflowSchema = z.object({
-  id: z.guid().describe("The unique identifier of the workflow in UUID format"),
-  name: z.string().describe("The human-readable name of the workflow"),
-  codename: z
-    .string()
-    .describe("The codename of the workflow used for API operations"),
-  scopes: z
-    .array(workflowScopeSchema)
-    .describe("Array of scopes defining which content types use this workflow"),
-  steps: z
-    .array(workflowStepSchema)
-    .describe(
-      "Array of custom workflow steps between draft and published states",
-    ),
-  published_step: publishedStepSchema.describe(
-    "The published step configuration of the workflow",
-  ),
-  scheduled_step: scheduledStepSchema.describe(
-    "The scheduled step configuration of the workflow",
-  ),
-  archived_step: archivedStepSchema.describe(
-    "The archived step configuration of the workflow",
-  ),
-});
-
-// Schema for the list workflows response
-export const listWorkflowsResponseSchema = z
-  .array(workflowSchema)
-  .describe("Array of workflows in the project");
-
 // Step color options (matching SDK WorkflowColor type)
 const workflowStepColorSchema = z
   .enum([
@@ -142,7 +26,7 @@ const workflowStepColorSchema = z
 // Transition reference schema (step codename reference)
 const transitionToStepSchema = z.object({
   codename: z.string().optional().describe("Target step codename"),
-  id: z.string().optional().describe("Target step ID (for update operations)"),
+  id: z.guid().optional().describe("Target step ID (for update operations)"),
 });
 
 const transitionToSchema = z.object({
@@ -150,51 +34,52 @@ const transitionToSchema = z.object({
 });
 
 // Workflow step input schema (for creating/updating workflows)
-export const workflowStepInputSchema = z.object({
-  id: z
-    .string()
-    .uuid()
-    .optional()
-    .describe("Step ID (required when updating existing steps)"),
+const workflowStepInputSchema = z.object({
   name: z.string().describe("Human-readable name of the workflow step"),
-  codename: z.string().describe("Codename for API operations"),
+  codename: z
+    .string()
+    .describe(
+      "Codename of the workflow step. Must be unique across all workflows - usually prepended with the workflow codename.",
+    ),
   color: workflowStepColorSchema,
   transitions_to: z
     .array(transitionToSchema)
-    .describe("Array of step references this step can transition to"),
+    .min(1)
+    .describe("Array of step references this step can transition to."),
   role_ids: z
-    .array(z.string())
-    .describe("Array of role IDs that have permissions for this step"),
+    .array(z.guid())
+    .min(1)
+    .describe("Array of role IDs that have permissions for this step."),
 });
 
 // Published step input schema
-export const publishedStepInputSchema = z.object({
-  id: z.string().optional().describe("Published step ID"),
-  name: z.string().optional().describe("Published step name"),
-  codename: z.string().optional().describe("Published step codename"),
+const publishedStepInputSchema = z.object({
   unpublish_role_ids: z
-    .array(z.string())
-    .optional()
-    .describe("Array of role IDs that can unpublish content"),
+    .array(z.guid())
+    .min(1)
+    .describe(
+      "Array of role IDs that can unpublish content. Must include at least one role.",
+    ),
   create_new_version_role_ids: z
-    .array(z.string())
-    .optional()
-    .describe("Array of role IDs that can create new versions"),
+    .array(z.guid())
+    .min(1)
+    .describe(
+      "Array of role IDs that can create new versions. Must include at least one role.",
+    ),
 });
 
 // Archived step input schema
-export const archivedStepInputSchema = z.object({
-  id: z.string().optional().describe("Archived step ID"),
-  name: z.string().optional().describe("Archived step name"),
-  codename: z.string().optional().describe("Archived step codename"),
+const archivedStepInputSchema = z.object({
   role_ids: z
-    .array(z.string())
-    .optional()
-    .describe("Array of role IDs that can restore archived content"),
+    .array(z.guid())
+    .min(1)
+    .describe(
+      "Array of role IDs that can restore archived content. Must include at least one role.",
+    ),
 });
 
 // Workflow scope input schema
-export const workflowScopeInputSchema = z.object({
+const workflowScopeInputSchema = z.object({
   content_types: z
     .array(referenceObjectSchema)
     .describe("Content types this workflow applies to"),
@@ -213,7 +98,9 @@ export const workflowInputSchema = z.object({
     .describe("Codename for API operations (auto-generated if omitted)"),
   scopes: z
     .array(workflowScopeInputSchema)
-    .describe("Array of scopes defining which content types use this workflow"),
+    .describe(
+      "Array of scopes defining which combinations of content types and collections this workflow applies to. If both content types and collections are empty, the workflow can be used for any type of content in collection that isn't limited to any other workflow.",
+    ),
   steps: z
     .array(workflowStepInputSchema)
     .describe("Array of custom workflow steps"),
