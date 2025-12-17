@@ -31,7 +31,7 @@
   "dependencies": {
     "@kontent-ai/management-sdk": "^8.1.0",
     "@modelcontextprotocol/sdk": "^1.24.3",
-    "applicationinsights": "^3.12.1",
+    "applicationinsights": "^2.9.8",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "p-retry": "^7.1.1",
