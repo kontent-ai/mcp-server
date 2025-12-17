@@ -9,9 +9,9 @@ export const registerTool = (server: McpServer): void => {
     "publish-variant-mapi",
     "Publish or schedule Kontent.ai variant. For scheduling, verify current UTC time before using scheduledTo.",
     {
-      itemId: z.uuid().describe("Content item UUID"),
+      itemId: z.guid().describe("Content item UUID"),
       languageId: z
-        .uuid()
+        .guid()
         .describe(
           "Language variant UUID (default: 00000000-0000-0000-0000-000000000000)",
         ),
