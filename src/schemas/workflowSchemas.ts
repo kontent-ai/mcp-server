@@ -41,6 +41,13 @@ const workflowStepInputSchema = z.object({
     .describe(
       "Codename of the workflow step. Must be unique across all workflows - usually prepended with the workflow codename.",
     ),
+  id: z
+    .guid()
+    .optional()
+    .readonly()
+    .describe(
+      "Read-only workflow step ID (useful to reference a step when updating its codename)",
+    ),
   color: workflowStepColorSchema,
   transitions_to: z
     .array(transitionToSchema)
