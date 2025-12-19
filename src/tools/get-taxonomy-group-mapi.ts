@@ -9,7 +9,7 @@ export const registerTool = (server: McpServer): void => {
     "get-taxonomy-group-mapi",
     "Get Kontent.ai taxonomy group. Taxonomy groups are hierarchical with tree-structured terms that can be nested to any depth for flexible content categorization.",
     {
-      id: z.uuid(),
+      id: z.guid(),
     },
     async ({ id }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

@@ -9,7 +9,7 @@ export const registerTool = (server: McpServer): void => {
     "delete-taxonomy-group-mapi",
     "Delete Kontent.ai taxonomy group by ID",
     {
-      id: z.uuid(),
+      id: z.guid(),
     },
     async ({ id }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

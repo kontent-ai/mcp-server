@@ -8,9 +8,9 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "patch-content-type-mapi",
-    "Update Kontent.ai content type using JSON Patch. Call get-patch-guide first for operations reference.",
+    "Update Kontent.ai content type using patch operations. Call get-patch-guide first for operations reference.",
     {
-      id: z.uuid(),
+      id: z.guid(),
       operations: patchOperationsSchema.describe(
         `Patch operations array. CRITICAL: Always call get-type-mapi first.
 - Use addInto/remove for arrays, replace for primitives/objects
@@ -31,7 +31,7 @@ export const registerTool = (server: McpServer): void => {
           .toPromise();
 
         return createMcpToolSuccessResponse({
-          message: `Content type '${response.data.codename}' updated successfully with ${operations.length} operation(s)`,
+          message: `Content type updated successfully with ${operations.length} operation(s)`,
           contentType: response.rawData,
           appliedOperations: operations,
         });

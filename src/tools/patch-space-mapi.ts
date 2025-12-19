@@ -10,7 +10,7 @@ export const registerTool = (server: McpServer): void => {
     "patch-space-mapi",
     "Patch Kontent.ai space using replace operations",
     {
-      id: z.uuid(),
+      id: z.guid(),
       operations: spacePatchOperationsSchema,
     },
     async ({ id, operations }, { authInfo: { token, clientId } = {} }) => {

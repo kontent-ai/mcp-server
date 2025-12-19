@@ -22,7 +22,6 @@ export const registerTool = (server: McpServer): void => {
 
         return createMcpToolSuccessResponse({
           message: `Content type snippet '${codename}' deleted successfully`,
-          deletedSnippet: response.rawData,
         });
       } catch (error: unknown) {
         return handleMcpToolError(error, "Content Type Snippet Deletion");

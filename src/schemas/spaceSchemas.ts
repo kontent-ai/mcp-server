@@ -32,6 +32,5 @@ export const spacePatchOperationsSchema = z
 export const addSpaceSchema = z.object({
   name: z.string(),
   codename: z.string().optional(),
-  web_spotlight_root_item: referenceObjectSchema.optional(),
   collections: z.array(referenceObjectSchema).optional(),
 });
