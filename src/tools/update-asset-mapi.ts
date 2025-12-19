@@ -1,28 +1,34 @@
+import type { AssetModels } from "@kontent-ai/management-sdk";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
+import { updateAssetDataSchema } from "../schemas/assetSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 
 export const registerTool = (server: McpServer): void => {
   server.tool(
-    "get-taxonomy-group-mapi",
-    "Get Kontent.ai taxonomy group. Taxonomy groups are hierarchical with tree-structured terms that can be nested to any depth for flexible content categorization.",
+    "update-asset-mapi",
+    "Update Kontent.ai asset by ID",
     {
       id: z.guid(),
+      data: updateAssetDataSchema,
     },
-    async ({ id }, { authInfo: { token, clientId } = {} }) => {
+    async ({ id, data }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);
 
       try {
         const response = await client
-          .getTaxonomy()
-          .byTaxonomyId(id)
+          .upsertAsset()
+          .byAssetId(id)
+          .withData(
+            () => data as unknown as AssetModels.IUpsertAssetRequestData,
+          )
           .toPromise();
 
         return createMcpToolSuccessResponse(response.rawData);
-      } catch (error: any) {
-        return handleMcpToolError(error, "Taxonomy Group Retrieval");
+      } catch (error: unknown) {
+        return handleMcpToolError(error, "Asset Update");
       }
     },
   );

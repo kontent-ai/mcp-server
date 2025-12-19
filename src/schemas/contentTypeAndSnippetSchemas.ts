@@ -1,10 +1,5 @@
 import { z } from "zod";
-
-// Reference by id or codename (id preferred)
-export const referenceObjectSchema = z.object({
-  id: z.string().optional(),
-  codename: z.string().optional(),
-});
+import { referenceObjectSchema } from "./referenceObjectSchema.js";
 
 // Common property schemas
 const baseElementSchema = {
@@ -20,7 +15,10 @@ const contentGroupElementSchema = {
 const namedElementSchema = {
   ...baseElementSchema,
   name: z.string(),
-  guidelines: z.string().optional(),
+  guidelines: z
+    .string()
+    .optional()
+    .describe("Plain text guidelines shown to editors"),
   is_required: z.boolean().optional(),
   is_non_localizable: z.boolean().optional(),
 };
@@ -107,7 +105,7 @@ const assetElementSchema = {
 const customElementSchema = {
   type: z.literal("custom"),
   ...namedElementSchema,
-  source_url: z.string(),
+  source_url: z.url(),
   json_parameters: z.string().optional(),
   allowed_elements: z.array(referenceObjectSchema).optional(),
 };
@@ -121,7 +119,9 @@ const dateTimeElementSchema = {
 const guidelinesElementSchema = {
   type: z.literal("guidelines"),
   ...baseElementSchema,
-  guidelines: z.string(),
+  guidelines: z
+    .string()
+    .describe("HTML content for guidelines element. Must be valid HTML."),
 };
 
 const modularContentElementSchema = {
@@ -327,14 +327,12 @@ export const contentGroupSchema = z.object({
   codename: z.string().optional(),
 });
 
-// Define a union type for snippet elements (excluding url_slug and snippet elements)
 export const snippetElementSchema = z.discriminatedUnion("type", [
   z.object(assetElementSchema),
   z.object(customElementSchema),
   z.object(dateTimeElementSchema),
   z.object(guidelinesElementSchema),
   z.object(modularContentElementSchema),
-  z.object(subpagesElementSchema),
   z.object(multipleChoiceElementSchema),
   z.object(numberElementSchema),
   z.object(richTextElementSchema),

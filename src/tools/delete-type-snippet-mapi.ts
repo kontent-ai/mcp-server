@@ -6,23 +6,25 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 
 export const registerTool = (server: McpServer): void => {
   server.tool(
-    "get-taxonomy-group-mapi",
-    "Get Kontent.ai taxonomy group. Taxonomy groups are hierarchical with tree-structured terms that can be nested to any depth for flexible content categorization.",
+    "delete-type-snippet-mapi",
+    "Delete Kontent.ai content type snippet by codename",
     {
-      id: z.guid(),
+      codename: z.string(),
     },
-    async ({ id }, { authInfo: { token, clientId } = {} }) => {
+    async ({ codename }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);
 
       try {
         const response = await client
-          .getTaxonomy()
-          .byTaxonomyId(id)
+          .deleteContentTypeSnippet()
+          .byTypeCodename(codename)
           .toPromise();
 
-        return createMcpToolSuccessResponse(response.rawData);
-      } catch (error: any) {
-        return handleMcpToolError(error, "Taxonomy Group Retrieval");
+        return createMcpToolSuccessResponse({
+          message: `Content type snippet '${codename}' deleted successfully`,
+        });
+      } catch (error: unknown) {
+        return handleMcpToolError(error, "Content Type Snippet Deletion");
       }
     },
   );

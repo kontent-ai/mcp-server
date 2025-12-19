@@ -81,10 +81,9 @@ Tools follow strict naming patterns enforced by Cursor rules:
 
 #### Tool Descriptions
 Tool descriptions must follow a standardized pattern (enforced in `.cursor/rules/kontent-tool-descriptions.mdc`):
-- Pattern: `"[Action] [Kontent.ai entity] [method/context] [API source]"`
+- Pattern: `"[Action] [Kontent.ai entity] [method/context]"`
 - **Always include "Kontent.ai"** explicitly
-- **Always specify the API source**
-- Example: "Get Kontent.ai content type by internal ID from Management API"
+- Example: "Get Kontent.ai content type by internal ID"
 
 #### README Synchronization
 When modifying tools (enforced in `.cursor/rules/tools-in-readme.mdc`):
@@ -191,7 +190,7 @@ The `errorHandler.ts` provides standardized error handling:
 - Preserves request IDs for debugging
 
 #### 3. Patch Operations
-Content type modifications use JSON Patch operations:
+Content type modifications use patch operations:
 - **move**: Move elements within content type (uses path references like `/elements/id:{uuid}`)
 - **addInto**: Add new elements to content type
 - **remove**: Remove elements from content type

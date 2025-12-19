@@ -5,17 +5,18 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 
 export const registerTool = (server: McpServer): void => {
   server.tool(
-    "list-spaces-mapi",
-    "List all Kontent.ai spaces. Spaces provide channel-specific context for managing multiple websites/channels. Each space has its own domain and preview URLs; collections connect to spaces to organize content per channel.",
+    "list-asset-folders-mapi",
+    "List all Kontent.ai asset folders",
     {},
-    async (_, { authInfo: { token, clientId } = {} }) => {
+    async (_params, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);
 
       try {
-        const response = await client.listSpaces().toPromise();
+        const response = await client.listAssetFolders().toPromise();
+
         return createMcpToolSuccessResponse(response.rawData);
       } catch (error: unknown) {
-        return handleMcpToolError(error, "Spaces Listing");
+        return handleMcpToolError(error, "Asset Folders Listing");
       }
     },
   );

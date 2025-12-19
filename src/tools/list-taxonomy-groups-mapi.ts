@@ -7,7 +7,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "list-taxonomy-groups-mapi",
-    "Get all Kontent.ai taxonomy groups (paginated). Taxonomies provide hierarchical categorization for organizing and tagging content.",
+    "List all Kontent.ai taxonomy groups (paginated). Taxonomy groups are hierarchical with tree-structured terms that can be nested to any depth for flexible content categorization.",
     listTaxonomyGroupsSchema.shape,
     async ({ continuation_token }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

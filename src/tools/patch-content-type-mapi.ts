@@ -8,29 +8,30 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "patch-content-type-mapi",
-    "Update Kontent.ai content type using JSON Patch. Call get-patch-guide first for operations reference.",
+    "Update Kontent.ai content type using patch operations. Call get-patch-guide first for operations reference.",
     {
-      codename: z.string().describe("Content type codename"),
+      id: z.guid(),
       operations: patchOperationsSchema.describe(
-        "Patch operations array. CRITICAL: Always call get-type-mapi first. Use addInto/remove for arrays, replace for primitives/objects. See context for details.",
+        `Patch operations array. CRITICAL: Always call get-type-mapi first.
+- Use addInto/remove for arrays, replace for primitives/objects
+- Only one url_slug element allowed per content type
+- To remove content groups: set ALL elements' content_group to null AND remove ALL groups in one request
+- URL slug with snippet: add snippet element first, then url_slug with depends_on reference`,
       ),
     },
-    async (
-      { codename, operations },
-      { authInfo: { token, clientId } = {} },
-    ) => {
+    async ({ id, operations }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);
 
       try {
         // Apply patch operations using the modifyContentType method
         const response = await client
           .modifyContentType()
-          .byTypeCodename(codename)
+          .byTypeId(id)
           .withData(operations)
           .toPromise();
 
         return createMcpToolSuccessResponse({
-          message: `Content type '${codename}' updated successfully with ${operations.length} operation(s)`,
+          message: `Content type updated successfully with ${operations.length} operation(s)`,
           contentType: response.rawData,
           appliedOperations: operations,
         });

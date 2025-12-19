@@ -63,7 +63,7 @@ npx @kontent-ai/mcp-server@latest shttp
 
 ### Patch Operations Guide
 
-* **get-patch-guide** – 🚨 **REQUIRED before any patch operation**. Get JSON Patch operations guide for Kontent.ai Management API
+* **get-patch-guide** – 🚨 **REQUIRED before any patch operation**. Get patch operations guide for Kontent.ai Management API
 
 ### Content Type Management
 
@@ -78,12 +78,16 @@ npx @kontent-ai/mcp-server@latest shttp
 * **get-type-snippet-mapi** – Get Kontent.ai content type snippet by internal ID from Management API
 * **list-content-type-snippets-mapi** – Get all Kontent.ai content type snippets from Management API
 * **add-content-type-snippet-mapi** – Add new Kontent.ai content type snippet via Management API
+* **patch-type-snippet-mapi** – Update an existing Kontent.ai content type snippet by ID using patch operations (move, addInto, remove, replace)
+* **delete-type-snippet-mapi** – Delete a Kontent.ai content type snippet by codename
 
 ### Taxonomy Management
 
 * **get-taxonomy-group-mapi** – Get Kontent.ai taxonomy group by internal ID from Management API
 * **list-taxonomy-groups-mapi** – Get all Kontent.ai taxonomy groups from Management API
 * **add-taxonomy-group-mapi** – Add new Kontent.ai taxonomy group via Management API
+* **patch-taxonomy-group-mapi** – Update Kontent.ai taxonomy group using patch operations (addInto, move, remove, replace) via Management API
+* **delete-taxonomy-group-mapi** – Delete Kontent.ai taxonomy group by ID
 
 ### Content Item Management
 
@@ -109,6 +113,12 @@ npx @kontent-ai/mcp-server@latest shttp
 
 * **get-asset-mapi** – Get a specific Kontent.ai asset by internal ID from Management API
 * **list-assets-mapi** – Get all Kontent.ai assets from Management API
+* **update-asset-mapi** – Update Kontent.ai asset by ID
+
+### Asset Folder Management
+
+* **list-asset-folders-mapi** – List all Kontent.ai asset folders
+* **patch-asset-folders-mapi** – Modify Kontent.ai asset folders using patch operations (addInto to add new folders, rename to change names, remove to delete folders)
 
 ### Language Management
 
@@ -124,6 +134,9 @@ npx @kontent-ai/mcp-server@latest shttp
 ### Space Management
 
 * **list-spaces-mapi** – Get all Kontent.ai spaces from Management API
+* **add-space-mapi** – Add Kontent.ai space to environment
+* **patch-space-mapi** – Patch Kontent.ai space using replace operations
+* **delete-space-mapi** – Delete Kontent.ai space
 
 ### Workflow Management
 

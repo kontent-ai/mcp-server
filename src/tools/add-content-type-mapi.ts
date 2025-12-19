@@ -4,7 +4,7 @@ import { createMapiClient } from "../clients/kontentClients.js";
 import {
   contentGroupSchema,
   elementSchema,
-} from "../schemas/contentTypeSchemas.js";
+} from "../schemas/contentTypeAndSnippetSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 
