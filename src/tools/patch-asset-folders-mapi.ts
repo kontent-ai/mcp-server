@@ -8,7 +8,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "patch-asset-folders-mapi",
-    "Modify Kontent.ai asset folders using patch operations (addInto, rename, remove)",
+    "Modify Kontent.ai asset folders using patch operations (addInto, rename, remove). Call get-patch-guide first for operations reference.",
     {
       operations: assetFolderPatchOperationsSchema,
     },

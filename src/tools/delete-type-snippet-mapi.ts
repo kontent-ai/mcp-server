@@ -15,7 +15,7 @@ export const registerTool = (server: McpServer): void => {
       const client = createMapiClient(clientId, token);
 
       try {
-        const response = await client
+        await client
           .deleteContentTypeSnippet()
           .byTypeCodename(codename)
           .toPromise();
