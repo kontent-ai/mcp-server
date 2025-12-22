@@ -8,7 +8,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "patch-taxonomy-group-mapi",
-    "Update Kontent.ai taxonomy group using patch operations (addInto, move, remove, replace)",
+    "Update Kontent.ai taxonomy group using patch operations (addInto, move, remove, replace). Call get-patch-guide first for operations reference.",
     {
       id: z.guid(),
       operations: taxonomyPatchOperationsSchema.describe(

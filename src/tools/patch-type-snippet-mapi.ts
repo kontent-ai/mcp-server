@@ -8,7 +8,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "patch-type-snippet-mapi",
-    "Update Kontent.ai content type snippet using patch operations (move, addInto, remove, replace)",
+    "Update Kontent.ai content type snippet using patch operations (move, addInto, remove, replace). Call get-patch-guide first for operations reference.",
     {
       id: z.guid(),
       operations: snippetPatchOperationsSchema.describe(
