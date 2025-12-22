@@ -62,7 +62,6 @@ This is a Model Context Protocol (MCP) server for Kontent.ai that enables AI mod
 
 4. **API Clients** (`src/clients/kontentClients.ts`): Manages Kontent.ai SDK instances:
    - Management API client for content operations
-   - Delivery API client for read-only content access
    - Includes source tracking headers for API usage analytics
 
 5. **Validation Schemas** (`src/schemas/`): Zod schemas for input validation:
@@ -76,7 +75,7 @@ This is a Model Context Protocol (MCP) server for Kontent.ai that enables AI mod
 Tools follow strict naming patterns enforced by Cursor rules:
 - **Names must be under 35 characters** (enforced in `.cursor/rules/mcp-tool-naming.mdc`)
 - Format: `[action]-[entity]-[api-suffix]`
-- API suffixes: `-mapi` (Management API), `-dapi` (Delivery API)
+- API suffixes: `-mapi` (Management API)
 - Example: `get-content-type-mapi`, `filter-variants-mapi`
 
 #### Tool Descriptions
