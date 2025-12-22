@@ -92,7 +92,6 @@ npx @kontent-ai/mcp-server@latest shttp
 ### Content Item Management
 
 * **get-item-mapi** – Get Kontent.ai item by internal ID from Management API
-* **get-item-dapi** – Get Kontent.ai item by codename from Delivery API
 * **get-latest-variant-mapi** – Get latest version of Kontent.ai language variant from Management API
 * **get-published-variant-mapi** – Get published version of Kontent.ai language variant from Management API
 * **list-variants-item-mapi** – List all Kontent.ai language variants of a content item from Management API

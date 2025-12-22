@@ -26,7 +26,6 @@ When creating or modifying MCP tool descriptions, follow this standardized patte
 4. **API source:** Always specify the API being used:
    - "from Management API"
    - "via Management API" 
-   - "from Delivery API"
 
 ## Examples:
 ✅ **Good:**
