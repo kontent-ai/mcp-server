@@ -190,7 +190,7 @@ Available endpoints:
 async function startStdio() {
   const { server } = createServer();
   const transport = new StdioServerTransport();
-  console.log(`Kontent.ai MCP Server v${version} (stdio) starting`);
+  console.error(`Kontent.ai MCP Server v${version} (stdio) starting`);
   await server.connect(transport);
 }
 

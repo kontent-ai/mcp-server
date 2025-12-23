@@ -178,6 +178,6 @@ export function initializeApplicationInsights(): void {
 
     appInsights.defaultClient.addTelemetryProcessor(createTelemetryProcessor());
   } catch (error) {
-    console.log("Failed to initialize Application Insights:", error);
+    console.error("Failed to initialize Application Insights:", error);
   }
 }
