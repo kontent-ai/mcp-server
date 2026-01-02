@@ -27,12 +27,8 @@ jobs:
       
       - run: npm publish --access=public
         if: ${{!github.event.release.prerelease}}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_API_KEY }}
       - run: npm publish --tag prerelease
         if: ${{github.event.release.prerelease}}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_API_KEY }}
 
       # Publish to MCP Registry only for non-prerelease releases
       - name: Install MCP Publisher
