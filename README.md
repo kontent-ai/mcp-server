@@ -137,9 +137,16 @@ npx @kontent-ai/mcp-server@latest shttp
 * **patch-space-mapi** – Patch Kontent.ai space using replace operations
 * **delete-space-mapi** – Delete Kontent.ai space
 
+### Role Management
+
+* **list-roles-mapi** – Get all Kontent.ai roles from Management API. Requires Enterprise or Flex plan with "Manage custom roles" permission
+
 ### Workflow Management
 
 * **list-workflows-mapi** – Get all Kontent.ai workflows from Management API. Workflows define the content lifecycle stages and transitions between them
+* **add-workflow-mapi** – Create a new Kontent.ai workflow via Management API. Define custom workflow steps, transitions, scopes (content types and collections), and role permissions
+* **update-workflow-mapi** – Update an existing Kontent.ai workflow by ID via Management API. Modify steps, transitions, scopes, and role permissions. Cannot remove steps that are in use
+* **delete-workflow-mapi** – Delete a Kontent.ai workflow by ID via Management API. The workflow must not be in use by any content items
 * **change-variant-workflow-step-mapi** – Change the workflow step of a language variant in Kontent.ai. This operation moves a language variant to a different step in the workflow, enabling content lifecycle management such as moving content from draft to review, review to published, etc.
 * **publish-variant-mapi** – Publish or schedule a language variant of a content item in Kontent.ai. This operation can either immediately publish the variant or schedule it for publication at a specific future date and time with optional timezone specification
 * **unpublish-variant-mapi** – Unpublish or schedule unpublishing of a language variant of a content item in Kontent.ai. This operation can either immediately unpublish the variant (making it unavailable through the Delivery API) or schedule it for unpublishing at a specific future date and time with optional timezone specification

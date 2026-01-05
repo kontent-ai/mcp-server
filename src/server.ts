@@ -6,6 +6,7 @@ import { registerTool as registerAddContentTypeSnippetMapi } from "./tools/add-c
 import { registerTool as registerAddLanguageMapi } from "./tools/add-language-mapi.js";
 import { registerTool as registerAddSpaceMapi } from "./tools/add-space-mapi.js";
 import { registerTool as registerAddTaxonomyGroupMapi } from "./tools/add-taxonomy-group-mapi.js";
+import { registerTool as registerAddWorkflowMapi } from "./tools/add-workflow-mapi.js";
 import { registerTool as registerChangeVariantWorkflowStepMapi } from "./tools/change-variant-workflow-step-mapi.js";
 import { registerTool as registerCreateVariantVersionMapi } from "./tools/create-variant-version-mapi.js";
 import { registerTool as registerDeleteContentItemMapi } from "./tools/delete-content-item-mapi.js";
@@ -14,6 +15,7 @@ import { registerTool as registerDeleteLanguageVariantMapi } from "./tools/delet
 import { registerTool as registerDeleteSpaceMapi } from "./tools/delete-space-mapi.js";
 import { registerTool as registerDeleteTaxonomyGroupMapi } from "./tools/delete-taxonomy-group-mapi.js";
 import { registerTool as registerDeleteTypeSnippetMapi } from "./tools/delete-type-snippet-mapi.js";
+import { registerTool as registerDeleteWorkflowMapi } from "./tools/delete-workflow-mapi.js";
 import { registerTool as registerFilterVariantsMapi } from "./tools/filter-variants-mapi.js";
 import { registerTool as registerGetAssetMapi } from "./tools/get-asset-mapi.js";
 import { registerTool as registerGetItemMapi } from "./tools/get-item-mapi.js";
@@ -29,6 +31,7 @@ import { registerTool as registerListCollectionsMapi } from "./tools/list-collec
 import { registerTool as registerListContentTypeSnippetsMapi } from "./tools/list-content-type-snippets-mapi.js";
 import { registerTool as registerListContentTypesMapi } from "./tools/list-content-types-mapi.js";
 import { registerTool as registerListLanguagesMapi } from "./tools/list-languages-mapi.js";
+import { registerTool as registerListRolesMapi } from "./tools/list-roles-mapi.js";
 import { registerTool as registerListSpacesMapi } from "./tools/list-spaces-mapi.js";
 import { registerTool as registerListTaxonomyGroupsMapi } from "./tools/list-taxonomy-groups-mapi.js";
 import { registerTool as registerListVariantsCollectionMapi } from "./tools/list-variants-collection-mapi.js";
@@ -49,6 +52,7 @@ import { registerTool as registerSearchVariantsMapi } from "./tools/search-varia
 import { registerTool as registerUnpublishVariantMapi } from "./tools/unpublish-variant-mapi.js";
 import { registerTool as registerUpdateAssetMapi } from "./tools/update-asset-mapi.js";
 import { registerTool as registerUpdateContentItemMapi } from "./tools/update-content-item-mapi.js";
+import { registerTool as registerUpdateWorkflowMapi } from "./tools/update-workflow-mapi.js";
 import { registerTool as registerUpsertLanguageVariantMapi } from "./tools/upsert-language-variant-mapi.js";
 
 // Create server instance
@@ -80,6 +84,7 @@ export const createServer = () => {
   registerAddSpaceMapi(server);
   registerPatchSpaceMapi(server);
   registerDeleteSpaceMapi(server);
+  registerListRolesMapi(server);
   registerGetAssetMapi(server);
   registerListAssetsMapi(server);
   registerUpdateAssetMapi(server);
@@ -104,6 +109,9 @@ export const createServer = () => {
   registerCreateVariantVersionMapi(server);
   registerDeleteLanguageVariantMapi(server);
   registerListWorkflowsMapi(server);
+  registerAddWorkflowMapi(server);
+  registerUpdateWorkflowMapi(server);
+  registerDeleteWorkflowMapi(server);
   registerChangeVariantWorkflowStepMapi(server);
   registerFilterVariantsMapi(server);
   registerSearchVariantsMapi(server);
