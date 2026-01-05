@@ -64,15 +64,11 @@ const publishedStepInputSchema = z.object({
   unpublish_role_ids: z
     .array(z.guid())
     .min(1)
-    .describe(
-      "Array of role IDs that can unpublish content. Must include at least one role.",
-    ),
+    .describe("Array of role IDs that can unpublish content."),
   create_new_version_role_ids: z
     .array(z.guid())
     .min(1)
-    .describe(
-      "Array of role IDs that can create new versions. Must include at least one role.",
-    ),
+    .describe("Array of role IDs that can create new versions."),
 });
 
 // Archived step input schema
@@ -80,9 +76,7 @@ const archivedStepInputSchema = z.object({
   role_ids: z
     .array(z.guid())
     .min(1)
-    .describe(
-      "Array of role IDs that can restore archived content. Must include at least one role.",
-    ),
+    .describe("Array of role IDs that can restore archived content."),
 });
 
 // Workflow scope input schema
