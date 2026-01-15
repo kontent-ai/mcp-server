@@ -21,20 +21,16 @@ Available properties: name, codename, collections
 \`\`\`json
 { "op": "replace", "property_name": "name", "value": "New Language Name" }
 { "op": "replace", "property_name": "codename", "value": "new_codename" }
-{ "op": "replace", "property_name": "is_active", "value": true }
 { "op": "replace", "property_name": "fallback_language", "value": { "codename": "en-US" } }
 \`\`\`
 
-Available properties: name, codename, is_active, fallback_language
+Available properties: name, codename, fallback_language
 
 ## Critical Rule for Languages
-If a language is deactivated, you must activate it first before making other changes:
-\`\`\`json
-[
-  { "op": "replace", "property_name": "is_active", "value": true },
-  { "op": "replace", "property_name": "name", "value": "New Name" }
-]
-\`\`\`
+
+**Only active languages can be modified.** To activate or deactivate a language, the user must use the Kontent.ai web UI - this is a critical operation that cannot be performed via API tools.
+
+When user asks to update "all languages": only update active languages (is_active: true). If they need to modify inactive languages, inform them they must first activate those languages in the Kontent.ai web UI.
 
 ## General Rules
 - external_id cannot be modified after creation
