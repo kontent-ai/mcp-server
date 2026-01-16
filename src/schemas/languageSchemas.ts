@@ -4,10 +4,6 @@ import { referenceObjectSchema } from "./referenceObjectSchema.js";
 export const addLanguageSchema = z.object({
   name: z.string().describe("Display name of the language"),
   codename: z.string().describe("Codename identifier for the language"),
-  is_active: z
-    .boolean()
-    .optional()
-    .describe("Whether the language is active (defaults to true)"),
   fallback_language: referenceObjectSchema
     .optional()
     .describe(
@@ -29,11 +25,6 @@ const languageReplaceOperationSchema = z.discriminatedUnion("property_name", [
   }),
   z.object({
     op: z.literal("replace"),
-    property_name: z.literal("is_active"),
-    value: z.boolean(),
-  }),
-  z.object({
-    op: z.literal("replace"),
     property_name: z.literal("fallback_language"),
     value: referenceObjectSchema,
   }),
@@ -45,6 +36,6 @@ export const patchLanguageSchema = z.object({
     .array(languageReplaceOperationSchema)
     .min(1)
     .describe(
-      "Array of replace operations for codename, name, is_active, or fallback_language. Note: Only active languages can be modified - if language is deactivated, is_active: true must be first operation.",
+      "Array of replace operations for codename, name, or fallback_language. Note: Only active languages can be modified. To activate/deactivate languages, use the Kontent.ai web UI.",
     ),
 });

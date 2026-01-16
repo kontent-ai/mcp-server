@@ -7,7 +7,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "patch-language-mapi",
-    "Update Kontent.ai language using replace operations. Call get-patch-guide first. If deactivated, is_active: true must be first operation.",
+    "Update Kontent.ai language using replace operations. Call get-patch-guide first. Only active languages can be modified - to activate/deactivate, use the Kontent.ai web UI.",
     patchLanguageSchema.shape,
     async (
       { languageId, operations },

@@ -7,10 +7,10 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "add-language-mapi",
-    "Add new Kontent.ai language via Management API",
+    "Add new Kontent.ai language via Management API. Languages are always created as active.",
     addLanguageSchema.shape,
     async (
-      { name, codename, is_active, fallback_language, external_id },
+      { name, codename, fallback_language, external_id },
       { authInfo: { token, clientId } = {} },
     ) => {
       const client = createMapiClient(clientId, token);
@@ -21,7 +21,7 @@ export const registerTool = (server: McpServer): void => {
           .withData({
             name,
             codename,
-            is_active,
+            is_active: true,
             fallback_language,
             external_id,
           })

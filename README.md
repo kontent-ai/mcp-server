@@ -121,9 +121,9 @@ npx @kontent-ai/mcp-server@latest shttp
 
 ### Language Management
 
-* **list-languages-mapi** – Get all Kontent.ai languages from Management API
-* **add-language-mapi** – Add new Kontent.ai language via Management API
-* **patch-language-mapi** – Update Kontent.ai language using replace operations via Management API
+* **list-languages-mapi** – Get all Kontent.ai languages from Management API (includes both active and inactive - check is_active property)
+* **add-language-mapi** – Add new Kontent.ai language via Management API (languages are always created as active)
+* **patch-language-mapi** – Update Kontent.ai language using replace operations via Management API (only active languages can be modified - to activate/deactivate, use the Kontent.ai web UI)
 
 ### Collection Management
 
