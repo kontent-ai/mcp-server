@@ -94,6 +94,27 @@ export const filterVariantsSchema = z.object({
     .min(1)
     .optional()
     .describe("Array of taxonomy groups with taxonomy terms"),
+  spaces: z
+    .array(referenceObjectSchema)
+    .min(1)
+    .optional()
+    .describe(
+      "Array of references to spaces by their id or codename (external_id is not supported for spaces)",
+    ),
+  collections: z
+    .array(referenceObjectSchema)
+    .min(1)
+    .optional()
+    .describe(
+      "Array of references to collections by their id, codename, or external id",
+    ),
+  publishing_states: z
+    .array(z.enum(["published", "unpublished", "not_published_yet"]))
+    .min(1)
+    .optional()
+    .describe(
+      "Array of publishing states to filter by. 'published' - variant is currently published, 'unpublished' - variant was published but is now unpublished, 'not_published_yet' - variant has never been published",
+    ),
   order_by: z
     .enum(["name", "due_date", "last_modified"])
     .optional()
@@ -102,11 +123,5 @@ export const filterVariantsSchema = z.object({
     .enum(["asc", "desc"])
     .optional()
     .describe("Order direction"),
-  include_content: z
-    .boolean()
-    .optional()
-    .describe(
-      "Whether to include the full content of language variants in the response",
-    ),
   continuation_token: continuationTokenField,
 });

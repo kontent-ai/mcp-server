@@ -7,6 +7,7 @@ import { registerTool as registerAddLanguageMapi } from "./tools/add-language-ma
 import { registerTool as registerAddSpaceMapi } from "./tools/add-space-mapi.js";
 import { registerTool as registerAddTaxonomyGroupMapi } from "./tools/add-taxonomy-group-mapi.js";
 import { registerTool as registerAddWorkflowMapi } from "./tools/add-workflow-mapi.js";
+import { registerTool as registerBulkGetItemsVariantsMapi } from "./tools/bulk-get-items-variants-mapi.js";
 import { registerTool as registerChangeVariantWorkflowStepMapi } from "./tools/change-variant-workflow-step-mapi.js";
 import { registerTool as registerCreateVariantVersionMapi } from "./tools/create-variant-version-mapi.js";
 import { registerTool as registerDeleteContentItemMapi } from "./tools/delete-content-item-mapi.js";
@@ -114,6 +115,7 @@ export const createServer = () => {
   registerDeleteWorkflowMapi(server);
   registerChangeVariantWorkflowStepMapi(server);
   registerFilterVariantsMapi(server);
+  registerBulkGetItemsVariantsMapi(server);
   registerSearchVariantsMapi(server);
   registerPublishVariantMapi(server);
   registerUnpublishVariantMapi(server);
