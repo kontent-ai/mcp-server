@@ -2,13 +2,13 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { filterVariantsSchema } from "../schemas/filterVariantSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createVariantMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { throwError } from "../utils/throwError.js";
 
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "filter-variants-mapi",
-    "Filter Kontent.ai variants. For EXACT keyword matching and compliance (terms use OR). Use search-variants-mapi for semantic/topic search.",
+    "Filter Kontent.ai items with variants returning references (item ID + language ID). For EXACT keyword matching and compliance (terms use OR). Use bulk-get-items-variants-mapi to retrieve full content for matched items. Use search-variants-mapi for semantic/topic search.",
     filterVariantsSchema.shape,
     async (
       {
@@ -20,9 +20,11 @@ export const registerTool = (server: McpServer): void => {
         language,
         workflow_steps,
         taxonomy_groups,
+        spaces,
+        collections,
+        publishing_states,
         order_by,
         order_direction,
-        include_content,
         continuation_token,
       },
       { authInfo: { token, clientId } = {} },
@@ -35,7 +37,7 @@ export const registerTool = (server: McpServer): void => {
 
         const client = createMapiClient(environmentId, token);
 
-        const query = client.earlyAccess.filterLanguageVariants().withData({
+        const query = client.filterItemsWithVariants().withData({
           filters: {
             search_phrase,
             content_types,
@@ -45,6 +47,9 @@ export const registerTool = (server: McpServer): void => {
             language,
             workflow_steps,
             taxonomy_groups,
+            spaces,
+            collections,
+            publishing_states,
           },
           order: order_by
             ? {
@@ -52,7 +57,6 @@ export const registerTool = (server: McpServer): void => {
                 direction: order_direction || "asc",
               }
             : undefined,
-          include_content: include_content ?? false,
         });
 
         const response = await (continuation_token
@@ -60,8 +64,8 @@ export const registerTool = (server: McpServer): void => {
           : query
         ).toPromise();
 
-        return createVariantMcpToolSuccessResponse({
-          data: response.rawData.data,
+        return createMcpToolSuccessResponse({
+          variants: response.rawData.variants,
           pagination: {
             continuation_token: response.data.pagination.continuationToken,
           },
