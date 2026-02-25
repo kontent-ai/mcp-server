@@ -3,10 +3,7 @@ import pRetry, { AbortError } from "p-retry";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { searchOperationSchema } from "../schemas/searchOperationSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import {
-  createMcpToolSuccessResponse,
-  createVariantMcpToolSuccessResponse,
-} from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { throwError } from "../utils/throwError.js";
 
 interface AiOperationResponse {
@@ -128,7 +125,7 @@ export const registerTool = (server: McpServer): void => {
           },
         );
 
-        return createVariantMcpToolSuccessResponse({
+        return createMcpToolSuccessResponse({
           result: resultData,
         });
       } catch (error: unknown) {

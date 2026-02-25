@@ -2,7 +2,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { bulkGetItemsWithVariantsSchema } from "../schemas/bulkGetItemsWithVariantsSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createVariantMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { throwError } from "../utils/throwError.js";
 
 export const registerTool = (server: McpServer): void => {
@@ -31,7 +31,7 @@ export const registerTool = (server: McpServer): void => {
           : query
         ).toPromise();
 
-        return createVariantMcpToolSuccessResponse({
+        return createMcpToolSuccessResponse({
           data: response.rawData.data,
           pagination: {
             continuation_token: response.data.pagination.continuationToken,

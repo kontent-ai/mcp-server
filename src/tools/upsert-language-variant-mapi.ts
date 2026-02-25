@@ -3,7 +3,7 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { languageVariantElementSchema } from "../schemas/contentItemSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createVariantMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 
 export const registerTool = (server: McpServer): void => {
   server.tool(
@@ -43,7 +43,7 @@ export const registerTool = (server: McpServer): void => {
           .withData(() => data)
           .toPromise();
 
-        return createVariantMcpToolSuccessResponse(response.rawData);
+        return createMcpToolSuccessResponse(response.rawData);
       } catch (error: any) {
         return handleMcpToolError(error, "Language Variant Upsert");
       }
