@@ -29,7 +29,7 @@
   "author": "Jiri Lojda",
   "license": "MIT",
   "dependencies": {
-    "@kontent-ai/management-sdk": "^8.3.0",
+    "@kontent-ai/management-sdk": "^8.3.1",
     "@modelcontextprotocol/sdk": "^1.25.2",
     "applicationinsights": "^2.9.8",
     "dotenv": "^17.2.3",
