@@ -7,6 +7,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 export const registerTool = (server: McpServer): void => {
   server.tool(
     "delete-workflow-mapi",
+    "Delete Kontent.ai workflow",
     {
       id: z.guid().describe("Workflow ID"),
     },
