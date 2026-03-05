@@ -9,6 +9,7 @@ import { registerTool as registerAddTaxonomyGroupMapi } from "./tools/add-taxono
 import { registerTool as registerAddWorkflowMapi } from "./tools/add-workflow-mapi.js";
 import { registerTool as registerBulkGetItemsVariantsMapi } from "./tools/bulk-get-items-variants-mapi.js";
 import { registerTool as registerChangeVariantWorkflowStepMapi } from "./tools/change-variant-workflow-step-mapi.js";
+import { registerTool as registerCreateLanguageVariantMapi } from "./tools/create-language-variant-mapi.js";
 import { registerTool as registerCreateVariantVersionMapi } from "./tools/create-variant-version-mapi.js";
 import { registerTool as registerDeleteContentItemMapi } from "./tools/delete-content-item-mapi.js";
 import { registerTool as registerDeleteContentTypeMapi } from "./tools/delete-content-type-mapi.js";
@@ -53,8 +54,8 @@ import { registerTool as registerSearchVariantsMapi } from "./tools/search-varia
 import { registerTool as registerUnpublishVariantMapi } from "./tools/unpublish-variant-mapi.js";
 import { registerTool as registerUpdateAssetMapi } from "./tools/update-asset-mapi.js";
 import { registerTool as registerUpdateContentItemMapi } from "./tools/update-content-item-mapi.js";
+import { registerTool as registerUpdateLanguageVariantMapi } from "./tools/update-language-variant-mapi.js";
 import { registerTool as registerUpdateWorkflowMapi } from "./tools/update-workflow-mapi.js";
-import { registerTool as registerUpsertLanguageVariantMapi } from "./tools/upsert-language-variant-mapi.js";
 
 // Create server instance
 export const createServer = () => {
@@ -106,7 +107,8 @@ export const createServer = () => {
   registerAddContentItemMapi(server);
   registerUpdateContentItemMapi(server);
   registerDeleteContentItemMapi(server);
-  registerUpsertLanguageVariantMapi(server);
+  registerCreateLanguageVariantMapi(server);
+  registerUpdateLanguageVariantMapi(server);
   registerCreateVariantVersionMapi(server);
   registerDeleteLanguageVariantMapi(server);
   registerListWorkflowsMapi(server);
