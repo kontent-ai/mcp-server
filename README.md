@@ -98,10 +98,11 @@ npx @kontent-ai/mcp-server@latest shttp
 * **list-variants-type-mapi** – List Kontent.ai language variants by content type from Management API (paginated)
 * **list-variants-components-type-mapi** – List Kontent.ai language variants containing components of a specific content type from Management API (paginated)
 * **list-variants-space-mapi** – List Kontent.ai language variants by space from Management API (paginated)
-* **add-content-item-mapi** – Add new Kontent.ai content item via Management API. This creates the content item structure but does not add content to language variants. Use upsert-language-variant-mapi to add content to the item
+* **add-content-item-mapi** – Add new Kontent.ai content item via Management API. This creates the content item structure but does not add content to language variants. Use create-language-variant-mapi to add content to the item
 * **update-content-item-mapi** – Update existing Kontent.ai content item by internal ID via Management API. The content item must already exist - this tool will not create new items
 * **delete-content-item-mapi** – Delete Kontent.ai content item by internal ID from Management API
-* **upsert-language-variant-mapi** – Create or update Kontent.ai language variant of a content item via Management API. Element values must fulfill limitations and guidelines defined in content type. When updating, only provided elements will be modified
+* **create-language-variant-mapi** – Create Kontent.ai variant assigning current user as contributor. Element values must fulfill limitations and guidelines defined in content type
+* **update-language-variant-mapi** – Update Kontent.ai language variant of a content item via Management API. Element values must fulfill limitations and guidelines defined in content type. Only provided elements will be modified
 * **create-variant-version-mapi** – Create new version of Kontent.ai language variant via Management API. This operation creates a new version of an existing language variant, useful for content versioning and creating new drafts from published content
 * **delete-language-variant-mapi** – Delete Kontent.ai language variant from Management API
 * **filter-variants-mapi** – Filter Kontent.ai items with variants returning references (item ID + language ID). Use for exact keyword matching and finding specific terms in content. Supports full filtering capabilities (content types, workflow steps, taxonomies, spaces, collections, publishing states, etc.). Returns paginated results with continuation token for fetching subsequent pages. Use bulk-get-items-variants-mapi to retrieve full content for matched items
