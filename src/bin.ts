@@ -19,61 +19,6 @@ async function startStreamableHTTP() {
   const app = express();
   app.use(express.json());
 
-  app.post("/mcp", async (req, res) => {
-    try {
-      const { server } = createServer();
-      const transport = new StreamableHTTPServerTransport({
-        sessionIdGenerator: undefined,
-      });
-      res.on("close", () => {
-        console.log("Request closed");
-        transport.close();
-        server.close();
-      });
-      await server.connect(transport);
-      await transport.handleRequest(req, res, req.body);
-    } catch (error) {
-      console.error("Error handling MCP request:", error);
-      trackException(error, "MCP Request Handler");
-      if (!res.headersSent) {
-        res.status(500).json({
-          jsonrpc: "2.0",
-          error: {
-            code: -32603,
-            message: "Internal server error",
-          },
-          id: null,
-        });
-      }
-    }
-  });
-
-  app.get("/mcp", async (_, res) => {
-    res.writeHead(405).end(
-      JSON.stringify({
-        jsonrpc: "2.0",
-        error: {
-          code: -32000,
-          message: "Method not allowed.",
-        },
-        id: null,
-      }),
-    );
-  });
-
-  app.delete("/mcp", async (_, res) => {
-    res.writeHead(405).end(
-      JSON.stringify({
-        jsonrpc: "2.0",
-        error: {
-          code: -32000,
-          message: "Method not allowed.",
-        },
-        id: null,
-      }),
-    );
-  });
-
   app.post("/:environmentId/mcp", async (req, res) => {
     try {
       const { environmentId } = req.params;
@@ -180,8 +125,7 @@ async function startStreamableHTTP() {
   app.listen(PORT, () => {
     console.log(
       `Kontent.ai MCP Server v${version} (Streamable HTTP) running on port ${PORT}.
-Available endpoints:
-/mcp
+Available endpoint:
 /{environmentId}/mcp (requires Bearer authentication)`,
     );
   });

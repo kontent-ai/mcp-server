@@ -44,7 +44,7 @@
       "version": "0.29.0",
       "transport": {
         "type": "streamable-http",
-        "url": "http://localhost:3001/mcp"
+        "url": "http://localhost:3001/{environmentId}/mcp"
       },
       "packageArguments": [
         {
@@ -54,20 +54,8 @@
       ],
       "environmentVariables": [
         {
-          "name": "KONTENT_API_KEY",
-          "description": "Kontent.ai Management API key",
-          "isRequired": true,
-          "isSecret": true
-        },
-        {
-          "name": "KONTENT_ENVIRONMENT_ID",
-          "description": "Kontent.ai environment ID",
-          "isRequired": true,
-          "isSecret": false
-        },
-        {
           "name": "PORT",
-          "description": "Server port for HTTP transport (shttp mode only)",
+          "description": "Server port for HTTP transport (defaults to 3001)",
           "isRequired": false,
           "isSecret": false
         }
