@@ -44,7 +44,7 @@
       "version": "0.30.0",
       "transport": {
         "type": "streamable-http",
-        "url": "http://localhost:3001/{environmentId}/mcp"
+        "url": "http://localhost:3001/{KONTENT_ENVIRONMENT_ID}/mcp"
       },
       "packageArguments": [
         {
@@ -53,6 +53,12 @@
         }
       ],
       "environmentVariables": [
+        {
+          "name": "KONTENT_ENVIRONMENT_ID",
+          "description": "Kontent.ai environment ID",
+          "isRequired": true,
+          "isSecret": false
+        },
         {
           "name": "PORT",
           "description": "Server port for HTTP transport (defaults to 3001)",
