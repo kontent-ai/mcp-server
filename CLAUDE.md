@@ -93,21 +93,25 @@ When modifying tools (enforced in `.cursor/rules/tools-in-readme.mdc`):
 
 ### Environment Requirements
 
-#### Single-Tenant Mode
+#### Transport-to-Mode Mapping
+- **STDIO** = Single-tenant (credentials via env vars, local process communication)
+- **Streamable HTTP** = Multi-tenant (credentials via Bearer token per request)
+
+#### Single-Tenant Mode (STDIO)
 Required environment variables:
 - `KONTENT_API_KEY`: Management API key
 - `KONTENT_ENVIRONMENT_ID`: Environment ID
-- `PORT`: Server port (optional, defaults to 3001)
 
 Optional telemetry and configuration variables:
 - `appInsightsConnectionString`: Application Insights connection string for telemetry
 - `projectLocation`: Project location identifier for telemetry tracking
 - `manageApiUrl`: Custom Management API base URL (e.g., for preview environments)
 
-#### Multi-Tenant Mode (Streamable HTTP only)
-No environment variables required. Instead:
+#### Multi-Tenant Mode (Streamable HTTP)
+No credential environment variables required. Instead:
 - Environment ID is provided via URL path: `/{environmentId}/mcp`
 - API key is provided via Bearer token: `Authorization: Bearer <api-key>`
+- `PORT`: Server port (optional, defaults to 3001)
 
 ##### Client Configuration Examples
 

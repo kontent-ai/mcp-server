@@ -154,28 +154,39 @@ npx @kontent-ai/mcp-server@latest shttp
 
 ## ⚙️ Configuration
 
-The server supports two configuration modes:
+The server supports two modes, each tied to its transport:
 
-### Single-Tenant Mode (Default)
+| Transport | Mode | Authentication | Use Case |
+|-----------|------|----------------|----------|
+| **STDIO** | Single-tenant | Environment variables | Local communication with a single Kontent.ai environment |
+| **Streamable HTTP** | Multi-tenant | Bearer token per request | Remote/shared server handling multiple environments |
 
-For single-tenant mode, configure environment variables:
+### Single-Tenant Mode (STDIO)
+
+Configure credentials via environment variables:
 
 | Variable | Description | Required |
 |----------|-------------|----------|
 | KONTENT_API_KEY | Your Kontent.ai Management API key | ✅ |
 | KONTENT_ENVIRONMENT_ID | Your environment ID | ✅ |
-| PORT | Port for HTTP transport (defaults to 3001) | ❌ |
 | appInsightsConnectionString | Application Insights connection string for telemetry | ❌ |
 | projectLocation | Project location identifier for telemetry tracking | ❌ |
 | manageApiUrl | Custom Management API base URL (for preview environments) | ❌ |
 
-### Multi-Tenant Mode
+### Multi-Tenant Mode (Streamable HTTP)
 
-For multi-tenant mode (Streamable HTTP only), the server accepts:
+For the Streamable HTTP transport, credentials are provided per request:
 - **Environment ID** as a URL path parameter: `/{environmentId}/mcp`
 - **API Key** via Bearer token in the Authorization header: `Authorization: Bearer <api-key>`
 
-This mode allows a single server instance to handle requests for multiple Kontent.ai environments securely without requiring environment variables.
+This allows a single server instance to handle requests for multiple Kontent.ai environments without requiring credential environment variables.
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| PORT | Port for HTTP transport (defaults to 3001) | ❌ |
+| appInsightsConnectionString | Application Insights connection string for telemetry | ❌ |
+| projectLocation | Project location identifier for telemetry tracking | ❌ |
+| manageApiUrl | Custom Management API base URL (for preview environments) | ❌ |
 
 ## 🚀 Transport Options
 
@@ -196,35 +207,15 @@ To run the server with STDIO transport, configure your MCP client with:
 }
 ```
 
-### 🌊 Streamable HTTP Transport
+### 🌊 Streamable HTTP Transport (Multi-Tenant)
 
-For Streamable HTTP transport, first start the server:
+Streamable HTTP transport serves multiple Kontent.ai environments from a single server instance. Each request provides credentials via URL path parameters and Bearer authentication.
+
+First start the server:
 
 ```bash
 npx @kontent-ai/mcp-server@latest shttp
 ```
-
-#### Single-Tenant Mode
-
-With environment variables in a `.env` file, or otherwise accessible to the process:
-```env
-KONTENT_API_KEY=<management-api-key>
-KONTENT_ENVIRONMENT_ID=<environment-id>
-PORT=3001  # optional, defaults to 3001
-```
-
-Then configure your MCP client:
-```json
-{
-  "kontent-ai-http": {
-    "url": "http://localhost:3001/mcp"
-  }
-}
-```
-
-#### Multi-Tenant Mode
-
-No environment variables required. The server accepts requests for multiple environments using URL path parameters and Bearer authentication.
 
 <details>
 <summary><strong>VS Code</strong></summary>
