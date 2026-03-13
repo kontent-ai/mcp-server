@@ -17,6 +17,7 @@ interface AiOperationResultResponse {
 
 interface AiOperationResult {
   isFinished: boolean;
+  value?: string;
 }
 
 class OperationResultIncompleteError extends Error {
@@ -25,6 +26,25 @@ class OperationResultIncompleteError extends Error {
     this.name = "OperationResultIncompleteError";
   }
 }
+
+const isSearchResponseWrapper = (
+  value: unknown,
+): value is { searchResults: string } =>
+  typeof value === "object" && value !== null && "searchResults" in value;
+
+const extractSearchResults = (response: AiOperationResultResponse): object => {
+  const value = response.result?.value;
+  if (!value) {
+    return {};
+  }
+
+  const parsed = JSON.parse(value);
+  if (isSearchResponseWrapper(parsed)) {
+    return JSON.parse(parsed.searchResults);
+  }
+
+  return parsed;
+};
 
 export const registerTool = (server: McpServer): void => {
   server.tool(
@@ -125,8 +145,10 @@ export const registerTool = (server: McpServer): void => {
           },
         );
 
+        const searchResults = extractSearchResults(resultData);
+
         return createMcpToolSuccessResponse({
-          result: resultData,
+          result: searchResults,
         });
       } catch (error: unknown) {
         return handleMcpToolError(error, "AI-powered Variant Search");
