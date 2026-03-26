@@ -70,7 +70,7 @@ npx @kontent-ai/mcp-server@latest shttp
 * **list-content-types-mapi** – Get all Kontent.ai content types from Management API
 * **add-content-type-mapi** – Add new Kontent.ai content type via Management API
 * **patch-content-type-mapi** – Update an existing Kontent.ai content type by codename using patch operations (move, addInto, remove, replace)
-* **delete-content-type-mapi** – Delete a Kontent.ai content type by codename
+* **delete-content-type-mapi** – Delete a Kontent.ai content type by internal ID
 
 ### Content Type Snippet Management
 
@@ -78,7 +78,7 @@ npx @kontent-ai/mcp-server@latest shttp
 * **list-content-type-snippets-mapi** – Get all Kontent.ai content type snippets from Management API
 * **add-content-type-snippet-mapi** – Add new Kontent.ai content type snippet via Management API
 * **patch-type-snippet-mapi** – Update an existing Kontent.ai content type snippet by internal ID using patch operations (move, addInto, remove, replace)
-* **delete-type-snippet-mapi** – Delete a Kontent.ai content type snippet by codename
+* **delete-type-snippet-mapi** – Delete a Kontent.ai content type snippet by internal ID
 
 ### Taxonomy Management
 

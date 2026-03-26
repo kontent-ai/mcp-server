@@ -7,21 +7,21 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const deleteContentTypeMapi = createTool(
   ...defineTool(
     "delete-content-type-mapi",
-    "Delete (remove) Kontent.ai content type by codename. Removes the schema/model definition.",
+    "Delete (remove) Kontent.ai content type by internal ID. Removes the schema/model definition.",
     {
-      codename: z.string().describe("Content type codename"),
+      id: z.string().describe("Content type internal ID"),
     },
-    async ({ codename }, { authInfo: { token, clientId } = {} }) => {
+    async ({ id }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);
 
       try {
         const response = await client
           .deleteContentType()
-          .byTypeCodename(codename)
+          .byTypeId(id)
           .toPromise();
 
         return createMcpToolSuccessResponse({
-          message: `Content type '${codename}' deleted successfully`,
+          message: `Content type '${id}' deleted successfully`,
           deletedType: response.rawData,
         });
       } catch (error: unknown) {

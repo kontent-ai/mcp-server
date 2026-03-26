@@ -7,21 +7,21 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const deleteTypeSnippetMapi = createTool(
   ...defineTool(
     "delete-type-snippet-mapi",
-    "Delete (remove) Kontent.ai content type snippet by codename. Removes the reusable shared element set definition.",
+    "Delete (remove) Kontent.ai content type snippet by internal ID. Removes the reusable shared element set definition.",
     {
-      codename: z.string(),
+      id: z.string().describe("Content type snippet internal ID"),
     },
-    async ({ codename }, { authInfo: { token, clientId } = {} }) => {
+    async ({ id }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);
 
       try {
         await client
           .deleteContentTypeSnippet()
-          .byTypeCodename(codename)
+          .byTypeId(id)
           .toPromise();
 
         return createMcpToolSuccessResponse({
-          message: `Content type snippet '${codename}' deleted successfully`,
+          message: `Content type snippet '${id}' deleted successfully`,
         });
       } catch (error: unknown) {
         return handleMcpToolError(error, "Content Type Snippet Deletion");
