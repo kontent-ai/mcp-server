@@ -46,35 +46,74 @@ const testGroups: ReadonlyArray<TestGroup> = [
     name: "content type operations",
     cases: [
       // Action verb variations: create / add / new
-      { query: "create content type", expected: [allTools.addContentTypeMapi.name] },
-      { query: "add content type", expected: [allTools.addContentTypeMapi.name] },
-      { query: "new content type", expected: [allTools.addContentTypeMapi.name] },
+      {
+        query: "create content type",
+        expected: [allTools.addContentType.name],
+      },
+      {
+        query: "add content type",
+        expected: [allTools.addContentType.name],
+      },
+      {
+        query: "new content type",
+        expected: [allTools.addContentType.name],
+      },
       // Synonym: model / schema / definition
-      { query: "content model schema", expected: [allTools.addContentTypeMapi.name] },
+      {
+        query: "content model schema",
+        expected: [allTools.addContentType.name],
+      },
       // Action verb variations: get / retrieve / fetch
       {
         query: "get content type",
-        expected: [allTools.getTypeMapi.name, allTools.listContentTypesMapi.name],
+        expected: [allTools.getType.name, allTools.listContentTypes.name],
       },
-      { query: "retrieve content type", expected: [allTools.getTypeMapi.name] },
-      { query: "fetch content type", expected: [allTools.getTypeMapi.name] },
+      { query: "retrieve content type", expected: [allTools.getType.name] },
+      { query: "fetch content type", expected: [allTools.getType.name] },
       // Action verb variations: delete / remove
-      { query: "delete content type", expected: [allTools.deleteContentTypeMapi.name] },
-      { query: "remove content type", expected: [allTools.deleteContentTypeMapi.name] },
+      {
+        query: "delete content type",
+        expected: [allTools.deleteContentType.name],
+      },
+      {
+        query: "remove content type",
+        expected: [allTools.deleteContentType.name],
+      },
       // Action verb variations: modify / patch / edit / update
       {
         query: "modify content type elements",
-        expected: [allTools.patchContentTypeMapi.name],
+        expected: [allTools.patchContentType.name],
       },
-      { query: "patch content type", expected: [allTools.patchContentTypeMapi.name] },
-      { query: "edit content type fields", expected: [allTools.patchContentTypeMapi.name] },
+      {
+        query: "patch content type",
+        expected: [allTools.patchContentType.name],
+      },
+      {
+        query: "edit content type fields",
+        expected: [allTools.patchContentType.name],
+      },
       // Action verb variations: list / all / browse
-      { query: "list content types", expected: [allTools.listContentTypesMapi.name] },
-      { query: "all content types", expected: [allTools.listContentTypesMapi.name] },
+      {
+        query: "list content types",
+        expected: [allTools.listContentTypes.name],
+      },
+      {
+        query: "all content types",
+        expected: [allTools.listContentTypes.name],
+      },
       // Synonym: structure / definition / template
-      { query: "content type structure", expected: [allTools.getTypeMapi.name] },
-      { query: "content type definition", expected: [allTools.getTypeMapi.name] },
-      { query: "content template fields", expected: [allTools.addContentTypeMapi.name] },
+      {
+        query: "content type structure",
+        expected: [allTools.getType.name],
+      },
+      {
+        query: "content type definition",
+        expected: [allTools.getType.name],
+      },
+      {
+        query: "content template fields",
+        expected: [allTools.addContentType.name],
+      },
     ],
   },
   {
@@ -83,42 +122,84 @@ const testGroups: ReadonlyArray<TestGroup> = [
       {
         query: "content type snippet",
         expected: [
-          allTools.addContentTypeSnippetMapi.name,
-          allTools.getTypeSnippetMapi.name,
-          allTools.listContentTypeSnippetsMapi.name,
+          allTools.addContentTypeSnippet.name,
+          allTools.getTypeSnippet.name,
+          allTools.listContentTypeSnippets.name,
         ],
       },
       {
         query: "reusable snippet elements",
-        expected: [allTools.addContentTypeSnippetMapi.name, allTools.getTypeSnippetMapi.name],
+        expected: [
+          allTools.addContentTypeSnippet.name,
+          allTools.getTypeSnippet.name,
+        ],
       },
-      { query: "create snippet", expected: [allTools.addContentTypeSnippetMapi.name] },
-      { query: "get snippet", expected: [allTools.getTypeSnippetMapi.name] },
-      { query: "modify snippet", expected: [allTools.patchTypeSnippetMapi.name] },
-      { query: "patch snippet", expected: [allTools.patchTypeSnippetMapi.name] },
-      { query: "delete snippet", expected: [allTools.deleteTypeSnippetMapi.name] },
-      { query: "remove snippet", expected: [allTools.deleteTypeSnippetMapi.name] },
+      {
+        query: "create snippet",
+        expected: [allTools.addContentTypeSnippet.name],
+      },
+      { query: "get snippet", expected: [allTools.getTypeSnippet.name] },
+      {
+        query: "modify snippet",
+        expected: [allTools.patchTypeSnippet.name],
+      },
+      {
+        query: "patch snippet",
+        expected: [allTools.patchTypeSnippet.name],
+      },
+      {
+        query: "delete snippet",
+        expected: [allTools.deleteTypeSnippet.name],
+      },
+      {
+        query: "remove snippet",
+        expected: [allTools.deleteTypeSnippet.name],
+      },
     ],
   },
   {
     name: "content item operations",
     cases: [
       // create / add / new
-      { query: "create content item", expected: [allTools.addContentItemMapi.name] },
-      { query: "add content item", expected: [allTools.addContentItemMapi.name] },
-      { query: "new content item", expected: [allTools.addContentItemMapi.name] },
+      {
+        query: "create content item",
+        expected: [allTools.addContentItem.name],
+      },
+      {
+        query: "add content item",
+        expected: [allTools.addContentItem.name],
+      },
+      {
+        query: "new content item",
+        expected: [allTools.addContentItem.name],
+      },
       // get / retrieve
-      { query: "get content item", expected: [allTools.getItemMapi.name] },
-      { query: "retrieve content item", expected: [allTools.getItemMapi.name] },
+      { query: "get content item", expected: [allTools.getItem.name] },
+      { query: "retrieve content item", expected: [allTools.getItem.name] },
       // update / edit
-      { query: "update content item name", expected: [allTools.updateContentItemMapi.name] },
-      { query: "edit content item", expected: [allTools.updateContentItemMapi.name] },
+      {
+        query: "update content item name",
+        expected: [allTools.updateContentItem.name],
+      },
+      {
+        query: "edit content item",
+        expected: [allTools.updateContentItem.name],
+      },
       // delete / remove
-      { query: "delete content item", expected: [allTools.deleteContentItemMapi.name] },
-      { query: "remove content item", expected: [allTools.deleteContentItemMapi.name] },
+      {
+        query: "delete content item",
+        expected: [allTools.deleteContentItem.name],
+      },
+      {
+        query: "remove content item",
+        expected: [allTools.deleteContentItem.name],
+      },
       // Synonym: page / entry / record
-      { query: "create page entry", expected: [allTools.addContentItemMapi.name] },
-      { query: "get content entry", expected: [allTools.getItemMapi.name] },
+      {
+        query: "create page entry",
+        expected: [allTools.addContentItem.name],
+      },
+      { query: "get content entry", expected: [allTools.getItem.name] },
     ],
   },
   {
@@ -127,285 +208,507 @@ const testGroups: ReadonlyArray<TestGroup> = [
       // Translation-related
       {
         query: "translate content language",
-        expected: [allTools.createLanguageVariantMapi.name, allTools.listVariantsItemMapi.name],
+        expected: [
+          allTools.createLanguageVariant.name,
+          allTools.listVariantsItem.name,
+        ],
       },
-      { query: "add translation", expected: [allTools.createLanguageVariantMapi.name] },
-      { query: "create language version", expected: [allTools.createLanguageVariantMapi.name] },
+      {
+        query: "add translation",
+        expected: [allTools.createLanguageVariant.name],
+      },
+      {
+        query: "create language version",
+        expected: [allTools.createLanguageVariant.name],
+      },
       // create / add / new
-      { query: "create item variant", expected: [allTools.createLanguageVariantMapi.name] },
-      { query: "add item variant", expected: [allTools.createLanguageVariantMapi.name] },
+      {
+        query: "create item variant",
+        expected: [allTools.createLanguageVariant.name],
+      },
+      {
+        query: "add item variant",
+        expected: [allTools.createLanguageVariant.name],
+      },
       // get / retrieve / fetch (draft)
-      { query: "get draft variant", expected: [allTools.getLatestVariantMapi.name] },
-      { query: "fetch latest variant", expected: [allTools.getLatestVariantMapi.name] },
+      {
+        query: "get draft variant",
+        expected: [allTools.getLatestVariant.name],
+      },
+      {
+        query: "fetch latest variant",
+        expected: [allTools.getLatestVariant.name],
+      },
       {
         query: "retrieve draft content",
-        expected: [allTools.getLatestVariantMapi.name],
+        expected: [allTools.getLatestVariant.name],
       },
       // get / retrieve / fetch (published)
       {
         query: "get published content",
-        expected: [allTools.getPublishedVariantMapi.name],
+        expected: [allTools.getPublishedVariant.name],
       },
       {
         query: "retrieve published variant",
-        expected: [allTools.getPublishedVariantMapi.name],
+        expected: [allTools.getPublishedVariant.name],
       },
       {
         query: "live published variant",
-        expected: [allTools.getPublishedVariantMapi.name],
+        expected: [allTools.getPublishedVariant.name],
       },
       // update / edit / write
       {
         query: "update item variant content",
-        expected: [allTools.updateLanguageVariantMapi.name],
+        expected: [allTools.updateLanguageVariant.name],
       },
-      { query: "edit variant elements", expected: [allTools.updateLanguageVariantMapi.name] },
-      { query: "write variant content", expected: [allTools.updateLanguageVariantMapi.name] },
+      {
+        query: "edit variant elements",
+        expected: [allTools.updateLanguageVariant.name],
+      },
+      {
+        query: "write variant content",
+        expected: [allTools.updateLanguageVariant.name],
+      },
       // New version
       {
         query: "create new draft version",
-        expected: [allTools.createVariantVersionMapi.name],
+        expected: [allTools.createVariantVersion.name],
       },
       {
         query: "new version published variant",
-        expected: [allTools.createVariantVersionMapi.name],
+        expected: [allTools.createVariantVersion.name],
       },
       // Bulk
-      { query: "bulk get item variants", expected: [allTools.bulkGetItemsVariantsMapi.name] },
-      { query: "fetch multiple items", expected: [allTools.bulkGetItemsVariantsMapi.name] },
-      { query: "bulk retrieve variants", expected: [allTools.bulkGetItemsVariantsMapi.name] },
+      {
+        query: "bulk get item variants",
+        expected: [allTools.bulkGetItemsVariants.name],
+      },
+      {
+        query: "fetch multiple items",
+        expected: [allTools.bulkGetItemsVariants.name],
+      },
+      {
+        query: "bulk retrieve variants",
+        expected: [allTools.bulkGetItemsVariants.name],
+      },
       // delete / remove
-      { query: "delete item variant", expected: [allTools.deleteLanguageVariantMapi.name] },
+      {
+        query: "delete item variant",
+        expected: [allTools.deleteLanguageVariant.name],
+      },
       {
         query: "remove variant translation",
-        expected: [allTools.deleteLanguageVariantMapi.name],
+        expected: [allTools.deleteLanguageVariant.name],
       },
       // Synonym: localize / i18n / multilingual
-      { query: "localize content", expected: [allTools.createLanguageVariantMapi.name] },
-      { query: "multilingual content variant", expected: [allTools.createLanguageVariantMapi.name] },
+      {
+        query: "localize content",
+        expected: [allTools.createLanguageVariant.name],
+      },
+      {
+        query: "multilingual content variant",
+        expected: [allTools.createLanguageVariant.name],
+      },
       // Synonym: batch / mass
-      { query: "batch retrieve content", expected: [allTools.bulkGetItemsVariantsMapi.name] },
-      { query: "mass get items variants", expected: [allTools.bulkGetItemsVariantsMapi.name] },
+      {
+        query: "batch retrieve content",
+        expected: [allTools.bulkGetItemsVariants.name],
+      },
+      {
+        query: "mass get items variants",
+        expected: [allTools.bulkGetItemsVariants.name],
+      },
     ],
   },
   {
     name: "filtering and searching content",
     cases: [
-      { query: "filter items keyword", expected: [allTools.filterVariantsMapi.name] },
+      {
+        query: "filter items keyword",
+        expected: [allTools.filterVariants.name],
+      },
       {
         query: "find content exact keyword",
-        expected: [allTools.filterVariantsMapi.name],
+        expected: [allTools.filterVariants.name],
       },
-      { query: "search content semantic", expected: [allTools.searchVariantsMapi.name] },
-      { query: "search content topic", expected: [allTools.searchVariantsMapi.name] },
-      { query: "find content by meaning", expected: [allTools.searchVariantsMapi.name] },
+      {
+        query: "search content semantic",
+        expected: [allTools.searchVariants.name],
+      },
+      {
+        query: "search content topic",
+        expected: [allTools.searchVariants.name],
+      },
+      {
+        query: "find content by meaning",
+        expected: [allTools.searchVariants.name],
+      },
       {
         query: "items by content type",
-        expected: [allTools.listVariantsTypeMapi.name],
+        expected: [allTools.listVariantsType.name],
       },
       {
         query: "variants filtered by type",
-        expected: [allTools.listVariantsTypeMapi.name],
+        expected: [allTools.listVariantsType.name],
       },
       {
         query: "items in collection",
-        expected: [allTools.listVariantsCollectionMapi.name],
+        expected: [allTools.listVariantsCollection.name],
       },
       {
         query: "variants by collection",
-        expected: [allTools.listVariantsCollectionMapi.name],
+        expected: [allTools.listVariantsCollection.name],
       },
-      { query: "content in space", expected: [allTools.listVariantsSpaceMapi.name] },
-      { query: "variants by space", expected: [allTools.listVariantsSpaceMapi.name] },
+      {
+        query: "content in space",
+        expected: [allTools.listVariantsSpace.name],
+      },
+      {
+        query: "variants by space",
+        expected: [allTools.listVariantsSpace.name],
+      },
       {
         query: "items with inline components",
-        expected: [allTools.listVariantsComponentsTypeMapi.name],
+        expected: [allTools.listVariantsComponentsType.name],
       },
       // Synonym: query / lookup
-      { query: "query content items", expected: [allTools.filterVariantsMapi.name] },
-      { query: "lookup items by keyword", expected: [allTools.filterVariantsMapi.name] },
+      {
+        query: "query content items",
+        expected: [allTools.filterVariants.name],
+      },
+      {
+        query: "lookup items by keyword",
+        expected: [allTools.filterVariants.name],
+      },
     ],
   },
   {
     name: "workflow operations",
     cases: [
       // create / add / new
-      { query: "create workflow", expected: [allTools.addWorkflowMapi.name] },
-      { query: "add workflow", expected: [allTools.addWorkflowMapi.name] },
-      { query: "new workflow steps", expected: [allTools.addWorkflowMapi.name] },
+      { query: "create workflow", expected: [allTools.addWorkflow.name] },
+      { query: "add workflow", expected: [allTools.addWorkflow.name] },
+      {
+        query: "new workflow steps",
+        expected: [allTools.addWorkflow.name],
+      },
       // change / move / transition
       {
         query: "change workflow step",
-        expected: [allTools.changeVariantWorkflowStepMapi.name],
+        expected: [allTools.changeVariantWorkflowStep.name],
       },
       {
         query: "move to review step",
-        expected: [allTools.changeVariantWorkflowStepMapi.name],
+        expected: [allTools.changeVariantWorkflowStep.name],
       },
       {
         query: "transition workflow step",
-        expected: [allTools.changeVariantWorkflowStepMapi.name],
+        expected: [allTools.changeVariantWorkflowStep.name],
       },
       // publish
-      { query: "publish item variant", expected: [allTools.publishVariantMapi.name] },
-      { query: "publish content", expected: [allTools.publishVariantMapi.name] },
-      { query: "schedule publishing", expected: [allTools.publishVariantMapi.name] },
+      {
+        query: "publish item variant",
+        expected: [allTools.publishVariant.name],
+      },
+      {
+        query: "publish content",
+        expected: [allTools.publishVariant.name],
+      },
+      {
+        query: "schedule publishing",
+        expected: [allTools.publishVariant.name],
+      },
       // unpublish
-      { query: "unpublish content", expected: [allTools.unpublishVariantMapi.name] },
-      { query: "take content offline", expected: [allTools.unpublishVariantMapi.name] },
+      {
+        query: "unpublish content",
+        expected: [allTools.unpublishVariant.name],
+      },
+      {
+        query: "take content offline",
+        expected: [allTools.unpublishVariant.name],
+      },
       // Synonym: approve / review / lifecycle / archive
-      { query: "approve content review", expected: [allTools.changeVariantWorkflowStepMapi.name] },
-      { query: "content lifecycle status", expected: [allTools.listWorkflowsMapi.name] },
-      { query: "archive content", expected: [allTools.changeVariantWorkflowStepMapi.name] },
+      {
+        query: "approve content review",
+        expected: [allTools.changeVariantWorkflowStep.name],
+      },
+      {
+        query: "content lifecycle status",
+        expected: [allTools.listWorkflows.name],
+      },
+      {
+        query: "archive content",
+        expected: [allTools.changeVariantWorkflowStep.name],
+      },
       // list / get
-      { query: "list workflows", expected: [allTools.listWorkflowsMapi.name] },
-      { query: "get workflows", expected: [allTools.listWorkflowsMapi.name] },
-      { query: "workflow draft review", expected: [allTools.listWorkflowsMapi.name] },
+      { query: "list workflows", expected: [allTools.listWorkflows.name] },
+      { query: "get workflows", expected: [allTools.listWorkflows.name] },
+      {
+        query: "workflow draft review",
+        expected: [allTools.listWorkflows.name],
+      },
       // update / edit / modify
-      { query: "update workflow steps", expected: [allTools.updateWorkflowMapi.name] },
-      { query: "edit workflow", expected: [allTools.updateWorkflowMapi.name] },
-      { query: "modify workflow", expected: [allTools.updateWorkflowMapi.name] },
+      {
+        query: "update workflow steps",
+        expected: [allTools.updateWorkflow.name],
+      },
+      { query: "edit workflow", expected: [allTools.updateWorkflow.name] },
+      {
+        query: "modify workflow",
+        expected: [allTools.updateWorkflow.name],
+      },
       // delete / remove
-      { query: "delete workflow", expected: [allTools.deleteWorkflowMapi.name] },
-      { query: "remove workflow", expected: [allTools.deleteWorkflowMapi.name] },
+      {
+        query: "delete workflow",
+        expected: [allTools.deleteWorkflow.name],
+      },
+      {
+        query: "remove workflow",
+        expected: [allTools.deleteWorkflow.name],
+      },
     ],
   },
   {
     name: "taxonomy operations",
     cases: [
       // create / add / new
-      { query: "create taxonomy group", expected: [allTools.addTaxonomyGroupMapi.name] },
-      { query: "add taxonomy group", expected: [allTools.addTaxonomyGroupMapi.name] },
-      { query: "new taxonomy categories", expected: [allTools.addTaxonomyGroupMapi.name] },
+      {
+        query: "create taxonomy group",
+        expected: [allTools.addTaxonomyGroup.name],
+      },
+      {
+        query: "add taxonomy group",
+        expected: [allTools.addTaxonomyGroup.name],
+      },
+      {
+        query: "new taxonomy categories",
+        expected: [allTools.addTaxonomyGroup.name],
+      },
       // get / retrieve
       {
         query: "get taxonomy group",
-        expected: [allTools.getTaxonomyGroupMapi.name, allTools.listTaxonomyGroupsMapi.name],
+        expected: [
+          allTools.getTaxonomyGroup.name,
+          allTools.listTaxonomyGroups.name,
+        ],
       },
-      { query: "retrieve taxonomy", expected: [allTools.getTaxonomyGroupMapi.name] },
+      {
+        query: "retrieve taxonomy",
+        expected: [allTools.getTaxonomyGroup.name],
+      },
       // Synonym: categories / tags
       {
         query: "taxonomy categories tags",
-        expected: [allTools.addTaxonomyGroupMapi.name, allTools.getTaxonomyGroupMapi.name],
+        expected: [
+          allTools.addTaxonomyGroup.name,
+          allTools.getTaxonomyGroup.name,
+        ],
       },
       // modify / patch / edit
-      { query: "modify taxonomy terms", expected: [allTools.patchTaxonomyGroupMapi.name] },
-      { query: "patch taxonomy", expected: [allTools.patchTaxonomyGroupMapi.name] },
-      { query: "edit taxonomy group", expected: [allTools.patchTaxonomyGroupMapi.name] },
+      {
+        query: "modify taxonomy terms",
+        expected: [allTools.patchTaxonomyGroup.name],
+      },
+      {
+        query: "patch taxonomy",
+        expected: [allTools.patchTaxonomyGroup.name],
+      },
+      {
+        query: "edit taxonomy group",
+        expected: [allTools.patchTaxonomyGroup.name],
+      },
       // list
-      { query: "list taxonomy groups", expected: [allTools.listTaxonomyGroupsMapi.name] },
+      {
+        query: "list taxonomy groups",
+        expected: [allTools.listTaxonomyGroups.name],
+      },
       // delete / remove
-      { query: "delete taxonomy group", expected: [allTools.deleteTaxonomyGroupMapi.name] },
-      { query: "remove taxonomy group", expected: [allTools.deleteTaxonomyGroupMapi.name] },
+      {
+        query: "delete taxonomy group",
+        expected: [allTools.deleteTaxonomyGroup.name],
+      },
+      {
+        query: "remove taxonomy group",
+        expected: [allTools.deleteTaxonomyGroup.name],
+      },
       // Synonym: hierarchy / classification / organize
-      { query: "classification hierarchy", expected: [allTools.getTaxonomyGroupMapi.name] },
-      { query: "content categorization", expected: [allTools.getTaxonomyGroupMapi.name] },
-      { query: "organize content terms", expected: [allTools.patchTaxonomyGroupMapi.name] },
+      {
+        query: "classification hierarchy",
+        expected: [allTools.getTaxonomyGroup.name],
+      },
+      {
+        query: "content categorization",
+        expected: [allTools.getTaxonomyGroup.name],
+      },
+      {
+        query: "organize content terms",
+        expected: [allTools.patchTaxonomyGroup.name],
+      },
     ],
   },
   {
     name: "asset operations",
     cases: [
       // get / retrieve / fetch
-      { query: "get asset", expected: [allTools.getAssetMapi.name] },
-      { query: "retrieve asset by id", expected: [allTools.getAssetMapi.name] },
-      { query: "fetch asset", expected: [allTools.getAssetMapi.name] },
+      { query: "get asset", expected: [allTools.getAsset.name] },
+      { query: "retrieve asset by id", expected: [allTools.getAsset.name] },
+      { query: "fetch asset", expected: [allTools.getAsset.name] },
       // list / all
-      { query: "list assets", expected: [allTools.listAssetsMapi.name] },
-      { query: "all assets", expected: [allTools.listAssetsMapi.name] },
+      { query: "list assets", expected: [allTools.listAssets.name] },
+      { query: "all assets", expected: [allTools.listAssets.name] },
       // update / edit / modify
-      { query: "update asset metadata", expected: [allTools.updateAssetMapi.name] },
-      { query: "edit asset title", expected: [allTools.updateAssetMapi.name] },
-      { query: "modify asset", expected: [allTools.updateAssetMapi.name] },
+      {
+        query: "update asset metadata",
+        expected: [allTools.updateAsset.name],
+      },
+      { query: "edit asset title", expected: [allTools.updateAsset.name] },
+      { query: "modify asset", expected: [allTools.updateAsset.name] },
       // Folders
       {
         query: "asset folders",
-        expected: [allTools.listAssetFoldersMapi.name, allTools.patchAssetFoldersMapi.name],
+        expected: [
+          allTools.listAssetFolders.name,
+          allTools.patchAssetFolders.name,
+        ],
       },
-      { query: "list asset folders", expected: [allTools.listAssetFoldersMapi.name] },
-      { query: "modify asset folders", expected: [allTools.patchAssetFoldersMapi.name] },
-      { query: "edit asset folders", expected: [allTools.patchAssetFoldersMapi.name] },
+      {
+        query: "list asset folders",
+        expected: [allTools.listAssetFolders.name],
+      },
+      {
+        query: "modify asset folders",
+        expected: [allTools.patchAssetFolders.name],
+      },
+      {
+        query: "edit asset folders",
+        expected: [allTools.patchAssetFolders.name],
+      },
       // Synonym: image / file / media / document
-      { query: "get image file", expected: [allTools.getAssetMapi.name] },
-      { query: "list media files", expected: [allTools.listAssetsMapi.name] },
-      { query: "documents videos assets", expected: [allTools.listAssetsMapi.name] },
+      { query: "get image file", expected: [allTools.getAsset.name] },
+      { query: "list media files", expected: [allTools.listAssets.name] },
+      {
+        query: "documents videos assets",
+        expected: [allTools.listAssets.name],
+      },
     ],
   },
   {
     name: "language operations",
     cases: [
       // create / add / new
-      { query: "add language", expected: [allTools.addLanguageMapi.name] },
-      { query: "create language", expected: [allTools.addLanguageMapi.name] },
-      { query: "new language locale", expected: [allTools.addLanguageMapi.name] },
+      { query: "add language", expected: [allTools.addLanguage.name] },
+      { query: "create language", expected: [allTools.addLanguage.name] },
+      {
+        query: "new language locale",
+        expected: [allTools.addLanguage.name],
+      },
       // list / get
-      { query: "list languages", expected: [allTools.listLanguagesMapi.name] },
-      { query: "get languages", expected: [allTools.listLanguagesMapi.name] },
-      { query: "available languages", expected: [allTools.listLanguagesMapi.name] },
+      { query: "list languages", expected: [allTools.listLanguages.name] },
+      { query: "get languages", expected: [allTools.listLanguages.name] },
+      {
+        query: "available languages",
+        expected: [allTools.listLanguages.name],
+      },
       // modify / patch / edit
-      { query: "modify language fallback", expected: [allTools.patchLanguageMapi.name] },
-      { query: "patch language", expected: [allTools.patchLanguageMapi.name] },
-      { query: "edit language", expected: [allTools.patchLanguageMapi.name] },
+      {
+        query: "modify language fallback",
+        expected: [allTools.patchLanguage.name],
+      },
+      { query: "patch language", expected: [allTools.patchLanguage.name] },
+      { query: "edit language", expected: [allTools.patchLanguage.name] },
       // Synonym: localization / translations
       {
         query: "localization translations",
-        expected: [allTools.addLanguageMapi.name, allTools.listLanguagesMapi.name],
+        expected: [allTools.addLanguage.name, allTools.listLanguages.name],
       },
       // Synonym: locale / i18n / fallback
-      { query: "configure locale", expected: [allTools.addLanguageMapi.name] },
-      { query: "language fallback inheritance", expected: [allTools.patchLanguageMapi.name] },
+      { query: "configure locale", expected: [allTools.addLanguage.name] },
+      {
+        query: "language fallback inheritance",
+        expected: [allTools.patchLanguage.name],
+      },
     ],
   },
   {
     name: "space operations",
     cases: [
       // create / add / new
-      { query: "create space", expected: [allTools.addSpaceMapi.name] },
-      { query: "add space", expected: [allTools.addSpaceMapi.name] },
-      { query: "new space website", expected: [allTools.addSpaceMapi.name] },
+      { query: "create space", expected: [allTools.addSpace.name] },
+      { query: "add space", expected: [allTools.addSpace.name] },
+      { query: "new space website", expected: [allTools.addSpace.name] },
       // list / get
-      { query: "list spaces", expected: [allTools.listSpacesMapi.name] },
-      { query: "get spaces", expected: [allTools.listSpacesMapi.name] },
+      { query: "list spaces", expected: [allTools.listSpaces.name] },
+      { query: "get spaces", expected: [allTools.listSpaces.name] },
       // delete / remove
-      { query: "delete space", expected: [allTools.deleteSpaceMapi.name] },
-      { query: "remove space", expected: [allTools.deleteSpaceMapi.name] },
+      { query: "delete space", expected: [allTools.deleteSpace.name] },
+      { query: "remove space", expected: [allTools.deleteSpace.name] },
       // modify / patch / edit
-      { query: "patch space", expected: [allTools.patchSpaceMapi.name] },
-      { query: "update space", expected: [allTools.patchSpaceMapi.name] },
+      { query: "patch space", expected: [allTools.patchSpace.name] },
+      { query: "update space", expected: [allTools.patchSpace.name] },
       // Synonym: channel / site / website
-      { query: "website channel setup", expected: [allTools.addSpaceMapi.name] },
-      { query: "site configuration", expected: [allTools.listSpacesMapi.name] },
+      {
+        query: "website channel setup",
+        expected: [allTools.addSpace.name],
+      },
+      { query: "site configuration", expected: [allTools.listSpaces.name] },
     ],
   },
   {
     name: "collection operations",
     cases: [
-      { query: "list collections", expected: [allTools.listCollectionsMapi.name] },
-      { query: "get collections", expected: [allTools.listCollectionsMapi.name] },
-      { query: "modify collections", expected: [allTools.patchCollectionsMapi.name] },
-      { query: "patch collections", expected: [allTools.patchCollectionsMapi.name] },
-      { query: "edit collections", expected: [allTools.patchCollectionsMapi.name] },
+      {
+        query: "list collections",
+        expected: [allTools.listCollections.name],
+      },
+      {
+        query: "get collections",
+        expected: [allTools.listCollections.name],
+      },
+      {
+        query: "modify collections",
+        expected: [allTools.patchCollections.name],
+      },
+      {
+        query: "patch collections",
+        expected: [allTools.patchCollections.name],
+      },
+      {
+        query: "edit collections",
+        expected: [allTools.patchCollections.name],
+      },
       // Synonym: group / organize / bucket
-      { query: "content groups organize", expected: [allTools.listCollectionsMapi.name] },
+      {
+        query: "content groups organize",
+        expected: [allTools.listCollections.name],
+      },
     ],
   },
   {
     name: "role operations",
     cases: [
-      { query: "list roles", expected: [allTools.listRolesMapi.name] },
-      { query: "roles permissions", expected: [allTools.listRolesMapi.name] },
-      { query: "get roles", expected: [allTools.listRolesMapi.name] },
+      { query: "list roles", expected: [allTools.listRoles.name] },
+      { query: "roles permissions", expected: [allTools.listRoles.name] },
+      { query: "get roles", expected: [allTools.listRoles.name] },
       // Synonym: access / security / users
-      { query: "user access permissions", expected: [allTools.listRolesMapi.name] },
-      { query: "security roles", expected: [allTools.listRolesMapi.name] },
+      {
+        query: "user access permissions",
+        expected: [allTools.listRoles.name],
+      },
+      { query: "security roles", expected: [allTools.listRoles.name] },
     ],
   },
   {
     name: "patch guide",
     cases: [
-      { query: "patch operations guide", expected: [allTools.getPatchGuide.name] },
+      {
+        query: "patch operations guide",
+        expected: [allTools.getPatchGuide.name],
+      },
       { query: "patch guide", expected: [allTools.getPatchGuide.name] },
-      { query: "patch reference guide", expected: [allTools.getPatchGuide.name] },
+      {
+        query: "patch reference guide",
+        expected: [allTools.getPatchGuide.name],
+      },
     ],
   },
   {
@@ -413,18 +716,36 @@ const testGroups: ReadonlyArray<TestGroup> = [
     cases: [
       {
         query: "create blog post content type",
-        expected: [allTools.addContentTypeMapi.name],
+        expected: [allTools.addContentType.name],
       },
-      { query: "content models schemas", expected: [allTools.listContentTypesMapi.name] },
-      { query: "add field to content type", expected: [allTools.patchContentTypeMapi.name] },
-      { query: "publish language version", expected: [allTools.publishVariantMapi.name] },
-      { query: "create taxonomy categories", expected: [allTools.addTaxonomyGroupMapi.name] },
+      {
+        query: "content models schemas",
+        expected: [allTools.listContentTypes.name],
+      },
+      {
+        query: "add field to content type",
+        expected: [allTools.patchContentType.name],
+      },
+      {
+        query: "publish language version",
+        expected: [allTools.publishVariant.name],
+      },
+      {
+        query: "create taxonomy categories",
+        expected: [allTools.addTaxonomyGroup.name],
+      },
       {
         query: "move to published workflow step",
-        expected: [allTools.changeVariantWorkflowStepMapi.name],
+        expected: [allTools.changeVariantWorkflowStep.name],
       },
-      { query: "images assets media", expected: [allTools.listAssetsMapi.name, allTools.getAssetMapi.name] },
-      { query: "add translation language", expected: [allTools.createLanguageVariantMapi.name] },
+      {
+        query: "images assets media",
+        expected: [allTools.listAssets.name, allTools.getAsset.name],
+      },
+      {
+        query: "add translation language",
+        expected: [allTools.createLanguageVariant.name],
+      },
     ],
   },
 ];

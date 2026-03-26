@@ -39,7 +39,7 @@ Before you can use the MCP server, you need:
 
 1. **A Kontent.ai account** - [Sign up](https://kontent.ai/signup) if you don't have an account.
 1. **A project** - [Create a project](https://kontent.ai/learn/docs/projects#a-create-projects) to work with.
-1. **Management API key** - [Create a Management API key](https://kontent.ai/learn/docs/apis/api-keys#a-create-management-api-keys) with appropriate permissions.
+1. **Management API key** - [Create a key](https://kontent.ai/learn/docs/apis/api-keys#a-create-management-api-keys) with appropriate permissions.
 1. **Environment ID** - [Get your environment ID](https://kontent.ai/learn/docs/environments#a-get-your-environment-id).
 
 ### 🛠 Setup Options
@@ -62,95 +62,95 @@ npx @kontent-ai/mcp-server@latest shttp
 
 ### Patch Operations Guide
 
-* **get-patch-guide** – 🚨 **REQUIRED before any patch operation**. Get patch operations guide for Kontent.ai Management API by entity type
+* **get-patch-guide** – 🚨 **REQUIRED before any patch operation**. Get patch operations guide for Kontent.ai by entity type
 
 ### Content Type Management
 
-* **get-type-mapi** – Get Kontent.ai content type by internal ID from Management API
-* **list-content-types-mapi** – Get all Kontent.ai content types from Management API
-* **add-content-type-mapi** – Add new Kontent.ai content type via Management API
-* **patch-content-type-mapi** – Update an existing Kontent.ai content type by codename using patch operations (move, addInto, remove, replace)
-* **delete-content-type-mapi** – Delete a Kontent.ai content type by internal ID
+* **get-type** – Get Kontent.ai content type by internal ID
+* **list-content-types** – Get all Kontent.ai content types
+* **add-content-type** – Add new Kontent.ai content type
+* **patch-content-type** – Update an existing Kontent.ai content type by codename using patch operations (move, addInto, remove, replace)
+* **delete-content-type** – Delete a Kontent.ai content type by internal ID
 
 ### Content Type Snippet Management
 
-* **get-type-snippet-mapi** – Get Kontent.ai content type snippet by internal ID from Management API
-* **list-content-type-snippets-mapi** – Get all Kontent.ai content type snippets from Management API
-* **add-content-type-snippet-mapi** – Add new Kontent.ai content type snippet via Management API
-* **patch-type-snippet-mapi** – Update an existing Kontent.ai content type snippet by internal ID using patch operations (move, addInto, remove, replace)
-* **delete-type-snippet-mapi** – Delete a Kontent.ai content type snippet by internal ID
+* **get-type-snippet** – Get Kontent.ai content type snippet by internal ID
+* **list-content-type-snippets** – Get all Kontent.ai content type snippets
+* **add-content-type-snippet** – Add new Kontent.ai content type snippet
+* **patch-type-snippet** – Update an existing Kontent.ai content type snippet by internal ID using patch operations (move, addInto, remove, replace)
+* **delete-type-snippet** – Delete a Kontent.ai content type snippet by internal ID
 
 ### Taxonomy Management
 
-* **get-taxonomy-group-mapi** – Get Kontent.ai taxonomy group by internal ID from Management API
-* **list-taxonomy-groups-mapi** – Get all Kontent.ai taxonomy groups from Management API
-* **add-taxonomy-group-mapi** – Add new Kontent.ai taxonomy group via Management API
-* **patch-taxonomy-group-mapi** – Update Kontent.ai taxonomy group using patch operations (addInto, move, remove, replace) via Management API
-* **delete-taxonomy-group-mapi** – Delete Kontent.ai taxonomy group by internal ID
+* **get-taxonomy-group** – Get Kontent.ai taxonomy group by internal ID
+* **list-taxonomy-groups** – Get all Kontent.ai taxonomy groups
+* **add-taxonomy-group** – Add new Kontent.ai taxonomy group
+* **patch-taxonomy-group** – Update Kontent.ai taxonomy group using patch operations (addInto, move, remove, replace)
+* **delete-taxonomy-group** – Delete Kontent.ai taxonomy group by internal ID
 
 ### Content Item Management
 
-* **get-item-mapi** – Get Kontent.ai item by internal ID from Management API
-* **get-latest-variant-mapi** – Get latest version of Kontent.ai language variant from Management API
-* **get-published-variant-mapi** – Get published version of Kontent.ai language variant from Management API
-* **list-variants-item-mapi** – List all Kontent.ai language variants of a content item from Management API
-* **list-variants-collection-mapi** – List Kontent.ai language variants by collection from Management API (paginated)
-* **list-variants-type-mapi** – List Kontent.ai language variants by content type from Management API (paginated)
-* **list-variants-components-type-mapi** – List Kontent.ai language variants containing components of a specific content type from Management API (paginated)
-* **list-variants-space-mapi** – List Kontent.ai language variants by space from Management API (paginated)
-* **add-content-item-mapi** – Add new Kontent.ai content item via Management API. This creates the content item structure but does not add content to language variants. Use create-language-variant-mapi to add content to the item
-* **update-content-item-mapi** – Update existing Kontent.ai content item by internal ID via Management API. The content item must already exist - this tool will not create new items
-* **delete-content-item-mapi** – Delete Kontent.ai content item by internal ID from Management API
-* **create-language-variant-mapi** – Create Kontent.ai variant assigning current user as contributor. Element values must fulfill limitations and guidelines defined in content type
-* **update-language-variant-mapi** – Update Kontent.ai language variant of a content item via Management API. Element values must fulfill limitations and guidelines defined in content type. Only provided elements will be modified
-* **create-variant-version-mapi** – Create new version of Kontent.ai language variant via Management API. This operation creates a new version of an existing language variant, useful for content versioning and creating new drafts from published content
-* **delete-language-variant-mapi** – Delete Kontent.ai language variant from Management API
-* **filter-variants-mapi** – Filter Kontent.ai items with variants returning references (item ID + language ID). Use for exact keyword matching and finding specific terms in content. Supports full filtering capabilities (content types, workflow steps, taxonomies, spaces, collections, publishing states, etc.). Returns paginated results with continuation token for fetching subsequent pages. Use bulk-get-items-variants-mapi to retrieve full content for matched items
-* **bulk-get-items-variants-mapi** – Bulk get Kontent.ai content items with their language variants by item and language reference pairs. Use after filter-variants-mapi to retrieve full content data for specific item+language pairs. Items without a variant in the requested language return the item without the variant property. Returns paginated results with continuation token
-* **search-variants-mapi** – AI-powered semantic search for finding content by meaning and concepts in a specific language variant. Use for: conceptual searches when you don't know exact keywords. Limited filtering options (variant ID only)
+* **get-item** – Get Kontent.ai item by internal ID
+* **get-latest-variant** – Get latest version of Kontent.ai language variant
+* **get-published-variant** – Get published version of Kontent.ai language variant
+* **list-variants-item** – List all Kontent.ai language variants of a content item
+* **list-variants-collection** – List Kontent.ai language variants by collection (paginated)
+* **list-variants-type** – List Kontent.ai language variants by content type (paginated)
+* **list-variants-components-type** – List Kontent.ai language variants containing components of a specific content type (paginated)
+* **list-variants-space** – List Kontent.ai language variants by space (paginated)
+* **add-content-item** – Add new Kontent.ai content item. This creates the content item structure but does not add content to language variants. Use create-language-variant to add content to the item
+* **update-content-item** – Update existing Kontent.ai content item by internal ID. The content item must already exist - this tool will not create new items
+* **delete-content-item** – Delete Kontent.ai content item by internal ID
+* **create-language-variant** – Create Kontent.ai variant assigning current user as contributor. Element values must fulfill limitations and guidelines defined in content type
+* **update-language-variant** – Update Kontent.ai language variant of a content item. Element values must fulfill limitations and guidelines defined in content type. Only provided elements will be modified
+* **create-variant-version** – Create new version of Kontent.ai language variant. This operation creates a new version of an existing language variant, useful for content versioning and creating new drafts from published content
+* **delete-language-variant** – Delete Kontent.ai language variant
+* **filter-variants** – Filter Kontent.ai items with variants returning references (item ID + language ID). Use for exact keyword matching and finding specific terms in content. Supports full filtering capabilities (content types, workflow steps, taxonomies, spaces, collections, publishing states, etc.). Returns paginated results with continuation token for fetching subsequent pages. Use bulk-get-items-variants to retrieve full content for matched items
+* **bulk-get-items-variants** – Bulk get Kontent.ai content items with their language variants by item and language reference pairs. Use after filter-variants to retrieve full content data for specific item+language pairs. Items without a variant in the requested language return the item without the variant property. Returns paginated results with continuation token
+* **search-variants** – AI-powered semantic search for finding content by meaning and concepts in a specific language variant. Use for: conceptual searches when you don't know exact keywords. Limited filtering options (variant ID only)
 
 ### Asset Management
 
-* **get-asset-mapi** – Get a specific Kontent.ai asset by internal ID from Management API
-* **list-assets-mapi** – Get all Kontent.ai assets from Management API
-* **update-asset-mapi** – Update Kontent.ai asset by internal ID
+* **get-asset** – Get a specific Kontent.ai asset by internal ID
+* **list-assets** – Get all Kontent.ai assets
+* **update-asset** – Update Kontent.ai asset by internal ID
 
 ### Asset Folder Management
 
-* **list-asset-folders-mapi** – List all Kontent.ai asset folders
-* **patch-asset-folders-mapi** – Modify Kontent.ai asset folders using patch operations (addInto to add new folders, rename to change names, remove to delete folders)
+* **list-asset-folders** – List all Kontent.ai asset folders
+* **patch-asset-folders** – Modify Kontent.ai asset folders using patch operations (addInto to add new folders, rename to change names, remove to delete folders)
 
 ### Language Management
 
-* **list-languages-mapi** – Get all Kontent.ai languages from Management API (includes both active and inactive - check is_active property)
-* **add-language-mapi** – Add new Kontent.ai language via Management API (languages are always created as active)
-* **patch-language-mapi** – Update Kontent.ai language using replace operations via Management API (only active languages can be modified - to activate/deactivate, use the Kontent.ai web UI)
+* **list-languages** – Get all Kontent.ai languages (includes both active and inactive - check is_active property)
+* **add-language** – Add new Kontent.ai language (languages are always created as active)
+* **patch-language** – Update Kontent.ai language using replace operations (only active languages can be modified - to activate/deactivate, use the Kontent.ai web UI)
 
 ### Collection Management
 
-* **list-collections-mapi** – Get all Kontent.ai collections from Management API. Collections set boundaries for content items in your environment and help organize content by team, brand, or project
-* **patch-collections-mapi** – Update Kontent.ai collections using patch operations (addInto to add new collections, move to reorder, remove to delete empty collections, replace to rename)
+* **list-collections** – Get all Kontent.ai collections. Collections set boundaries for content items in your environment and help organize content by team, brand, or project
+* **patch-collections** – Update Kontent.ai collections using patch operations (addInto to add new collections, move to reorder, remove to delete empty collections, replace to rename)
 
 ### Space Management
 
-* **list-spaces-mapi** – Get all Kontent.ai spaces from Management API
-* **add-space-mapi** – Add Kontent.ai space to environment
-* **patch-space-mapi** – Patch Kontent.ai space using replace operations
-* **delete-space-mapi** – Delete Kontent.ai space
+* **list-spaces** – Get all Kontent.ai spaces
+* **add-space** – Add Kontent.ai space to environment
+* **patch-space** – Patch Kontent.ai space using replace operations
+* **delete-space** – Delete Kontent.ai space
 
 ### Role Management
 
-* **list-roles-mapi** – Get all Kontent.ai roles from Management API. Requires Enterprise or Flex plan with "Manage custom roles" permission
+* **list-roles** – Get all Kontent.ai roles. Requires Enterprise or Flex plan with "Manage custom roles" permission
 
 ### Workflow Management
 
-* **list-workflows-mapi** – Get all Kontent.ai workflows from Management API. Workflows define the content lifecycle stages and transitions between them
-* **add-workflow-mapi** – Create a new Kontent.ai workflow via Management API. Define custom workflow steps, transitions, scopes (content types and collections), and role permissions
-* **update-workflow-mapi** – Update an existing Kontent.ai workflow by ID via Management API. Modify steps, transitions, scopes, and role permissions. Cannot remove steps that are in use
-* **delete-workflow-mapi** – Delete a Kontent.ai workflow by ID via Management API. The workflow must not be in use by any content items
-* **change-variant-workflow-step-mapi** – Change the workflow step of a language variant in Kontent.ai. This operation moves a language variant to a different step in the workflow, enabling content lifecycle management such as moving content from draft to review, review to published, etc.
-* **publish-variant-mapi** – Publish or schedule a language variant of a content item in Kontent.ai. This operation can either immediately publish the variant or schedule it for publication at a specific future date and time with optional timezone specification
-* **unpublish-variant-mapi** – Unpublish or schedule unpublishing of a language variant of a content item in Kontent.ai. This operation can either immediately unpublish the variant (making it unavailable through the Delivery API) or schedule it for unpublishing at a specific future date and time with optional timezone specification
+* **list-workflows** – Get all Kontent.ai workflows. Workflows define the content lifecycle stages and transitions between them
+* **add-workflow** – Create a new Kontent.ai workflow. Define custom workflow steps, transitions, scopes (content types and collections), and role permissions
+* **update-workflow** – Update an existing Kontent.ai workflow by ID. Modify steps, transitions, scopes, and role permissions. Cannot remove steps that are in use
+* **delete-workflow** – Delete a Kontent.ai workflow by ID. The workflow must not be in use by any content items
+* **change-variant-workflow-step** – Change the workflow step of a language variant in Kontent.ai. This operation moves a language variant to a different step in the workflow, enabling content lifecycle management such as moving content from draft to review, review to published, etc.
+* **publish-variant** – Publish or schedule a language variant of a content item in Kontent.ai. This operation can either immediately publish the variant or schedule it for publication at a specific future date and time with optional timezone specification
+* **unpublish-variant** – Unpublish or schedule unpublishing of a language variant of a content item in Kontent.ai. This operation can either immediately unpublish the variant (making it unavailable through the Delivery API) or schedule it for unpublishing at a specific future date and time with optional timezone specification
 
 ## ⚙️ Configuration
 
@@ -167,11 +167,11 @@ Configure credentials via environment variables:
 
 | Variable | Description | Required |
 |----------|-------------|----------|
-| KONTENT_API_KEY | Your Kontent.ai Management API key | ✅ |
+| KONTENT_API_KEY | Your Kontent.ai key | ✅ |
 | KONTENT_ENVIRONMENT_ID | Your environment ID | ✅ |
 | appInsightsConnectionString | Application Insights connection string for telemetry | ❌ |
 | projectLocation | Project location identifier for telemetry tracking | ❌ |
-| manageApiUrl | Custom Management API base URL (for preview environments) | ❌ |
+| manageApiUrl | Custom base URL (for preview environments) | ❌ |
 
 ### Multi-Tenant Mode (Streamable HTTP)
 
@@ -186,7 +186,7 @@ This allows a single server instance to handle requests for multiple Kontent.ai 
 | PORT | Port for HTTP transport (defaults to 3001) | ❌ |
 | appInsightsConnectionString | Application Insights connection string for telemetry | ❌ |
 | projectLocation | Project location identifier for telemetry tracking | ❌ |
-| manageApiUrl | Custom Management API base URL (for preview environments) | ❌ |
+| manageApiUrl | Custom base URL (for preview environments) | ❌ |
 
 ## 🚀 Transport Options
 
@@ -308,7 +308,7 @@ claude mcp add --transport http kontent-ai-multi \
 </details>
 
 > [!IMPORTANT]
-> Replace `<environment-id>` with your Kontent.ai environment ID (GUID) and `<management-api-key>` with your Management API key.
+> Replace `<environment-id>` with your Kontent.ai environment ID (GUID) and `<management-api-key>` with your key.
 
 ## 💻 Development
 

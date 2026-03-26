@@ -1,0 +1,29 @@
+import { z } from "zod";
+import { createMapiClient } from "../clients/kontentClients.js";
+import { handleMcpToolError } from "../utils/errorHandler.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createTool, defineTool } from "./toolDefinition.js";
+
+export const listVariantsItem = createTool(
+  ...defineTool(
+    "list-variants-item",
+    "List all Kontent.ai language variants (translations) of a content item. Returns content in every language for a single item.",
+    {
+      itemId: z.string().describe("Content item ID"),
+    },
+    async ({ itemId }, { authInfo: { token, clientId } = {} }) => {
+      const client = createMapiClient(clientId, token);
+
+      try {
+        const response = await client
+          .listLanguageVariantsOfItem()
+          .byItemId(itemId)
+          .toPromise();
+
+        return createMcpToolSuccessResponse(response.rawData);
+      } catch (error: unknown) {
+        return handleMcpToolError(error, "Item Variants Listing");
+      }
+    },
+  ),
+);

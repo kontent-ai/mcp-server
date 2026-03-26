@@ -1,0 +1,38 @@
+import { z } from "zod";
+import { createMapiClient } from "../clients/kontentClients.js";
+import { taxonomyPatchOperationsSchema } from "../schemas/patchSchemas/taxonomyPatchSchemas.js";
+import { handleMcpToolError } from "../utils/errorHandler.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createTool, defineTool } from "./toolDefinition.js";
+
+export const patchTaxonomyGroup = createTool(
+  ...defineTool(
+    "patch-taxonomy-group",
+    "Modify Kontent.ai taxonomy group terms using patch operations (addInto, move, remove, replace). Call get-patch-guide first for operations reference.",
+    {
+      id: z.guid(),
+      operations: taxonomyPatchOperationsSchema.describe(
+        "Patch operations array. Call get-taxonomy-group first. Use addInto to add terms (with optional reference for parent), move to reorder/nest terms (before/after/under - mutually exclusive), remove to delete terms, replace for name/codename/terms.",
+      ),
+    },
+    async ({ id, operations }, { authInfo: { token, clientId } = {} }) => {
+      const client = createMapiClient(clientId, token);
+
+      try {
+        const response = await client
+          .modifyTaxonomy()
+          .byTaxonomyId(id)
+          .withData(operations)
+          .toPromise();
+
+        return createMcpToolSuccessResponse({
+          message: `Taxonomy group updated with ${operations.length} operation(s)`,
+          taxonomyGroup: response.rawData,
+          appliedOperations: operations,
+        });
+      } catch (error: unknown) {
+        return handleMcpToolError(error, "Taxonomy Group Patch");
+      }
+    },
+  ),
+);

@@ -1,115 +1,115 @@
-import { addContentItemMapi } from "./add-content-item-mapi.js";
-import { addContentTypeMapi } from "./add-content-type-mapi.js";
-import { addContentTypeSnippetMapi } from "./add-content-type-snippet-mapi.js";
-import { addLanguageMapi } from "./add-language-mapi.js";
-import { addSpaceMapi } from "./add-space-mapi.js";
-import { addTaxonomyGroupMapi } from "./add-taxonomy-group-mapi.js";
-import { addWorkflowMapi } from "./add-workflow-mapi.js";
-import { bulkGetItemsVariantsMapi } from "./bulk-get-items-variants-mapi.js";
-import { changeVariantWorkflowStepMapi } from "./change-variant-workflow-step-mapi.js";
-import { createLanguageVariantMapi } from "./create-language-variant-mapi.js";
-import { createVariantVersionMapi } from "./create-variant-version-mapi.js";
-import { deleteContentItemMapi } from "./delete-content-item-mapi.js";
-import { deleteContentTypeMapi } from "./delete-content-type-mapi.js";
-import { deleteLanguageVariantMapi } from "./delete-language-variant-mapi.js";
-import { deleteSpaceMapi } from "./delete-space-mapi.js";
-import { deleteTaxonomyGroupMapi } from "./delete-taxonomy-group-mapi.js";
-import { deleteTypeSnippetMapi } from "./delete-type-snippet-mapi.js";
-import { deleteWorkflowMapi } from "./delete-workflow-mapi.js";
-import { filterVariantsMapi } from "./filter-variants-mapi.js";
-import { getAssetMapi } from "./get-asset-mapi.js";
-import { getItemMapi } from "./get-item-mapi.js";
-import { getLatestVariantMapi } from "./get-latest-variant-mapi.js";
+import { addContentItem } from "./add-content-item.js";
+import { addContentType } from "./add-content-type.js";
+import { addContentTypeSnippet } from "./add-content-type-snippet.js";
+import { addLanguage } from "./add-language.js";
+import { addSpace } from "./add-space.js";
+import { addTaxonomyGroup } from "./add-taxonomy-group.js";
+import { addWorkflow } from "./add-workflow.js";
+import { bulkGetItemsVariants } from "./bulk-get-items-variants.js";
+import { changeVariantWorkflowStep } from "./change-variant-workflow-step.js";
+import { createLanguageVariant } from "./create-language-variant.js";
+import { createVariantVersion } from "./create-variant-version.js";
+import { deleteContentItem } from "./delete-content-item.js";
+import { deleteContentType } from "./delete-content-type.js";
+import { deleteLanguageVariant } from "./delete-language-variant.js";
+import { deleteSpace } from "./delete-space.js";
+import { deleteTaxonomyGroup } from "./delete-taxonomy-group.js";
+import { deleteTypeSnippet } from "./delete-type-snippet.js";
+import { deleteWorkflow } from "./delete-workflow.js";
+import { filterVariants } from "./filter-variants.js";
+import { getAsset } from "./get-asset.js";
+import { getItem } from "./get-item.js";
+import { getLatestVariant } from "./get-latest-variant.js";
 import { getPatchGuide } from "./get-patch-guide.js";
-import { getPublishedVariantMapi } from "./get-published-variant-mapi.js";
-import { getTaxonomyGroupMapi } from "./get-taxonomy-group-mapi.js";
-import { getTypeMapi } from "./get-type-mapi.js";
-import { getTypeSnippetMapi } from "./get-type-snippet-mapi.js";
-import { listAssetFoldersMapi } from "./list-asset-folders-mapi.js";
-import { listAssetsMapi } from "./list-assets-mapi.js";
-import { listCollectionsMapi } from "./list-collections-mapi.js";
-import { listContentTypeSnippetsMapi } from "./list-content-type-snippets-mapi.js";
-import { listContentTypesMapi } from "./list-content-types-mapi.js";
-import { listLanguagesMapi } from "./list-languages-mapi.js";
-import { listRolesMapi } from "./list-roles-mapi.js";
-import { listSpacesMapi } from "./list-spaces-mapi.js";
-import { listTaxonomyGroupsMapi } from "./list-taxonomy-groups-mapi.js";
-import { listVariantsCollectionMapi } from "./list-variants-collection-mapi.js";
-import { listVariantsComponentsTypeMapi } from "./list-variants-components-type-mapi.js";
-import { listVariantsItemMapi } from "./list-variants-item-mapi.js";
-import { listVariantsSpaceMapi } from "./list-variants-space-mapi.js";
-import { listVariantsTypeMapi } from "./list-variants-type-mapi.js";
-import { listWorkflowsMapi } from "./list-workflows-mapi.js";
-import { patchAssetFoldersMapi } from "./patch-asset-folders-mapi.js";
-import { patchCollectionsMapi } from "./patch-collections-mapi.js";
-import { patchContentTypeMapi } from "./patch-content-type-mapi.js";
-import { patchLanguageMapi } from "./patch-language-mapi.js";
-import { patchSpaceMapi } from "./patch-space-mapi.js";
-import { patchTaxonomyGroupMapi } from "./patch-taxonomy-group-mapi.js";
-import { patchTypeSnippetMapi } from "./patch-type-snippet-mapi.js";
-import { publishVariantMapi } from "./publish-variant-mapi.js";
-import { searchVariantsMapi } from "./search-variants-mapi.js";
-import { unpublishVariantMapi } from "./unpublish-variant-mapi.js";
-import { updateAssetMapi } from "./update-asset-mapi.js";
-import { updateContentItemMapi } from "./update-content-item-mapi.js";
-import { updateLanguageVariantMapi } from "./update-language-variant-mapi.js";
-import { updateWorkflowMapi } from "./update-workflow-mapi.js";
+import { getPublishedVariant } from "./get-published-variant.js";
+import { getTaxonomyGroup } from "./get-taxonomy-group.js";
+import { getType } from "./get-type.js";
+import { getTypeSnippet } from "./get-type-snippet.js";
+import { listAssetFolders } from "./list-asset-folders.js";
+import { listAssets } from "./list-assets.js";
+import { listCollections } from "./list-collections.js";
+import { listContentTypeSnippets } from "./list-content-type-snippets.js";
+import { listContentTypes } from "./list-content-types.js";
+import { listLanguages } from "./list-languages.js";
+import { listRoles } from "./list-roles.js";
+import { listSpaces } from "./list-spaces.js";
+import { listTaxonomyGroups } from "./list-taxonomy-groups.js";
+import { listVariantsCollection } from "./list-variants-collection.js";
+import { listVariantsComponentsType } from "./list-variants-components-type.js";
+import { listVariantsItem } from "./list-variants-item.js";
+import { listVariantsSpace } from "./list-variants-space.js";
+import { listVariantsType } from "./list-variants-type.js";
+import { listWorkflows } from "./list-workflows.js";
+import { patchAssetFolders } from "./patch-asset-folders.js";
+import { patchCollections } from "./patch-collections.js";
+import { patchContentType } from "./patch-content-type.js";
+import { patchLanguage } from "./patch-language.js";
+import { patchSpace } from "./patch-space.js";
+import { patchTaxonomyGroup } from "./patch-taxonomy-group.js";
+import { patchTypeSnippet } from "./patch-type-snippet.js";
+import { publishVariant } from "./publish-variant.js";
+import { searchVariants } from "./search-variants.js";
+import { unpublishVariant } from "./unpublish-variant.js";
+import { updateAsset } from "./update-asset.js";
+import { updateContentItem } from "./update-content-item.js";
+import { updateLanguageVariant } from "./update-language-variant.js";
+import { updateWorkflow } from "./update-workflow.js";
 
 export const allTools = {
-  addContentItemMapi,
-  addContentTypeMapi,
-  addContentTypeSnippetMapi,
-  addLanguageMapi,
-  addSpaceMapi,
-  addTaxonomyGroupMapi,
-  addWorkflowMapi,
-  bulkGetItemsVariantsMapi,
-  changeVariantWorkflowStepMapi,
-  createLanguageVariantMapi,
-  createVariantVersionMapi,
-  deleteContentItemMapi,
-  deleteContentTypeMapi,
-  deleteLanguageVariantMapi,
-  deleteSpaceMapi,
-  deleteTaxonomyGroupMapi,
-  deleteTypeSnippetMapi,
-  deleteWorkflowMapi,
-  filterVariantsMapi,
-  getAssetMapi,
-  getItemMapi,
-  getLatestVariantMapi,
+  addContentItem,
+  addContentType,
+  addContentTypeSnippet,
+  addLanguage,
+  addSpace,
+  addTaxonomyGroup,
+  addWorkflow,
+  bulkGetItemsVariants,
+  changeVariantWorkflowStep,
+  createLanguageVariant,
+  createVariantVersion,
+  deleteContentItem,
+  deleteContentType,
+  deleteLanguageVariant,
+  deleteSpace,
+  deleteTaxonomyGroup,
+  deleteTypeSnippet,
+  deleteWorkflow,
+  filterVariants,
+  getAsset,
+  getItem,
+  getLatestVariant,
   getPatchGuide,
-  getPublishedVariantMapi,
-  getTaxonomyGroupMapi,
-  getTypeMapi,
-  getTypeSnippetMapi,
-  listAssetFoldersMapi,
-  listAssetsMapi,
-  listCollectionsMapi,
-  listContentTypeSnippetsMapi,
-  listContentTypesMapi,
-  listLanguagesMapi,
-  listRolesMapi,
-  listSpacesMapi,
-  listTaxonomyGroupsMapi,
-  listVariantsCollectionMapi,
-  listVariantsComponentsTypeMapi,
-  listVariantsItemMapi,
-  listVariantsSpaceMapi,
-  listVariantsTypeMapi,
-  listWorkflowsMapi,
-  patchAssetFoldersMapi,
-  patchCollectionsMapi,
-  patchContentTypeMapi,
-  patchLanguageMapi,
-  patchSpaceMapi,
-  patchTaxonomyGroupMapi,
-  patchTypeSnippetMapi,
-  publishVariantMapi,
-  searchVariantsMapi,
-  unpublishVariantMapi,
-  updateAssetMapi,
-  updateContentItemMapi,
-  updateLanguageVariantMapi,
-  updateWorkflowMapi,
+  getPublishedVariant,
+  getTaxonomyGroup,
+  getType,
+  getTypeSnippet,
+  listAssetFolders,
+  listAssets,
+  listCollections,
+  listContentTypeSnippets,
+  listContentTypes,
+  listLanguages,
+  listRoles,
+  listSpaces,
+  listTaxonomyGroups,
+  listVariantsCollection,
+  listVariantsComponentsType,
+  listVariantsItem,
+  listVariantsSpace,
+  listVariantsType,
+  listWorkflows,
+  patchAssetFolders,
+  patchCollections,
+  patchContentType,
+  patchLanguage,
+  patchSpace,
+  patchTaxonomyGroup,
+  patchTypeSnippet,
+  publishVariant,
+  searchVariants,
+  unpublishVariant,
+  updateAsset,
+  updateContentItem,
+  updateLanguageVariant,
+  updateWorkflow,
 } as const;
