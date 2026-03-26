@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const listContentTypeSnippets = createTool(
   ...defineTool(
     "list-content-type-snippets",
-    "List all Kontent.ai content type snippets (paginated). Snippets are reusable, shared sets of elements included across multiple content types.",
+    "List all Kontent.ai content type snippets (paginated). Retrieve every content type snippet — reusable, shared sets of elements included across multiple content types.",
     listContentTypeSnippetsSchema.shape,
     async ({ continuation_token }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

@@ -46,10 +46,10 @@ const extractSearchResults = (response: AiOperationResultResponse): object => {
   return parsed;
 };
 
-export const searchVariants = createTool(
+export const searchItemVariants = createTool(
   ...defineTool(
-    "search-variants",
-    "AI semantic search for Kontent.ai content by topic, theme, or meaning (max 50 results). Find content by natural language query. Use filter-variants for exact keyword matching. May be unavailable.",
+    "search-item-variants",
+    "AI semantic search for Kontent.ai content items with item variants (language versions/translations) by topic, theme, or meaning (max 50 results). Find content by natural language query. Use filter-item-variants for exact keyword matching. May be unavailable.",
     searchOperationSchema.shape,
     async (
       { searchPhrase, filter },

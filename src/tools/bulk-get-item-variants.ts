@@ -5,10 +5,10 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { throwError } from "../utils/throwError.js";
 import { createTool, defineTool } from "./toolDefinition.js";
 
-export const bulkGetItemsVariants = createTool(
+export const bulkGetItemVariants = createTool(
   ...defineTool(
-    "bulk-get-items-variants",
-    "Bulk retrieve multiple Kontent.ai content items with their language variants by item and language reference pairs. Fetch full content for items found via filter-variants.",
+    "bulk-get-item-variants",
+    "Bulk retrieve multiple Kontent.ai content items with their item variants (language versions/translations) by item and language reference pairs. Fetch full content for items found via filter-item-variants.",
     bulkGetItemsWithVariantsSchema.shape,
     async (
       { variants, continuation_token },

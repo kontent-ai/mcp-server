@@ -4,25 +4,27 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { createTool, defineTool } from "./toolDefinition.js";
 
-export const listVariantsItem = createTool(
+export const getLatestItemVariant = createTool(
   ...defineTool(
-    "list-variants-item",
-    "List all Kontent.ai language variants (translations) of a content item. Returns content in every language for a single item.",
+    "get-latest-item-variant",
+    "Retrieve latest version of Kontent.ai item variant (draft or published). Variants hold translated, language-specific content with structure defined by content type.",
     {
-      itemId: z.string().describe("Content item ID"),
+      itemId: z.string().describe("Item ID"),
+      languageId: z.string().describe("Language variant ID"),
     },
-    async ({ itemId }, { authInfo: { token, clientId } = {} }) => {
+    async ({ itemId, languageId }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);
 
       try {
         const response = await client
-          .listLanguageVariantsOfItem()
+          .viewLanguageVariant()
           .byItemId(itemId)
+          .byLanguageId(languageId)
           .toPromise();
 
         return createMcpToolSuccessResponse(response.rawData);
       } catch (error: unknown) {
-        return handleMcpToolError(error, "Item Variants Listing");
+        return handleMcpToolError(error, "Latest Language Variant Retrieval");
       }
     },
   ),

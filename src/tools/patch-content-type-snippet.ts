@@ -5,14 +5,14 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { createTool, defineTool } from "./toolDefinition.js";
 
-export const patchTypeSnippet = createTool(
+export const patchContentTypeSnippet = createTool(
   ...defineTool(
-    "patch-type-snippet",
+    "patch-content-type-snippet",
     "Modify Kontent.ai content type snippet using patch operations (move, addInto, remove, replace elements). Call get-patch-guide first for operations reference.",
     {
       id: z.guid(),
       operations: snippetPatchOperationsSchema.describe(
-        `Patch operations array. CRITICAL: Always call get-type-snippet first.
+        `Patch operations array. CRITICAL: Always call get-content-type-snippet first.
 - Use addInto/remove for arrays, replace for primitives/objects
 - Snippets cannot contain: content_groups, snippet, or url_slug elements`,
       ),

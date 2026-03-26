@@ -4,34 +4,30 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { createTool, defineTool } from "./toolDefinition.js";
 
-export const createVariantVersion = createTool(
+export const deleteItemVariant = createTool(
   ...defineTool(
-    "create-variant-version",
-    "Create new draft version of a published Kontent.ai language variant. Required before editing published content.",
+    "delete-item-variant",
+    "Delete (remove) Kontent.ai item variant (language version/translation). Removes translated content for a specific language from an item.",
     {
-      itemId: z.guid().describe("Content item UUID"),
-      languageId: z
-        .guid()
-        .describe(
-          "Language variant UUID (default: 00000000-0000-0000-0000-000000000000)",
-        ),
+      itemId: z.string().describe("Item ID"),
+      languageId: z.string().describe("Language variant ID"),
     },
     async ({ itemId, languageId }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);
 
       try {
         const response = await client
-          .createNewVersionOfLanguageVariant()
+          .deleteLanguageVariant()
           .byItemId(itemId)
           .byLanguageId(languageId)
           .toPromise();
 
         return createMcpToolSuccessResponse({
-          message: `Successfully created new version of language variant '${languageId}' for content item '${itemId}'`,
-          result: response.rawData,
+          message: `Language variant '${languageId}' of content item '${itemId}' deleted successfully`,
+          deletedVariant: response.rawData,
         });
       } catch (error: any) {
-        return handleMcpToolError(error, "Variant Version Creation");
+        return handleMcpToolError(error, "Language Variant Deletion");
       }
     },
   ),

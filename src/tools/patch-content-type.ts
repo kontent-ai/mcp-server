@@ -8,11 +8,11 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const patchContentType = createTool(
   ...defineTool(
     "patch-content-type",
-    "Modify Kontent.ai content type schema using patch operations (move, addInto, remove, replace elements). Call get-patch-guide first for operations reference.",
+    "Modify Kontent.ai content type schema using patch operations (add, move, remove, replace elements/fields). Add new fields, rearrange or remove existing elements. Call get-patch-guide first for operations reference.",
     {
       id: z.guid(),
       operations: patchOperationsSchema.describe(
-        `Patch operations array. CRITICAL: Always call get-type first.
+        `Patch operations array. CRITICAL: Always call get-content-type first.
 - Use addInto/remove for arrays, replace for primitives/objects
 - Only one url_slug element allowed per content type
 - To remove content groups: set ALL elements' content_group to null AND remove ALL groups in one request

@@ -1,24 +1,26 @@
 import { createMapiClient } from "../clients/kontentClients.js";
-import { listVariantsComponentsTypeSchema } from "../schemas/listSchemas.js";
+import { listVariantsCollectionSchema } from "../schemas/listSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { createTool, defineTool } from "./toolDefinition.js";
 
-export const listVariantsComponentsType = createTool(
+export const listItemVariantsByCollection = createTool(
   ...defineTool(
-    "list-variants-components-type",
-    "List Kontent.ai language variants containing inline components of a specific content type (paginated). Find content that embeds reusable components of a given type.",
-    listVariantsComponentsTypeSchema.shape,
+    "list-item-variants-by-collection",
+    "List Kontent.ai item variants filtered by collection (paginated). Find all translated content within a specific collection group.",
+    listVariantsCollectionSchema.describe(
+      "Use list-collections to get collection ID if not provided",
+    ).shape,
     async (
-      { contentTypeId, continuation_token },
+      { collectionId, continuation_token },
       { authInfo: { token, clientId } = {} },
     ) => {
       const client = createMapiClient(clientId, token);
 
       try {
         const query = client
-          .listLanguageVariantsOfContentTypeWithComponents()
-          .byTypeId(contentTypeId);
+          .listLanguageVariantsByCollection()
+          .byCollectionId(collectionId);
 
         const response = await (continuation_token
           ? query.xContinuationToken(continuation_token)
@@ -32,10 +34,7 @@ export const listVariantsComponentsType = createTool(
           },
         });
       } catch (error: unknown) {
-        return handleMcpToolError(
-          error,
-          "Content Type Variants With Components Listing",
-        );
+        return handleMcpToolError(error, "Collection Variants Listing");
       }
     },
   ),

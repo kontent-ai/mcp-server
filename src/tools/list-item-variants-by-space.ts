@@ -1,24 +1,22 @@
 import { createMapiClient } from "../clients/kontentClients.js";
-import { listVariantsTypeSchema } from "../schemas/listSchemas.js";
+import { listVariantsSpaceSchema } from "../schemas/listSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { createTool, defineTool } from "./toolDefinition.js";
 
-export const listVariantsType = createTool(
+export const listItemVariantsBySpace = createTool(
   ...defineTool(
-    "list-variants-type",
-    "List Kontent.ai language variants filtered by content type (paginated). Find all translated content of a specific type or schema.",
-    listVariantsTypeSchema.shape,
+    "list-item-variants-by-space",
+    "List Kontent.ai item variants filtered by space (paginated). Find all translated content within a specific space or channel.",
+    listVariantsSpaceSchema.shape,
     async (
-      { contentTypeId, continuation_token },
+      { spaceId, continuation_token },
       { authInfo: { token, clientId } = {} },
     ) => {
       const client = createMapiClient(clientId, token);
 
       try {
-        const query = client
-          .listLanguageVariantsOfContentType()
-          .byTypeId(contentTypeId);
+        const query = client.listLanguageVariantsBySpace().bySpaceId(spaceId);
 
         const response = await (continuation_token
           ? query.xContinuationToken(continuation_token)
@@ -32,7 +30,7 @@ export const listVariantsType = createTool(
           },
         });
       } catch (error: unknown) {
-        return handleMcpToolError(error, "Content Type Variants Listing");
+        return handleMcpToolError(error, "Space Variants Listing");
       }
     },
   ),

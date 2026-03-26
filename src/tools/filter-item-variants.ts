@@ -5,10 +5,10 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { throwError } from "../utils/throwError.js";
 import { createTool, defineTool } from "./toolDefinition.js";
 
-export const filterVariants = createTool(
+export const filterItemVariants = createTool(
   ...defineTool(
-    "filter-variants",
-    "Filter and find Kontent.ai content items with variants returning references (item ID + language ID). For EXACT keyword matching and compliance filtering (terms use OR). Use bulk-get-items-variants to retrieve full content. Use search-variants for semantic/topic search.",
+    "filter-item-variants",
+    "Filter and find Kontent.ai content items with item variants (language versions/translations) returning references (item ID + language ID). For EXACT keyword matching and compliance filtering (terms use OR). Use bulk-get-item-variants to retrieve full content. Use search-item-variants for semantic/topic search.",
     filterVariantsSchema.shape,
     async (
       {

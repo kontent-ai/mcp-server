@@ -4,10 +4,10 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { createTool, defineTool } from "./toolDefinition.js";
 
-export const unpublishVariant = createTool(
+export const unpublishItemVariant = createTool(
   ...defineTool(
-    "unpublish-variant",
-    "Unpublish or schedule unpublishing of Kontent.ai language variant. Takes content offline and archives it. For scheduling, verify current UTC time before using scheduledTo.",
+    "unpublish-item-variant",
+    "Unpublish or schedule unpublishing of Kontent.ai item variant (language version/translation). Takes content offline and archives it. For scheduling, verify current UTC time before using scheduledTo.",
     {
       itemId: z.guid().describe("Content item UUID"),
       languageId: z
@@ -62,7 +62,7 @@ export const unpublishVariant = createTool(
             .toPromise();
 
           action = "scheduled for unpublishing";
-          message = `Successfully scheduled language variant '${languageId}' for content item '${itemId}' to be unpublished at '${scheduledTo}'${displayTimezone ? ` (timezone: ${displayTimezone})` : ""}. The content will be removed from Delivery API at the scheduled time.`;
+          message = `Successfully scheduled item variant '${languageId}' for content item '${itemId}' to be unpublished at '${scheduledTo}'${displayTimezone ? ` (timezone: ${displayTimezone})` : ""}. The content will be removed from Delivery API at the scheduled time.`;
         } else {
           // Immediate unpublishing
           await client
@@ -73,7 +73,7 @@ export const unpublishVariant = createTool(
             .toPromise();
 
           action = "unpublished";
-          message = `Successfully unpublished language variant '${languageId}' for content item '${itemId}'. The content has been moved to Archived and is no longer available through Delivery API.`;
+          message = `Successfully unpublished item variant '${languageId}' for content item '${itemId}'. The content has been moved to Archived and is no longer available through Delivery API.`;
         }
 
         return createMcpToolSuccessResponse({

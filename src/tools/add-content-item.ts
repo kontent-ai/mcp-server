@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const addContentItem = createTool(
   ...defineTool(
     "add-content-item",
-    "Create new Kontent.ai content item (creates the container only, use upsert-language-variant to add variants/translations). Items are language-neutral and hold variants for each language.",
+    "Create new Kontent.ai content item (creates the container only, use create-item-variant to add language versions/translations). Items are language-neutral and hold item variants for each language.",
     {
       name: z.string().min(1).max(200).describe("Item name (1-200 chars)"),
       type: z

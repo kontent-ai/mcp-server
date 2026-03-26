@@ -4,25 +4,25 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { createTool, defineTool } from "./toolDefinition.js";
 
-export const getItem = createTool(
+export const getContentTypeSnippet = createTool(
   ...defineTool(
-    "get-item",
-    "Retrieve Kontent.ai content item by ID. Items are language-neutral containers; one item has multiple language variants (translations).",
+    "get-content-type-snippet",
+    "Retrieve Kontent.ai content type snippet. Snippets are reusable, shared sets of elements included across multiple content types.",
     {
-      id: z.string().describe("Item ID"),
+      id: z.string().describe("Snippet ID"),
     },
     async ({ id }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);
 
       try {
         const response = await client
-          .viewContentItem()
-          .byItemId(id)
+          .viewContentTypeSnippet()
+          .byTypeId(id)
           .toPromise();
 
         return createMcpToolSuccessResponse(response.rawData);
       } catch (error: any) {
-        return handleMcpToolError(error, "Item Retrieval");
+        return handleMcpToolError(error, "Content Type Snippet Retrieval");
       }
     },
   ),

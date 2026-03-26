@@ -73,9 +73,9 @@ This is a Model Context Protocol (MCP) server for Kontent.ai that enables AI mod
 
 #### Tool Naming Conventions
 Tools follow strict naming patterns enforced by Cursor rules:
-- **Names must be under 35 characters** (enforced in `.cursor/rules/mcp-tool-naming.mdc`)
 - Format: `[action]-[entity]`
-- Example: `get-content-type`, `filter-variants`
+- Use full entity names: `content-type`, `content-type-snippet`, `content-item`, `item-variant`, `taxonomy-group`
+- Example: `get-content-type`, `filter-item-variants`, `get-content-type-snippet`
 
 #### Tool Descriptions
 Tool descriptions must follow a standardized pattern (enforced in `.cursor/rules/kontent-tool-descriptions.mdc`):

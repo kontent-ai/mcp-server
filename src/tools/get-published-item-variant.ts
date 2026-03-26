@@ -4,10 +4,10 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { createTool, defineTool } from "./toolDefinition.js";
 
-export const getLatestVariant = createTool(
+export const getPublishedItemVariant = createTool(
   ...defineTool(
-    "get-latest-variant",
-    "Retrieve latest version of Kontent.ai language variant (draft or published). Variants hold translated, language-specific content with structure defined by content type.",
+    "get-published-item-variant",
+    "Retrieve published Kontent.ai item variant (live content). Variants hold translated, language-specific content with structure defined by content type.",
     {
       itemId: z.string().describe("Item ID"),
       languageId: z.string().describe("Language variant ID"),
@@ -20,11 +20,15 @@ export const getLatestVariant = createTool(
           .viewLanguageVariant()
           .byItemId(itemId)
           .byLanguageId(languageId)
+          .published()
           .toPromise();
 
         return createMcpToolSuccessResponse(response.rawData);
       } catch (error: unknown) {
-        return handleMcpToolError(error, "Latest Language Variant Retrieval");
+        return handleMcpToolError(
+          error,
+          "Published Language Variant Retrieval",
+        );
       }
     },
   ),

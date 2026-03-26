@@ -6,10 +6,10 @@ import { extractUserIdFromToken } from "../utils/extractUserIdFromToken.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { createTool, defineTool } from "./toolDefinition.js";
 
-export const createLanguageVariant = createTool(
+export const createItemVariant = createTool(
   ...defineTool(
-    "create-language-variant",
-    "Create Kontent.ai variant. Element values must fulfill limitations and guidelines defined in content type.",
+    "create-item-variant",
+    "Create Kontent.ai item variant — translate content into a specific language. Adds a new language version (translation) for a content item. Element values must fulfill the content type definition.",
     {
       itemId: z.string().describe("Content item ID"),
       languageId: z

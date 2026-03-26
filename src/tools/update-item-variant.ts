@@ -5,10 +5,10 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { createTool, defineTool } from "./toolDefinition.js";
 
-export const updateLanguageVariant = createTool(
+export const updateItemVariant = createTool(
   ...defineTool(
-    "update-language-variant",
-    "Update Kontent.ai language variant content. Write translated content into item elements. Values must fulfill validation rules defined in the content type.",
+    "update-item-variant",
+    "Update Kontent.ai item variant (language version/translation) content. Write translated content into item elements. Values must fulfill validation rules defined in the content type.",
     {
       itemId: z.string().describe("Content item ID"),
       languageId: z

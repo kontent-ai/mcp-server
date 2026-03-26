@@ -4,25 +4,25 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { createTool, defineTool } from "./toolDefinition.js";
 
-export const getTypeSnippet = createTool(
+export const getContentType = createTool(
   ...defineTool(
-    "get-type-snippet",
-    "Retrieve Kontent.ai content type snippet. Snippets are reusable, shared sets of elements included across multiple content types.",
+    "get-content-type",
+    "Retrieve Kontent.ai content type (schema/model definition). Types define content structure: elements, field validation rules, and content groups.",
     {
-      id: z.string().describe("Snippet ID"),
+      id: z.string().describe("Content type ID"),
     },
     async ({ id }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);
 
       try {
         const response = await client
-          .viewContentTypeSnippet()
+          .viewContentType()
           .byTypeId(id)
           .toPromise();
 
         return createMcpToolSuccessResponse(response.rawData);
       } catch (error: any) {
-        return handleMcpToolError(error, "Content Type Snippet Retrieval");
+        return handleMcpToolError(error, "Content Type Retrieval");
       }
     },
   ),

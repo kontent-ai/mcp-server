@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const deleteContentItem = createTool(
   ...defineTool(
     "delete-content-item",
-    "Delete (remove) Kontent.ai content item and all its language variants.",
+    "Delete (remove) Kontent.ai content item and all its item variants.",
     {
       id: z.string().describe("Item ID"),
     },

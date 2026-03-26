@@ -4,9 +4,9 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { createTool, defineTool } from "./toolDefinition.js";
 
-export const deleteTypeSnippet = createTool(
+export const deleteContentTypeSnippet = createTool(
   ...defineTool(
-    "delete-type-snippet",
+    "delete-content-type-snippet",
     "Delete (remove) Kontent.ai content type snippet by internal ID. Removes the reusable shared element set definition.",
     {
       id: z.string().describe("Content type snippet internal ID"),

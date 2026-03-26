@@ -40,7 +40,7 @@ export const filterVariantsSchema = z.object({
     .boolean()
     .optional()
     .describe(
-      "Filter for content item language variants that have no contributors assigned",
+      "Filter for content item variants that have no contributors assigned",
     ),
   completion_statuses: z
     .array(z.enum(["unfinished", "ready", "not_translated", "all_done"]))
@@ -87,7 +87,7 @@ export const filterVariantsSchema = z.object({
           .boolean()
           .optional()
           .describe(
-            "Whether to include content item language variants that don't have any taxonomy terms assigned in this taxonomy group",
+            "Whether to include content item variants that don't have any taxonomy terms assigned in this taxonomy group",
           ),
       }),
     )

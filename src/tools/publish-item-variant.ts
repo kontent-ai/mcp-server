@@ -4,10 +4,10 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { createTool, defineTool } from "./toolDefinition.js";
 
-export const publishVariant = createTool(
+export const publishItemVariant = createTool(
   ...defineTool(
-    "publish-variant",
-    "Publish or schedule publishing of Kontent.ai language variant. Makes content live. For scheduling, verify current UTC time before using scheduledTo.",
+    "publish-item-variant",
+    "Publish or schedule publishing of Kontent.ai item variant (language version/translation). Transitions content to the published workflow step, making it live. For scheduling, verify current UTC time before using scheduledTo.",
     {
       itemId: z.guid().describe("Content item UUID"),
       languageId: z
@@ -62,7 +62,7 @@ export const publishVariant = createTool(
             .toPromise();
 
           action = "scheduled";
-          message = `Successfully scheduled language variant '${languageId}' for content item '${itemId}' to be published at '${scheduledTo}'${displayTimezone ? ` (timezone: ${displayTimezone})` : ""}.`;
+          message = `Successfully scheduled item variant '${languageId}' for content item '${itemId}' to be published at '${scheduledTo}'${displayTimezone ? ` (timezone: ${displayTimezone})` : ""}.`;
         } else {
           // Immediate publishing
           await client
@@ -73,7 +73,7 @@ export const publishVariant = createTool(
             .toPromise();
 
           action = "published";
-          message = `Successfully published language variant '${languageId}' for content item '${itemId}'. The content is now live and available through Delivery API.`;
+          message = `Successfully published item variant '${languageId}' for content item '${itemId}'. The content is now live and available through Delivery API.`;
         }
 
         return createMcpToolSuccessResponse({

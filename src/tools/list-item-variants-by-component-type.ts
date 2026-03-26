@@ -1,22 +1,24 @@
 import { createMapiClient } from "../clients/kontentClients.js";
-import { listVariantsSpaceSchema } from "../schemas/listSchemas.js";
+import { listVariantsComponentsTypeSchema } from "../schemas/listSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { createTool, defineTool } from "./toolDefinition.js";
 
-export const listVariantsSpace = createTool(
+export const listItemVariantsByComponentType = createTool(
   ...defineTool(
-    "list-variants-space",
-    "List Kontent.ai language variants filtered by space (paginated). Find all translated content within a specific space or channel.",
-    listVariantsSpaceSchema.shape,
+    "list-item-variants-by-component-type",
+    "List Kontent.ai item variants containing inline components of a specific content type (paginated). Find content that embeds reusable components of a given type.",
+    listVariantsComponentsTypeSchema.shape,
     async (
-      { spaceId, continuation_token },
+      { contentTypeId, continuation_token },
       { authInfo: { token, clientId } = {} },
     ) => {
       const client = createMapiClient(clientId, token);
 
       try {
-        const query = client.listLanguageVariantsBySpace().bySpaceId(spaceId);
+        const query = client
+          .listLanguageVariantsOfContentTypeWithComponents()
+          .byTypeId(contentTypeId);
 
         const response = await (continuation_token
           ? query.xContinuationToken(continuation_token)
@@ -30,7 +32,10 @@ export const listVariantsSpace = createTool(
           },
         });
       } catch (error: unknown) {
-        return handleMcpToolError(error, "Space Variants Listing");
+        return handleMcpToolError(
+          error,
+          "Content Type Variants With Components Listing",
+        );
       }
     },
   ),

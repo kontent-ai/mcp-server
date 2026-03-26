@@ -4,10 +4,10 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { createTool, defineTool } from "./toolDefinition.js";
 
-export const changeVariantWorkflowStep = createTool(
+export const changeItemVariantWorkflowStep = createTool(
   ...defineTool(
-    "change-variant-workflow-step",
-    "Move Kontent.ai language variant to a different workflow step. Transition content between lifecycle stages (e.g., draft to review, review to published).",
+    "change-item-variant-workflow-step",
+    "Move Kontent.ai item variant (language version/translation) to a different workflow step. Transition content between lifecycle stages (e.g., draft to review, review to published).",
     {
       itemId: z.guid().describe("Content item ID"),
       languageId: z.guid().describe("Language variant ID"),
@@ -36,7 +36,7 @@ export const changeVariantWorkflowStep = createTool(
           .toPromise();
 
         return createMcpToolSuccessResponse({
-          message: `Successfully changed workflow step of language variant '${languageId}' for content item '${itemId}' to workflow step '${workflowStepId}'`,
+          message: `Successfully changed workflow step of item variant '${languageId}' for content item '${itemId}' to workflow step '${workflowStepId}'`,
           result: response.rawData,
         });
       } catch (error: any) {
