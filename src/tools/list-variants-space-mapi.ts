@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const listVariantsSpaceMapi = createTool(
   ...defineTool(
     "list-variants-space-mapi",
-    "List Kontent.ai language variants by space from Management API (paginated)",
+    "List Kontent.ai language variants filtered by space (paginated). Find all translated content within a specific space or channel.",
     listVariantsSpaceSchema.shape,
     async (
       { spaceId, continuation_token },

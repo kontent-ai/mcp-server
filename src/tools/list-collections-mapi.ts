@@ -6,7 +6,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const listCollectionsMapi = createTool(
   ...defineTool(
     "list-collections-mapi",
-    "Get all Kontent.ai collections. Collections organize content items into logical groups by team, brand, or project.",
+    "List all Kontent.ai collections. Collections organize and group content items by team, brand, or project for access control and content separation.",
     {},
     async (_, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

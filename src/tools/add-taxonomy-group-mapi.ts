@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const addTaxonomyGroupMapi = createTool(
   ...defineTool(
     "add-taxonomy-group-mapi",
-    "Add new Kontent.ai taxonomy group",
+    "Create new Kontent.ai taxonomy group for content categorization. Taxonomy groups contain hierarchical terms (categories/tags) for classifying content.",
     taxonomyGroupSchemas,
     async (taxonomyGroup, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

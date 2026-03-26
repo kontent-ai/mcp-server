@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const listContentTypesMapi = createTool(
   ...defineTool(
     "list-content-types-mapi",
-    "Get all Kontent.ai content types (paginated). Types define variant structure: field definitions, validation rules, and element types.",
+    "List all Kontent.ai content types (paginated). Types are schema/model definitions that define content structure: elements, field validation rules, and content groups.",
     listContentTypesSchema.shape,
     async ({ continuation_token }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const updateContentItemMapi = createTool(
   ...defineTool(
     "update-content-item-mapi",
-    "Update Kontent.ai content item",
+    "Update (edit) Kontent.ai content item metadata: name, codename, collection, or sitemap locations.",
     {
       id: z.string().describe("Content item ID"),
       name: z

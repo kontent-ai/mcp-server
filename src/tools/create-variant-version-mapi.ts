@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const createVariantVersionMapi = createTool(
   ...defineTool(
     "create-variant-version-mapi",
-    "Create new version of Kontent.ai variant",
+    "Create new draft version of a published Kontent.ai language variant. Required before editing published content.",
     {
       itemId: z.guid().describe("Content item UUID"),
       languageId: z

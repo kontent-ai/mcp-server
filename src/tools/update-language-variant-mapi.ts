@@ -8,7 +8,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const updateLanguageVariantMapi = createTool(
   ...defineTool(
     "update-language-variant-mapi",
-    "Update Kontent.ai variant. Element values must fulfill limitations and guidelines defined in content type.",
+    "Update Kontent.ai language variant content. Write translated content into item elements. Values must fulfill validation rules defined in the content type.",
     {
       itemId: z.string().describe("Content item ID"),
       languageId: z

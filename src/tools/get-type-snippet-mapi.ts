@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const getTypeSnippetMapi = createTool(
   ...defineTool(
     "get-type-snippet-mapi",
-    "Get Kontent.ai content type snippet. Snippets are reusable element sets included in content types via snippet element.",
+    "Retrieve Kontent.ai content type snippet. Snippets are reusable, shared sets of elements included across multiple content types.",
     {
       id: z.string().describe("Snippet ID"),
     },

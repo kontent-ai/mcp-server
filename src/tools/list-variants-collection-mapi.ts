@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const listVariantsCollectionMapi = createTool(
   ...defineTool(
     "list-variants-collection-mapi",
-    "List Kontent.ai language variants by collection from Management API (paginated)",
+    "List Kontent.ai language variants filtered by collection (paginated). Find all translated content within a specific collection group.",
     listVariantsCollectionSchema.describe(
       "Use list-collections-mapi to get collection ID if not provided",
     ).shape,

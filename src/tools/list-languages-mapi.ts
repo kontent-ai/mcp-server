@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const listLanguagesMapi = createTool(
   ...defineTool(
     "list-languages-mapi",
-    "Get all Kontent.ai languages (paginated), including inactive ones - check is_active property. Languages define available locales; each can have fallback language for content inheritance.",
+    "List all Kontent.ai languages (paginated), including inactive ones - check is_active property. Languages define available locales for translations and localization; each can have fallback language for content inheritance.",
     listLanguagesSchema.shape,
     async ({ continuation_token }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

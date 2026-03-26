@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const deleteContentTypeMapi = createTool(
   ...defineTool(
     "delete-content-type-mapi",
-    "Delete Kontent.ai content type by codename",
+    "Delete (remove) Kontent.ai content type by codename. Removes the schema/model definition.",
     {
       codename: z.string().describe("Content type codename"),
     },

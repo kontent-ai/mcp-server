@@ -8,7 +8,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const patchSpaceMapi = createTool(
   ...defineTool(
     "patch-space-mapi",
-    "Patch Kontent.ai space using replace operations. Call get-patch-guide first for operations reference.",
+    "Update Kontent.ai space properties using replace patch operations. Call get-patch-guide first for operations reference.",
     {
       id: z.guid(),
       operations: spacePatchOperationsSchema,

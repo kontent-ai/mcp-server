@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const deleteTypeSnippetMapi = createTool(
   ...defineTool(
     "delete-type-snippet-mapi",
-    "Delete Kontent.ai content type snippet by codename",
+    "Delete (remove) Kontent.ai content type snippet by codename. Removes the reusable shared element set definition.",
     {
       codename: z.string(),
     },

@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const getLatestVariantMapi = createTool(
   ...defineTool(
     "get-latest-variant-mapi",
-    "Get latest Kontent.ai language variant. Variants hold language-specific content; structure defined by content type and its snippets.",
+    "Retrieve latest version of Kontent.ai language variant (draft or published). Variants hold translated, language-specific content with structure defined by content type.",
     {
       itemId: z.string().describe("Item ID"),
       languageId: z.string().describe("Language variant ID"),

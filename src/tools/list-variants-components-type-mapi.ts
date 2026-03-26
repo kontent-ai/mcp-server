@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const listVariantsComponentsTypeMapi = createTool(
   ...defineTool(
     "list-variants-components-type-mapi",
-    "List Kontent.ai language variants containing components of a specific content type from Management API (paginated)",
+    "List Kontent.ai language variants containing inline components of a specific content type (paginated). Find content that embeds reusable components of a given type.",
     listVariantsComponentsTypeSchema.shape,
     async (
       { contentTypeId, continuation_token },

@@ -11,7 +11,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const addContentTypeMapi = createTool(
   ...defineTool(
     "add-content-type-mapi",
-    "Add new Kontent.ai content type",
+    "Create new Kontent.ai content type (schema/model). Define content structure with elements, validation rules, and content groups.",
     {
       name: z.string().describe("Content type name"),
       codename: z

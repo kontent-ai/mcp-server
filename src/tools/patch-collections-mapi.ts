@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const patchCollectionsMapi = createTool(
   ...defineTool(
     "patch-collections-mapi",
-    "Update Kontent.ai collections using patch operations. Call get-patch-guide first for operations reference.",
+    "Modify Kontent.ai collections using patch operations (addInto, move, rename, remove). Call get-patch-guide first for operations reference.",
     {
       operations: collectionPatchOperationsSchema.describe(
         "Patch operations array. Call list-collections-mapi first. Use addInto to add new collections, move to reorder, remove to delete empty collections, replace to rename.",

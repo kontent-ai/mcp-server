@@ -8,7 +8,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const filterVariantsMapi = createTool(
   ...defineTool(
     "filter-variants-mapi",
-    "Filter Kontent.ai items with variants returning references (item ID + language ID). For EXACT keyword matching and compliance (terms use OR). Use bulk-get-items-variants-mapi to retrieve full content for matched items. Use search-variants-mapi for semantic/topic search.",
+    "Filter and find Kontent.ai content items with variants returning references (item ID + language ID). For EXACT keyword matching and compliance filtering (terms use OR). Use bulk-get-items-variants-mapi to retrieve full content. Use search-variants-mapi for semantic/topic search.",
     filterVariantsSchema.shape,
     async (
       {

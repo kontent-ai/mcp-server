@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const getItemMapi = createTool(
   ...defineTool(
     "get-item-mapi",
-    "Get Kontent.ai content item. Items are language-neutral containers; one item has multiple language variants.",
+    "Retrieve Kontent.ai content item by ID. Items are language-neutral containers; one item has multiple language variants (translations).",
     {
       id: z.string().describe("Item ID"),
     },

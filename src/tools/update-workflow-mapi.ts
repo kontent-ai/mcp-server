@@ -8,7 +8,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const updateWorkflowMapi = createTool(
   ...defineTool(
     "update-workflow-mapi",
-    "Update Kontent.ai workflow",
+    "Update (edit) Kontent.ai workflow steps, transitions, and settings. Modify content lifecycle stages.",
     {
       id: z.guid().describe("Workflow ID"),
       ...workflowInputSchema.shape,

@@ -9,7 +9,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const updateAssetMapi = createTool(
   ...defineTool(
     "update-asset-mapi",
-    "Update Kontent.ai asset by ID",
+    "Update (edit) Kontent.ai asset metadata by ID. Modify asset title, descriptions, or taxonomy-based properties.",
     {
       id: z.guid(),
       data: updateAssetDataSchema,

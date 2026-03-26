@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const getTaxonomyGroupMapi = createTool(
   ...defineTool(
     "get-taxonomy-group-mapi",
-    "Get Kontent.ai taxonomy group. Taxonomy groups are hierarchical with tree-structured terms that can be nested to any depth for flexible content categorization.",
+    "Retrieve Kontent.ai taxonomy group by ID or codename. Taxonomy groups contain hierarchical tree-structured terms (categories/tags) that can be nested to any depth for content categorization.",
     {
       id: z.guid(),
     },

@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const unpublishVariantMapi = createTool(
   ...defineTool(
     "unpublish-variant-mapi",
-    "Unpublish or schedule unpublishing Kontent.ai variant. For scheduling, verify current UTC time before using scheduledTo.",
+    "Unpublish or schedule unpublishing of Kontent.ai language variant. Takes content offline and archives it. For scheduling, verify current UTC time before using scheduledTo.",
     {
       itemId: z.guid().describe("Content item UUID"),
       languageId: z

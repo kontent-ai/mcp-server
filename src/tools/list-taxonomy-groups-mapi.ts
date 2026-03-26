@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const listTaxonomyGroupsMapi = createTool(
   ...defineTool(
     "list-taxonomy-groups-mapi",
-    "List all Kontent.ai taxonomy groups (paginated). Taxonomy groups are hierarchical with tree-structured terms that can be nested to any depth for flexible content categorization.",
+    "List all Kontent.ai taxonomy groups (paginated). Taxonomy groups contain hierarchical tree-structured terms (categories/tags) that can be nested to any depth for content categorization and classification.",
     listTaxonomyGroupsSchema.shape,
     async ({ continuation_token }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

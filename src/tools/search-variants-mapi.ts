@@ -49,7 +49,7 @@ const extractSearchResults = (response: AiOperationResultResponse): object => {
 export const searchVariantsMapi = createTool(
   ...defineTool(
     "search-variants-mapi",
-    "AI semantic search for Kontent.ai content by topic/theme (max 50 results). Use filter-variants-mapi for exact keywords. May be unavailable.",
+    "AI semantic search for Kontent.ai content by topic, theme, or meaning (max 50 results). Find content by natural language query. Use filter-variants-mapi for exact keyword matching. May be unavailable.",
     searchOperationSchema.shape,
     async (
       { searchPhrase, filter },

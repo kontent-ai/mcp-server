@@ -6,7 +6,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const listAssetFoldersMapi = createTool(
   ...defineTool(
     "list-asset-folders-mapi",
-    "List all Kontent.ai asset folders",
+    "List all Kontent.ai asset folders. Folders organize digital media files (images, videos, documents) into a hierarchical directory structure.",
     {},
     async (_params, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

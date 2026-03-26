@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const getAssetMapi = createTool(
   ...defineTool(
     "get-asset-mapi",
-    "Get Kontent.ai asset. Assets are digital files (images, videos, documents) referenced in content.",
+    "Retrieve Kontent.ai asset by ID. Assets are digital media files (images, videos, documents, PDFs) referenced in content items.",
     {
       assetId: z.string().describe("Asset ID"),
     },

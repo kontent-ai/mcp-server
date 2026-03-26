@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const listAssetsMapi = createTool(
   ...defineTool(
     "list-assets-mapi",
-    "Get all Kontent.ai assets (paginated). Assets are digital files (images, videos, documents) referenced in content.",
+    "List all Kontent.ai assets (paginated). Assets are digital media files (images, videos, documents, PDFs) referenced in content items.",
     listAssetsSchema.shape,
     async ({ continuation_token }, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

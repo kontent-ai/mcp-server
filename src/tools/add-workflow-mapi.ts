@@ -8,7 +8,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const addWorkflowMapi = createTool(
   ...defineTool(
     "add-workflow-mapi",
-    "Add new Kontent.ai workflow",
+    "Create new Kontent.ai workflow with custom steps. Workflows define content lifecycle stages for review and approval.",
     workflowInputSchema.shape,
     async (
       { name, codename, scopes, steps, published_step, archived_step },

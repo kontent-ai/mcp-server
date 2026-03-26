@@ -8,7 +8,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const addContentTypeSnippetMapi = createTool(
   ...defineTool(
     "add-content-type-snippet-mapi",
-    "Add new Kontent.ai content type snippet",
+    "Create new Kontent.ai content type snippet. Snippets are reusable, shared sets of elements that can be included in multiple content types.",
     {
       name: z.string().describe("Snippet name"),
       codename: z

@@ -8,7 +8,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const bulkGetItemsVariantsMapi = createTool(
   ...defineTool(
     "bulk-get-items-variants-mapi",
-    "Bulk get Kontent.ai content items with their language variants by item and language reference pairs. Items without a variant in the requested language return the item without the variant property.",
+    "Bulk retrieve multiple Kontent.ai content items with their language variants by item and language reference pairs. Fetch full content for items found via filter-variants-mapi.",
     bulkGetItemsWithVariantsSchema.shape,
     async (
       { variants, continuation_token },

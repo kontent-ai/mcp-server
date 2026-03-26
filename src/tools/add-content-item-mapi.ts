@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const addContentItemMapi = createTool(
   ...defineTool(
     "add-content-item-mapi",
-    "Add new Kontent.ai content item (creates structure only, use upsert-language-variant-mapi for content)",
+    "Create new Kontent.ai content item (creates the container only, use upsert-language-variant-mapi to add variants/translations). Items are language-neutral and hold variants for each language.",
     {
       name: z.string().min(1).max(200).describe("Item name (1-200 chars)"),
       type: z

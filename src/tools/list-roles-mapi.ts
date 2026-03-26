@@ -6,7 +6,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const listRolesMapi = createTool(
   ...defineTool(
     "list-roles-mapi",
-    "Get all Kontent.ai roles",
+    "List all Kontent.ai roles. Roles define user permissions and access control within the environment.",
     {},
     async (_, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

@@ -35,7 +35,7 @@ const getGuideForEntity = (entityType: EntityType): string => {
 export const getPatchGuide = createTool(
   ...defineTool(
     "get-patch-guide",
-    "REQUIRED before any patch operation. Get patch operations guide for Kontent.ai Management API.",
+    "REQUIRED before any patch operation. Retrieve patch operations guide for modifying Kontent.ai content types, snippets, taxonomies, collections, asset folders, spaces, or languages.",
     {
       entityType: entityTypeSchema.describe(
         "Entity type to get patch guide for: content-type, snippet, taxonomy, collection, asset-folder, space, language",

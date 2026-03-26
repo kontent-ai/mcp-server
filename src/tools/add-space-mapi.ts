@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const addSpaceMapi = createTool(
   ...defineTool(
     "add-space-mapi",
-    "Add Kontent.ai space",
+    "Create new Kontent.ai space for managing a website or channel. Spaces provide channel-specific context with their own domain and preview URLs.",
     addSpaceSchema.shape,
     async (
       { name, codename, collections },

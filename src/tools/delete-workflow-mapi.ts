@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const deleteWorkflowMapi = createTool(
   ...defineTool(
     "delete-workflow-mapi",
-    "Delete Kontent.ai workflow",
+    "Delete (remove) Kontent.ai workflow. Cannot delete the default workflow.",
     {
       id: z.guid().describe("Workflow ID"),
     },

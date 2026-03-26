@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const deleteContentItemMapi = createTool(
   ...defineTool(
     "delete-content-item-mapi",
-    "Delete Kontent.ai content item",
+    "Delete (remove) Kontent.ai content item and all its language variants.",
     {
       id: z.string().describe("Item ID"),
     },

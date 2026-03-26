@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const listVariantsItemMapi = createTool(
   ...defineTool(
     "list-variants-item-mapi",
-    "List all Kontent.ai language variants of a content item from Management API",
+    "List all Kontent.ai language variants (translations) of a content item. Returns content in every language for a single item.",
     {
       itemId: z.string().describe("Content item ID"),
     },

@@ -8,7 +8,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const patchContentTypeMapi = createTool(
   ...defineTool(
     "patch-content-type-mapi",
-    "Update Kontent.ai content type using patch operations. Call get-patch-guide first for operations reference.",
+    "Modify Kontent.ai content type schema using patch operations (move, addInto, remove, replace elements). Call get-patch-guide first for operations reference.",
     {
       id: z.guid(),
       operations: patchOperationsSchema.describe(

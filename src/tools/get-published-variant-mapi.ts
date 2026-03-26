@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const getPublishedVariantMapi = createTool(
   ...defineTool(
     "get-published-variant-mapi",
-    "Get published Kontent.ai language variant. Variants hold language-specific content; structure defined by content type and its snippets.",
+    "Retrieve published Kontent.ai language variant (live content). Variants hold translated, language-specific content with structure defined by content type.",
     {
       itemId: z.string().describe("Item ID"),
       languageId: z.string().describe("Language variant ID"),

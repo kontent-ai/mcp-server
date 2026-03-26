@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const deleteLanguageVariantMapi = createTool(
   ...defineTool(
     "delete-language-variant-mapi",
-    "Delete Kontent.ai variant",
+    "Delete (remove) Kontent.ai language variant. Removes translated content for a specific language from an item.",
     {
       itemId: z.string().describe("Item ID"),
       languageId: z.string().describe("Language variant ID"),

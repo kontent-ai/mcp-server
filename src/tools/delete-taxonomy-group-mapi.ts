@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const deleteTaxonomyGroupMapi = createTool(
   ...defineTool(
     "delete-taxonomy-group-mapi",
-    "Delete Kontent.ai taxonomy group by ID",
+    "Delete (remove) Kontent.ai taxonomy group by ID. Removes the category/tag group and all its terms.",
     {
       id: z.guid(),
     },

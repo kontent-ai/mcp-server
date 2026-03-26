@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const patchLanguageMapi = createTool(
   ...defineTool(
     "patch-language-mapi",
-    "Update Kontent.ai language using replace operations. Call get-patch-guide first. Only active languages can be modified - to activate/deactivate, use the Kontent.ai web UI.",
+    "Modify Kontent.ai language properties using replace patch operations. Call get-patch-guide first. Only active languages can be edited - to activate/deactivate, use the Kontent.ai web UI.",
     patchLanguageSchema.shape,
     async (
       { languageId, operations },

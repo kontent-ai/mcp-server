@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const publishVariantMapi = createTool(
   ...defineTool(
     "publish-variant-mapi",
-    "Publish or schedule Kontent.ai variant. For scheduling, verify current UTC time before using scheduledTo.",
+    "Publish or schedule publishing of Kontent.ai language variant. Makes content live. For scheduling, verify current UTC time before using scheduledTo.",
     {
       itemId: z.guid().describe("Content item UUID"),
       languageId: z

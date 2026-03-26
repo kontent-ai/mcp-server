@@ -6,7 +6,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const listWorkflowsMapi = createTool(
   ...defineTool(
     "list-workflows-mapi",
-    "Get all Kontent.ai workflows. Workflow states manage content lifecycle: drafting, review, published, archived.",
+    "List all Kontent.ai workflows and their steps. Workflows define content lifecycle stages: draft, review, approval, published, scheduled, archived.",
     {},
     async (_, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

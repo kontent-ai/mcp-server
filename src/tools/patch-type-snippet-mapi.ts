@@ -8,7 +8,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const patchTypeSnippetMapi = createTool(
   ...defineTool(
     "patch-type-snippet-mapi",
-    "Update Kontent.ai content type snippet using patch operations (move, addInto, remove, replace). Call get-patch-guide first for operations reference.",
+    "Modify Kontent.ai content type snippet using patch operations (move, addInto, remove, replace elements). Call get-patch-guide first for operations reference.",
     {
       id: z.guid(),
       operations: snippetPatchOperationsSchema.describe(

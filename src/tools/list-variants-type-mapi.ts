@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const listVariantsTypeMapi = createTool(
   ...defineTool(
     "list-variants-type-mapi",
-    "List Kontent.ai language variants by content type from Management API (paginated)",
+    "List Kontent.ai language variants filtered by content type (paginated). Find all translated content of a specific type or schema.",
     listVariantsTypeSchema.shape,
     async (
       { contentTypeId, continuation_token },

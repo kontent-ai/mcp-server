@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const deleteSpaceMapi = createTool(
   ...defineTool(
     "delete-space-mapi",
-    "Delete Kontent.ai space by ID",
+    "Delete (remove) Kontent.ai space by ID. Removes the channel/website context.",
     {
       id: z.guid(),
     },

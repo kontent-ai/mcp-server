@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const getTypeMapi = createTool(
   ...defineTool(
     "get-type-mapi",
-    "Get Kontent.ai content type. Types define variant structure: field definitions, validation rules, and element types.",
+    "Retrieve Kontent.ai content type (schema/model definition). Types define content structure: elements, field validation rules, and content groups.",
     {
       id: z.string().describe("Content type ID"),
     },
