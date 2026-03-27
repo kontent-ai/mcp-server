@@ -1,11 +1,11 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { listVariantsCollectionSchema } from "../schemas/listSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const listVariantsCollectionMapi = createTool(
+  ...defineTool(
     "list-variants-collection-mapi",
     "List Kontent.ai language variants by collection from Management API (paginated)",
     listVariantsCollectionSchema.describe(
@@ -37,5 +37,5 @@ export const registerTool = (server: McpServer): void => {
         return handleMcpToolError(error, "Collection Variants Listing");
       }
     },
-  );
-};
+  ),
+);

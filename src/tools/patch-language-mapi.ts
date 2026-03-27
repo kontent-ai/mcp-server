@@ -1,11 +1,11 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { patchLanguageSchema } from "../schemas/languageSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const patchLanguageMapi = createTool(
+  ...defineTool(
     "patch-language-mapi",
     "Update Kontent.ai language using replace operations. Call get-patch-guide first. Only active languages can be modified - to activate/deactivate, use the Kontent.ai web UI.",
     patchLanguageSchema.shape,
@@ -31,5 +31,5 @@ export const registerTool = (server: McpServer): void => {
         return handleMcpToolError(error, "Language Patch");
       }
     },
-  );
-};
+  ),
+);

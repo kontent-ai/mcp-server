@@ -1,13 +1,13 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { languageVariantElementSchema } from "../schemas/contentItemSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { extractUserIdFromToken } from "../utils/extractUserIdFromToken.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const createLanguageVariantMapi = createTool(
+  ...defineTool(
     "create-language-variant-mapi",
     "Create Kontent.ai variant. Element values must fulfill limitations and guidelines defined in content type.",
     {
@@ -56,5 +56,5 @@ export const registerTool = (server: McpServer): void => {
         return handleMcpToolError(error, "Language Variant Create");
       }
     },
-  );
-};
+  ),
+);

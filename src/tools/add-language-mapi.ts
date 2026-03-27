@@ -1,11 +1,11 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { addLanguageSchema } from "../schemas/languageSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const addLanguageMapi = createTool(
+  ...defineTool(
     "add-language-mapi",
     "Add new Kontent.ai language via Management API. Languages are always created as active.",
     addLanguageSchema.shape,
@@ -32,5 +32,5 @@ export const registerTool = (server: McpServer): void => {
         return handleMcpToolError(error, "Language Creation");
       }
     },
-  );
-};
+  ),
+);

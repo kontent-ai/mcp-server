@@ -1,4 +1,3 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import {
@@ -7,9 +6,10 @@ import {
 } from "../schemas/contentTypeAndSnippetSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const addContentTypeMapi = createTool(
+  ...defineTool(
     "add-content-type-mapi",
     "Add new Kontent.ai content type",
     {
@@ -48,5 +48,5 @@ export const registerTool = (server: McpServer): void => {
         return handleMcpToolError(error, "Content Type Creation");
       }
     },
-  );
-};
+  ),
+);

@@ -1,11 +1,11 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const getLatestVariantMapi = createTool(
+  ...defineTool(
     "get-latest-variant-mapi",
     "Get latest Kontent.ai language variant. Variants hold language-specific content; structure defined by content type and its snippets.",
     {
@@ -27,5 +27,5 @@ export const registerTool = (server: McpServer): void => {
         return handleMcpToolError(error, "Latest Language Variant Retrieval");
       }
     },
-  );
-};
+  ),
+);

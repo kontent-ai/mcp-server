@@ -1,11 +1,11 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const deleteContentItemMapi = createTool(
+  ...defineTool(
     "delete-content-item-mapi",
     "Delete Kontent.ai content item",
     {
@@ -28,5 +28,5 @@ export const registerTool = (server: McpServer): void => {
         return handleMcpToolError(error, "Content Item Deletion");
       }
     },
-  );
-};
+  ),
+);

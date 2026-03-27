@@ -1,12 +1,12 @@
 import type { AssetFolderModels } from "@kontent-ai/management-sdk";
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { assetFolderPatchOperationsSchema } from "../schemas/assetFolderSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const patchAssetFoldersMapi = createTool(
+  ...defineTool(
     "patch-asset-folders-mapi",
     "Modify Kontent.ai asset folders using patch operations (addInto, rename, remove). Call get-patch-guide first for operations reference.",
     {
@@ -30,5 +30,5 @@ export const registerTool = (server: McpServer): void => {
         return handleMcpToolError(error, "Asset Folders Modification");
       }
     },
-  );
-};
+  ),
+);

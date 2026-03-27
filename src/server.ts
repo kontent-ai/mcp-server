@@ -1,61 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import packageJson from "../package.json" with { type: "json" };
-import { registerTool as registerAddContentItemMapi } from "./tools/add-content-item-mapi.js";
-import { registerTool as registerAddContentTypeMapi } from "./tools/add-content-type-mapi.js";
-import { registerTool as registerAddContentTypeSnippetMapi } from "./tools/add-content-type-snippet-mapi.js";
-import { registerTool as registerAddLanguageMapi } from "./tools/add-language-mapi.js";
-import { registerTool as registerAddSpaceMapi } from "./tools/add-space-mapi.js";
-import { registerTool as registerAddTaxonomyGroupMapi } from "./tools/add-taxonomy-group-mapi.js";
-import { registerTool as registerAddWorkflowMapi } from "./tools/add-workflow-mapi.js";
-import { registerTool as registerBulkGetItemsVariantsMapi } from "./tools/bulk-get-items-variants-mapi.js";
-import { registerTool as registerChangeVariantWorkflowStepMapi } from "./tools/change-variant-workflow-step-mapi.js";
-import { registerTool as registerCreateLanguageVariantMapi } from "./tools/create-language-variant-mapi.js";
-import { registerTool as registerCreateVariantVersionMapi } from "./tools/create-variant-version-mapi.js";
-import { registerTool as registerDeleteContentItemMapi } from "./tools/delete-content-item-mapi.js";
-import { registerTool as registerDeleteContentTypeMapi } from "./tools/delete-content-type-mapi.js";
-import { registerTool as registerDeleteLanguageVariantMapi } from "./tools/delete-language-variant-mapi.js";
-import { registerTool as registerDeleteSpaceMapi } from "./tools/delete-space-mapi.js";
-import { registerTool as registerDeleteTaxonomyGroupMapi } from "./tools/delete-taxonomy-group-mapi.js";
-import { registerTool as registerDeleteTypeSnippetMapi } from "./tools/delete-type-snippet-mapi.js";
-import { registerTool as registerDeleteWorkflowMapi } from "./tools/delete-workflow-mapi.js";
-import { registerTool as registerFilterVariantsMapi } from "./tools/filter-variants-mapi.js";
-import { registerTool as registerGetAssetMapi } from "./tools/get-asset-mapi.js";
-import { registerTool as registerGetItemMapi } from "./tools/get-item-mapi.js";
-import { registerTool as registerGetLatestVariantMapi } from "./tools/get-latest-variant-mapi.js";
-import { registerTool as registerGetPatchGuide } from "./tools/get-patch-guide.js";
-import { registerTool as registerGetPublishedVariantMapi } from "./tools/get-published-variant-mapi.js";
-import { registerTool as registerGetTaxonomyGroupMapi } from "./tools/get-taxonomy-group-mapi.js";
-import { registerTool as registerGetTypeMapi } from "./tools/get-type-mapi.js";
-import { registerTool as registerGetTypeSnippetMapi } from "./tools/get-type-snippet-mapi.js";
-import { registerTool as registerListAssetFoldersMapi } from "./tools/list-asset-folders-mapi.js";
-import { registerTool as registerListAssetsMapi } from "./tools/list-assets-mapi.js";
-import { registerTool as registerListCollectionsMapi } from "./tools/list-collections-mapi.js";
-import { registerTool as registerListContentTypeSnippetsMapi } from "./tools/list-content-type-snippets-mapi.js";
-import { registerTool as registerListContentTypesMapi } from "./tools/list-content-types-mapi.js";
-import { registerTool as registerListLanguagesMapi } from "./tools/list-languages-mapi.js";
-import { registerTool as registerListRolesMapi } from "./tools/list-roles-mapi.js";
-import { registerTool as registerListSpacesMapi } from "./tools/list-spaces-mapi.js";
-import { registerTool as registerListTaxonomyGroupsMapi } from "./tools/list-taxonomy-groups-mapi.js";
-import { registerTool as registerListVariantsCollectionMapi } from "./tools/list-variants-collection-mapi.js";
-import { registerTool as registerListVariantsComponentsTypeMapi } from "./tools/list-variants-components-type-mapi.js";
-import { registerTool as registerListVariantsItemMapi } from "./tools/list-variants-item-mapi.js";
-import { registerTool as registerListVariantsSpaceMapi } from "./tools/list-variants-space-mapi.js";
-import { registerTool as registerListVariantsTypeMapi } from "./tools/list-variants-type-mapi.js";
-import { registerTool as registerListWorkflowsMapi } from "./tools/list-workflows-mapi.js";
-import { registerTool as registerPatchAssetFoldersMapi } from "./tools/patch-asset-folders-mapi.js";
-import { registerTool as registerPatchCollectionsMapi } from "./tools/patch-collections-mapi.js";
-import { registerTool as registerPatchContentTypeMapi } from "./tools/patch-content-type-mapi.js";
-import { registerTool as registerPatchLanguageMapi } from "./tools/patch-language-mapi.js";
-import { registerTool as registerPatchSpaceMapi } from "./tools/patch-space-mapi.js";
-import { registerTool as registerPatchTaxonomyGroupMapi } from "./tools/patch-taxonomy-group-mapi.js";
-import { registerTool as registerPatchTypeSnippetMapi } from "./tools/patch-type-snippet-mapi.js";
-import { registerTool as registerPublishVariantMapi } from "./tools/publish-variant-mapi.js";
-import { registerTool as registerSearchVariantsMapi } from "./tools/search-variants-mapi.js";
-import { registerTool as registerUnpublishVariantMapi } from "./tools/unpublish-variant-mapi.js";
-import { registerTool as registerUpdateAssetMapi } from "./tools/update-asset-mapi.js";
-import { registerTool as registerUpdateContentItemMapi } from "./tools/update-content-item-mapi.js";
-import { registerTool as registerUpdateLanguageVariantMapi } from "./tools/update-language-variant-mapi.js";
-import { registerTool as registerUpdateWorkflowMapi } from "./tools/update-workflow-mapi.js";
+import { allTools } from "./tools/index.js";
 
 // Create server instance
 export const createServer = () => {
@@ -65,62 +10,13 @@ export const createServer = () => {
   });
 
   // Register all tools
-  registerGetPatchGuide(server);
-  registerGetItemMapi(server);
-  registerGetLatestVariantMapi(server);
-  registerGetPublishedVariantMapi(server);
-  registerListVariantsItemMapi(server);
-  registerListVariantsCollectionMapi(server);
-  registerListVariantsTypeMapi(server);
-  registerListVariantsComponentsTypeMapi(server);
-  registerListVariantsSpaceMapi(server);
-  registerGetTypeMapi(server);
-  registerListContentTypesMapi(server);
-  registerDeleteContentTypeMapi(server);
-  registerListLanguagesMapi(server);
-  registerAddLanguageMapi(server);
-  registerPatchLanguageMapi(server);
-  registerListCollectionsMapi(server);
-  registerPatchCollectionsMapi(server);
-  registerListSpacesMapi(server);
-  registerAddSpaceMapi(server);
-  registerPatchSpaceMapi(server);
-  registerDeleteSpaceMapi(server);
-  registerListRolesMapi(server);
-  registerGetAssetMapi(server);
-  registerListAssetsMapi(server);
-  registerUpdateAssetMapi(server);
-  registerListAssetFoldersMapi(server);
-  registerPatchAssetFoldersMapi(server);
-  registerAddContentTypeMapi(server);
-  registerPatchContentTypeMapi(server);
-  registerAddContentTypeSnippetMapi(server);
-  registerGetTypeSnippetMapi(server);
-  registerListContentTypeSnippetsMapi(server);
-  registerPatchTypeSnippetMapi(server);
-  registerDeleteTypeSnippetMapi(server);
-  registerAddTaxonomyGroupMapi(server);
-  registerListTaxonomyGroupsMapi(server);
-  registerGetTaxonomyGroupMapi(server);
-  registerPatchTaxonomyGroupMapi(server);
-  registerDeleteTaxonomyGroupMapi(server);
-  registerAddContentItemMapi(server);
-  registerUpdateContentItemMapi(server);
-  registerDeleteContentItemMapi(server);
-  registerCreateLanguageVariantMapi(server);
-  registerUpdateLanguageVariantMapi(server);
-  registerCreateVariantVersionMapi(server);
-  registerDeleteLanguageVariantMapi(server);
-  registerListWorkflowsMapi(server);
-  registerAddWorkflowMapi(server);
-  registerUpdateWorkflowMapi(server);
-  registerDeleteWorkflowMapi(server);
-  registerChangeVariantWorkflowStepMapi(server);
-  registerFilterVariantsMapi(server);
-  registerBulkGetItemsVariantsMapi(server);
-  registerSearchVariantsMapi(server);
-  registerPublishVariantMapi(server);
-  registerUnpublishVariantMapi(server);
+  for (const tool of Object.values(allTools)) {
+    server.registerTool(
+      tool.name,
+      { description: tool.description, inputSchema: tool.inputSchema },
+      tool.handler,
+    );
+  }
 
   return { server };
 };

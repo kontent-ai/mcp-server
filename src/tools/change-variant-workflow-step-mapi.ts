@@ -1,11 +1,11 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const changeVariantWorkflowStepMapi = createTool(
+  ...defineTool(
     "change-variant-workflow-step-mapi",
     "Change Kontent.ai variant workflow step",
     {
@@ -43,5 +43,5 @@ export const registerTool = (server: McpServer): void => {
         return handleMcpToolError(error, "Workflow Step Change");
       }
     },
-  );
-};
+  ),
+);

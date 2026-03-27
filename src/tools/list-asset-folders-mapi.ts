@@ -1,10 +1,10 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const listAssetFoldersMapi = createTool(
+  ...defineTool(
     "list-asset-folders-mapi",
     "List all Kontent.ai asset folders",
     {},
@@ -19,5 +19,5 @@ export const registerTool = (server: McpServer): void => {
         return handleMcpToolError(error, "Asset Folders Listing");
       }
     },
-  );
-};
+  ),
+);

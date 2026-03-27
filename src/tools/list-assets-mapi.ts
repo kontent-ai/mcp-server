@@ -1,11 +1,11 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { listAssetsSchema } from "../schemas/listSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const listAssetsMapi = createTool(
+  ...defineTool(
     "list-assets-mapi",
     "Get all Kontent.ai assets (paginated). Assets are digital files (images, videos, documents) referenced in content.",
     listAssetsSchema.shape,
@@ -30,5 +30,5 @@ export const registerTool = (server: McpServer): void => {
         return handleMcpToolError(error, "Assets Listing");
       }
     },
-  );
-};
+  ),
+);

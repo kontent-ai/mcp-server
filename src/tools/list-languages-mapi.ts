@@ -1,11 +1,11 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { listLanguagesSchema } from "../schemas/listSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const listLanguagesMapi = createTool(
+  ...defineTool(
     "list-languages-mapi",
     "Get all Kontent.ai languages (paginated), including inactive ones - check is_active property. Languages define available locales; each can have fallback language for content inheritance.",
     listLanguagesSchema.shape,
@@ -30,5 +30,5 @@ export const registerTool = (server: McpServer): void => {
         return handleMcpToolError(error, "Languages Listing");
       }
     },
-  );
-};
+  ),
+);

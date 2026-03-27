@@ -1,13 +1,13 @@
 import type { AssetModels } from "@kontent-ai/management-sdk";
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { updateAssetDataSchema } from "../schemas/assetSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const updateAssetMapi = createTool(
+  ...defineTool(
     "update-asset-mapi",
     "Update Kontent.ai asset by ID",
     {
@@ -31,5 +31,5 @@ export const registerTool = (server: McpServer): void => {
         return handleMcpToolError(error, "Asset Update");
       }
     },
-  );
-};
+  ),
+);

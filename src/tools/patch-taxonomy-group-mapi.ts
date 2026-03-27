@@ -1,12 +1,12 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { taxonomyPatchOperationsSchema } from "../schemas/patchSchemas/taxonomyPatchSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const patchTaxonomyGroupMapi = createTool(
+  ...defineTool(
     "patch-taxonomy-group-mapi",
     "Update Kontent.ai taxonomy group using patch operations (addInto, move, remove, replace). Call get-patch-guide first for operations reference.",
     {
@@ -34,5 +34,5 @@ export const registerTool = (server: McpServer): void => {
         return handleMcpToolError(error, "Taxonomy Group Patch");
       }
     },
-  );
-};
+  ),
+);

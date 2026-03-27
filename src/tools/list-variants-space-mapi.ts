@@ -1,11 +1,11 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { listVariantsSpaceSchema } from "../schemas/listSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const listVariantsSpaceMapi = createTool(
+  ...defineTool(
     "list-variants-space-mapi",
     "List Kontent.ai language variants by space from Management API (paginated)",
     listVariantsSpaceSchema.shape,
@@ -33,5 +33,5 @@ export const registerTool = (server: McpServer): void => {
         return handleMcpToolError(error, "Space Variants Listing");
       }
     },
-  );
-};
+  ),
+);

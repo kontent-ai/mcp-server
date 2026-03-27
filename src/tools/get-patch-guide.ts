@@ -1,9 +1,9 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { pathBasedPatchGuide } from "./context/patch-guide-path-based.js";
 import { propertyBasedPatchGuide } from "./context/patch-guide-property-based.js";
 import { referenceBasedPatchGuide } from "./context/patch-guide-reference-based.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
 const entityTypeSchema = z.enum([
   "content-type",
@@ -32,8 +32,8 @@ const getGuideForEntity = (entityType: EntityType): string => {
   }
 };
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const getPatchGuide = createTool(
+  ...defineTool(
     "get-patch-guide",
     "REQUIRED before any patch operation. Get patch operations guide for Kontent.ai Management API.",
     {
@@ -52,5 +52,5 @@ export const registerTool = (server: McpServer): void => {
         );
       }
     },
-  );
-};
+  ),
+);

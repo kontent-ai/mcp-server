@@ -1,12 +1,12 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { patchOperationsSchema } from "../schemas/patchSchemas/contentTypePatchSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const patchContentTypeMapi = createTool(
+  ...defineTool(
     "patch-content-type-mapi",
     "Update Kontent.ai content type using patch operations. Call get-patch-guide first for operations reference.",
     {
@@ -39,5 +39,5 @@ export const registerTool = (server: McpServer): void => {
         return handleMcpToolError(error, `Content Type Patch`);
       }
     },
-  );
-};
+  ),
+);

@@ -1,11 +1,11 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { collectionPatchOperationsSchema } from "../schemas/collectionSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const patchCollectionsMapi = createTool(
+  ...defineTool(
     "patch-collections-mapi",
     "Update Kontent.ai collections using patch operations. Call get-patch-guide first for operations reference.",
     {
@@ -31,5 +31,5 @@ export const registerTool = (server: McpServer): void => {
         return handleMcpToolError(error, "Collections Patch");
       }
     },
-  );
-};
+  ),
+);

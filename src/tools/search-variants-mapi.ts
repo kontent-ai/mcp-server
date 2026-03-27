@@ -1,10 +1,10 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import pRetry, { AbortError } from "p-retry";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { searchOperationSchema } from "../schemas/searchOperationSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { throwError } from "../utils/throwError.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
 interface AiOperationResponse {
   operationId: string;
@@ -46,8 +46,8 @@ const extractSearchResults = (response: AiOperationResultResponse): object => {
   return parsed;
 };
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const searchVariantsMapi = createTool(
+  ...defineTool(
     "search-variants-mapi",
     "AI semantic search for Kontent.ai content by topic/theme (max 50 results). Use filter-variants-mapi for exact keywords. May be unavailable.",
     searchOperationSchema.shape,
@@ -154,5 +154,5 @@ export const registerTool = (server: McpServer): void => {
         return handleMcpToolError(error, "AI-powered Variant Search");
       }
     },
-  );
-};
+  ),
+);

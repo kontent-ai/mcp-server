@@ -1,11 +1,11 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const unpublishVariantMapi = createTool(
+  ...defineTool(
     "unpublish-variant-mapi",
     "Unpublish or schedule unpublishing Kontent.ai variant. For scheduling, verify current UTC time before using scheduledTo.",
     {
@@ -94,5 +94,5 @@ export const registerTool = (server: McpServer): void => {
         );
       }
     },
-  );
-};
+  ),
+);

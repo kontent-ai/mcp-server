@@ -1,12 +1,12 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { snippetPatchOperationsSchema } from "../schemas/patchSchemas/snippetPatchSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const patchTypeSnippetMapi = createTool(
+  ...defineTool(
     "patch-type-snippet-mapi",
     "Update Kontent.ai content type snippet using patch operations (move, addInto, remove, replace). Call get-patch-guide first for operations reference.",
     {
@@ -36,5 +36,5 @@ export const registerTool = (server: McpServer): void => {
         return handleMcpToolError(error, "Content Type Snippet Patch");
       }
     },
-  );
-};
+  ),
+);

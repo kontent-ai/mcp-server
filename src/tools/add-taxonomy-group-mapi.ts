@@ -1,11 +1,11 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { taxonomyGroupSchemas } from "../schemas/taxonomySchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const addTaxonomyGroupMapi = createTool(
+  ...defineTool(
     "add-taxonomy-group-mapi",
     "Add new Kontent.ai taxonomy group",
     taxonomyGroupSchemas,
@@ -23,5 +23,5 @@ export const registerTool = (server: McpServer): void => {
         return handleMcpToolError(error, "Taxonomy Group Creation");
       }
     },
-  );
-};
+  ),
+);

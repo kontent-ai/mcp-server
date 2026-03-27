@@ -1,11 +1,11 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { listContentTypeSnippetsSchema } from "../schemas/listSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const listContentTypeSnippetsMapi = createTool(
+  ...defineTool(
     "list-content-type-snippets-mapi",
     "Get all Kontent.ai content type snippets (paginated). Snippets are reusable element sets included in content types via snippet element.",
     listContentTypeSnippetsSchema.shape,
@@ -30,5 +30,5 @@ export const registerTool = (server: McpServer): void => {
         return handleMcpToolError(error, "Content Type Snippets Listing");
       }
     },
-  );
-};
+  ),
+);

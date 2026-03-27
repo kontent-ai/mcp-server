@@ -1,12 +1,12 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { filterVariantsSchema } from "../schemas/filterVariantSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { throwError } from "../utils/throwError.js";
+import { createTool, defineTool } from "./toolDefinition.js";
 
-export const registerTool = (server: McpServer): void => {
-  server.tool(
+export const filterVariantsMapi = createTool(
+  ...defineTool(
     "filter-variants-mapi",
     "Filter Kontent.ai items with variants returning references (item ID + language ID). For EXACT keyword matching and compliance (terms use OR). Use bulk-get-items-variants-mapi to retrieve full content for matched items. Use search-variants-mapi for semantic/topic search.",
     filterVariantsSchema.shape,
@@ -74,5 +74,5 @@ export const registerTool = (server: McpServer): void => {
         return handleMcpToolError(error, "Variant Filter");
       }
     },
-  );
-};
+  ),
+);
