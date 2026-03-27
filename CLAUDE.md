@@ -202,12 +202,11 @@ Content type modifications use patch operations:
 ### Contributing Guidelines
 
 When contributing:
-1. **No test files exist currently** - consider adding tests for new features
-2. Follow semantic versioning
-3. Ensure CI can build the code
-4. Update documentation (README.md, code comments)
-5. Code must not contain secrets
-6. Clear commit messages following best practices
+1. Follow semantic versioning
+2. Ensure CI can build the code
+3. Update documentation (README.md, code comments)
+4. Code must not contain secrets
+5. Clear commit messages following best practices
 
 ### Security Considerations
 
@@ -224,13 +223,17 @@ When contributing:
    - Implement using the standard pattern
    - Register in `src/server.ts`
    - Update README.md with tool description
+   - Update BM25 search tests and verify discoverability — see `src/test/bm25/CLAUDE.md`
 
-2. **Modifying schemas**:
+2. **Modifying or removing a tool**:
+   - Keep BM25 search tests in sync — see `src/test/bm25/CLAUDE.md`
+
+3. **Modifying schemas**:
    - Update relevant file in `src/schemas/`
    - Ensure backward compatibility
    - Update related tool implementations
 
-3. **Debugging API issues**:
+4. **Debugging API issues**:
    - Check request IDs in error responses
    - Use MCP inspector for interactive debugging
    - Verify environment variables are set correctly
