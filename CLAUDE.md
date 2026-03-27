@@ -164,10 +164,9 @@ claude mcp add --transport http kontent-ai-multi \
 ### Key Implementation Patterns
 
 #### 1. Tool Definition Pattern
-Each tool is defined using `createTool` (returns a `ToolDefinition` object) with an inner `defineTool` wrapper for formatting:
+Each tool is defined using `defineTool` which returns a `ToolDefinition` object:
 ```typescript
-export const myTool = createTool(
-  ...defineTool(
+export const myTool = defineTool(
     "tool-name",
     "Tool description", // Following the pattern
     { /* Zod schema for parameters */ },
@@ -180,7 +179,6 @@ export const myTool = createTool(
         return handleMcpToolError(error, "Context");
       }
     },
-  ),
 );
 ```
 
@@ -219,7 +217,7 @@ When contributing:
 ### Common Development Tasks
 
 1. **Adding a new tool**:
-   - Create new file in `src/tools/` using `createTool`/`defineTool` (see `src/tools/toolDefinition.ts`)
+   - Create new file in `src/tools/` using `defineTool` (see `src/tools/toolDefinition.ts`)
    - Follow naming convention: `[action]-[entity]` format
    - Add the export to `allTools` object in `src/tools/index.ts`
    - Update README.md with tool description

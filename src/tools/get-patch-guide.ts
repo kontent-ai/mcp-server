@@ -3,7 +3,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { pathBasedPatchGuide } from "./context/patch-guide-path-based.js";
 import { propertyBasedPatchGuide } from "./context/patch-guide-property-based.js";
 import { referenceBasedPatchGuide } from "./context/patch-guide-reference-based.js";
-import { createTool, defineTool } from "./toolDefinition.js";
+import { defineTool } from "./toolDefinition.js";
 
 const entityTypeSchema = z.enum([
   "content-type",
@@ -32,25 +32,23 @@ const getGuideForEntity = (entityType: EntityType): string => {
   }
 };
 
-export const getPatchGuide = createTool(
-  ...defineTool(
-    "get-patch-guide",
-    "REQUIRED before any patch operation. Retrieve patch operations guide for modifying Kontent.ai content types, snippets, taxonomies, collections, asset folders, spaces, or languages.",
-    {
-      entityType: entityTypeSchema.describe(
-        "Entity type to get patch guide for: content-type, snippet, taxonomy, collection, asset-folder, space, language",
-      ),
-    },
-    async ({ entityType }) => {
-      try {
-        return createMcpToolSuccessResponse(getGuideForEntity(entityType));
-      } catch (error) {
-        throw new Error(
-          `Failed to read patch guide: ${
-            error instanceof Error ? error.message : "Unknown error"
-          }`,
-        );
-      }
-    },
-  ),
+export const getPatchGuide = defineTool(
+  "get-patch-guide",
+  "REQUIRED before any patch operation. Retrieve patch operations guide for modifying Kontent.ai content types, snippets, taxonomies, collections, asset folders, spaces, or languages.",
+  {
+    entityType: entityTypeSchema.describe(
+      "Entity type to get patch guide for: content-type, snippet, taxonomy, collection, asset-folder, space, language",
+    ),
+  },
+  async ({ entityType }) => {
+    try {
+      return createMcpToolSuccessResponse(getGuideForEntity(entityType));
+    } catch (error) {
+      throw new Error(
+        `Failed to read patch guide: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`,
+      );
+    }
+  },
 );

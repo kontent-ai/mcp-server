@@ -9,16 +9,9 @@ export type ToolDefinition<Args extends ZodRawShapeCompat = ZodRawShapeCompat> =
     readonly handler: ToolCallback<Args>;
   };
 
-/** Identity wrapper — use `createTool(...defineTool(...))` to preserve 4-space indentation after formatting. */
 export const defineTool = <Args extends ZodRawShapeCompat>(
-  ...args: [string, string, Args, ToolCallback<Args>]
-): [string, string, Args, ToolCallback<Args>] => args;
-
-export const createTool = <Args extends ZodRawShapeCompat>(
-  ...[name, description, inputSchema, handler]: [
-    string,
-    string,
-    Args,
-    ToolCallback<Args>,
-  ]
+  name: string,
+  description: string,
+  inputSchema: Args,
+  handler: ToolCallback<Args>,
 ): ToolDefinition<Args> => ({ name, description, inputSchema, handler });

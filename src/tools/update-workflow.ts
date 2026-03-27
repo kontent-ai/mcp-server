@@ -3,42 +3,40 @@ import { createMapiClient } from "../clients/kontentClients.js";
 import { workflowInputSchema } from "../schemas/workflowSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { createTool, defineTool } from "./toolDefinition.js";
+import { defineTool } from "./toolDefinition.js";
 
-export const updateWorkflow = createTool(
-  ...defineTool(
-    "update-workflow",
-    "Update (edit) Kontent.ai workflow steps, transitions, and settings. Modify content lifecycle stages.",
-    {
-      id: z.guid().describe("Workflow ID"),
-      ...workflowInputSchema.shape,
-    },
-    async (
-      { id, name, codename, scopes, steps, published_step, archived_step },
-      { authInfo: { token, clientId } = {} },
-    ) => {
-      const client = createMapiClient(clientId, token);
+export const updateWorkflow = defineTool(
+  "update-workflow",
+  "Update (edit) Kontent.ai workflow steps, transitions, and settings. Modify content lifecycle stages.",
+  {
+    id: z.guid().describe("Workflow ID"),
+    ...workflowInputSchema.shape,
+  },
+  async (
+    { id, name, codename, scopes, steps, published_step, archived_step },
+    { authInfo: { token, clientId } = {} },
+  ) => {
+    const client = createMapiClient(clientId, token);
 
-      const data: z.infer<typeof workflowInputSchema> = {
-        name,
-        codename,
-        scopes,
-        steps,
-        published_step,
-        archived_step,
-      };
+    const data: z.infer<typeof workflowInputSchema> = {
+      name,
+      codename,
+      scopes,
+      steps,
+      published_step,
+      archived_step,
+    };
 
-      try {
-        const response = await client
-          .updateWorkflow()
-          .byWorkflowId(id)
-          .withData(data)
-          .toPromise();
+    try {
+      const response = await client
+        .updateWorkflow()
+        .byWorkflowId(id)
+        .withData(data)
+        .toPromise();
 
-        return createMcpToolSuccessResponse(response.rawData);
-      } catch (error: unknown) {
-        return handleMcpToolError(error, "Workflow Update");
-      }
-    },
-  ),
+      return createMcpToolSuccessResponse(response.rawData);
+    } catch (error: unknown) {
+      return handleMcpToolError(error, "Workflow Update");
+    }
+  },
 );
