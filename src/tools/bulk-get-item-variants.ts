@@ -8,7 +8,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const bulkGetItemVariants = createTool(
   ...defineTool(
     "bulk-get-item-variants",
-    "Bulk retrieve multiple Kontent.ai content items with their item variants (language versions/translations) by item and language reference pairs. Fetch full content for items found via filter-item-variants.",
+    "Bulk/batch retrieve multiple Kontent.ai content items with their item variants (language versions/translations) by item and language reference pairs. Fetch full content for items found via filter-item-variants.",
     bulkGetItemsWithVariantsSchema.shape,
     async (
       { variants, continuation_token },

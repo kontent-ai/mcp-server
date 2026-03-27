@@ -6,7 +6,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const listSpaces = createTool(
   ...defineTool(
     "list-spaces",
-    "List all Kontent.ai spaces. Spaces provide channel-specific context for managing multiple websites/channels. Each space has its own domain and preview URLs; collections connect to spaces to organize content per channel.",
+    "List all Kontent.ai spaces. Spaces provide channel-specific site configuration for managing multiple websites/channels. Each space has its own domain and preview URLs; collections connect to spaces to organize content per channel.",
     {},
     async (_, { authInfo: { token, clientId } = {} }) => {
       const client = createMapiClient(clientId, token);

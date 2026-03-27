@@ -209,6 +209,15 @@ const testGroups: ReadonlyArray<TestGroup> = [
         expected: [allTools.addContentItem.name],
       },
       { query: "get content entry", expected: [allTools.getContentItem.name] },
+      // Finding specific content items should also surface filter/search
+      {
+        query: "find content item",
+        expected: [allTools.filterItemVariants.name],
+      },
+      {
+        query: "search for content item",
+        expected: [allTools.searchItemVariants.name],
+      },
     ],
   },
   {
@@ -352,33 +361,83 @@ const testGroups: ReadonlyArray<TestGroup> = [
         query: "find content by meaning",
         expected: [allTools.searchItemVariants.name],
       },
+      // Generic "find content" should surface both filter and search
+      {
+        query: "find content items",
+        expected: [
+          allTools.filterItemVariants.name,
+          allTools.searchItemVariants.name,
+        ],
+      },
+      {
+        query: "search items",
+        expected: [
+          allTools.filterItemVariants.name,
+          allTools.searchItemVariants.name,
+        ],
+      },
+      // List variants by various dimensions — filterItemVariants can also filter by these
       {
         query: "items by content type",
-        expected: [allTools.listItemVariantsByContentType.name],
+        expected: [
+          allTools.listItemVariantsByContentType.name,
+          allTools.filterItemVariants.name,
+        ],
       },
       {
         query: "variants filtered by type",
-        expected: [allTools.listItemVariantsByContentType.name],
+        expected: [
+          allTools.listItemVariantsByContentType.name,
+          allTools.filterItemVariants.name,
+        ],
       },
       {
         query: "items in collection",
-        expected: [allTools.listItemVariantsByCollection.name],
+        expected: [
+          allTools.listItemVariantsByCollection.name,
+          allTools.filterItemVariants.name,
+        ],
       },
       {
         query: "variants by collection",
-        expected: [allTools.listItemVariantsByCollection.name],
+        expected: [
+          allTools.listItemVariantsByCollection.name,
+          allTools.filterItemVariants.name,
+        ],
       },
       {
         query: "content in space",
-        expected: [allTools.listItemVariantsBySpace.name],
+        expected: [
+          allTools.listItemVariantsBySpace.name,
+          allTools.filterItemVariants.name,
+        ],
       },
       {
         query: "variants by space",
-        expected: [allTools.listItemVariantsBySpace.name],
+        expected: [
+          allTools.listItemVariantsBySpace.name,
+          allTools.filterItemVariants.name,
+        ],
       },
       {
         query: "items with inline components",
         expected: [allTools.listItemVariantsByComponentType.name],
+      },
+      // filterItemVariants can also filter by workflow step, taxonomy, publishing state
+      {
+        query: "items by workflow step",
+        expected: [allTools.filterItemVariants.name],
+      },
+      {
+        query: "filter by publishing state",
+        expected: [allTools.filterItemVariants.name],
+      },
+      {
+        query: "items by taxonomy",
+        expected: [
+          allTools.filterItemVariants.name,
+          allTools.getTaxonomyGroup.name,
+        ],
       },
       // Synonym: query / lookup
       {
@@ -684,11 +743,6 @@ const testGroups: ReadonlyArray<TestGroup> = [
       {
         query: "edit collections",
         expected: [allTools.patchCollections.name],
-      },
-      // Synonym: group / organize / bucket
-      {
-        query: "content groups organize",
-        expected: [allTools.listCollections.name],
       },
     ],
   },

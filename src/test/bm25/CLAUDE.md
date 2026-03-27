@@ -23,7 +23,7 @@ Reference: https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-se
 
 ## How it works
 
-- **No separate fixture file** — tests import `allTools` directly from `src/server.ts`, which re-exports the tool definitions from each `src/tools/*.ts` file. Tool definitions are the single source of truth.
+- **No separate fixture file** — tests import `allTools` (an object of all tool definitions) from `src/tools/index.ts`. Tool definitions are the single source of truth. Test expectations reference tools as `allTools.toolName.name` instead of hardcoded strings, so renames are caught at compile time.
 - `bm25.ts` — Wrapper around MiniSearch: indexes tool name (2x boost), description (1x), and argument names/descriptions (0.5x), with prefix matching enabled
 - `toolSearchBm25.spec.ts` — Data-driven test cases generated from `TestGroup`/`TestCase` arrays
 
@@ -72,9 +72,9 @@ A test fails when an expected tool drops out of the top 5 results. To diagnose:
 
 ```bash
 npm run build && node --input-type=module -e "
-import { allTools } from './build/server.js';
+import { allTools } from './build/tools/index.js';
 import { createToolSearchIndex, searchTools } from './build/test/bm25/bm25.js';
-const index = createToolSearchIndex(allTools);
+const index = createToolSearchIndex(Object.values(allTools));
 const results = searchTools(index, 'YOUR QUERY HERE', 10);
 for (const [i, r] of results.entries()) console.log((i+1) + '.', r.name, '(score:', r.score.toFixed(2) + ')');
 "
@@ -100,8 +100,8 @@ After changing a description, just run `npm test` — descriptions are read dire
 
 ## Adding a new tool
 
-1. Create the tool file using `defineTool` (see `src/tools/toolDefinition.ts`)
-2. Register it in `src/server.ts` (add to imports and `allTools` array)
+1. Create the tool file using `createTool`/`defineTool` (see `src/tools/toolDefinition.ts`)
+2. Add it to `src/tools/index.ts` (import and add to `allTools` object)
 3. Add a new `TestGroup` or extend an existing one in `toolSearchBm25.spec.ts` with cases covering:
    - Action verb variations: create/add/new, get/retrieve/fetch, delete/remove, modify/patch/edit/update, list/all
    - Domain synonyms relevant to the tool (e.g. model/schema, categories/tags)
@@ -115,7 +115,7 @@ After changing a description, just run `npm test` — descriptions are read dire
 
 ## Removing a tool
 
-1. Remove the tool file and its import/entry in `src/server.ts`
+1. Remove the tool file and its import/entry in `src/tools/index.ts`
 2. Remove all related test cases from the `testGroups` array in `toolSearchBm25.spec.ts`
 3. Run `npm test` to verify no ripple effects on other tool rankings (removing a tool changes IDF scores for shared terms)
 

@@ -8,7 +8,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const filterItemVariants = createTool(
   ...defineTool(
     "filter-item-variants",
-    "Filter and find Kontent.ai content items with item variants (language versions/translations) returning references (item ID + language ID). For EXACT keyword matching and compliance filtering (terms use OR). Use bulk-get-item-variants to retrieve full content. Use search-item-variants for semantic/topic search.",
+    "Filter and find Kontent.ai content items with item variants (language versions/translations) returning references (item ID + language ID). Filter by content type, collection, space, workflow step, taxonomy, or publishing state. For EXACT keyword matching (terms use OR). Use bulk-get-item-variants to retrieve full content. Use search-item-variants for semantic/topic search.",
     filterVariantsSchema.shape,
     async (
       {

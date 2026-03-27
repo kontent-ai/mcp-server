@@ -8,7 +8,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const patchTaxonomyGroup = createTool(
   ...defineTool(
     "patch-taxonomy-group",
-    "Modify Kontent.ai taxonomy group terms using patch operations (addInto, move, remove, replace). Call get-patch-guide first for operations reference.",
+    "Modify and organize Kontent.ai taxonomy group terms using patch operations (addInto, move, remove, replace). Call get-patch-guide first for operations reference.",
     {
       id: z.guid(),
       operations: taxonomyPatchOperationsSchema.describe(

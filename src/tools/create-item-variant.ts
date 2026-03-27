@@ -9,7 +9,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const createItemVariant = createTool(
   ...defineTool(
     "create-item-variant",
-    "Create Kontent.ai item variant — translate content into a specific language. Adds a new language version (translation) for a content item. Element values must fulfill the content type definition.",
+    "Create Kontent.ai item variant — translate and localize content into a specific language. Adds a new language version (translation) for a content item. Element values must fulfill the content type definition.",
     {
       itemId: z.string().describe("Content item ID"),
       languageId: z

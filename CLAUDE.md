@@ -163,12 +163,12 @@ claude mcp add --transport http kontent-ai-multi \
 
 ### Key Implementation Patterns
 
-#### 1. Tool Registration Pattern
-Each tool follows this structure:
+#### 1. Tool Definition Pattern
+Each tool is defined using `createTool` (returns a `ToolDefinition` object) with an inner `defineTool` wrapper for formatting:
 ```typescript
-export const registerTool = (server: McpServer): void => {
-  server.tool(
-    "tool-name", // Under 35 characters
+export const myTool = createTool(
+  ...defineTool(
+    "tool-name",
     "Tool description", // Following the pattern
     { /* Zod schema for parameters */ },
     async (params) => {
@@ -179,10 +179,12 @@ export const registerTool = (server: McpServer): void => {
       } catch (error) {
         return handleMcpToolError(error, "Context");
       }
-    }
-  );
-};
+    },
+  ),
+);
 ```
+
+Tools are collected in `src/tools/index.ts` as an `allTools` object and registered in `server.ts` via `server.registerTool()`.
 
 #### 2. Error Handling
 The `errorHandler.ts` provides standardized error handling:
@@ -217,15 +219,14 @@ When contributing:
 ### Common Development Tasks
 
 1. **Adding a new tool**:
-   - Create new file in `src/tools/`
-   - Follow naming convention (under 35 chars, proper suffix)
-   - Implement using the standard pattern
-   - Register in `src/server.ts`
+   - Create new file in `src/tools/` using `createTool`/`defineTool` (see `src/tools/toolDefinition.ts`)
+   - Follow naming convention: `[action]-[entity]` format
+   - Add the export to `allTools` object in `src/tools/index.ts`
    - Update README.md with tool description
    - Update BM25 search tests and verify discoverability — see `src/test/bm25/CLAUDE.md`
 
 2. **Modifying or removing a tool**:
-   - Keep BM25 search tests in sync — see `src/test/bm25/CLAUDE.md`
+   - Keep `src/tools/index.ts` and BM25 search tests in sync — see `src/test/bm25/CLAUDE.md`
 
 3. **Modifying schemas**:
    - Update relevant file in `src/schemas/`

@@ -7,7 +7,7 @@ import { createTool, defineTool } from "./toolDefinition.js";
 export const addLanguage = createTool(
   ...defineTool(
     "add-language",
-    "Create new Kontent.ai language for translations and localization. Languages are always created as active.",
+    "Create and configure new Kontent.ai language locale for translations and localization. Languages are always created as active.",
     addLanguageSchema.shape,
     async (
       { name, codename, fallback_language, external_id },
