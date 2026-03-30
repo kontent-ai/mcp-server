@@ -108,6 +108,13 @@ export const filterVariantsSchema = z.object({
     .describe(
       "Array of references to collections by their id, codename, or external id",
     ),
+  component_types: z
+    .array(referenceObjectSchema)
+    .min(1)
+    .optional()
+    .describe(
+      "Array of references to content component types stored in variants by their type id, codename, or external id",
+    ),
   publishing_states: z
     .array(z.enum(["published", "unpublished", "not_published_yet"]))
     .min(1)

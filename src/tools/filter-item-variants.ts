@@ -21,6 +21,7 @@ export const filterItemVariants = defineTool(
       taxonomy_groups,
       spaces,
       collections,
+      component_types,
       publishing_states,
       order_by,
       order_direction,
@@ -48,6 +49,7 @@ export const filterItemVariants = defineTool(
           taxonomy_groups,
           spaces,
           collections,
+          component_types,
           publishing_states,
         },
         order: order_by
