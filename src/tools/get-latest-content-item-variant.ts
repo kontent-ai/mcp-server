@@ -4,9 +4,9 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineTool } from "./toolDefinition.js";
 
-export const deleteItemVariant = defineTool(
-  "delete-item-variant",
-  "Delete (remove) Kontent.ai item variant (language version/translation). Removes translated content for a specific language from an item.",
+export const getLatestContentItemVariant = defineTool(
+  "get-latest-content-item-variant",
+  "Retrieve latest version of Kontent.ai item variant (draft or published). Variants hold translated, language-specific content with structure defined by content type.",
   {
     itemId: z.string().describe("Item ID"),
     languageId: z.string().describe("Language variant ID"),
@@ -16,17 +16,14 @@ export const deleteItemVariant = defineTool(
 
     try {
       const response = await client
-        .deleteLanguageVariant()
+        .viewLanguageVariant()
         .byItemId(itemId)
         .byLanguageId(languageId)
         .toPromise();
 
-      return createMcpToolSuccessResponse({
-        message: `Language variant '${languageId}' of content item '${itemId}' deleted successfully`,
-        deletedVariant: response.rawData,
-      });
-    } catch (error: any) {
-      return handleMcpToolError(error, "Language Variant Deletion");
+      return createMcpToolSuccessResponse(response.rawData);
+    } catch (error: unknown) {
+      return handleMcpToolError(error, "Latest Language Variant Retrieval");
     }
   },
 );

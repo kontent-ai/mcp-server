@@ -5,30 +5,30 @@ import { addLanguage } from "./add-language.js";
 import { addSpace } from "./add-space.js";
 import { addTaxonomyGroup } from "./add-taxonomy-group.js";
 import { addWorkflow } from "./add-workflow.js";
-import { bulkGetItemVariants } from "./bulk-get-item-variants.js";
-import { changeItemVariantWorkflowStep } from "./change-item-variant-workflow-step.js";
-import { createItemVariant } from "./create-item-variant.js";
-import { createNewItemVariantVersion } from "./create-new-item-variant-version.js";
+import { bulkGetContentItemVariants } from "./bulk-get-content-item-variants.js";
+import { changeContentItemVariantWorkflowStep } from "./change-content-item-variant-workflow-step.js";
+import { createContentItemVariant } from "./create-content-item-variant.js";
+import { createNewContentItemVariantVersion } from "./create-new-content-item-variant-version.js";
 import { deleteContentItem } from "./delete-content-item.js";
+import { deleteContentItemVariant } from "./delete-content-item-variant.js";
 import { deleteContentType } from "./delete-content-type.js";
 import { deleteContentTypeSnippet } from "./delete-content-type-snippet.js";
-import { deleteItemVariant } from "./delete-item-variant.js";
 import { deleteSpace } from "./delete-space.js";
 import { deleteTaxonomyGroup } from "./delete-taxonomy-group.js";
 import { deleteWorkflow } from "./delete-workflow.js";
-import { filterItemVariants } from "./filter-item-variants.js";
 import { getAsset } from "./get-asset.js";
 import { getContentItem } from "./get-content-item.js";
+import { getContentItemVariants } from "./get-content-item-variants.js";
 import { getContentType } from "./get-content-type.js";
 import { getContentTypeSnippet } from "./get-content-type-snippet.js";
-import { getItemVariants } from "./get-item-variants.js";
-import { getLatestItemVariant } from "./get-latest-item-variant.js";
+import { getLatestContentItemVariant } from "./get-latest-content-item-variant.js";
 import { getPatchGuide } from "./get-patch-guide.js";
-import { getPublishedItemVariant } from "./get-published-item-variant.js";
+import { getPublishedContentItemVariant } from "./get-published-content-item-variant.js";
 import { getTaxonomyGroup } from "./get-taxonomy-group.js";
 import { listAssetFolders } from "./list-asset-folders.js";
 import { listAssets } from "./list-assets.js";
 import { listCollections } from "./list-collections.js";
+import { listContentItemVariants } from "./list-content-item-variants.js";
 import { listContentTypeSnippets } from "./list-content-type-snippets.js";
 import { listContentTypes } from "./list-content-types.js";
 import { listLanguages } from "./list-languages.js";
@@ -43,12 +43,12 @@ import { patchContentTypeSnippet } from "./patch-content-type-snippet.js";
 import { patchLanguage } from "./patch-language.js";
 import { patchSpace } from "./patch-space.js";
 import { patchTaxonomyGroup } from "./patch-taxonomy-group.js";
-import { publishItemVariant } from "./publish-item-variant.js";
-import { searchItemVariants } from "./search-item-variants.js";
-import { unpublishItemVariant } from "./unpublish-item-variant.js";
+import { publishContentItemVariant } from "./publish-content-item-variant.js";
+import { searchContentItemVariants } from "./search-content-item-variants.js";
+import { unpublishContentItemVariant } from "./unpublish-content-item-variant.js";
 import { updateAsset } from "./update-asset.js";
 import { updateContentItem } from "./update-content-item.js";
-import { updateItemVariant } from "./update-item-variant.js";
+import { updateContentItemVariant } from "./update-content-item-variant.js";
 import { updateWorkflow } from "./update-workflow.js";
 
 export const allTools = {
@@ -59,32 +59,32 @@ export const allTools = {
   addSpace,
   addTaxonomyGroup,
   addWorkflow,
-  bulkGetItemVariants,
-  changeItemVariantWorkflowStep,
-  createItemVariant,
-  createNewItemVariantVersion,
+  bulkGetContentItemVariants,
+  changeContentItemVariantWorkflowStep,
+  createContentItemVariant,
+  createNewContentItemVariantVersion,
   deleteContentItem,
   deleteContentTypeSnippet,
   deleteContentType,
-  deleteItemVariant,
+  deleteContentItemVariant,
   deleteSpace,
   deleteTaxonomyGroup,
   deleteWorkflow,
-  filterItemVariants,
   getAsset,
   getContentItem,
   getContentTypeSnippet,
   getContentType,
-  getItemVariants,
-  getLatestItemVariant,
+  getContentItemVariants,
+  getLatestContentItemVariant,
   getPatchGuide,
-  getPublishedItemVariant,
+  getPublishedContentItemVariant,
   getTaxonomyGroup,
   listAssetFolders,
   listAssets,
   listCollections,
   listContentTypeSnippets,
   listContentTypes,
+  listContentItemVariants,
   listLanguages,
   listRoles,
   listSpaces,
@@ -97,11 +97,11 @@ export const allTools = {
   patchLanguage,
   patchSpace,
   patchTaxonomyGroup,
-  publishItemVariant,
-  searchItemVariants,
-  unpublishItemVariant,
+  publishContentItemVariant,
+  searchContentItemVariants,
+  unpublishContentItemVariant,
   updateAsset,
   updateContentItem,
-  updateItemVariant,
+  updateContentItemVariant,
   updateWorkflow,
 } as const;

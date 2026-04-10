@@ -21,7 +21,7 @@ export const filterVariantsSchema = z.object({
   search_phrase: z
     .string()
     .optional()
-    .describe("Search phrase to look for in content"),
+    .describe("Specific phrase or keywords to look for in content"),
   content_types: z
     .array(referenceObjectSchema)
     .min(1)

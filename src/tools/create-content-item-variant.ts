@@ -4,10 +4,11 @@ import { languageVariantElementSchema } from "../schemas/contentItemSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { extractUserIdFromToken } from "../utils/extractUserIdFromToken.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createContentItemVariantToolName } from "./referencedToolNames.js";
 import { defineTool } from "./toolDefinition.js";
 
-export const createItemVariant = defineTool(
-  "create-item-variant",
+export const createContentItemVariant = defineTool(
+  createContentItemVariantToolName,
   "Create Kontent.ai item variant — translate and localize content into a specific language. Adds a new language version (translation) for a content item. Element values must fulfill the content type definition.",
   {
     itemId: z.string().describe("Content item ID"),

@@ -3,11 +3,12 @@ import { bulkGetItemsWithVariantsSchema } from "../schemas/bulkGetItemsWithVaria
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { throwError } from "../utils/throwError.js";
+import { bulkGetContentItemVariantsToolName } from "./referencedToolNames.js";
 import { defineTool } from "./toolDefinition.js";
 
-export const bulkGetItemVariants = defineTool(
-  "bulk-get-item-variants",
-  "Bulk/batch retrieve multiple Kontent.ai content items with their item variants (language versions/translations) by item and language reference pairs. Fetch full content for items found via filter-item-variants.",
+export const bulkGetContentItemVariants = defineTool(
+  bulkGetContentItemVariantsToolName,
+  "Bulk/batch retrieve multiple Kontent.ai content items with their item variants (language versions/translations) by item and language reference pairs. Fetch full content for item and variant IDs found via other tools.",
   bulkGetItemsWithVariantsSchema.shape,
   async (
     { variants, continuation_token },

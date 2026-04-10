@@ -4,8 +4,8 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineTool } from "./toolDefinition.js";
 
-export const changeItemVariantWorkflowStep = defineTool(
-  "change-item-variant-workflow-step",
+export const changeContentItemVariantWorkflowStep = defineTool(
+  "change-content-item-variant-workflow-step",
   "Move Kontent.ai item variant (language version/translation) to a different workflow step. Transition content between lifecycle stages (e.g., draft to review, review to approved/published, or archive).",
   {
     itemId: z.guid().describe("Content item ID"),

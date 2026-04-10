@@ -4,8 +4,8 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineTool } from "./toolDefinition.js";
 
-export const publishItemVariant = defineTool(
-  "publish-item-variant",
+export const publishContentItemVariant = defineTool(
+  "publish-content-item-variant",
   "Publish or schedule publishing of Kontent.ai item variant (language version/translation). Transitions content to the published workflow step, making it live. For scheduling, verify current UTC time before using scheduledTo.",
   {
     itemId: z.guid().describe("Content item UUID"),

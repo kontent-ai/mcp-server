@@ -4,8 +4,8 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineTool } from "./toolDefinition.js";
 
-export const getItemVariants = defineTool(
-  "get-item-variants",
+export const getContentItemVariants = defineTool(
+  "get-content-item-variants",
   "List all Kontent.ai item variants (translations) — every language version of a content item. Retrieve translated content across all languages to see available translations for a single item.",
   {
     itemId: z.string().describe("Content item ID"),

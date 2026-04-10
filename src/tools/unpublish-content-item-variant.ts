@@ -4,8 +4,8 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineTool } from "./toolDefinition.js";
 
-export const unpublishItemVariant = defineTool(
-  "unpublish-item-variant",
+export const unpublishContentItemVariant = defineTool(
+  "unpublish-content-item-variant",
   "Unpublish or schedule unpublishing of Kontent.ai item variant (language version/translation). Takes content offline and archives it. For scheduling, verify current UTC time before using scheduledTo.",
   {
     itemId: z.guid().describe("Content item UUID"),

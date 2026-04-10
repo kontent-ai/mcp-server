@@ -1,3 +1,4 @@
+import type { LanguageVariantContracts } from "@kontent-ai/management-sdk/lib/contracts/index.js";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { languageVariantElementSchema } from "../schemas/contentItemSchemas.js";
@@ -5,8 +6,8 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineTool } from "./toolDefinition.js";
 
-export const updateItemVariant = defineTool(
-  "update-item-variant",
+export const updateContentItemVariant = defineTool(
+  "update-content-item-variant",
   "Update Kontent.ai item variant (language version/translation) content. Write translated content into item elements. Values must fulfill validation rules defined in the content type.",
   {
     itemId: z.string().describe("Content item ID"),

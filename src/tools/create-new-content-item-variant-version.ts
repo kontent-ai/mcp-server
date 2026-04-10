@@ -4,8 +4,8 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineTool } from "./toolDefinition.js";
 
-export const createNewItemVariantVersion = defineTool(
-  "create-new-item-variant-version",
+export const createNewContentItemVariantVersion = defineTool(
+  "create-new-content-item-variant-version",
   "Create new draft version of a published Kontent.ai item variant (language version/translation). Required before editing published content.",
   {
     itemId: z.guid().describe("Content item UUID"),

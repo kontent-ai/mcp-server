@@ -91,23 +91,19 @@ npx @kontent-ai/mcp-server@latest shttp
 ### Content Item Management
 
 * **get-content-item** – Get Kontent.ai content item by internal ID
-* **get-latest-item-variant** – Get latest version of Kontent.ai item variant
-* **get-published-item-variant** – Get published version of Kontent.ai item variant
-* **get-item-variants** – Get all Kontent.ai item variants of a content item
-* **list-item-variants-by-collection** – List Kontent.ai item variants by collection (paginated)
-* **list-item-variants-by-content-type** – List Kontent.ai item variants by content type (paginated)
-* **list-item-variants-by-component-type** – List Kontent.ai item variants containing components of a specific content type (paginated)
-* **list-item-variants-by-space** – List Kontent.ai item variants by space (paginated)
-* **add-content-item** – Add new Kontent.ai content item. This creates the content item structure but does not add content to item variants. Use create-item-variant to add content to the item
+* **get-latest-content-item-variant** – Get latest version of Kontent.ai content item variant
+* **get-published-content-item-variant** – Get published version of Kontent.ai content item variant
+* **get-content-item-variants** – Get all Kontent.ai content item variants of a content item
+* **list-content-item-variants** – List, filter, search Kontent.ai content items with content item variants (language versions/translations)
+* **add-content-item** – Add new Kontent.ai content item. This creates the content item structure but does not add content to content item variants. Use create-content-item-variant to add content to the item
 * **update-content-item** – Update existing Kontent.ai content item by internal ID. The content item must already exist - this tool will not create new items
 * **delete-content-item** – Delete Kontent.ai content item by internal ID
-* **create-item-variant** – Create Kontent.ai item variant assigning current user as contributor. Element values must fulfill limitations and guidelines defined in content type
-* **update-item-variant** – Update Kontent.ai item variant of a content item. Element values must fulfill limitations and guidelines defined in content type. Only provided elements will be modified
-* **create-new-item-variant-version** – Create new version of Kontent.ai item variant. This operation creates a new version of an existing item variant, useful for content versioning and creating new drafts from published content
-* **delete-item-variant** – Delete Kontent.ai item variant
-* **filter-item-variants** – Filter Kontent.ai items with variants returning references (item ID + language ID). Use for exact keyword matching and finding specific terms in content. Supports full filtering capabilities (content types, workflow steps, taxonomies, spaces, collections, publishing states, etc.). Returns paginated results with continuation token for fetching subsequent pages. Use bulk-get-item-variants to retrieve full content for matched items
-* **bulk-get-item-variants** – Bulk get Kontent.ai content items with their item variants by item and language reference pairs. Use after filter-item-variants to retrieve full content data for specific item+language pairs. Items without a variant in the requested language return the item without the variant property. Returns paginated results with continuation token
-* **search-item-variants** – AI-powered semantic search for finding content by meaning and concepts in a specific item variant. Use for: conceptual searches when you don't know exact keywords. Limited filtering options (variant ID only)
+* **create-content-item-variant** – Create Kontent.ai content item variant assigning current user as contributor. Element values must fulfill limitations and guidelines defined in content type
+* **update-content-item-variant** – Update Kontent.ai content item variant of a content item. Element values must fulfill limitations and guidelines defined in content type. Only provided elements will be modified
+* **create-new-content-item-variant-version** – Create new version of Kontent.ai content item variant. This operation creates a new version of an existing content item variant, useful for content versioning and creating new drafts from published content
+* **delete-content-item-variant** – Delete Kontent.ai content item variant
+* **bulk-get-content-item-variants** – Bulk get Kontent.ai content items with their content item variants by item and language reference pairs. Use after list-content-item-variants to retrieve full content data for specific item+language pairs. Items without a variant in the requested language return the item without the variant property. Returns paginated results with continuation token
+* **search-content-item-variants** – AI-powered semantic search for finding content by meaning and concepts in a specific content item variant. Use for: conceptual searches when you don't know exact keywords. Limited filtering options (variant ID only)
 
 ### Asset Management
 
@@ -148,9 +144,9 @@ npx @kontent-ai/mcp-server@latest shttp
 * **add-workflow** – Create a new Kontent.ai workflow. Define custom workflow steps, transitions, scopes (content types and collections), and role permissions
 * **update-workflow** – Update an existing Kontent.ai workflow by ID. Modify steps, transitions, scopes, and role permissions. Cannot remove steps that are in use
 * **delete-workflow** – Delete a Kontent.ai workflow by ID. The workflow must not be in use by any content items
-* **change-item-variant-workflow-step** – Change the workflow step of an item variant in Kontent.ai. This operation moves an item variant to a different step in the workflow, enabling content lifecycle management such as moving content from draft to review, review to published, etc.
-* **publish-item-variant** – Publish or schedule an item variant of a content item in Kontent.ai. This operation can either immediately publish the variant or schedule it for publication at a specific future date and time with optional timezone specification
-* **unpublish-item-variant** – Unpublish or schedule unpublishing of an item variant of a content item in Kontent.ai. This operation can either immediately unpublish the variant (making it unavailable through the Delivery API) or schedule it for unpublishing at a specific future date and time with optional timezone specification
+* **change-content-item-variant-workflow-step** – Change the workflow step of a content item variant in Kontent.ai. This operation moves a content item variant to a different step in the workflow, enabling content lifecycle management such as moving content from draft to review, review to published, etc.
+* **publish-content-item-variant** – Publish or schedule a content item variant of a content item in Kontent.ai. This operation can either immediately publish the variant or schedule it for publication at a specific future date and time with optional timezone specification
+* **unpublish-content-item-variant** – Unpublish or schedule unpublishing of a content item variant of a content item in Kontent.ai. This operation can either immediately unpublish the variant (making it unavailable through the Delivery API) or schedule it for unpublishing at a specific future date and time with optional timezone specification
 
 ## ⚙️ Configuration
 
