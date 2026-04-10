@@ -379,49 +379,31 @@ const testGroups: ReadonlyArray<TestGroup> = [
       // List variants by various dimensions — filterItemVariants can also filter by these
       {
         query: "items by content type",
-        expected: [
-          allTools.listItemVariantsByContentType.name,
-          allTools.filterItemVariants.name,
-        ],
+        expected: [allTools.filterItemVariants.name],
       },
       {
         query: "variants filtered by type",
-        expected: [
-          allTools.listItemVariantsByContentType.name,
-          allTools.filterItemVariants.name,
-        ],
+        expected: [allTools.filterItemVariants.name],
       },
       {
         query: "items in collection",
-        expected: [
-          allTools.listItemVariantsByCollection.name,
-          allTools.filterItemVariants.name,
-        ],
+        expected: [allTools.filterItemVariants.name],
       },
       {
         query: "variants by collection",
-        expected: [
-          allTools.listItemVariantsByCollection.name,
-          allTools.filterItemVariants.name,
-        ],
+        expected: [allTools.filterItemVariants.name],
       },
       {
         query: "content in space",
-        expected: [
-          allTools.listItemVariantsBySpace.name,
-          allTools.filterItemVariants.name,
-        ],
+        expected: [allTools.filterItemVariants.name],
       },
       {
         query: "variants by space",
-        expected: [
-          allTools.listItemVariantsBySpace.name,
-          allTools.filterItemVariants.name,
-        ],
+        expected: [allTools.filterItemVariants.name],
       },
       {
         query: "items with inline components",
-        expected: [allTools.listItemVariantsByComponentType.name],
+        expected: [allTools.filterItemVariants.name],
       },
       // filterItemVariants can also filter by workflow step, taxonomy, publishing state
       {

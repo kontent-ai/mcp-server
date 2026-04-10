@@ -31,10 +31,6 @@ import { listAssets } from "./list-assets.js";
 import { listCollections } from "./list-collections.js";
 import { listContentTypeSnippets } from "./list-content-type-snippets.js";
 import { listContentTypes } from "./list-content-types.js";
-import { listItemVariantsByCollection } from "./list-item-variants-by-collection.js";
-import { listItemVariantsByComponentType } from "./list-item-variants-by-component-type.js";
-import { listItemVariantsByContentType } from "./list-item-variants-by-content-type.js";
-import { listItemVariantsBySpace } from "./list-item-variants-by-space.js";
 import { listLanguages } from "./list-languages.js";
 import { listRoles } from "./list-roles.js";
 import { listSpaces } from "./list-spaces.js";
@@ -89,10 +85,6 @@ export const allTools = {
   listCollections,
   listContentTypeSnippets,
   listContentTypes,
-  listItemVariantsByCollection,
-  listItemVariantsByComponentType,
-  listItemVariantsByContentType,
-  listItemVariantsBySpace,
   listLanguages,
   listRoles,
   listSpaces,
