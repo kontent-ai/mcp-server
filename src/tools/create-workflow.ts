@@ -5,9 +5,9 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineTool } from "./toolDefinition.js";
 
-export const addWorkflow = defineTool(
-  "add-workflow",
-  "Create new Kontent.ai workflow with custom steps. Workflows define content lifecycle stages for review and approval.",
+export const createWorkflow = defineTool(
+  "create-workflow",
+  "Create (add) new Kontent.ai workflow with custom steps. Workflows define content lifecycle stages for review and approval.",
   workflowInputSchema.shape,
   async (
     { name, codename, scopes, steps, published_step, archived_step },

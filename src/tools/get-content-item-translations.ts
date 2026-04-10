@@ -4,9 +4,9 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineTool } from "./toolDefinition.js";
 
-export const getItemVariants = defineTool(
-  "get-item-variants",
-  "List all Kontent.ai item variants (translations) — every language version of a content item. Retrieve translated content across all languages to see available translations for a single item.",
+export const getContentItemTranslations = defineTool(
+  "get-content-item-translations",
+  "Get all Kontent.ai content item translations — every language version (variant) of a specific content item. Retrieve translated content across all languages to see available translations for a single item.",
   {
     itemId: z.string().describe("Content item ID"),
   },
@@ -21,7 +21,7 @@ export const getItemVariants = defineTool(
 
       return createMcpToolSuccessResponse(response.rawData);
     } catch (error: unknown) {
-      return handleMcpToolError(error, "Item Variants Listing");
+      return handleMcpToolError(error, "Content Item Translations Retrieval");
     }
   },
 );

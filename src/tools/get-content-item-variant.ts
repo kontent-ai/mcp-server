@@ -4,12 +4,12 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineTool } from "./toolDefinition.js";
 
-export const getPublishedItemVariant = defineTool(
-  "get-published-item-variant",
-  "Retrieve published Kontent.ai item variant (live content). Variants hold translated, language-specific content with structure defined by content type.",
+export const getContentItemVariant = defineTool(
+  "get-content-item-variant",
+  "Retrieve Kontent.ai content item variant (language version/translation). Returns the current version of the variant — draft if one exists, otherwise published. Variants hold translated, language-specific content with structure defined by content type.",
   {
-    itemId: z.string().describe("Item ID"),
-    languageId: z.string().describe("Language variant ID"),
+    itemId: z.string().describe("Content item ID"),
+    languageId: z.string().describe("Language ID"),
   },
   async ({ itemId, languageId }, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);
@@ -19,12 +19,11 @@ export const getPublishedItemVariant = defineTool(
         .viewLanguageVariant()
         .byItemId(itemId)
         .byLanguageId(languageId)
-        .published()
         .toPromise();
 
       return createMcpToolSuccessResponse(response.rawData);
     } catch (error: unknown) {
-      return handleMcpToolError(error, "Published Language Variant Retrieval");
+      return handleMcpToolError(error, "Content Item Variant Retrieval");
     }
   },
 );

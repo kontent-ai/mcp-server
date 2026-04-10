@@ -6,9 +6,9 @@ import { defineTool } from "./toolDefinition.js";
 
 export const deleteContentItem = defineTool(
   "delete-content-item",
-  "Delete (remove) Kontent.ai content item and all its item variants.",
+  "Delete (remove) Kontent.ai content item and all its content item variants.",
   {
-    id: z.string().describe("Item ID"),
+    id: z.string().describe("Content item ID"),
   },
   async ({ id }, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);

@@ -3,13 +3,14 @@ import { createMapiClient } from "../clients/kontentClients.js";
 import { patchOperationsSchema } from "../schemas/patchSchemas/contentTypePatchSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { getPatchGuideToolName } from "./referencedToolNames.js";
 import { defineTool } from "./toolDefinition.js";
 
 export const patchContentType = defineTool(
   "patch-content-type",
-  "Modify Kontent.ai content type schema using patch operations (add, move, remove, replace elements/fields). Add new fields, rearrange or remove existing elements. Call get-patch-guide first for operations reference.",
+  `Update (modify/edit) Kontent.ai content type schema using patch operations (add, move, remove, replace elements/fields). Add new fields, rearrange or remove existing elements. Call ${getPatchGuideToolName} first for operations reference.`,
   {
-    id: z.guid(),
+    id: z.guid().describe("Content type ID"),
     operations: patchOperationsSchema.describe(
       `Patch operations array. CRITICAL: Always call get-content-type first.
 - Use addInto/remove for arrays, replace for primitives/objects

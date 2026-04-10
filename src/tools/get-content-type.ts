@@ -6,7 +6,7 @@ import { defineTool } from "./toolDefinition.js";
 
 export const getContentType = defineTool(
   "get-content-type",
-  "Retrieve Kontent.ai content type (schema/model definition). Types define content structure: elements, field validation rules, and content groups.",
+  "Retrieve Kontent.ai content type (schema/model definition). Content types define content structure: elements, field validation rules, and content groups.",
   {
     id: z.string().describe("Content type ID"),
   },

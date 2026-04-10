@@ -4,6 +4,11 @@ import { searchOperationSchema } from "../schemas/searchOperationSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { throwError } from "../utils/throwError.js";
+import {
+  bulkGetContentItemVariantsToolName,
+  listContentItemVariantsToolName,
+  searchContentItemVariantsToolName,
+} from "./referencedToolNames.js";
 import { defineTool } from "./toolDefinition.js";
 
 interface AiOperationResponse {
@@ -46,9 +51,9 @@ const extractSearchResults = (response: AiOperationResultResponse): object => {
   return parsed;
 };
 
-export const searchItemVariants = defineTool(
-  "search-item-variants",
-  "AI semantic search for Kontent.ai content items with item variants (language versions/translations) by topic, theme, or meaning (max 50 results). Find content by natural language query. Use filter-item-variants for exact keyword matching. May be unavailable.",
+export const searchContentItemVariants = defineTool(
+  searchContentItemVariantsToolName,
+  `AI semantic search for Kontent.ai content items with content item variants (language versions/translations) by topic, theme, or meaning. Find content by natural language query. Returns only top 50 results. This feature may be unavailable. Use ${listContentItemVariantsToolName} for full content inventory filtering or exact keyword matching. Use ${bulkGetContentItemVariantsToolName} to retrieve full content of the variants.`,
   searchOperationSchema.shape,
   async ({ searchPhrase, filter }, { authInfo: { token, clientId } = {} }) => {
     try {

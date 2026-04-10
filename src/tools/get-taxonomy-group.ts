@@ -8,7 +8,7 @@ export const getTaxonomyGroup = defineTool(
   "get-taxonomy-group",
   "Retrieve Kontent.ai taxonomy group by ID or codename. Taxonomy groups provide a classification hierarchy of tree-structured terms (categories/tags) that can be nested to any depth for content categorization.",
   {
-    id: z.guid(),
+    id: z.guid().describe("Taxonomy group ID"),
   },
   async ({ id }, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);

@@ -8,7 +8,7 @@ export const deleteTaxonomyGroup = defineTool(
   "delete-taxonomy-group",
   "Delete (remove) Kontent.ai taxonomy group by ID. Removes the category/tag group and all its terms.",
   {
-    id: z.guid(),
+    id: z.guid().describe("Taxonomy group ID"),
   },
   async ({ id }, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);

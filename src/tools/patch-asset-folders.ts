@@ -3,11 +3,12 @@ import { createMapiClient } from "../clients/kontentClients.js";
 import { assetFolderPatchOperationsSchema } from "../schemas/assetFolderSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { getPatchGuideToolName } from "./referencedToolNames.js";
 import { defineTool } from "./toolDefinition.js";
 
 export const patchAssetFolders = defineTool(
   "patch-asset-folders",
-  "Modify Kontent.ai asset folders using patch operations (addInto, rename, remove). Call get-patch-guide first for operations reference.",
+  `Update (modify/edit) Kontent.ai asset folders using patch operations (addInto, rename, remove). Call ${getPatchGuideToolName} first for operations reference.`,
   {
     operations: assetFolderPatchOperationsSchema,
   },

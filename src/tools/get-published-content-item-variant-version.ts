@@ -4,12 +4,12 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineTool } from "./toolDefinition.js";
 
-export const getLatestItemVariant = defineTool(
-  "get-latest-item-variant",
-  "Retrieve latest version of Kontent.ai item variant (draft or published). Variants hold translated, language-specific content with structure defined by content type.",
+export const getPublishedContentItemVariantVersion = defineTool(
+  "get-published-content-item-variant-version",
+  "Retrieve the published version of a Kontent.ai content item variant (live content). Use when a newer draft version exists but you need the currently published content. Returns the variant snapshot that is live on the Delivery API.",
   {
-    itemId: z.string().describe("Item ID"),
-    languageId: z.string().describe("Language variant ID"),
+    itemId: z.string().describe("Content item ID"),
+    languageId: z.string().describe("Language ID"),
   },
   async ({ itemId, languageId }, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);
@@ -19,11 +19,15 @@ export const getLatestItemVariant = defineTool(
         .viewLanguageVariant()
         .byItemId(itemId)
         .byLanguageId(languageId)
+        .published()
         .toPromise();
 
       return createMcpToolSuccessResponse(response.rawData);
     } catch (error: unknown) {
-      return handleMcpToolError(error, "Latest Language Variant Retrieval");
+      return handleMcpToolError(
+        error,
+        "Published Content Item Variant Version Retrieval",
+      );
     }
   },
 );

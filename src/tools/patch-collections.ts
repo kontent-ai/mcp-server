@@ -2,14 +2,18 @@ import { createMapiClient } from "../clients/kontentClients.js";
 import { collectionPatchOperationsSchema } from "../schemas/collectionSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import {
+  getPatchGuideToolName,
+  listCollectionsToolName,
+} from "./referencedToolNames.js";
 import { defineTool } from "./toolDefinition.js";
 
 export const patchCollections = defineTool(
   "patch-collections",
-  "Modify Kontent.ai collections using patch operations (addInto, move, rename, remove). Call get-patch-guide first for operations reference.",
+  `Update (modify/edit) Kontent.ai collections using patch operations (addInto, move, rename, remove). Call ${getPatchGuideToolName} first for operations reference.`,
   {
     operations: collectionPatchOperationsSchema.describe(
-      "Patch operations array. Call list-collections first. Use addInto to add new collections, move to reorder, remove to delete empty collections, replace to rename.",
+      `Patch operations array. Call ${listCollectionsToolName} first. Use addInto to add new collections, move to reorder, remove to delete empty collections, replace to rename.`,
     ),
   },
   async ({ operations }, { authInfo: { token, clientId } = {} }) => {

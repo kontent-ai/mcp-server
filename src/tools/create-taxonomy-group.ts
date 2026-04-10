@@ -4,9 +4,9 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineTool } from "./toolDefinition.js";
 
-export const addTaxonomyGroup = defineTool(
-  "add-taxonomy-group",
-  "Create new Kontent.ai taxonomy group for content categorization. Taxonomy groups contain hierarchical terms (categories/tags) for classifying content.",
+export const createTaxonomyGroup = defineTool(
+  "create-taxonomy-group",
+  "Create (add) new Kontent.ai taxonomy group for content categorization. Taxonomy groups contain hierarchical terms (categories/tags) for classifying content.",
   taxonomyGroupSchemas,
   async (taxonomyGroup, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);

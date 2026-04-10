@@ -10,7 +10,7 @@ export const updateAsset = defineTool(
   "update-asset",
   "Update (edit) Kontent.ai asset metadata by ID. Modify asset title, descriptions, or taxonomy-based properties.",
   {
-    id: z.guid(),
+    id: z.guid().describe("Asset ID"),
     data: updateAssetDataSchema,
   },
   async ({ id, data }, { authInfo: { token, clientId } = {} }) => {

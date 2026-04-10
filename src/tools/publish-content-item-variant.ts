@@ -4,22 +4,18 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineTool } from "./toolDefinition.js";
 
-export const unpublishItemVariant = defineTool(
-  "unpublish-item-variant",
-  "Unpublish or schedule unpublishing of Kontent.ai item variant (language version/translation). Takes content offline and archives it. For scheduling, verify current UTC time before using scheduledTo.",
+export const publishContentItemVariant = defineTool(
+  "publish-content-item-variant",
+  "Publish or schedule publishing of Kontent.ai content item variant (language version/translation). Transitions content to the published workflow step, making it live. For scheduling, verify current UTC time before using scheduledTo.",
   {
-    itemId: z.guid().describe("Content item UUID"),
+    itemId: z.guid().describe("Content item ID"),
     languageId: z
       .guid()
-      .describe(
-        "Language variant UUID (default: 00000000-0000-0000-0000-000000000000)",
-      ),
+      .describe("Language ID (default: 00000000-0000-0000-0000-000000000000)"),
     scheduledTo: z.iso
       .datetime({ offset: true })
       .optional()
-      .describe(
-        "ISO 8601 datetime for scheduled unpublish (omit for immediate)",
-      ),
+      .describe("ISO 8601 datetime for scheduled publish (omit for immediate)"),
     displayTimezone: z
       .string()
       .optional()
@@ -35,7 +31,7 @@ export const unpublishItemVariant = defineTool(
       // Validate that displayTimezone can only be used with scheduledTo
       if (displayTimezone && !scheduledTo) {
         throw new Error(
-          "The 'displayTimezone' parameter can only be used in combination with 'scheduledTo' parameter for scheduled unpublishing.",
+          "The 'displayTimezone' parameter can only be used in combination with 'scheduledTo' parameter for scheduled publishing.",
         );
       }
 
@@ -43,7 +39,7 @@ export const unpublishItemVariant = defineTool(
       let message: string;
 
       if (scheduledTo) {
-        // Scheduled unpublishing
+        // Scheduled publishing
         const requestData: any = {
           scheduled_to: scheduledTo,
         };
@@ -54,25 +50,25 @@ export const unpublishItemVariant = defineTool(
         }
 
         await client
-          .unpublishLanguageVariant()
+          .publishLanguageVariant()
           .byItemId(itemId)
           .byLanguageId(languageId)
           .withData(requestData)
           .toPromise();
 
-        action = "scheduled for unpublishing";
-        message = `Successfully scheduled item variant '${languageId}' for content item '${itemId}' to be unpublished at '${scheduledTo}'${displayTimezone ? ` (timezone: ${displayTimezone})` : ""}. The content will be removed from Delivery API at the scheduled time.`;
+        action = "scheduled";
+        message = `Successfully scheduled item variant '${languageId}' for content item '${itemId}' to be published at '${scheduledTo}'${displayTimezone ? ` (timezone: ${displayTimezone})` : ""}.`;
       } else {
-        // Immediate unpublishing
+        // Immediate publishing
         await client
-          .unpublishLanguageVariant()
+          .publishLanguageVariant()
           .byItemId(itemId)
           .byLanguageId(languageId)
           .withoutData()
           .toPromise();
 
-        action = "unpublished";
-        message = `Successfully unpublished item variant '${languageId}' for content item '${itemId}'. The content has been moved to Archived and is no longer available through Delivery API.`;
+        action = "published";
+        message = `Successfully published item variant '${languageId}' for content item '${itemId}'. The content is now live and available through Delivery API.`;
       }
 
       return createMcpToolSuccessResponse({
@@ -87,10 +83,7 @@ export const unpublishItemVariant = defineTool(
         },
       });
     } catch (error: any) {
-      return handleMcpToolError(
-        error,
-        "Unpublish/Schedule Unpublishing Language Variant",
-      );
+      return handleMcpToolError(error, "Publish/Schedule Language Variant");
     }
   },
 );

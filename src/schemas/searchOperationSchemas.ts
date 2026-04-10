@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { listLanguagesToolName } from "../tools/referencedToolNames.js";
 
 export const searchOperationSchema = z.object({
   searchPhrase: z
@@ -10,7 +11,7 @@ export const searchOperationSchema = z.object({
     variantId: z
       .guid()
       .describe(
-        "Language ID from list-languages. Use default language (is_default=true) if not specified by user.",
+        `Language ID from ${listLanguagesToolName}. Use default language (is_default=true) if not specified by user.`,
       ),
   }),
 });

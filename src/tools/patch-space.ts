@@ -3,13 +3,14 @@ import { createMapiClient } from "../clients/kontentClients.js";
 import { spacePatchOperationsSchema } from "../schemas/spaceSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { getPatchGuideToolName } from "./referencedToolNames.js";
 import { defineTool } from "./toolDefinition.js";
 
 export const patchSpace = defineTool(
   "patch-space",
-  "Update Kontent.ai space properties using replace patch operations. Call get-patch-guide first for operations reference.",
+  `Update (modify/edit) Kontent.ai space properties using replace patch operations. Call ${getPatchGuideToolName} first for operations reference.`,
   {
-    id: z.guid(),
+    id: z.guid().describe("Space ID"),
     operations: spacePatchOperationsSchema,
   },
   async ({ id, operations }, { authInfo: { token, clientId } = {} }) => {

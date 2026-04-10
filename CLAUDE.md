@@ -74,14 +74,14 @@ This is a Model Context Protocol (MCP) server for Kontent.ai that enables AI mod
 #### Tool Naming Conventions
 Tools follow strict naming patterns enforced by Cursor rules:
 - Format: `[action]-[entity]`
-- Use full entity names: `content-type`, `content-type-snippet`, `content-item`, `item-variant`, `taxonomy-group`
-- Example: `get-content-type`, `filter-item-variants`, `get-content-type-snippet`
+- Use full entity names: `content-type`, `content-type-snippet`, `content-item`, `content-item-variant`, `taxonomy-group`
+- Example: `get-content-type`, `list-content-item-variants`, `get-content-type-snippet`
 
 #### Tool Descriptions
 Tool descriptions must follow a standardized pattern (enforced in `.cursor/rules/kontent-tool-descriptions.mdc`):
 - Pattern: `"[Action] [Kontent.ai entity] [method/context]"`
 - **Always include "Kontent.ai"** explicitly
-- Example: "Get Kontent.ai content type by internal ID"
+- Example: "Retrieve Kontent.ai content type by ID"
 
 #### README Synchronization
 When modifying tools (enforced in `.cursor/rules/tools-in-readme.mdc`):

@@ -8,7 +8,7 @@ export const getContentTypeSnippet = defineTool(
   "get-content-type-snippet",
   "Retrieve Kontent.ai content type snippet. Snippets are reusable, shared sets of elements included across multiple content types.",
   {
-    id: z.string().describe("Snippet ID"),
+    id: z.string().describe("Content type snippet ID"),
   },
   async ({ id }, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);

@@ -6,9 +6,9 @@ import { defineTool } from "./toolDefinition.js";
 
 export const deleteContentType = defineTool(
   "delete-content-type",
-  "Delete (remove) Kontent.ai content type by internal ID. Removes the schema/model definition.",
+  "Delete (remove) Kontent.ai content type by ID. Removes the schema/model definition.",
   {
-    id: z.string().describe("Content type internal ID"),
+    id: z.string().describe("Content type ID"),
   },
   async ({ id }, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);

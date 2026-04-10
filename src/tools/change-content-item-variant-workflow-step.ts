@@ -4,12 +4,12 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineTool } from "./toolDefinition.js";
 
-export const changeItemVariantWorkflowStep = defineTool(
-  "change-item-variant-workflow-step",
-  "Move Kontent.ai item variant (language version/translation) to a different workflow step. Transition content between lifecycle stages (e.g., draft to review, review to approved/published, or archive).",
+export const changeContentItemVariantWorkflowStep = defineTool(
+  "change-content-item-variant-workflow-step",
+  "Move Kontent.ai content item variant (language version/translation) to a different workflow step. Transition content between lifecycle stages (e.g., draft to review, review to approved/published, or archive).",
   {
     itemId: z.guid().describe("Content item ID"),
-    languageId: z.guid().describe("Language variant ID"),
+    languageId: z.guid().describe("Language ID"),
     workflowId: z.guid().describe("Workflow ID"),
     workflowStepId: z.guid().describe("Target workflow step ID"),
   },

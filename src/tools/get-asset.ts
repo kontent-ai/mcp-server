@@ -6,7 +6,7 @@ import { defineTool } from "./toolDefinition.js";
 
 export const getAsset = defineTool(
   "get-asset",
-  "Retrieve Kontent.ai asset by ID. Assets are digital media files (images, videos, documents, PDFs) referenced in content items.",
+  "Retrieve Kontent.ai asset by ID. Assets are digital media files (images, videos, documents, PDFs) standalone, or referenced from other entities, typically content item variants.",
   {
     assetId: z.string().describe("Asset ID"),
   },

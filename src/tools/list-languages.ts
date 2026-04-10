@@ -2,10 +2,11 @@ import { createMapiClient } from "../clients/kontentClients.js";
 import { listLanguagesSchema } from "../schemas/listSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { listLanguagesToolName } from "./referencedToolNames.js";
 import { defineTool } from "./toolDefinition.js";
 
 export const listLanguages = defineTool(
-  "list-languages",
+  listLanguagesToolName,
   "List all Kontent.ai languages (paginated), including inactive ones - check is_active property. Languages define available locales for translations and localization; each can have fallback language for content inheritance.",
   listLanguagesSchema.shape,
   async ({ continuation_token }, { authInfo: { token, clientId } = {} }) => {

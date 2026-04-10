@@ -8,7 +8,7 @@ export const deleteSpace = defineTool(
   "delete-space",
   "Delete (remove) Kontent.ai space by ID. Removes the channel/website context.",
   {
-    id: z.guid(),
+    id: z.guid().describe("Space ID"),
   },
   async ({ id }, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);

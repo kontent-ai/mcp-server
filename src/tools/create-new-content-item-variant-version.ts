@@ -4,16 +4,14 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineTool } from "./toolDefinition.js";
 
-export const createNewItemVariantVersion = defineTool(
-  "create-new-item-variant-version",
-  "Create new draft version of a published Kontent.ai item variant (language version/translation). Required before editing published content.",
+export const createNewContentItemVariantVersion = defineTool(
+  "create-new-content-item-variant-version",
+  "Create new draft version of a published Kontent.ai content item variant (language version/translation). Required before editing published content.",
   {
-    itemId: z.guid().describe("Content item UUID"),
+    itemId: z.guid().describe("Content item ID"),
     languageId: z
       .guid()
-      .describe(
-        "Language variant UUID (default: 00000000-0000-0000-0000-000000000000)",
-      ),
+      .describe("Language ID (default: 00000000-0000-0000-0000-000000000000)"),
   },
   async ({ itemId, languageId }, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);

@@ -2,11 +2,12 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createContentItemToolName } from "./referencedToolNames.js";
 import { defineTool } from "./toolDefinition.js";
 
 export const updateContentItem = defineTool(
   "update-content-item",
-  "Update (edit) Kontent.ai content item metadata: name, codename, collection, or sitemap locations.",
+  "Update (edit) Kontent.ai content item metadata: name, collection.",
   {
     id: z.string().describe("Content item ID"),
     name: z
@@ -75,7 +76,7 @@ export const updateContentItem = defineTool(
           content: [
             {
               type: "text",
-              text: `Update Content Item: Content item with ID '${id}' does not exist. Use add-content-item to create new items.`,
+              text: `Update Content Item: Content item with ID '${id}' does not exist. Use ${createContentItemToolName} to create new items.`,
             },
           ],
           isError: true,

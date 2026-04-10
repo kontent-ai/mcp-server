@@ -3,13 +3,14 @@ import { createMapiClient } from "../clients/kontentClients.js";
 import { snippetPatchOperationsSchema } from "../schemas/patchSchemas/snippetPatchSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { getPatchGuideToolName } from "./referencedToolNames.js";
 import { defineTool } from "./toolDefinition.js";
 
 export const patchContentTypeSnippet = defineTool(
   "patch-content-type-snippet",
-  "Modify Kontent.ai content type snippet using patch operations (move, addInto, remove, replace elements). Call get-patch-guide first for operations reference.",
+  `Update (modify/edit) Kontent.ai content type snippet using patch operations (move, addInto, remove, replace elements). Call ${getPatchGuideToolName} first for operations reference.`,
   {
-    id: z.guid(),
+    id: z.guid().describe("Content type snippet ID"),
     operations: snippetPatchOperationsSchema.describe(
       `Patch operations array. CRITICAL: Always call get-content-type-snippet first.
 - Use addInto/remove for arrays, replace for primitives/objects

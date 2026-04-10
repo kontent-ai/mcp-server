@@ -6,9 +6,9 @@ import { defineTool } from "./toolDefinition.js";
 
 export const getContentItem = defineTool(
   "get-content-item",
-  "Retrieve Kontent.ai content item by ID. Items are language-neutral containers; one item has multiple item variants (translations).",
+  "Retrieve Kontent.ai content item by ID. Items are language-neutral containers; one item has multiple content item variants (translations).",
   {
-    id: z.string().describe("Item ID"),
+    id: z.string().describe("Content item ID"),
   },
   async ({ id }, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);

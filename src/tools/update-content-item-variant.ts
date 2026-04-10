@@ -2,20 +2,17 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { languageVariantElementSchema } from "../schemas/contentItemSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { extractUserIdFromToken } from "../utils/extractUserIdFromToken.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineTool } from "./toolDefinition.js";
 
-export const createItemVariant = defineTool(
-  "create-item-variant",
-  "Create Kontent.ai item variant — translate and localize content into a specific language. Adds a new language version (translation) for a content item. Element values must fulfill the content type definition.",
+export const updateContentItemVariant = defineTool(
+  "update-content-item-variant",
+  "Update Kontent.ai content item variant (language version/translation) content. Write translated content into item elements. Values must fulfill validation rules defined in the content type.",
   {
     itemId: z.string().describe("Content item ID"),
     languageId: z
       .string()
-      .describe(
-        "Language variant ID (default: 00000000-0000-0000-0000-000000000000)",
-      ),
+      .describe("Language ID (default: 00000000-0000-0000-0000-000000000000)"),
     elements: z
       .array(languageVariantElementSchema)
       .describe("Content elements array"),
@@ -35,13 +32,6 @@ export const createItemVariant = defineTool(
       data.workflow_step = { id: workflow_step_id };
     }
 
-    if (token) {
-      const userId = extractUserIdFromToken(token);
-      if (userId) {
-        data.contributors = [{ id: userId }];
-      }
-    }
-
     try {
       const response = await client
         .upsertLanguageVariant()
@@ -52,7 +42,7 @@ export const createItemVariant = defineTool(
 
       return createMcpToolSuccessResponse(response.rawData);
     } catch (error: any) {
-      return handleMcpToolError(error, "Language Variant Create");
+      return handleMcpToolError(error, "Language Variant Update");
     }
   },
 );

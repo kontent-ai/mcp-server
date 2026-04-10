@@ -3,15 +3,19 @@ import { createMapiClient } from "../clients/kontentClients.js";
 import { taxonomyPatchOperationsSchema } from "../schemas/patchSchemas/taxonomyPatchSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import {
+  getPatchGuideToolName,
+  getTaxonomyGroupToolName,
+} from "./referencedToolNames.js";
 import { defineTool } from "./toolDefinition.js";
 
 export const patchTaxonomyGroup = defineTool(
   "patch-taxonomy-group",
-  "Modify and organize Kontent.ai taxonomy group terms using patch operations (addInto, move, remove, replace). Call get-patch-guide first for operations reference.",
+  `Update (modify/edit) and organize Kontent.ai taxonomy group terms using patch operations (addInto, move, remove, replace). Call ${getPatchGuideToolName} first for operations reference.`,
   {
-    id: z.guid(),
+    id: z.guid().describe("Taxonomy group ID"),
     operations: taxonomyPatchOperationsSchema.describe(
-      "Patch operations array. Call get-taxonomy-group first. Use addInto to add terms (with optional reference for parent), move to reorder/nest terms (before/after/under - mutually exclusive), remove to delete terms, replace for name/codename/terms.",
+      `Patch operations array. Call ${getTaxonomyGroupToolName} first. Use addInto to add terms (with optional reference for parent), move to reorder/nest terms (before/after/under - mutually exclusive), remove to delete terms, replace for name/codename/terms.`,
     ),
   },
   async ({ id, operations }, { authInfo: { token, clientId } = {} }) => {

@@ -4,9 +4,9 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineTool } from "./toolDefinition.js";
 
-export const addLanguage = defineTool(
-  "add-language",
-  "Create and configure new Kontent.ai language locale for translations and localization. Languages are always created as active.",
+export const createLanguage = defineTool(
+  "create-language",
+  "Create (add) and configure new Kontent.ai language locale for translations and localization. Languages are always created as active.",
   addLanguageSchema.shape,
   async (
     { name, codename, fallback_language, external_id },
