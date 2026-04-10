@@ -6,13 +6,13 @@ alwaysApply: false
 
 When creating or modifying MCP tool descriptions, follow this standardized pattern:
 
-**Template:** `"[Action] [Kontent.ai entity] [method/context] [API source]"`
+**Template:** `"[Action] [Kontent.ai entity] [method/context]"`
 
 ## Required Elements:
 1. **Always include "Kontent.ai"** explicitly in the description
 2. **Action verbs:** Use consistent verbs like:
    - Get / Retrieve
-   - Add / Create 
+   - Add / Create
    - Update / Modify
    - Delete / Remove
    - List / Get all
@@ -23,18 +23,14 @@ When creating or modifying MCP tool descriptions, follow this standardized patte
    - asset, taxonomy group, workflow
    - etc.
 
-4. **API source:** Always specify the API being used:
-   - "from Management API"
-   - "via Management API" 
-
 ## Examples:
 ✅ **Good:**
-- "Get Kontent.ai content type by internal ID from Management API"
-- "Add new Kontent.ai content item via Management API"
-- "Create or update Kontent.ai language variant of a content item via Management API"
-- "Get a specific Kontent.ai asset by internal ID from Management API"
+- "Get Kontent.ai content type by internal ID"
+- "Add new Kontent.ai content item"
+- "Create or update Kontent.ai language variant of a content item"
+- "Get a specific Kontent.ai asset by internal ID"
 
 ❌ **Bad:**
-- "Get content type by ID" (missing Kontent.ai, missing API source)
-- "Add content type" (missing Kontent.ai, missing API source)
+- "Get content type by ID" (missing Kontent.ai)
+- "Add content type" (missing Kontent.ai)
 - "Retrieve item" (too vague, missing Kontent.ai)

@@ -10,7 +10,7 @@ export const searchOperationSchema = z.object({
     variantId: z
       .guid()
       .describe(
-        "Language ID from list-languages-mapi. Use default language (is_default=true) if not specified by user.",
+        "Language ID from list-languages. Use default language (is_default=true) if not specified by user.",
       ),
   }),
 });
