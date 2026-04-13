@@ -6,35 +6,32 @@ alwaysApply: false
 
 When creating or modifying MCP tool descriptions, follow this standardized pattern:
 
-**Template:** `"[Action] [Kontent.ai entity] [method/context] [API source]"`
+**Template:** `"[Action] [Kontent.ai entity] [method/context]"`
 
 ## Required Elements:
 1. **Always include "Kontent.ai"** explicitly in the description
 2. **Action verbs:** Use consistent verbs like:
+   - Create (add)
    - Get / Retrieve
-   - Add / Create 
-   - Update / Modify
-   - Delete / Remove
-   - List / Get all
-   - Filter / Search
+   - Update (modify/edit) — for patch tools
+   - Delete (remove)
+   - List / Find / Filter
+   - Search — for semantic/AI search
 
 3. **Entity specification:** Clearly identify the Kontent.ai entity:
-   - content type, content item, language variant
-   - asset, taxonomy group, workflow
-   - etc.
-
-4. **API source:** Always specify the API being used:
-   - "from Management API"
-   - "via Management API" 
+   - content type, content type snippet, content item, content item variant
+   - asset, taxonomy group, workflow, language, space, collection
+   - Use "ID" for identifiers (not "internal ID")
 
 ## Examples:
 ✅ **Good:**
-- "Get Kontent.ai content type by internal ID from Management API"
-- "Add new Kontent.ai content item via Management API"
-- "Create or update Kontent.ai language variant of a content item via Management API"
-- "Get a specific Kontent.ai asset by internal ID from Management API"
+- "Retrieve Kontent.ai content type by ID"
+- "Create (add) new Kontent.ai content item"
+- "Create Kontent.ai content item variant — translate and localize content"
+- "Update (modify/edit) Kontent.ai content type schema using patch operations"
 
 ❌ **Bad:**
-- "Get content type by ID" (missing Kontent.ai, missing API source)
-- "Add content type" (missing Kontent.ai, missing API source)
+- "Get content type by ID" (missing Kontent.ai)
+- "Add content type" (missing Kontent.ai, use "Create")
 - "Retrieve item" (too vague, missing Kontent.ai)
+- "Get Kontent.ai content type by internal ID" (don't use "internal ID", just "ID")
