@@ -17,7 +17,7 @@ export const bulkGetItemsWithVariantsSchema = z.object({
     .min(1)
     .max(100)
     .describe(
-      "Array of item and language reference pairs to retrieve (max 100). Use filter-variants-mapi to get item and language references first.",
+      `Array of item and language reference pairs to retrieve (max 100).`,
     ),
   continuation_token: continuationTokenField,
 });

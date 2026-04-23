@@ -73,16 +73,15 @@ This is a Model Context Protocol (MCP) server for Kontent.ai that enables AI mod
 
 #### Tool Naming Conventions
 Tools follow strict naming patterns enforced by Cursor rules:
-- **Names must be under 35 characters** (enforced in `.cursor/rules/mcp-tool-naming.mdc`)
-- Format: `[action]-[entity]-[api-suffix]`
-- API suffixes: `-mapi` (Management API)
-- Example: `get-content-type-mapi`, `filter-variants-mapi`
+- Format: `[action]-[entity]`
+- Use full entity names: `content-type`, `content-type-snippet`, `content-item`, `content-item-variant`, `taxonomy-group`
+- Example: `get-content-type`, `list-content-item-variants`, `get-content-type-snippet`
 
 #### Tool Descriptions
 Tool descriptions must follow a standardized pattern (enforced in `.cursor/rules/kontent-tool-descriptions.mdc`):
 - Pattern: `"[Action] [Kontent.ai entity] [method/context]"`
 - **Always include "Kontent.ai"** explicitly
-- Example: "Get Kontent.ai content type by internal ID"
+- Example: "Retrieve Kontent.ai content type by ID"
 
 #### README Synchronization
 When modifying tools (enforced in `.cursor/rules/tools-in-readme.mdc`):
@@ -164,12 +163,11 @@ claude mcp add --transport http kontent-ai-multi \
 
 ### Key Implementation Patterns
 
-#### 1. Tool Registration Pattern
-Each tool follows this structure:
+#### 1. Tool Definition Pattern
+Each tool is defined using `defineTool` which returns a `ToolDefinition` object:
 ```typescript
-export const registerTool = (server: McpServer): void => {
-  server.tool(
-    "tool-name", // Under 35 characters
+export const myTool = defineTool(
+    "tool-name",
     "Tool description", // Following the pattern
     { /* Zod schema for parameters */ },
     async (params) => {
@@ -180,10 +178,11 @@ export const registerTool = (server: McpServer): void => {
       } catch (error) {
         return handleMcpToolError(error, "Context");
       }
-    }
-  );
-};
+    },
+);
 ```
+
+Tools are collected in `src/tools/index.ts` as an `allTools` object and registered in `server.ts` via `server.registerTool()`.
 
 #### 2. Error Handling
 The `errorHandler.ts` provides standardized error handling:
@@ -202,12 +201,11 @@ Content type modifications use patch operations:
 ### Contributing Guidelines
 
 When contributing:
-1. **No test files exist currently** - consider adding tests for new features
-2. Follow semantic versioning
-3. Ensure CI can build the code
-4. Update documentation (README.md, code comments)
-5. Code must not contain secrets
-6. Clear commit messages following best practices
+1. Follow semantic versioning
+2. Ensure CI can build the code
+3. Update documentation (README.md, code comments)
+4. Code must not contain secrets
+5. Clear commit messages following best practices
 
 ### Security Considerations
 
@@ -219,18 +217,21 @@ When contributing:
 ### Common Development Tasks
 
 1. **Adding a new tool**:
-   - Create new file in `src/tools/`
-   - Follow naming convention (under 35 chars, proper suffix)
-   - Implement using the standard pattern
-   - Register in `src/server.ts`
+   - Create new file in `src/tools/` using `defineTool` (see `src/tools/toolDefinition.ts`)
+   - Follow naming convention: `[action]-[entity]` format
+   - Add the export to `allTools` object in `src/tools/index.ts`
    - Update README.md with tool description
+   - Update BM25 search tests and verify discoverability — see `src/test/bm25/CLAUDE.md`
 
-2. **Modifying schemas**:
+2. **Modifying or removing a tool**:
+   - Keep `src/tools/index.ts` and BM25 search tests in sync — see `src/test/bm25/CLAUDE.md`
+
+3. **Modifying schemas**:
    - Update relevant file in `src/schemas/`
    - Ensure backward compatibility
    - Update related tool implementations
 
-3. **Debugging API issues**:
+4. **Debugging API issues**:
    - Check request IDs in error responses
    - Use MCP inspector for interactive debugging
    - Verify environment variables are set correctly

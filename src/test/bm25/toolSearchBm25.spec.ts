@@ -1,0 +1,904 @@
+import * as assert from "node:assert";
+import type MiniSearch from "minisearch";
+import { before, describe, it } from "mocha";
+import { allTools } from "../../tools/index.js";
+import type { ToolDocument } from "./bm25.js";
+import { createToolSearchIndex, searchTools } from "./bm25.js";
+
+const topK = 5;
+
+interface TestCase {
+  /** Short, agent-style search query (2-5 words). */
+  readonly query: string;
+  /** Tool names that MUST appear in the top-k results. */
+  readonly expected: ReadonlyArray<string>;
+}
+
+interface TestGroup {
+  readonly name: string;
+  readonly cases: ReadonlyArray<TestCase>;
+}
+
+const assertToolsFound = (
+  index: MiniSearch<ToolDocument>,
+  query: string,
+  expectedTools: ReadonlyArray<string>,
+): void => {
+  // Search with a wider window so we can report the actual position of missed tools
+  const wideResults = searchTools(index, query, 20);
+  const wideNames = wideResults.map((r) => r.name);
+
+  for (const expected of expectedTools) {
+    const actualPosition = wideNames.indexOf(expected) + 1; // 0 means not found in top 20
+    assert.ok(
+      actualPosition >= 1 && actualPosition <= topK,
+      `Query "${query}": "${expected}" found at position ${actualPosition || "beyond top 20"}, expected within top ${topK}. Top ${topK}: [${wideNames.slice(0, topK).join(", ")}]`,
+    );
+  }
+};
+
+// ---------------------------------------------------------------------------
+// Test data — each group covers one entity/domain with query variations
+// ---------------------------------------------------------------------------
+
+const testGroups: ReadonlyArray<TestGroup> = [
+  {
+    name: "content type operations",
+    cases: [
+      // Action verb variations: create / add / new
+      {
+        query: "create content type",
+        expected: [allTools.createContentType.name],
+      },
+      {
+        query: "add content type",
+        expected: [allTools.createContentType.name],
+      },
+      {
+        query: "new content type",
+        expected: [allTools.createContentType.name],
+      },
+      // Synonym: model / schema / definition
+      {
+        query: "content model schema",
+        expected: [allTools.createContentType.name],
+      },
+      // Action verb variations: get / retrieve / fetch
+      {
+        query: "get content type",
+        expected: [
+          allTools.getContentType.name,
+          allTools.listContentTypes.name,
+        ],
+      },
+      {
+        query: "retrieve content type",
+        expected: [allTools.getContentType.name],
+      },
+      { query: "fetch content type", expected: [allTools.getContentType.name] },
+      // Action verb variations: delete / remove
+      {
+        query: "delete content type",
+        expected: [allTools.deleteContentType.name],
+      },
+      {
+        query: "remove content type",
+        expected: [allTools.deleteContentType.name],
+      },
+      // Action verb variations: modify / patch / edit / update
+      {
+        query: "modify content type elements",
+        expected: [allTools.patchContentType.name],
+      },
+      {
+        query: "patch content type",
+        expected: [allTools.patchContentType.name],
+      },
+      {
+        query: "edit content type fields",
+        expected: [allTools.patchContentType.name],
+      },
+      // Action verb variations: list / all / browse
+      {
+        query: "list content types",
+        expected: [allTools.listContentTypes.name],
+      },
+      {
+        query: "all content types",
+        expected: [allTools.listContentTypes.name],
+      },
+      // Synonym: structure / definition / template
+      {
+        query: "content type structure",
+        expected: [allTools.getContentType.name],
+      },
+      {
+        query: "content type definition",
+        expected: [allTools.getContentType.name],
+      },
+      {
+        query: "content template fields",
+        expected: [allTools.createContentType.name],
+      },
+    ],
+  },
+  {
+    name: "content type snippet operations",
+    cases: [
+      {
+        query: "content type snippet",
+        expected: [
+          allTools.createContentTypeSnippet.name,
+          allTools.getContentTypeSnippet.name,
+          allTools.listContentTypeSnippets.name,
+        ],
+      },
+      {
+        query: "reusable snippet elements",
+        expected: [
+          allTools.createContentTypeSnippet.name,
+          allTools.getContentTypeSnippet.name,
+        ],
+      },
+      {
+        query: "create snippet",
+        expected: [allTools.createContentTypeSnippet.name],
+      },
+      { query: "get snippet", expected: [allTools.getContentTypeSnippet.name] },
+      {
+        query: "modify snippet",
+        expected: [allTools.patchContentTypeSnippet.name],
+      },
+      {
+        query: "patch snippet",
+        expected: [allTools.patchContentTypeSnippet.name],
+      },
+      {
+        query: "delete snippet",
+        expected: [allTools.deleteContentTypeSnippet.name],
+      },
+      {
+        query: "remove snippet",
+        expected: [allTools.deleteContentTypeSnippet.name],
+      },
+    ],
+  },
+  {
+    name: "content item operations",
+    cases: [
+      // create / add / new
+      {
+        query: "create content item",
+        expected: [allTools.createContentItem.name],
+      },
+      {
+        query: "add content item",
+        expected: [allTools.createContentItem.name],
+      },
+      {
+        query: "new content item",
+        expected: [allTools.createContentItem.name],
+      },
+      // get / retrieve
+      { query: "get content item", expected: [allTools.getContentItem.name] },
+      {
+        query: "retrieve content item",
+        expected: [allTools.getContentItem.name],
+      },
+      // update / edit
+      {
+        query: "update content item name",
+        expected: [allTools.updateContentItem.name],
+      },
+      {
+        query: "edit content item",
+        expected: [allTools.updateContentItem.name],
+      },
+      // delete / remove
+      {
+        query: "delete content item",
+        expected: [allTools.deleteContentItem.name],
+      },
+      {
+        query: "remove content item",
+        expected: [allTools.deleteContentItem.name],
+      },
+      // Synonym: page / entry / record
+      {
+        query: "create page entry",
+        expected: [allTools.createContentItem.name],
+      },
+      { query: "get content entry", expected: [allTools.getContentItem.name] },
+      // Finding specific content items should also surface filter/search
+      {
+        query: "find content item",
+        expected: [allTools.listContentItemVariants.name],
+      },
+      {
+        query: "search for content item",
+        expected: [allTools.searchContentItemVariants.name],
+      },
+    ],
+  },
+  {
+    name: "content item variant / translation operations",
+    cases: [
+      // Translation-related
+      {
+        query: "translate content language",
+        expected: [
+          allTools.createContentItemVariant.name,
+          allTools.getContentItemTranslations.name,
+        ],
+      },
+      {
+        query: "add translation",
+        expected: [allTools.createContentItemVariant.name],
+      },
+      {
+        query: "create language version",
+        expected: [allTools.createContentItemVariant.name],
+      },
+      // create / add / new — full and partial name combinations
+      {
+        query: "create content item variant",
+        expected: [allTools.createContentItemVariant.name],
+      },
+      {
+        query: "create item variant",
+        expected: [allTools.createContentItemVariant.name],
+      },
+      {
+        query: "create content variant",
+        expected: [allTools.createContentItemVariant.name],
+      },
+      {
+        query: "add item variant",
+        expected: [allTools.createContentItemVariant.name],
+      },
+      // get all translations of a single item
+      {
+        query: "get item translations",
+        expected: [allTools.getContentItemTranslations.name],
+      },
+      {
+        query: "content item translations",
+        expected: [allTools.getContentItemTranslations.name],
+      },
+      {
+        query: "all language versions item",
+        expected: [allTools.getContentItemTranslations.name],
+      },
+      {
+        query: "available translations item",
+        expected: [allTools.getContentItemTranslations.name],
+      },
+      // get / retrieve / fetch — full and partial name combinations
+      {
+        query: "get content item variant",
+        expected: [allTools.getContentItemVariant.name],
+      },
+      {
+        query: "get item variant",
+        expected: [allTools.getContentItemVariant.name],
+      },
+      {
+        query: "get content variant",
+        expected: [allTools.getContentItemVariant.name],
+      },
+      {
+        query: "retrieve variant content",
+        expected: [allTools.getContentItemVariant.name],
+      },
+      {
+        query: "fetch variant draft",
+        expected: [allTools.getContentItemVariant.name],
+      },
+      // get published version — when a newer draft exists and you need the live content
+      {
+        query: "get published variant version",
+        expected: [allTools.getPublishedContentItemVariantVersion.name],
+      },
+      {
+        query: "published version variant",
+        expected: [allTools.getPublishedContentItemVariantVersion.name],
+      },
+      {
+        query: "live published content",
+        expected: [allTools.getPublishedContentItemVariantVersion.name],
+      },
+      {
+        query: "published content delivery",
+        expected: [allTools.getPublishedContentItemVariantVersion.name],
+      },
+      // update / edit / write — full and partial name combinations
+      {
+        query: "update content item variant",
+        expected: [allTools.updateContentItemVariant.name],
+      },
+      {
+        query: "update item variant content",
+        expected: [allTools.updateContentItemVariant.name],
+      },
+      {
+        query: "update content variant",
+        expected: [allTools.updateContentItemVariant.name],
+      },
+      {
+        query: "edit variant elements",
+        expected: [allTools.updateContentItemVariant.name],
+      },
+      {
+        query: "write variant content",
+        expected: [allTools.updateContentItemVariant.name],
+      },
+      // New version
+      {
+        query: "create new draft version",
+        expected: [allTools.createNewContentItemVariantVersion.name],
+      },
+      {
+        query: "new version published variant",
+        expected: [allTools.createNewContentItemVariantVersion.name],
+      },
+      // Bulk — full and partial name combinations
+      {
+        query: "bulk get content item variants",
+        expected: [allTools.bulkGetContentItemVariants.name],
+      },
+      {
+        query: "bulk get item variants",
+        expected: [allTools.bulkGetContentItemVariants.name],
+      },
+      {
+        query: "bulk get content variants",
+        expected: [allTools.bulkGetContentItemVariants.name],
+      },
+      {
+        query: "fetch multiple items",
+        expected: [allTools.bulkGetContentItemVariants.name],
+      },
+      {
+        query: "bulk retrieve variants",
+        expected: [allTools.bulkGetContentItemVariants.name],
+      },
+      // delete / remove — full and partial name combinations
+      {
+        query: "delete content item variant",
+        expected: [allTools.deleteContentItemVariant.name],
+      },
+      {
+        query: "delete item variant",
+        expected: [allTools.deleteContentItemVariant.name],
+      },
+      {
+        query: "delete content variant",
+        expected: [allTools.deleteContentItemVariant.name],
+      },
+      {
+        query: "remove variant translation",
+        expected: [allTools.deleteContentItemVariant.name],
+      },
+      // Synonym: localize / i18n / multilingual
+      {
+        query: "localize content",
+        expected: [allTools.createContentItemVariant.name],
+      },
+      {
+        query: "multilingual content variant",
+        expected: [allTools.createContentItemVariant.name],
+      },
+      // Synonym: batch / mass
+      {
+        query: "batch retrieve content",
+        expected: [allTools.bulkGetContentItemVariants.name],
+      },
+      {
+        query: "mass get items variants",
+        expected: [allTools.bulkGetContentItemVariants.name],
+      },
+    ],
+  },
+  {
+    name: "filtering and searching content",
+    cases: [
+      // Partial name combinations for list/filter
+      {
+        query: "list content item variants",
+        expected: [allTools.listContentItemVariants.name],
+      },
+      {
+        query: "list item variants",
+        expected: [allTools.listContentItemVariants.name],
+      },
+      {
+        query: "list content variants",
+        expected: [allTools.listContentItemVariants.name],
+      },
+      {
+        query: "filter items keyword",
+        expected: [allTools.listContentItemVariants.name],
+      },
+      {
+        query: "find content exact keyword",
+        expected: [allTools.listContentItemVariants.name],
+      },
+      // Partial name combinations for search
+      {
+        query: "search content item variants",
+        expected: [allTools.searchContentItemVariants.name],
+      },
+      {
+        query: "search item variants",
+        expected: [
+          allTools.listContentItemVariants.name,
+          allTools.searchContentItemVariants.name,
+        ],
+      },
+      {
+        query: "search content semantic",
+        expected: [allTools.searchContentItemVariants.name],
+      },
+      {
+        query: "search content topic",
+        expected: [allTools.searchContentItemVariants.name],
+      },
+      {
+        query: "find content by meaning",
+        expected: [allTools.searchContentItemVariants.name],
+      },
+      // Generic "find content" should surface both filter and search
+      {
+        query: "find content items",
+        expected: [
+          allTools.listContentItemVariants.name,
+          allTools.searchContentItemVariants.name,
+        ],
+      },
+      {
+        query: "search items",
+        expected: [
+          allTools.listContentItemVariants.name,
+          allTools.searchContentItemVariants.name,
+        ],
+      },
+      // List variants by various dimensions — listContentItemVariants can also filter by these
+      {
+        query: "items by content type",
+        expected: [allTools.listContentItemVariants.name],
+      },
+      {
+        query: "variants filtered by type",
+        expected: [allTools.listContentItemVariants.name],
+      },
+      {
+        query: "items in collection",
+        expected: [allTools.listContentItemVariants.name],
+      },
+      {
+        query: "variants by collection",
+        expected: [allTools.listContentItemVariants.name],
+      },
+      {
+        query: "content in space",
+        expected: [allTools.listContentItemVariants.name],
+      },
+      {
+        query: "variants by space",
+        expected: [allTools.listContentItemVariants.name],
+      },
+      {
+        query: "items with inline components",
+        expected: [allTools.listContentItemVariants.name],
+      },
+      // listContentItemVariants can also filter by workflow step, taxonomy, publishing state
+      {
+        query: "items by workflow step",
+        expected: [allTools.listContentItemVariants.name],
+      },
+      {
+        query: "filter by publishing state",
+        expected: [allTools.listContentItemVariants.name],
+      },
+      {
+        query: "items by taxonomy",
+        expected: [
+          allTools.listContentItemVariants.name,
+          allTools.getTaxonomyGroup.name,
+        ],
+      },
+      // Synonym: query / lookup
+      {
+        query: "query content items",
+        expected: [allTools.listContentItemVariants.name],
+      },
+      {
+        query: "lookup items by keyword",
+        expected: [allTools.listContentItemVariants.name],
+      },
+    ],
+  },
+  {
+    name: "workflow operations",
+    cases: [
+      // create / add / new
+      { query: "create workflow", expected: [allTools.createWorkflow.name] },
+      { query: "add workflow", expected: [allTools.createWorkflow.name] },
+      {
+        query: "new workflow steps",
+        expected: [allTools.createWorkflow.name],
+      },
+      // change / move / transition
+      {
+        query: "change workflow step",
+        expected: [allTools.changeContentItemVariantWorkflowStep.name],
+      },
+      {
+        query: "move to review step",
+        expected: [allTools.changeContentItemVariantWorkflowStep.name],
+      },
+      {
+        query: "transition workflow step",
+        expected: [allTools.changeContentItemVariantWorkflowStep.name],
+      },
+      // publish
+      {
+        query: "publish item variant",
+        expected: [allTools.publishContentItemVariant.name],
+      },
+      {
+        query: "publish content",
+        expected: [allTools.publishContentItemVariant.name],
+      },
+      {
+        query: "schedule publishing",
+        expected: [allTools.publishContentItemVariant.name],
+      },
+      // unpublish
+      {
+        query: "unpublish content",
+        expected: [allTools.unpublishContentItemVariant.name],
+      },
+      {
+        query: "take content offline",
+        expected: [allTools.unpublishContentItemVariant.name],
+      },
+      // Synonym: approve / review / lifecycle / archive
+      {
+        query: "approve content review",
+        expected: [allTools.changeContentItemVariantWorkflowStep.name],
+      },
+      {
+        query: "content lifecycle status",
+        expected: [allTools.listWorkflows.name],
+      },
+      {
+        query: "archive content",
+        expected: [allTools.changeContentItemVariantWorkflowStep.name],
+      },
+      // list / get
+      { query: "list workflows", expected: [allTools.listWorkflows.name] },
+      { query: "get workflows", expected: [allTools.listWorkflows.name] },
+      {
+        query: "workflow draft review",
+        expected: [allTools.listWorkflows.name],
+      },
+      // update / edit / modify
+      {
+        query: "update workflow steps",
+        expected: [allTools.updateWorkflow.name],
+      },
+      { query: "edit workflow", expected: [allTools.updateWorkflow.name] },
+      {
+        query: "modify workflow",
+        expected: [allTools.updateWorkflow.name],
+      },
+      // delete / remove
+      {
+        query: "delete workflow",
+        expected: [allTools.deleteWorkflow.name],
+      },
+      {
+        query: "remove workflow",
+        expected: [allTools.deleteWorkflow.name],
+      },
+    ],
+  },
+  {
+    name: "taxonomy operations",
+    cases: [
+      // create / add / new
+      {
+        query: "create taxonomy group",
+        expected: [allTools.createTaxonomyGroup.name],
+      },
+      {
+        query: "add taxonomy group",
+        expected: [allTools.createTaxonomyGroup.name],
+      },
+      {
+        query: "new taxonomy categories",
+        expected: [allTools.createTaxonomyGroup.name],
+      },
+      // get / retrieve
+      {
+        query: "get taxonomy group",
+        expected: [
+          allTools.getTaxonomyGroup.name,
+          allTools.listTaxonomyGroups.name,
+        ],
+      },
+      {
+        query: "retrieve taxonomy",
+        expected: [allTools.getTaxonomyGroup.name],
+      },
+      // Synonym: categories / tags
+      {
+        query: "taxonomy categories tags",
+        expected: [
+          allTools.createTaxonomyGroup.name,
+          allTools.getTaxonomyGroup.name,
+        ],
+      },
+      // modify / patch / edit
+      {
+        query: "modify taxonomy terms",
+        expected: [allTools.patchTaxonomyGroup.name],
+      },
+      {
+        query: "patch taxonomy",
+        expected: [allTools.patchTaxonomyGroup.name],
+      },
+      {
+        query: "edit taxonomy group",
+        expected: [allTools.patchTaxonomyGroup.name],
+      },
+      // list
+      {
+        query: "list taxonomy groups",
+        expected: [allTools.listTaxonomyGroups.name],
+      },
+      // delete / remove
+      {
+        query: "delete taxonomy group",
+        expected: [allTools.deleteTaxonomyGroup.name],
+      },
+      {
+        query: "remove taxonomy group",
+        expected: [allTools.deleteTaxonomyGroup.name],
+      },
+      // Synonym: hierarchy / classification / organize
+      {
+        query: "classification hierarchy",
+        expected: [allTools.getTaxonomyGroup.name],
+      },
+      {
+        query: "content categorization",
+        expected: [allTools.getTaxonomyGroup.name],
+      },
+      {
+        query: "organize content terms",
+        expected: [allTools.patchTaxonomyGroup.name],
+      },
+    ],
+  },
+  {
+    name: "asset operations",
+    cases: [
+      // get / retrieve / fetch
+      { query: "get asset", expected: [allTools.getAsset.name] },
+      { query: "retrieve asset by id", expected: [allTools.getAsset.name] },
+      { query: "fetch asset", expected: [allTools.getAsset.name] },
+      // list / all
+      { query: "list assets", expected: [allTools.listAssets.name] },
+      { query: "all assets", expected: [allTools.listAssets.name] },
+      // update / edit / modify
+      {
+        query: "update asset metadata",
+        expected: [allTools.updateAsset.name],
+      },
+      { query: "edit asset title", expected: [allTools.updateAsset.name] },
+      { query: "modify asset", expected: [allTools.updateAsset.name] },
+      // Folders
+      {
+        query: "asset folders",
+        expected: [
+          allTools.listAssetFolders.name,
+          allTools.patchAssetFolders.name,
+        ],
+      },
+      {
+        query: "list asset folders",
+        expected: [allTools.listAssetFolders.name],
+      },
+      {
+        query: "modify asset folders",
+        expected: [allTools.patchAssetFolders.name],
+      },
+      {
+        query: "edit asset folders",
+        expected: [allTools.patchAssetFolders.name],
+      },
+      // Synonym: image / file / media / document
+      { query: "get image file", expected: [allTools.getAsset.name] },
+      { query: "list media files", expected: [allTools.listAssets.name] },
+      {
+        query: "documents videos assets",
+        expected: [allTools.listAssets.name],
+      },
+    ],
+  },
+  {
+    name: "language operations",
+    cases: [
+      // create / add / new
+      { query: "add language", expected: [allTools.createLanguage.name] },
+      { query: "create language", expected: [allTools.createLanguage.name] },
+      {
+        query: "new language locale",
+        expected: [allTools.createLanguage.name],
+      },
+      // list / get
+      { query: "list languages", expected: [allTools.listLanguages.name] },
+      { query: "get languages", expected: [allTools.listLanguages.name] },
+      {
+        query: "available languages",
+        expected: [allTools.listLanguages.name],
+      },
+      // modify / patch / edit
+      {
+        query: "modify language fallback",
+        expected: [allTools.patchLanguage.name],
+      },
+      { query: "patch language", expected: [allTools.patchLanguage.name] },
+      { query: "edit language", expected: [allTools.patchLanguage.name] },
+      // Synonym: localization / translations
+      {
+        query: "localization translations",
+        expected: [allTools.createLanguage.name, allTools.listLanguages.name],
+      },
+      // Synonym: locale / i18n / fallback
+      { query: "configure locale", expected: [allTools.createLanguage.name] },
+      {
+        query: "language fallback inheritance",
+        expected: [allTools.patchLanguage.name],
+      },
+    ],
+  },
+  {
+    name: "space operations",
+    cases: [
+      // create / add / new
+      { query: "create space", expected: [allTools.createSpace.name] },
+      { query: "add space", expected: [allTools.createSpace.name] },
+      { query: "new space website", expected: [allTools.createSpace.name] },
+      // list / get
+      { query: "list spaces", expected: [allTools.listSpaces.name] },
+      { query: "get spaces", expected: [allTools.listSpaces.name] },
+      // delete / remove
+      { query: "delete space", expected: [allTools.deleteSpace.name] },
+      { query: "remove space", expected: [allTools.deleteSpace.name] },
+      // modify / patch / edit
+      { query: "patch space", expected: [allTools.patchSpace.name] },
+      { query: "update space", expected: [allTools.patchSpace.name] },
+      // Synonym: channel / site / website
+      {
+        query: "website channel setup",
+        expected: [allTools.createSpace.name],
+      },
+      { query: "site configuration", expected: [allTools.listSpaces.name] },
+    ],
+  },
+  {
+    name: "collection operations",
+    cases: [
+      {
+        query: "list collections",
+        expected: [allTools.listCollections.name],
+      },
+      {
+        query: "get collections",
+        expected: [allTools.listCollections.name],
+      },
+      {
+        query: "modify collections",
+        expected: [allTools.patchCollections.name],
+      },
+      {
+        query: "patch collections",
+        expected: [allTools.patchCollections.name],
+      },
+      {
+        query: "edit collections",
+        expected: [allTools.patchCollections.name],
+      },
+    ],
+  },
+  {
+    name: "role operations",
+    cases: [
+      { query: "list roles", expected: [allTools.listRoles.name] },
+      { query: "roles permissions", expected: [allTools.listRoles.name] },
+      { query: "get roles", expected: [allTools.listRoles.name] },
+      // Synonym: access / security / users
+      {
+        query: "user access permissions",
+        expected: [allTools.listRoles.name],
+      },
+      { query: "security roles", expected: [allTools.listRoles.name] },
+    ],
+  },
+  {
+    name: "patch guide",
+    cases: [
+      {
+        query: "patch operations guide",
+        expected: [allTools.getPatchGuide.name],
+      },
+      { query: "patch guide", expected: [allTools.getPatchGuide.name] },
+      {
+        query: "patch reference guide",
+        expected: [allTools.getPatchGuide.name],
+      },
+    ],
+  },
+  {
+    name: "agent-style natural language queries",
+    cases: [
+      {
+        query: "create blog post content type",
+        expected: [allTools.createContentType.name],
+      },
+      {
+        query: "content models schemas",
+        expected: [allTools.listContentTypes.name],
+      },
+      {
+        query: "add field to content type",
+        expected: [allTools.patchContentType.name],
+      },
+      {
+        query: "publish language version",
+        expected: [allTools.publishContentItemVariant.name],
+      },
+      {
+        query: "create taxonomy categories",
+        expected: [allTools.createTaxonomyGroup.name],
+      },
+      {
+        query: "move to published workflow step",
+        expected: [allTools.changeContentItemVariantWorkflowStep.name],
+      },
+      {
+        query: "images assets media",
+        expected: [allTools.listAssets.name, allTools.getAsset.name],
+      },
+      {
+        query: "add translation language",
+        expected: [allTools.createContentItemVariant.name],
+      },
+    ],
+  },
+];
+
+// ---------------------------------------------------------------------------
+// Generate tests from data
+// ---------------------------------------------------------------------------
+
+describe(`BM25 tool search — finds appropriate tools in top ${topK} results`, () => {
+  let index: MiniSearch<ToolDocument>;
+
+  before(() => {
+    index = createToolSearchIndex(Object.values(allTools));
+  });
+
+  for (const group of testGroups) {
+    describe(group.name, () => {
+      for (const { query, expected } of group.cases) {
+        it(`"${query}" → [${expected.join(", ")}]`, () => {
+          assertToolsFound(index, query, expected);
+        });
+      }
+    });
+  }
+});

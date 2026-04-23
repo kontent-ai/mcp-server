@@ -207,7 +207,7 @@ const elementInComponentSchema: z.ZodType<VariantElementInComponent> = z
     "Element value within a component - same structure as top-level variant elements.",
   );
 
-// Top-level language variant element schema - discriminated by unique fields
+// Top-level item variant element schema - discriminated by unique fields
 export const languageVariantElementSchema = z.union([
   // Most specific schemas first (with unique distinguishing fields)
   urlSlugInVariantElementSchema, // has unique required 'mode' field

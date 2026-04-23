@@ -21,7 +21,7 @@ export const filterVariantsSchema = z.object({
   search_phrase: z
     .string()
     .optional()
-    .describe("Search phrase to look for in content"),
+    .describe("Specific phrase or keywords to look for in content"),
   content_types: z
     .array(referenceObjectSchema)
     .min(1)
@@ -40,7 +40,7 @@ export const filterVariantsSchema = z.object({
     .boolean()
     .optional()
     .describe(
-      "Filter for content item language variants that have no contributors assigned",
+      "Filter for content item variants that have no contributors assigned",
     ),
   completion_statuses: z
     .array(z.enum(["unfinished", "ready", "not_translated", "all_done"]))
@@ -87,7 +87,7 @@ export const filterVariantsSchema = z.object({
           .boolean()
           .optional()
           .describe(
-            "Whether to include content item language variants that don't have any taxonomy terms assigned in this taxonomy group",
+            "Whether to include content item variants that don't have any taxonomy terms assigned in this taxonomy group",
           ),
       }),
     )
@@ -107,6 +107,13 @@ export const filterVariantsSchema = z.object({
     .optional()
     .describe(
       "Array of references to collections by their id, codename, or external id",
+    ),
+  component_types: z
+    .array(referenceObjectSchema)
+    .min(1)
+    .optional()
+    .describe(
+      "Array of references to content component types stored in variants by their type id, codename, or external id",
     ),
   publishing_states: z
     .array(z.enum(["published", "unpublished", "not_published_yet"]))
