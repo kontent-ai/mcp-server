@@ -1,10 +1,10 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { defineReadOnlyTool } from "./toolDefinition.js";
 
-export const getPublishedContentItemVariantVersion = defineTool(
+export const getPublishedContentItemVariantVersion = defineReadOnlyTool(
   "get-published-content-item-variant-version",
   "Retrieve the published version of a Kontent.ai content item variant (live content). Use when a newer draft version exists but you need the currently published content. Returns the variant snapshot that is live on the Delivery API.",
   {
@@ -22,7 +22,7 @@ export const getPublishedContentItemVariantVersion = defineTool(
         .published()
         .toPromise();
 
-      return createMcpToolSuccessResponse(response.rawData);
+      return createUntrustedContentResponse(response.rawData);
     } catch (error: unknown) {
       return handleMcpToolError(
         error,

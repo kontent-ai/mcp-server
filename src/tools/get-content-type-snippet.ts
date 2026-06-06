@@ -1,10 +1,10 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { defineReadOnlyTool } from "./toolDefinition.js";
 
-export const getContentTypeSnippet = defineTool(
+export const getContentTypeSnippet = defineReadOnlyTool(
   "get-content-type-snippet",
   "Retrieve Kontent.ai content type snippet. Snippets are reusable, shared sets of elements included across multiple content types.",
   {
@@ -19,7 +19,7 @@ export const getContentTypeSnippet = defineTool(
         .byTypeId(id)
         .toPromise();
 
-      return createMcpToolSuccessResponse(response.rawData);
+      return createUntrustedContentResponse(response.rawData);
     } catch (error: any) {
       return handleMcpToolError(error, "Content Type Snippet Retrieval");
     }

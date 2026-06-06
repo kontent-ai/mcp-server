@@ -23,6 +23,7 @@ Kontent.ai MCP Server implements the Model Context Protocol to connect your Kont
 - [🔌 Quickstart](#-quickstart)
 - [🛠️ Available Tools](#️-available-tools)
 - [⚙️ Configuration](#️-configuration)
+- [🔒 Security](#-security)
 - [🚀 Transport Options](#-transport-options)
 - [💻 Development](#-development)
   - [🛠 Local Installation](#-local-installation)
@@ -183,6 +184,14 @@ This allows a single server instance to handle requests for multiple Kontent.ai 
 | appInsightsConnectionString | Application Insights connection string for telemetry | ❌ |
 | projectLocation | Project location identifier for telemetry tracking | ❌ |
 | manageApiUrl | Custom base URL (for preview environments) | ❌ |
+
+## 🔒 Security
+
+This server addresses **indirect prompt injection** — the risk that text stored in your CMS (for example, a content item element written by a Content Editor) is interpreted by an LLM as instructions and used to trigger destructive operations. The controls below are defense-in-depth measures that apply on both transports (STDIO and the multi-tenant Streamable HTTP product):
+
+* **Untrusted-content marking.** Tools whose responses echo back stored CMS data (content item elements, asset metadata, entity names and descriptions — any free text an editor can influence) prepend an untrusted-data notice block (the original data follows as the second content block, byte-identical), instructing the model to treat it as data and never as instructions. Measurably reduces non-adaptive injection success; it is defense-in-depth, not a standalone guarantee.
+* **Tool annotations.** Every tool declares [MCP tool annotations](https://modelcontextprotocol.io/specification/2025-06-18/server/tools#tool-annotations): read tools are `readOnlyHint: true` (safe to auto-approve), and every mutating tool (including `publish-content-item-variant`) is `destructiveHint: true` so compliant clients can surface their own confirmation step. Per the MCP specification these annotations are **hints**, enforced by the *client*, not the server.
+* **Least-privilege credentials (recommended).** The server acts with the Management API key it is given. For read-heavy or autonomous-agent deployments, provision a **read-only / least-privilege Management API key** so destructive calls cannot succeed regardless of model behaviour — the most reliable control for the multi-tenant transport.
 
 ## 🚀 Transport Options
 

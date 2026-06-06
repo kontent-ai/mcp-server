@@ -2,10 +2,10 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { snippetElementSchema } from "../schemas/contentTypeAndSnippetSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const createContentTypeSnippet = defineTool(
+export const createContentTypeSnippet = defineDestructiveTool(
   "create-content-type-snippet",
   "Create (add) new Kontent.ai content type snippet. Snippets are reusable, shared sets of elements that can be included in multiple content types.",
   {
@@ -36,7 +36,7 @@ export const createContentTypeSnippet = defineTool(
         }))
         .toPromise();
 
-      return createMcpToolSuccessResponse(response.rawData);
+      return createUntrustedContentResponse(response.rawData);
     } catch (error: any) {
       return handleMcpToolError(error, "Content Type Snippet Creation");
     }

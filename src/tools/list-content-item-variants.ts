@@ -1,16 +1,16 @@
 import { createMapiClient } from "../clients/kontentClients.js";
 import { filterVariantsSchema } from "../schemas/filterVariantSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
 import { throwError } from "../utils/throwError.js";
 import {
   bulkGetContentItemVariantsToolName,
   listContentItemVariantsToolName,
   searchContentItemVariantsToolName,
 } from "./referencedToolNames.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineReadOnlyTool } from "./toolDefinition.js";
 
-export const listContentItemVariants = defineTool(
+export const listContentItemVariants = defineReadOnlyTool(
   listContentItemVariantsToolName,
   `List, find, filter Kontent.ai content items with content item variants (language versions/translations) returning references (item ID + language ID). Filter by content item content type, collection, space, workflow step, taxonomy, contained content component content type, or publishing state. Search items and variants by EXACT keyword matching (terms use OR). Use ${searchContentItemVariantsToolName} for semantic/topic search. Use ${bulkGetContentItemVariantsToolName} to retrieve full content of the content item variants.`,
   filterVariantsSchema.shape,
@@ -70,7 +70,7 @@ export const listContentItemVariants = defineTool(
         : query
       ).toPromise();
 
-      return createMcpToolSuccessResponse({
+      return createUntrustedContentResponse({
         variants: response.rawData.variants,
         pagination: {
           continuation_token: response.data.pagination.continuationToken,

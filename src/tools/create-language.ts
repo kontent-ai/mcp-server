@@ -1,10 +1,10 @@
 import { createMapiClient } from "../clients/kontentClients.js";
 import { addLanguageSchema } from "../schemas/languageSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const createLanguage = defineTool(
+export const createLanguage = defineDestructiveTool(
   "create-language",
   "Create (add) and configure new Kontent.ai language locale for translations and localization. Languages are always created as active.",
   addLanguageSchema.shape,
@@ -26,7 +26,7 @@ export const createLanguage = defineTool(
         })
         .toPromise();
 
-      return createMcpToolSuccessResponse(response.rawData);
+      return createUntrustedContentResponse(response.rawData);
     } catch (error: unknown) {
       return handleMcpToolError(error, "Language Creation");
     }

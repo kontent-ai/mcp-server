@@ -1,10 +1,10 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const deleteContentItemVariant = defineTool(
+export const deleteContentItemVariant = defineDestructiveTool(
   "delete-content-item-variant",
   "Delete (remove) Kontent.ai content item variant (language version/translation). Removes translated content for a specific language from an item.",
   {
@@ -21,7 +21,7 @@ export const deleteContentItemVariant = defineTool(
         .byLanguageId(languageId)
         .toPromise();
 
-      return createMcpToolSuccessResponse({
+      return createUntrustedContentResponse({
         message: `Language variant '${languageId}' of content item '${itemId}' deleted successfully`,
         deletedVariant: response.rawData,
       });
@@ -29,4 +29,5 @@ export const deleteContentItemVariant = defineTool(
       return handleMcpToolError(error, "Language Variant Deletion");
     }
   },
+  { idempotent: true },
 );

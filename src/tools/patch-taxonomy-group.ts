@@ -2,14 +2,14 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { taxonomyPatchOperationsSchema } from "../schemas/patchSchemas/taxonomyPatchSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
 import {
   getPatchGuideToolName,
   getTaxonomyGroupToolName,
 } from "./referencedToolNames.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const patchTaxonomyGroup = defineTool(
+export const patchTaxonomyGroup = defineDestructiveTool(
   "patch-taxonomy-group",
   `Update (modify/edit) and organize Kontent.ai taxonomy group terms using patch operations (addInto, move, remove, replace). Call ${getPatchGuideToolName} first for operations reference.`,
   {
@@ -28,7 +28,7 @@ export const patchTaxonomyGroup = defineTool(
         .withData(operations)
         .toPromise();
 
-      return createMcpToolSuccessResponse({
+      return createUntrustedContentResponse({
         message: `Taxonomy group updated with ${operations.length} operation(s)`,
         taxonomyGroup: response.rawData,
         appliedOperations: operations,

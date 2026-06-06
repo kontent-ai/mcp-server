@@ -2,14 +2,17 @@ import pRetry, { AbortError } from "p-retry";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { searchOperationSchema } from "../schemas/searchOperationSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import {
+  createMcpToolSuccessResponse,
+  createUntrustedContentResponse,
+} from "../utils/responseHelper.js";
 import { throwError } from "../utils/throwError.js";
 import {
   bulkGetContentItemVariantsToolName,
   listContentItemVariantsToolName,
   searchContentItemVariantsToolName,
 } from "./referencedToolNames.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineReadOnlyTool } from "./toolDefinition.js";
 
 interface AiOperationResponse {
   operationId: string;
@@ -51,7 +54,7 @@ const extractSearchResults = (response: AiOperationResultResponse): object => {
   return parsed;
 };
 
-export const searchContentItemVariants = defineTool(
+export const searchContentItemVariants = defineReadOnlyTool(
   searchContentItemVariantsToolName,
   `AI semantic search for Kontent.ai content items with content item variants (language versions/translations) by topic, theme, or meaning. Find content by natural language query. Returns only top 50 results. This feature may be unavailable. Use ${listContentItemVariantsToolName} for full content inventory filtering or exact keyword matching. Use ${bulkGetContentItemVariantsToolName} to retrieve full content of the variants.`,
   searchOperationSchema.shape,
@@ -148,7 +151,7 @@ export const searchContentItemVariants = defineTool(
 
       const searchResults = extractSearchResults(resultData);
 
-      return createMcpToolSuccessResponse({
+      return createUntrustedContentResponse({
         result: searchResults,
       });
     } catch (error: unknown) {

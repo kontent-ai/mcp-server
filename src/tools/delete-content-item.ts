@@ -1,10 +1,10 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const deleteContentItem = defineTool(
+export const deleteContentItem = defineDestructiveTool(
   "delete-content-item",
   "Delete (remove) Kontent.ai content item and all its content item variants.",
   {
@@ -19,7 +19,7 @@ export const deleteContentItem = defineTool(
         .byItemId(id)
         .toPromise();
 
-      return createMcpToolSuccessResponse({
+      return createUntrustedContentResponse({
         message: `Content item '${id}' deleted successfully`,
         deletedItem: response.rawData,
       });
@@ -27,4 +27,5 @@ export const deleteContentItem = defineTool(
       return handleMcpToolError(error, "Content Item Deletion");
     }
   },
+  { idempotent: true },
 );

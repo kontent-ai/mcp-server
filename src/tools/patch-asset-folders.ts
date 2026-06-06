@@ -2,11 +2,11 @@ import type { AssetFolderModels } from "@kontent-ai/management-sdk";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { assetFolderPatchOperationsSchema } from "../schemas/assetFolderSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
 import { getPatchGuideToolName } from "./referencedToolNames.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const patchAssetFolders = defineTool(
+export const patchAssetFolders = defineDestructiveTool(
   "patch-asset-folders",
   `Update (modify/edit) Kontent.ai asset folders using patch operations (addInto, rename, remove). Call ${getPatchGuideToolName} first for operations reference.`,
   {
@@ -21,7 +21,7 @@ export const patchAssetFolders = defineTool(
         .withData(operations as AssetFolderModels.IModifyAssetFolderData[])
         .toPromise();
 
-      return createMcpToolSuccessResponse({
+      return createUntrustedContentResponse({
         message: `Asset folders modified with ${operations.length} operation(s)`,
         folders: response.rawData,
         appliedOperations: operations,

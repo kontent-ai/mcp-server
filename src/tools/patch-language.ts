@@ -1,11 +1,11 @@
 import { createMapiClient } from "../clients/kontentClients.js";
 import { patchLanguageSchema } from "../schemas/languageSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
 import { getPatchGuideToolName } from "./referencedToolNames.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const patchLanguage = defineTool(
+export const patchLanguage = defineDestructiveTool(
   "patch-language",
   `Update (modify/edit) Kontent.ai language properties using replace patch operations. Call ${getPatchGuideToolName} first. Only active languages can be edited - to activate/deactivate, use the Kontent.ai web UI.`,
   patchLanguageSchema.shape,
@@ -22,7 +22,7 @@ export const patchLanguage = defineTool(
         .withData(operations)
         .toPromise();
 
-      return createMcpToolSuccessResponse({
+      return createUntrustedContentResponse({
         message: `Language updated with ${operations.length} operation(s)`,
         language: response.rawData,
         appliedOperations: operations,

@@ -2,11 +2,11 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { spacePatchOperationsSchema } from "../schemas/spaceSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
 import { getPatchGuideToolName } from "./referencedToolNames.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const patchSpace = defineTool(
+export const patchSpace = defineDestructiveTool(
   "patch-space",
   `Update (modify/edit) Kontent.ai space properties using replace patch operations. Call ${getPatchGuideToolName} first for operations reference.`,
   {
@@ -23,7 +23,7 @@ export const patchSpace = defineTool(
         .withData(operations)
         .toPromise();
 
-      return createMcpToolSuccessResponse({
+      return createUntrustedContentResponse({
         message: `Space updated successfully with ${operations.length} operation(s)`,
         space: response.rawData,
         appliedOperations: operations,

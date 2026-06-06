@@ -1,10 +1,10 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { defineReadOnlyTool } from "./toolDefinition.js";
 
-export const getContentItemTranslations = defineTool(
+export const getContentItemTranslations = defineReadOnlyTool(
   "get-content-item-translations",
   "Get all Kontent.ai content item translations — every language version (variant) of a specific content item. Retrieve translated content across all languages to see available translations for a single item.",
   {
@@ -19,7 +19,7 @@ export const getContentItemTranslations = defineTool(
         .byItemId(itemId)
         .toPromise();
 
-      return createMcpToolSuccessResponse(response.rawData);
+      return createUntrustedContentResponse(response.rawData);
     } catch (error: unknown) {
       return handleMcpToolError(error, "Content Item Translations Retrieval");
     }

@@ -1,14 +1,14 @@
 import { createMapiClient } from "../clients/kontentClients.js";
 import { collectionPatchOperationsSchema } from "../schemas/collectionSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
 import {
   getPatchGuideToolName,
   listCollectionsToolName,
 } from "./referencedToolNames.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const patchCollections = defineTool(
+export const patchCollections = defineDestructiveTool(
   "patch-collections",
   `Update (modify/edit) Kontent.ai collections using patch operations (addInto, move, rename, remove). Call ${getPatchGuideToolName} first for operations reference.`,
   {
@@ -25,7 +25,7 @@ export const patchCollections = defineTool(
         .withData(operations)
         .toPromise();
 
-      return createMcpToolSuccessResponse({
+      return createUntrustedContentResponse({
         message: `Collections updated successfully with ${operations.length} operation(s)`,
         collections: response.rawData,
         appliedOperations: operations,

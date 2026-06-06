@@ -1,11 +1,11 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
 import { createContentItemVariantToolName } from "./referencedToolNames.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const createContentItem = defineTool(
+export const createContentItem = defineDestructiveTool(
   "create-content-item",
   `Create (add) new Kontent.ai content item (creates the container only, use ${createContentItemVariantToolName} to add language versions/translations). Items are language-neutral and hold content item variants for each language.`,
   {
@@ -49,7 +49,7 @@ export const createContentItem = defineTool(
         })
         .toPromise();
 
-      return createMcpToolSuccessResponse(response.rawData);
+      return createUntrustedContentResponse(response.rawData);
     } catch (error: any) {
       return handleMcpToolError(error, "Content Item Creation");
     }

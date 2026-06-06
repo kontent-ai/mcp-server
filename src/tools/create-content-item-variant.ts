@@ -3,11 +3,11 @@ import { createMapiClient } from "../clients/kontentClients.js";
 import { languageVariantElementSchema } from "../schemas/contentItemSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { extractUserIdFromToken } from "../utils/extractUserIdFromToken.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
 import { createContentItemVariantToolName } from "./referencedToolNames.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const createContentItemVariant = defineTool(
+export const createContentItemVariant = defineDestructiveTool(
   createContentItemVariantToolName,
   "Create Kontent.ai content item variant — translate and localize content into a specific language. Adds a new language version (translation) for a content item. Send only the elements you want to set (omitted ones initialize with default value). Element values must fulfill the content type definition.",
   {
@@ -58,7 +58,7 @@ export const createContentItemVariant = defineTool(
         .withData(() => data)
         .toPromise();
 
-      return createMcpToolSuccessResponse(response.rawData);
+      return createUntrustedContentResponse(response.rawData);
     } catch (error: any) {
       return handleMcpToolError(error, "Language Variant Create");
     }

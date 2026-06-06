@@ -57,7 +57,7 @@ This is a Model Context Protocol (MCP) server for Kontent.ai that enables AI mod
 3. **Tools Directory** (`src/tools/`): Each tool is a separate module that:
    - Implements a specific Kontent.ai operation
    - Uses standardized error handling via `errorHandler.ts`
-   - Returns responses using `createMcpToolSuccessResponse`
+   - Returns responses using `createMcpToolSuccessResponse` (or `createUntrustedContentResponse` when the response carries end-user-authored CMS content)
    - Must call `get-patch-guide` before any patch operation
 
 4. **API Clients** (`src/clients/kontentClients.ts`): Manages Kontent.ai SDK instances:
@@ -164,9 +164,9 @@ claude mcp add --transport http kontent-ai-multi \
 ### Key Implementation Patterns
 
 #### 1. Tool Definition Pattern
-Each tool is defined using `defineTool` which returns a `ToolDefinition` object:
+Each tool is defined using `defineReadOnlyTool` (gets, lists, searches) or `defineDestructiveTool` (creates, updates, patches, deletes, publishes) from `src/tools/toolDefinition.ts`. The factory sets the correct MCP tool annotations (`readOnlyHint`, `destructiveHint`, `idempotentHint`, `openWorldHint`) so they can never be forgotten:
 ```typescript
-export const myTool = defineTool(
+export const myTool = defineReadOnlyTool(
     "tool-name",
     "Tool description", // Following the pattern
     { /* Zod schema for parameters */ },
@@ -181,6 +181,8 @@ export const myTool = defineTool(
     },
 );
 ```
+
+For mutating tools use `defineDestructiveTool`; pass `{ idempotent: true }` as the trailing options argument when repeating the call with the same arguments has no additional effect (e.g. delete-by-id tools).
 
 Tools are collected in `src/tools/index.ts` as an `allTools` object and registered in `server.ts` via `server.registerTool()`.
 
@@ -217,7 +219,7 @@ When contributing:
 ### Common Development Tasks
 
 1. **Adding a new tool**:
-   - Create new file in `src/tools/` using `defineTool` (see `src/tools/toolDefinition.ts`)
+   - Create new file in `src/tools/` using `defineReadOnlyTool` or `defineDestructiveTool` (see `src/tools/toolDefinition.ts`)
    - Follow naming convention: `[action]-[entity]` format
    - Add the export to `allTools` object in `src/tools/index.ts`
    - Update README.md with tool description

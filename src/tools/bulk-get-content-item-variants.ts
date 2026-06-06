@@ -1,12 +1,12 @@
 import { createMapiClient } from "../clients/kontentClients.js";
 import { bulkGetItemsWithVariantsSchema } from "../schemas/bulkGetItemsWithVariantsSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
 import { throwError } from "../utils/throwError.js";
 import { bulkGetContentItemVariantsToolName } from "./referencedToolNames.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineReadOnlyTool } from "./toolDefinition.js";
 
-export const bulkGetContentItemVariants = defineTool(
+export const bulkGetContentItemVariants = defineReadOnlyTool(
   bulkGetContentItemVariantsToolName,
   "Bulk/batch retrieve multiple Kontent.ai content items with their content item variants (language versions/translations) by item and language reference pairs. Fetch full content for item and variant IDs found via other tools.",
   bulkGetItemsWithVariantsSchema.shape,
@@ -31,7 +31,7 @@ export const bulkGetContentItemVariants = defineTool(
         : query
       ).toPromise();
 
-      return createMcpToolSuccessResponse({
+      return createUntrustedContentResponse({
         data: response.rawData.data,
         pagination: {
           continuation_token: response.data.pagination.continuationToken,

@@ -1,10 +1,10 @@
 import { createMapiClient } from "../clients/kontentClients.js";
 import { listContentTypesSchema } from "../schemas/listSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { defineReadOnlyTool } from "./toolDefinition.js";
 
-export const listContentTypes = defineTool(
+export const listContentTypes = defineReadOnlyTool(
   "list-content-types",
   "List all Kontent.ai content types (paginated). Retrieve every content type (schema/model) definition. Get an overview of all content type models, their elements, field validation rules, and content groups.",
   listContentTypesSchema.shape,
@@ -19,7 +19,7 @@ export const listContentTypes = defineTool(
         : query
       ).toPromise();
 
-      return createMcpToolSuccessResponse({
+      return createUntrustedContentResponse({
         data: response.rawData.types,
         pagination: {
           continuation_token: response.data.pagination.continuationToken,

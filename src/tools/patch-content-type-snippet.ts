@@ -2,11 +2,11 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { snippetPatchOperationsSchema } from "../schemas/patchSchemas/snippetPatchSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
 import { getPatchGuideToolName } from "./referencedToolNames.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const patchContentTypeSnippet = defineTool(
+export const patchContentTypeSnippet = defineDestructiveTool(
   "patch-content-type-snippet",
   `Update (modify/edit) Kontent.ai content type snippet using patch operations (move, addInto, remove, replace elements). Call ${getPatchGuideToolName} first for operations reference.`,
   {
@@ -27,7 +27,7 @@ export const patchContentTypeSnippet = defineTool(
         .withData(operations)
         .toPromise();
 
-      return createMcpToolSuccessResponse({
+      return createUntrustedContentResponse({
         message: `Content type snippet updated successfully with ${operations.length} operation(s)`,
         snippet: response.rawData,
         appliedOperations: operations,

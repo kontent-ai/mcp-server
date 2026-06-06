@@ -1,9 +1,9 @@
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { defineReadOnlyTool } from "./toolDefinition.js";
 
-export const listSpaces = defineTool(
+export const listSpaces = defineReadOnlyTool(
   "list-spaces",
   "List all Kontent.ai spaces. Spaces provide channel-specific site configuration for managing multiple websites/channels. Each space has its own domain and preview URLs; collections connect to spaces to organize content per channel.",
   {},
@@ -12,7 +12,7 @@ export const listSpaces = defineTool(
 
     try {
       const response = await client.listSpaces().toPromise();
-      return createMcpToolSuccessResponse(response.rawData);
+      return createUntrustedContentResponse(response.rawData);
     } catch (error: unknown) {
       return handleMcpToolError(error, "Spaces Listing");
     }

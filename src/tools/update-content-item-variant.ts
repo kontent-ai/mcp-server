@@ -2,10 +2,10 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { languageVariantElementSchema } from "../schemas/contentItemSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const updateContentItemVariant = defineTool(
+export const updateContentItemVariant = defineDestructiveTool(
   "update-content-item-variant",
   "Update Kontent.ai content item variant (language version/translation). Send only the elements you want to change — omitted elements are left untouched on the existing variant. Values must fulfill validation rules defined in the content type.",
   {
@@ -49,7 +49,7 @@ export const updateContentItemVariant = defineTool(
         .withData(() => data)
         .toPromise();
 
-      return createMcpToolSuccessResponse(response.rawData);
+      return createUntrustedContentResponse(response.rawData);
     } catch (error: any) {
       return handleMcpToolError(error, "Language Variant Update");
     }

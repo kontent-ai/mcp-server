@@ -2,9 +2,9 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const deleteSpace = defineTool(
+export const deleteSpace = defineDestructiveTool(
   "delete-space",
   "Delete (remove) Kontent.ai space by ID. Removes the channel/website context.",
   {
@@ -23,4 +23,5 @@ export const deleteSpace = defineTool(
       return handleMcpToolError(error, "Space Deletion");
     }
   },
+  { idempotent: true },
 );

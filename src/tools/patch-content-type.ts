@@ -2,11 +2,11 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { patchOperationsSchema } from "../schemas/patchSchemas/contentTypePatchSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
 import { getPatchGuideToolName } from "./referencedToolNames.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const patchContentType = defineTool(
+export const patchContentType = defineDestructiveTool(
   "patch-content-type",
   `Update (modify/edit) Kontent.ai content type schema using patch operations (add, move, remove, replace elements/fields). Add new fields, rearrange or remove existing elements. Call ${getPatchGuideToolName} first for operations reference.`,
   {
@@ -30,7 +30,7 @@ export const patchContentType = defineTool(
         .withData(operations)
         .toPromise();
 
-      return createMcpToolSuccessResponse({
+      return createUntrustedContentResponse({
         message: `Content type updated successfully with ${operations.length} operation(s)`,
         contentType: response.rawData,
         appliedOperations: operations,

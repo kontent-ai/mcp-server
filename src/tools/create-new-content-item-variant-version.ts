@@ -1,10 +1,10 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const createNewContentItemVariantVersion = defineTool(
+export const createNewContentItemVariantVersion = defineDestructiveTool(
   "create-new-content-item-variant-version",
   "Create new draft version of a published Kontent.ai content item variant (language version/translation). Required before editing published content.",
   {
@@ -23,7 +23,7 @@ export const createNewContentItemVariantVersion = defineTool(
         .byLanguageId(languageId)
         .toPromise();
 
-      return createMcpToolSuccessResponse({
+      return createUntrustedContentResponse({
         message: `Successfully created new version of item variant '${languageId}' for content item '${itemId}'`,
         result: response.rawData,
       });

@@ -1,11 +1,11 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
 import { createContentItemToolName } from "./referencedToolNames.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const updateContentItem = defineTool(
+export const updateContentItem = defineDestructiveTool(
   "update-content-item",
   "Update (edit) Kontent.ai content item metadata: name, collection.",
   {
@@ -62,7 +62,7 @@ export const updateContentItem = defineTool(
         .withData(updateData)
         .toPromise();
 
-      return createMcpToolSuccessResponse({
+      return createUntrustedContentResponse({
         message: `Content item '${id}' updated successfully`,
         updatedItem: response.rawData,
       });

@@ -3,10 +3,10 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { updateAssetDataSchema } from "../schemas/assetSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const updateAsset = defineTool(
+export const updateAsset = defineDestructiveTool(
   "update-asset",
   "Update (edit) Kontent.ai asset metadata by ID. Modify asset title, descriptions, or taxonomy-based properties.",
   {
@@ -23,7 +23,7 @@ export const updateAsset = defineTool(
         .withData(() => data as unknown as AssetModels.IUpsertAssetRequestData)
         .toPromise();
 
-      return createMcpToolSuccessResponse(response.rawData);
+      return createUntrustedContentResponse(response.rawData);
     } catch (error: unknown) {
       return handleMcpToolError(error, "Asset Update");
     }
