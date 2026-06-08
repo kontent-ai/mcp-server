@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineDestructiveTool } from "./toolDefinition.js";
 
 export const changeContentItemVariantWorkflowStep = defineDestructiveTool(
@@ -34,7 +34,7 @@ export const changeContentItemVariantWorkflowStep = defineDestructiveTool(
         })
         .toPromise();
 
-      return createUntrustedContentResponse({
+      return createMcpToolSuccessResponse({
         message: `Successfully changed workflow step of item variant '${languageId}' for content item '${itemId}' to workflow step '${workflowStepId}'`,
         result: response.rawData,
       });

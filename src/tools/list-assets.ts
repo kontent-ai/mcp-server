@@ -1,7 +1,7 @@
 import { createMapiClient } from "../clients/kontentClients.js";
 import { listAssetsSchema } from "../schemas/listSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineReadOnlyTool } from "./toolDefinition.js";
 
 export const listAssets = defineReadOnlyTool(
@@ -19,7 +19,7 @@ export const listAssets = defineReadOnlyTool(
         : query
       ).toPromise();
 
-      return createUntrustedContentResponse({
+      return createMcpToolSuccessResponse({
         data: response.rawData.assets,
         pagination: {
           continuation_token: response.data.pagination.continuationToken,

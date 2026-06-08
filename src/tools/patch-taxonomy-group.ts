@@ -2,7 +2,7 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { taxonomyPatchOperationsSchema } from "../schemas/patchSchemas/taxonomyPatchSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import {
   getPatchGuideToolName,
   getTaxonomyGroupToolName,
@@ -28,7 +28,7 @@ export const patchTaxonomyGroup = defineDestructiveTool(
         .withData(operations)
         .toPromise();
 
-      return createUntrustedContentResponse({
+      return createMcpToolSuccessResponse({
         message: `Taxonomy group updated with ${operations.length} operation(s)`,
         taxonomyGroup: response.rawData,
         appliedOperations: operations,

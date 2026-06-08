@@ -1,7 +1,7 @@
 import { createMapiClient } from "../clients/kontentClients.js";
 import { addSpaceSchema } from "../schemas/spaceSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineDestructiveTool } from "./toolDefinition.js";
 
 export const createSpace = defineDestructiveTool(
@@ -24,7 +24,7 @@ export const createSpace = defineDestructiveTool(
         })
         .toPromise();
 
-      return createUntrustedContentResponse(response.rawData);
+      return createMcpToolSuccessResponse(response.rawData);
     } catch (error: unknown) {
       return handleMcpToolError(error, "Space Creation");
     }

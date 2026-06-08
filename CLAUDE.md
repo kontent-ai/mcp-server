@@ -57,7 +57,7 @@ This is a Model Context Protocol (MCP) server for Kontent.ai that enables AI mod
 3. **Tools Directory** (`src/tools/`): Each tool is a separate module that:
    - Implements a specific Kontent.ai operation
    - Uses standardized error handling via `errorHandler.ts`
-   - Returns responses using `createMcpToolSuccessResponse` (or `createUntrustedContentResponse` when the response carries end-user-authored CMS content)
+   - Returns responses using `createMcpToolSuccessResponse`
    - Must call `get-patch-guide` before any patch operation
 
 4. **API Clients** (`src/clients/kontentClients.ts`): Manages Kontent.ai SDK instances:

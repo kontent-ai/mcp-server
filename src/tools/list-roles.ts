@@ -1,6 +1,6 @@
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineReadOnlyTool } from "./toolDefinition.js";
 
 export const listRoles = defineReadOnlyTool(
@@ -13,7 +13,7 @@ export const listRoles = defineReadOnlyTool(
     try {
       const response = await client.listRoles().toPromise();
 
-      return createUntrustedContentResponse(response.rawData.roles);
+      return createMcpToolSuccessResponse(response.rawData.roles);
     } catch (error: any) {
       return handleMcpToolError(error, "Roles Listing");
     }

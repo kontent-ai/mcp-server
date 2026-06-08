@@ -1,6 +1,6 @@
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineReadOnlyTool } from "./toolDefinition.js";
 
 export const listCollections = defineReadOnlyTool(
@@ -13,7 +13,7 @@ export const listCollections = defineReadOnlyTool(
     try {
       const response = await client.listCollections().toPromise();
 
-      return createUntrustedContentResponse(response.rawData);
+      return createMcpToolSuccessResponse(response.rawData);
     } catch (error: any) {
       return handleMcpToolError(error, "Collections Listing");
     }

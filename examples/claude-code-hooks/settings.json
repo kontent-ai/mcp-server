@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__kontent-ai__(create|update|patch|delete|publish|unpublish|change)-.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PROJECT_DIR}/.claude/hooks/confirm-destructive.mjs\""
+          }
+        ]
+      }
+    ]
+  }
+}

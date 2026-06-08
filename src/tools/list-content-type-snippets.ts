@@ -1,7 +1,7 @@
 import { createMapiClient } from "../clients/kontentClients.js";
 import { listContentTypeSnippetsSchema } from "../schemas/listSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineReadOnlyTool } from "./toolDefinition.js";
 
 export const listContentTypeSnippets = defineReadOnlyTool(
@@ -19,7 +19,7 @@ export const listContentTypeSnippets = defineReadOnlyTool(
         : query
       ).toPromise();
 
-      return createUntrustedContentResponse({
+      return createMcpToolSuccessResponse({
         data: response.rawData.snippets,
         pagination: {
           continuation_token: response.data.pagination.continuationToken,

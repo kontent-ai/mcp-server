@@ -1,7 +1,7 @@
 import { createMapiClient } from "../clients/kontentClients.js";
 import { collectionPatchOperationsSchema } from "../schemas/collectionSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import {
   getPatchGuideToolName,
   listCollectionsToolName,
@@ -25,7 +25,7 @@ export const patchCollections = defineDestructiveTool(
         .withData(operations)
         .toPromise();
 
-      return createUntrustedContentResponse({
+      return createMcpToolSuccessResponse({
         message: `Collections updated successfully with ${operations.length} operation(s)`,
         collections: response.rawData,
         appliedOperations: operations,

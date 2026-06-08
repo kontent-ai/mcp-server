@@ -1,6 +1,6 @@
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineReadOnlyTool } from "./toolDefinition.js";
 
 export const listWorkflows = defineReadOnlyTool(
@@ -13,7 +13,7 @@ export const listWorkflows = defineReadOnlyTool(
     try {
       const response = await client.listWorkflows().toPromise();
 
-      return createUntrustedContentResponse(response.rawData);
+      return createMcpToolSuccessResponse(response.rawData);
     } catch (error: any) {
       return handleMcpToolError(error, "Workflows Listing");
     }

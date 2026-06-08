@@ -1,7 +1,7 @@
 import { createMapiClient } from "../clients/kontentClients.js";
 import { bulkGetItemsWithVariantsSchema } from "../schemas/bulkGetItemsWithVariantsSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { throwError } from "../utils/throwError.js";
 import { bulkGetContentItemVariantsToolName } from "./referencedToolNames.js";
 import { defineReadOnlyTool } from "./toolDefinition.js";
@@ -31,7 +31,7 @@ export const bulkGetContentItemVariants = defineReadOnlyTool(
         : query
       ).toPromise();
 
-      return createUntrustedContentResponse({
+      return createMcpToolSuccessResponse({
         data: response.rawData.data,
         pagination: {
           continuation_token: response.data.pagination.continuationToken,

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineReadOnlyTool } from "./toolDefinition.js";
 
 export const getTaxonomyGroup = defineReadOnlyTool(
@@ -16,7 +16,7 @@ export const getTaxonomyGroup = defineReadOnlyTool(
     try {
       const response = await client.getTaxonomy().byTaxonomyId(id).toPromise();
 
-      return createUntrustedContentResponse(response.rawData);
+      return createMcpToolSuccessResponse(response.rawData);
     } catch (error: any) {
       return handleMcpToolError(error, "Taxonomy Group Retrieval");
     }

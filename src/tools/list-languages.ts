@@ -1,7 +1,7 @@
 import { createMapiClient } from "../clients/kontentClients.js";
 import { listLanguagesSchema } from "../schemas/listSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { listLanguagesToolName } from "./referencedToolNames.js";
 import { defineReadOnlyTool } from "./toolDefinition.js";
 
@@ -20,7 +20,7 @@ export const listLanguages = defineReadOnlyTool(
         : query
       ).toPromise();
 
-      return createUntrustedContentResponse({
+      return createMcpToolSuccessResponse({
         data: response.rawData.languages,
         pagination: {
           continuation_token: response.data.pagination.continuationToken,

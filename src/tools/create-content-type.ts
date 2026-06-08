@@ -5,7 +5,7 @@ import {
   elementSchema,
 } from "../schemas/contentTypeAndSnippetSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineDestructiveTool } from "./toolDefinition.js";
 
 export const createContentType = defineDestructiveTool(
@@ -42,7 +42,7 @@ export const createContentType = defineDestructiveTool(
         }))
         .toPromise();
 
-      return createUntrustedContentResponse(response.rawData);
+      return createMcpToolSuccessResponse(response.rawData);
     } catch (error: any) {
       return handleMcpToolError(error, "Content Type Creation");
     }

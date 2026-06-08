@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineDestructiveTool } from "./toolDefinition.js";
 
 export const createNewContentItemVariantVersion = defineDestructiveTool(
@@ -23,7 +23,7 @@ export const createNewContentItemVariantVersion = defineDestructiveTool(
         .byLanguageId(languageId)
         .toPromise();
 
-      return createUntrustedContentResponse({
+      return createMcpToolSuccessResponse({
         message: `Successfully created new version of item variant '${languageId}' for content item '${itemId}'`,
         result: response.rawData,
       });

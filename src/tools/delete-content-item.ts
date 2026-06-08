@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineDestructiveTool } from "./toolDefinition.js";
 
 export const deleteContentItem = defineDestructiveTool(
@@ -19,7 +19,7 @@ export const deleteContentItem = defineDestructiveTool(
         .byItemId(id)
         .toPromise();
 
-      return createUntrustedContentResponse({
+      return createMcpToolSuccessResponse({
         message: `Content item '${id}' deleted successfully`,
         deletedItem: response.rawData,
       });

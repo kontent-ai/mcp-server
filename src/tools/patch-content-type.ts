@@ -2,7 +2,7 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { patchOperationsSchema } from "../schemas/patchSchemas/contentTypePatchSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { getPatchGuideToolName } from "./referencedToolNames.js";
 import { defineDestructiveTool } from "./toolDefinition.js";
 
@@ -30,7 +30,7 @@ export const patchContentType = defineDestructiveTool(
         .withData(operations)
         .toPromise();
 
-      return createUntrustedContentResponse({
+      return createMcpToolSuccessResponse({
         message: `Content type updated successfully with ${operations.length} operation(s)`,
         contentType: response.rawData,
         appliedOperations: operations,

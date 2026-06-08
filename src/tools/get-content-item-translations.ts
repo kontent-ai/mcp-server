@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineReadOnlyTool } from "./toolDefinition.js";
 
 export const getContentItemTranslations = defineReadOnlyTool(
@@ -19,7 +19,7 @@ export const getContentItemTranslations = defineReadOnlyTool(
         .byItemId(itemId)
         .toPromise();
 
-      return createUntrustedContentResponse(response.rawData);
+      return createMcpToolSuccessResponse(response.rawData);
     } catch (error: unknown) {
       return handleMcpToolError(error, "Content Item Translations Retrieval");
     }

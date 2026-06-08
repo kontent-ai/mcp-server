@@ -1,7 +1,7 @@
 import { createMapiClient } from "../clients/kontentClients.js";
 import { taxonomyGroupSchemas } from "../schemas/taxonomySchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineDestructiveTool } from "./toolDefinition.js";
 
 export const createTaxonomyGroup = defineDestructiveTool(
@@ -17,7 +17,7 @@ export const createTaxonomyGroup = defineDestructiveTool(
         .withData(taxonomyGroup)
         .toPromise();
 
-      return createUntrustedContentResponse(response.rawData);
+      return createMcpToolSuccessResponse(response.rawData);
     } catch (error: any) {
       return handleMcpToolError(error, "Taxonomy Group Creation");
     }

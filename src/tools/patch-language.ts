@@ -1,7 +1,7 @@
 import { createMapiClient } from "../clients/kontentClients.js";
 import { patchLanguageSchema } from "../schemas/languageSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { getPatchGuideToolName } from "./referencedToolNames.js";
 import { defineDestructiveTool } from "./toolDefinition.js";
 
@@ -22,7 +22,7 @@ export const patchLanguage = defineDestructiveTool(
         .withData(operations)
         .toPromise();
 
-      return createUntrustedContentResponse({
+      return createMcpToolSuccessResponse({
         message: `Language updated with ${operations.length} operation(s)`,
         language: response.rawData,
         appliedOperations: operations,

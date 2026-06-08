@@ -2,7 +2,7 @@ import type { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { workflowInputSchema } from "../schemas/workflowSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineDestructiveTool } from "./toolDefinition.js";
 
 export const createWorkflow = defineDestructiveTool(
@@ -27,7 +27,7 @@ export const createWorkflow = defineDestructiveTool(
     try {
       const response = await client.addWorkflow().withData(data).toPromise();
 
-      return createUntrustedContentResponse(response.rawData);
+      return createMcpToolSuccessResponse(response.rawData);
     } catch (error: unknown) {
       return handleMcpToolError(error, "Workflow Creation");
     }

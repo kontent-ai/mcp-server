@@ -2,7 +2,7 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { spacePatchOperationsSchema } from "../schemas/spaceSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { getPatchGuideToolName } from "./referencedToolNames.js";
 import { defineDestructiveTool } from "./toolDefinition.js";
 
@@ -23,7 +23,7 @@ export const patchSpace = defineDestructiveTool(
         .withData(operations)
         .toPromise();
 
-      return createUntrustedContentResponse({
+      return createMcpToolSuccessResponse({
         message: `Space updated successfully with ${operations.length} operation(s)`,
         space: response.rawData,
         appliedOperations: operations,

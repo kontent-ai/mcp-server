@@ -1,6 +1,6 @@
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
-import { createUntrustedContentResponse } from "../utils/responseHelper.js";
+import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineReadOnlyTool } from "./toolDefinition.js";
 
 export const listSpaces = defineReadOnlyTool(
@@ -12,7 +12,7 @@ export const listSpaces = defineReadOnlyTool(
 
     try {
       const response = await client.listSpaces().toPromise();
-      return createUntrustedContentResponse(response.rawData);
+      return createMcpToolSuccessResponse(response.rawData);
     } catch (error: unknown) {
       return handleMcpToolError(error, "Spaces Listing");
     }
