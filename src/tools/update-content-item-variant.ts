@@ -7,7 +7,7 @@ import { defineTool } from "./toolDefinition.js";
 
 export const updateContentItemVariant = defineTool(
   "update-content-item-variant",
-  "Update Kontent.ai content item variant (language version/translation). Send only the elements you want to change — omitted elements are left untouched on the existing variant. For rich-text elements with components, submit the full element (value plus the complete components array, including components that are left untouched). Values must fulfill validation rules defined in the content type.",
+  "Update Kontent.ai content item variant (language version/translation). Send only the elements you want to change — omitted elements are left untouched on the existing variant. Values must fulfill validation rules defined in the content type.",
   {
     itemId: z.string().describe("Content item ID"),
     languageId: z
