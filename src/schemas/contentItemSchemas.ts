@@ -196,7 +196,7 @@ const richTextInVariantElementSchema = z
       ),
   })
   .describe(
-    "Rich text element - formatted HTML content that can include embedded assets, components, content items, and links.",
+    "Rich text element - formatted HTML content that can include embedded assets, components, content items, and links. Always submit the value together with the complete components array; on update, include components that should remain unchanged alongside any changes.",
   );
 
 // Union schema for elements within components
