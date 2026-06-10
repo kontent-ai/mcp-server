@@ -2,9 +2,9 @@ import { createMapiClient } from "../clients/kontentClients.js";
 import { addLanguageSchema } from "../schemas/languageSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineDestructiveTool } from "./toolDefinition.js";
+import { defineAdditiveTool } from "./toolDefinition.js";
 
-export const createLanguage = defineDestructiveTool(
+export const createLanguage = defineAdditiveTool(
   "create-language",
   "Create (add) and configure new Kontent.ai language locale for translations and localization. Languages are always created as active.",
   addLanguageSchema.shape,

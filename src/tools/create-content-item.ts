@@ -3,9 +3,9 @@ import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { createContentItemVariantToolName } from "./referencedToolNames.js";
-import { defineDestructiveTool } from "./toolDefinition.js";
+import { defineAdditiveTool } from "./toolDefinition.js";
 
-export const createContentItem = defineDestructiveTool(
+export const createContentItem = defineAdditiveTool(
   "create-content-item",
   `Create (add) new Kontent.ai content item (creates the container only, use ${createContentItemVariantToolName} to add language versions/translations). Items are language-neutral and hold content item variants for each language.`,
   {

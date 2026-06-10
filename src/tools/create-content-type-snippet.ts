@@ -3,9 +3,9 @@ import { createMapiClient } from "../clients/kontentClients.js";
 import { snippetElementSchema } from "../schemas/contentTypeAndSnippetSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineDestructiveTool } from "./toolDefinition.js";
+import { defineAdditiveTool } from "./toolDefinition.js";
 
-export const createContentTypeSnippet = defineDestructiveTool(
+export const createContentTypeSnippet = defineAdditiveTool(
   "create-content-type-snippet",
   "Create (add) new Kontent.ai content type snippet. Snippets are reusable, shared sets of elements that can be included in multiple content types.",
   {

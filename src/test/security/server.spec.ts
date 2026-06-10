@@ -4,16 +4,17 @@ import { describe, it } from "mocha";
 import { allTools } from "../../tools/index.js";
 
 // The prompt-injection posture documented in the README rests on every tool
-// being classified correctly as read-only or destructive. These tests pin that
-// down across the whole tool set.
+// being classified correctly into one of three kinds: read-only (no mutation),
+// additive (only adds, never overwrites/removes), or destructive (may overwrite
+// or remove). These tests pin that down across the whole tool set.
 
-type ToolKind = "read-only" | "destructive" | "unknown";
+type ToolKind = "read-only" | "additive" | "destructive" | "unknown";
 
 // Action prefixes from the enforced `[action]-[entity]` tool naming convention.
 const READ_ONLY_PREFIXES = ["bulk-get-", "get-", "list-", "search-"];
+const ADDITIVE_PREFIXES = ["create-"];
 const DESTRUCTIVE_PREFIXES = [
   "change-",
-  "create-",
   "delete-",
   "patch-",
   "publish-",
@@ -21,9 +22,23 @@ const DESTRUCTIVE_PREFIXES = [
   "update-",
 ];
 
+// Tools whose action does not match what their prefix implies.
+const NAME_EXCEPTIONS: Record<string, ToolKind> = {
+  // Upserts a language variant: overwrites the existing one if present, so it is
+  // destructive despite the additive-sounding "create-" prefix.
+  "create-content-item-variant": "destructive",
+};
+
 const expectedKindFromName = (name: string): ToolKind => {
+  const exception = NAME_EXCEPTIONS[name];
+  if (exception !== undefined) {
+    return exception;
+  }
   if (READ_ONLY_PREFIXES.some((prefix) => name.startsWith(prefix))) {
     return "read-only";
+  }
+  if (ADDITIVE_PREFIXES.some((prefix) => name.startsWith(prefix))) {
+    return "additive";
   }
   if (DESTRUCTIVE_PREFIXES.some((prefix) => name.startsWith(prefix))) {
     return "destructive";
@@ -35,21 +50,29 @@ const actualKindFromAnnotations = (annotations: ToolAnnotations): ToolKind => {
   if (annotations.readOnlyHint === true) {
     return "read-only";
   }
-  if (annotations.destructiveHint === true) {
-    return "destructive";
-  }
-  return "unknown";
+  // readOnlyHint: false — additive and destructive differ only by destructiveHint.
+  return annotations.destructiveHint === true ? "destructive" : "additive";
 };
 
 describe("tool annotations", () => {
-  it("every tool declares exactly one of readOnlyHint / destructiveHint", () => {
+  it("every tool has a valid read-only / additive / destructive combo", () => {
+    // The only valid (readOnlyHint, destructiveHint) pairs: read-only is (true,
+    // false), additive is (false, false), destructive is (false, true). A
+    // read-only tool can never also be destructive.
+    const allowed = [
+      { readOnlyHint: true, destructiveHint: false },
+      { readOnlyHint: false, destructiveHint: false },
+      { readOnlyHint: false, destructiveHint: true },
+    ];
     for (const tool of Object.values(allTools)) {
-      const isReadOnly = tool.annotations.readOnlyHint === true;
-      const isDestructive = tool.annotations.destructiveHint === true;
-      // XOR: exactly one must hold — a tool that is neither (or both) is a bug.
+      const { readOnlyHint, destructiveHint } = tool.annotations;
       assert.ok(
-        isReadOnly !== isDestructive,
-        `tool '${tool.name}' must declare exactly one of readOnlyHint / destructiveHint (readOnlyHint=${tool.annotations.readOnlyHint}, destructiveHint=${tool.annotations.destructiveHint})`,
+        allowed.some(
+          (combo) =>
+            combo.readOnlyHint === readOnlyHint &&
+            combo.destructiveHint === destructiveHint,
+        ),
+        `tool '${tool.name}' has an invalid annotation combo (readOnlyHint=${readOnlyHint}, destructiveHint=${destructiveHint})`,
       );
     }
   });
@@ -70,7 +93,7 @@ describe("tool annotations", () => {
       assert.notStrictEqual(
         expected,
         "unknown",
-        `tool '${tool.name}' has an unrecognized action prefix; add it to READ_ONLY_PREFIXES or DESTRUCTIVE_PREFIXES`,
+        `tool '${tool.name}' has an unrecognized action prefix; add it to READ_ONLY_PREFIXES, ADDITIVE_PREFIXES, DESTRUCTIVE_PREFIXES, or NAME_EXCEPTIONS`,
       );
       const actual = actualKindFromAnnotations(tool.annotations);
       assert.strictEqual(

@@ -2,9 +2,9 @@ import { createMapiClient } from "../clients/kontentClients.js";
 import { addSpaceSchema } from "../schemas/spaceSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineDestructiveTool } from "./toolDefinition.js";
+import { defineAdditiveTool } from "./toolDefinition.js";
 
-export const createSpace = defineDestructiveTool(
+export const createSpace = defineAdditiveTool(
   "create-space",
   "Create (add) new Kontent.ai space for managing a website or channel. Spaces provide channel-specific context with their own domain and preview URLs.",
   addSpaceSchema.shape,
