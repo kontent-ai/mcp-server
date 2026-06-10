@@ -22,18 +22,7 @@ const DESTRUCTIVE_PREFIXES = [
   "update-",
 ];
 
-// Tools whose action does not match what their prefix implies.
-const NAME_EXCEPTIONS: Record<string, ToolKind> = {
-  // Upserts a language variant: overwrites the existing one if present, so it is
-  // destructive despite the additive-sounding "create-" prefix.
-  "create-content-item-variant": "destructive",
-};
-
 const expectedKindFromName = (name: string): ToolKind => {
-  const exception = NAME_EXCEPTIONS[name];
-  if (exception !== undefined) {
-    return exception;
-  }
   if (READ_ONLY_PREFIXES.some((prefix) => name.startsWith(prefix))) {
     return "read-only";
   }
@@ -93,7 +82,7 @@ describe("tool annotations", () => {
       assert.notStrictEqual(
         expected,
         "unknown",
-        `tool '${tool.name}' has an unrecognized action prefix; add it to READ_ONLY_PREFIXES, ADDITIVE_PREFIXES, DESTRUCTIVE_PREFIXES, or NAME_EXCEPTIONS`,
+        `tool '${tool.name}' has an unrecognized action prefix; add it to READ_ONLY_PREFIXES, ADDITIVE_PREFIXES, or DESTRUCTIVE_PREFIXES`,
       );
       const actual = actualKindFromAnnotations(tool.annotations);
       assert.strictEqual(
