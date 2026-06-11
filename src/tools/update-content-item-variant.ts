@@ -17,9 +17,14 @@ export const updateContentItemVariant = defineTool(
       .array(languageVariantElementSchema)
       .describe("Content elements array"),
     workflow_step_id: z.string().optional().describe("Workflow step ID"),
+    note: z
+      .string()
+      .max(4000)
+      .optional()
+      .describe("Additional instructions or notes for content creators"),
   },
   async (
-    { itemId, languageId, elements, workflow_step_id },
+    { itemId, languageId, elements, workflow_step_id, note },
     { authInfo: { token, clientId } = {} },
   ) => {
     const client = createMapiClient(clientId, token);
@@ -30,6 +35,10 @@ export const updateContentItemVariant = defineTool(
 
     if (workflow_step_id) {
       data.workflow_step = { id: workflow_step_id };
+    }
+
+    if (note !== undefined) {
+      data.note = note;
     }
 
     try {
