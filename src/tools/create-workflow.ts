@@ -3,9 +3,9 @@ import { createMapiClient } from "../clients/kontentClients.js";
 import { workflowInputSchema } from "../schemas/workflowSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineAdditiveTool } from "./toolDefinition.js";
 
-export const createWorkflow = defineTool(
+export const createWorkflow = defineAdditiveTool(
   "create-workflow",
   "Create (add) new Kontent.ai workflow with custom steps. Workflows define content lifecycle stages for review and approval.",
   workflowInputSchema.shape,

@@ -3,9 +3,9 @@ import { listLanguagesSchema } from "../schemas/listSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { listLanguagesToolName } from "./referencedToolNames.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineReadOnlyTool } from "./toolDefinition.js";
 
-export const listLanguages = defineTool(
+export const listLanguages = defineReadOnlyTool(
   listLanguagesToolName,
   "List all Kontent.ai languages (paginated), including inactive ones - check is_active property. Languages define available locales for translations and localization; each can have fallback language for content inheritance.",
   listLanguagesSchema.shape,

@@ -4,9 +4,9 @@ import { assetFolderPatchOperationsSchema } from "../schemas/assetFolderSchemas.
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { getPatchGuideToolName } from "./referencedToolNames.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const patchAssetFolders = defineTool(
+export const patchAssetFolders = defineDestructiveTool(
   "patch-asset-folders",
   `Update (modify/edit) Kontent.ai asset folders using patch operations (addInto, rename, remove). Call ${getPatchGuideToolName} first for operations reference.`,
   {

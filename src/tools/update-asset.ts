@@ -4,9 +4,9 @@ import { createMapiClient } from "../clients/kontentClients.js";
 import { updateAssetDataSchema } from "../schemas/assetSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const updateAsset = defineTool(
+export const updateAsset = defineDestructiveTool(
   "update-asset",
   "Update (edit) Kontent.ai asset metadata by ID. Modify asset title, descriptions, or taxonomy-based properties.",
   {

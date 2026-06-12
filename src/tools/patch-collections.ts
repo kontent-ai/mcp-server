@@ -6,9 +6,9 @@ import {
   getPatchGuideToolName,
   listCollectionsToolName,
 } from "./referencedToolNames.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const patchCollections = defineTool(
+export const patchCollections = defineDestructiveTool(
   "patch-collections",
   `Update (modify/edit) Kontent.ai collections using patch operations (addInto, move, rename, remove). Call ${getPatchGuideToolName} first for operations reference.`,
   {

@@ -2,9 +2,9 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineReadOnlyTool } from "./toolDefinition.js";
 
-export const getContentItemVariant = defineTool(
+export const getContentItemVariant = defineReadOnlyTool(
   "get-content-item-variant",
   "Retrieve Kontent.ai content item variant (language version/translation). Returns the current version of the variant — draft if one exists, otherwise published. Variants hold translated, language-specific content with structure defined by content type.",
   {

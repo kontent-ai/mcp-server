@@ -2,9 +2,9 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const deleteTaxonomyGroup = defineTool(
+export const deleteTaxonomyGroup = defineDestructiveTool(
   "delete-taxonomy-group",
   "Delete (remove) Kontent.ai taxonomy group by ID. Removes the category/tag group and all its terms.",
   {

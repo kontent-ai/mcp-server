@@ -100,7 +100,10 @@ After changing a description, just run `npm test` — descriptions are read dire
 
 ## Adding a new tool
 
-1. Create the tool file using `defineTool` (see `src/tools/toolDefinition.ts`)
+1. Create the tool file using one of the factories in `src/tools/toolDefinition.ts`, by what it does to the environment:
+   - `defineReadOnlyTool` — gets, lists, searches (no mutation)
+   - `defineAdditiveTool` — creates that only add, never overwrite/remove (`add*` create tools)
+   - `defineDestructiveTool` — updates, patches, deletes, publishes/unpublishes, upserts (anything that may overwrite or remove)
 2. Add it to `src/tools/index.ts` (import and add to `allTools` object)
 3. Add a new `TestGroup` or extend an existing one in `toolSearchBm25.spec.ts` with cases covering:
    - Action verb variations: create/add/new, get/retrieve/fetch, delete/remove, modify/patch/edit/update, list/all

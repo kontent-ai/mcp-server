@@ -4,7 +4,7 @@ import { pathBasedPatchGuide } from "./context/patch-guide-path-based.js";
 import { propertyBasedPatchGuide } from "./context/patch-guide-property-based.js";
 import { referenceBasedPatchGuide } from "./context/patch-guide-reference-based.js";
 import { getPatchGuideToolName } from "./referencedToolNames.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineReadOnlyTool } from "./toolDefinition.js";
 
 const entityTypeSchema = z.enum([
   "content-type",
@@ -33,7 +33,7 @@ const getGuideForEntity = (entityType: EntityType): string => {
   }
 };
 
-export const getPatchGuide = defineTool(
+export const getPatchGuide = defineReadOnlyTool(
   getPatchGuideToolName,
   "REQUIRED before any patch operation. Retrieve patch operations guide for modifying Kontent.ai content types, snippets, taxonomies, collections, asset folders, spaces, or languages.",
   {

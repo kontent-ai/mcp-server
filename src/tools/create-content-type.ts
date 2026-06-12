@@ -6,9 +6,9 @@ import {
 } from "../schemas/contentTypeAndSnippetSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineAdditiveTool } from "./toolDefinition.js";
 
-export const createContentType = defineTool(
+export const createContentType = defineAdditiveTool(
   "create-content-type",
   "Create (add) new Kontent.ai content type (schema/model). Define content structure with elements, validation rules, and content groups.",
   {

@@ -2,9 +2,9 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const deleteContentType = defineTool(
+export const deleteContentType = defineDestructiveTool(
   "delete-content-type",
   "Delete (remove) Kontent.ai content type by ID. Removes the schema/model definition.",
   {

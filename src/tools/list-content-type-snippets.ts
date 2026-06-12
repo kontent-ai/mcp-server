@@ -2,9 +2,9 @@ import { createMapiClient } from "../clients/kontentClients.js";
 import { listContentTypeSnippetsSchema } from "../schemas/listSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineReadOnlyTool } from "./toolDefinition.js";
 
-export const listContentTypeSnippets = defineTool(
+export const listContentTypeSnippets = defineReadOnlyTool(
   "list-content-type-snippets",
   "List all Kontent.ai content type snippets (paginated). Retrieve every content type snippet — reusable, shared sets of elements included across multiple content types.",
   listContentTypeSnippetsSchema.shape,

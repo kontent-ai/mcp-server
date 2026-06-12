@@ -2,9 +2,9 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineReadOnlyTool } from "./toolDefinition.js";
 
-export const getAsset = defineTool(
+export const getAsset = defineReadOnlyTool(
   "get-asset",
   "Retrieve Kontent.ai asset by ID. Assets are digital media files (images, videos, documents, PDFs) standalone, or referenced from other entities, typically content item variants.",
   {

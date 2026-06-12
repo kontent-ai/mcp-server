@@ -4,9 +4,9 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { throwError } from "../utils/throwError.js";
 import { bulkGetContentItemVariantsToolName } from "./referencedToolNames.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineReadOnlyTool } from "./toolDefinition.js";
 
-export const bulkGetContentItemVariants = defineTool(
+export const bulkGetContentItemVariants = defineReadOnlyTool(
   bulkGetContentItemVariantsToolName,
   "Bulk/batch retrieve multiple Kontent.ai content items with their content item variants (language versions/translations) by item and language reference pairs. Fetch full content for item and variant IDs found via other tools.",
   bulkGetItemsWithVariantsSchema.shape,

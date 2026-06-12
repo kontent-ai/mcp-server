@@ -23,6 +23,7 @@ Kontent.ai MCP Server implements the Model Context Protocol to connect your Kont
 - [🔌 Quickstart](#-quickstart)
 - [🛠️ Available Tools](#️-available-tools)
 - [⚙️ Configuration](#️-configuration)
+- [🔒 Security](#-security)
 - [🚀 Transport Options](#-transport-options)
 - [💻 Development](#-development)
   - [🛠 Local Installation](#-local-installation)
@@ -183,6 +184,18 @@ This allows a single server instance to handle requests for multiple Kontent.ai 
 | appInsightsConnectionString | Application Insights connection string for telemetry | ❌ |
 | projectLocation | Project location identifier for telemetry tracking | ❌ |
 | manageApiUrl | Custom base URL (for preview environments) | ❌ |
+
+## 🔒 Security
+
+### Indirect prompt injection
+
+Content returned by this server (for example, an element written by an editor) can contain text that a connected LLM interprets as instructions — **indirect prompt injection**. A hijacked agent could be steered into destructive tool calls (delete / unpublish / overwrite) or into leaking unpublished drafts. This is an industry-wide, unsolved problem that the server cannot reliably fix by transforming the content it returns, so defense is layered:
+
+- **Use a least-privilege Management API key.** The server acts with whatever key it is given. With a read-only key, a hijacked agent's destructive call simply fails at the API boundary — the strongest control, since it holds regardless of model behaviour.
+- **Keep a human in the loop.** Every tool carries MCP annotations — reads are `readOnlyHint`, create-only tools are additive, and tools that overwrite or remove data are `destructiveHint` — which compliant clients use to auto-approve reads and prompt before destructive calls. Run the server with such a client and avoid headless auto-approve setups against a write-capable key.
+- **Add a client-side gate if your client supports one.** Some clients (for example, Claude Code hooks) let you deterministically prompt before a destructive tool runs, independent of the model. This is configured locally; a server cannot enforce it.
+
+These are hints, not guarantees. Report security issues privately to security@kontent.ai.
 
 ## 🚀 Transport Options
 

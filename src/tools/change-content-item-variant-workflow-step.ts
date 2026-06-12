@@ -2,9 +2,9 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const changeContentItemVariantWorkflowStep = defineTool(
+export const changeContentItemVariantWorkflowStep = defineDestructiveTool(
   "change-content-item-variant-workflow-step",
   "Move Kontent.ai content item variant (language version/translation) to a different workflow step. Transition content between lifecycle stages (e.g., draft to review, review to approved/published, or archive).",
   {

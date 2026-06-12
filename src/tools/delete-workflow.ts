@@ -2,9 +2,9 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const deleteWorkflow = defineTool(
+export const deleteWorkflow = defineDestructiveTool(
   "delete-workflow",
   "Delete (remove) Kontent.ai workflow. Cannot delete the default workflow.",
   {

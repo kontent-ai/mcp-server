@@ -7,9 +7,9 @@ import {
   getPatchGuideToolName,
   getTaxonomyGroupToolName,
 } from "./referencedToolNames.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const patchTaxonomyGroup = defineTool(
+export const patchTaxonomyGroup = defineDestructiveTool(
   "patch-taxonomy-group",
   `Update (modify/edit) and organize Kontent.ai taxonomy group terms using patch operations (addInto, move, remove, replace). Call ${getPatchGuideToolName} first for operations reference.`,
   {

@@ -2,9 +2,9 @@ import { createMapiClient } from "../clients/kontentClients.js";
 import { listTaxonomyGroupsSchema } from "../schemas/listSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineReadOnlyTool } from "./toolDefinition.js";
 
-export const listTaxonomyGroups = defineTool(
+export const listTaxonomyGroups = defineReadOnlyTool(
   "list-taxonomy-groups",
   "List all Kontent.ai taxonomy groups (paginated). Taxonomy groups contain hierarchical tree-structured terms (categories/tags) that can be nested to any depth for content categorization and classification.",
   listTaxonomyGroupsSchema.shape,

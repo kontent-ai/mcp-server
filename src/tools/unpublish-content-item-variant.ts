@@ -2,9 +2,9 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const unpublishContentItemVariant = defineTool(
+export const unpublishContentItemVariant = defineDestructiveTool(
   "unpublish-content-item-variant",
   "Unpublish or schedule unpublishing of Kontent.ai content item variant (language version/translation). Takes content offline and archives it. For scheduling, verify current UTC time before using scheduledTo.",
   {

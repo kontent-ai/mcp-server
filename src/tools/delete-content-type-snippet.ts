@@ -2,9 +2,9 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const deleteContentTypeSnippet = defineTool(
+export const deleteContentTypeSnippet = defineDestructiveTool(
   "delete-content-type-snippet",
   "Delete (remove) Kontent.ai content type snippet by ID. Removes the reusable shared element set definition.",
   {

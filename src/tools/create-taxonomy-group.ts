@@ -2,9 +2,9 @@ import { createMapiClient } from "../clients/kontentClients.js";
 import { taxonomyGroupSchemas } from "../schemas/taxonomySchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineAdditiveTool } from "./toolDefinition.js";
 
-export const createTaxonomyGroup = defineTool(
+export const createTaxonomyGroup = defineAdditiveTool(
   "create-taxonomy-group",
   "Create (add) new Kontent.ai taxonomy group for content categorization. Taxonomy groups contain hierarchical terms (categories/tags) for classifying content.",
   taxonomyGroupSchemas,

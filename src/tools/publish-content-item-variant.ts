@@ -2,9 +2,9 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const publishContentItemVariant = defineTool(
+export const publishContentItemVariant = defineDestructiveTool(
   "publish-content-item-variant",
   "Publish or schedule publishing of Kontent.ai content item variant (language version/translation). Transitions content to the published workflow step, making it live. For scheduling, verify current UTC time before using scheduledTo.",
   {

@@ -2,9 +2,9 @@ import { createMapiClient } from "../clients/kontentClients.js";
 import { listAssetsSchema } from "../schemas/listSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineReadOnlyTool } from "./toolDefinition.js";
 
-export const listAssets = defineTool(
+export const listAssets = defineReadOnlyTool(
   "list-assets",
   "List all Kontent.ai assets (paginated). Assets are digital media files (images, videos, documents, PDFs) referenced in content items.",
   listAssetsSchema.shape,

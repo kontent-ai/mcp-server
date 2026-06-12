@@ -1,9 +1,9 @@
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineReadOnlyTool } from "./toolDefinition.js";
 
-export const listCollections = defineTool(
+export const listCollections = defineReadOnlyTool(
   "list-collections",
   "List all Kontent.ai collections. Collections organize and group content items by team, brand, or project for access control and content separation.",
   {},

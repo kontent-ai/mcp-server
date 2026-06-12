@@ -164,9 +164,14 @@ claude mcp add --transport http kontent-ai-multi \
 ### Key Implementation Patterns
 
 #### 1. Tool Definition Pattern
-Each tool is defined using `defineTool` which returns a `ToolDefinition` object:
+Each tool is defined with one of three factories from `src/tools/toolDefinition.ts`, by what it does to the environment:
+- `defineReadOnlyTool` — gets, lists, searches (no mutation)
+- `defineAdditiveTool` — creates that only add and never overwrite/remove (the `add*` create tools)
+- `defineDestructiveTool` — updates, patches, deletes, publishes/unpublishes, and upserts (anything that may overwrite or remove)
+
+The factory sets the correct MCP tool annotations (`readOnlyHint`, `destructiveHint`, `openWorldHint`) so they can never be forgotten:
 ```typescript
-export const myTool = defineTool(
+export const myTool = defineReadOnlyTool(
     "tool-name",
     "Tool description", // Following the pattern
     { /* Zod schema for parameters */ },
@@ -181,6 +186,8 @@ export const myTool = defineTool(
     },
 );
 ```
+
+For mutating tools pick `defineAdditiveTool` or `defineDestructiveTool` by whether the operation can overwrite or remove existing data.
 
 Tools are collected in `src/tools/index.ts` as an `allTools` object and registered in `server.ts` via `server.registerTool()`.
 
@@ -217,7 +224,7 @@ When contributing:
 ### Common Development Tasks
 
 1. **Adding a new tool**:
-   - Create new file in `src/tools/` using `defineTool` (see `src/tools/toolDefinition.ts`)
+   - Create new file in `src/tools/` using `defineReadOnlyTool`, `defineAdditiveTool`, or `defineDestructiveTool` (see `src/tools/toolDefinition.ts`)
    - Follow naming convention: `[action]-[entity]` format
    - Add the export to `allTools` object in `src/tools/index.ts`
    - Update README.md with tool description

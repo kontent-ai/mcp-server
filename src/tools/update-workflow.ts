@@ -3,9 +3,9 @@ import { createMapiClient } from "../clients/kontentClients.js";
 import { workflowInputSchema } from "../schemas/workflowSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineDestructiveTool } from "./toolDefinition.js";
 
-export const updateWorkflow = defineTool(
+export const updateWorkflow = defineDestructiveTool(
   "update-workflow",
   "Update (edit) Kontent.ai workflow steps, transitions, and settings. Modify content lifecycle stages.",
   {

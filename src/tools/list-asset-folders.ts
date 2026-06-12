@@ -1,9 +1,9 @@
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { defineTool } from "./toolDefinition.js";
+import { defineReadOnlyTool } from "./toolDefinition.js";
 
-export const listAssetFolders = defineTool(
+export const listAssetFolders = defineReadOnlyTool(
   "list-asset-folders",
   "List all Kontent.ai asset folders. Folders organize digital media files (images, videos, documents) into a hierarchical directory structure.",
   {},
