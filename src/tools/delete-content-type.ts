@@ -27,5 +27,4 @@ export const deleteContentType = defineDestructiveTool(
       return handleMcpToolError(error, "Content Type Deletion");
     }
   },
-  { idempotent: true },
 );

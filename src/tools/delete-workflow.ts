@@ -23,5 +23,4 @@ export const deleteWorkflow = defineDestructiveTool(
       return handleMcpToolError(error, "Workflow Deletion");
     }
   },
-  { idempotent: true },
 );

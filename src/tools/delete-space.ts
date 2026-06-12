@@ -23,5 +23,4 @@ export const deleteSpace = defineDestructiveTool(
       return handleMcpToolError(error, "Space Deletion");
     }
   },
-  { idempotent: true },
 );

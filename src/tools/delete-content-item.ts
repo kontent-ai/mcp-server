@@ -27,5 +27,4 @@ export const deleteContentItem = defineDestructiveTool(
       return handleMcpToolError(error, "Content Item Deletion");
     }
   },
-  { idempotent: true },
 );

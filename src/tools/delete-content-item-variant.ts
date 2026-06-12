@@ -29,5 +29,4 @@ export const deleteContentItemVariant = defineDestructiveTool(
       return handleMcpToolError(error, "Language Variant Deletion");
     }
   },
-  { idempotent: true },
 );

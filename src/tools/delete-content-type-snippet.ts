@@ -23,5 +23,4 @@ export const deleteContentTypeSnippet = defineDestructiveTool(
       return handleMcpToolError(error, "Content Type Snippet Deletion");
     }
   },
-  { idempotent: true },
 );

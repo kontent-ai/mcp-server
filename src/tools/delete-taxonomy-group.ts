@@ -23,5 +23,4 @@ export const deleteTaxonomyGroup = defineDestructiveTool(
       return handleMcpToolError(error, "Taxonomy Group Deletion");
     }
   },
-  { idempotent: true },
 );
