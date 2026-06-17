@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
+import { coerceJsonString } from "../schemas/coerceJsonString.js";
 import { patchOperationsSchema } from "../schemas/patchSchemas/contentTypePatchSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
@@ -11,12 +12,14 @@ export const patchContentType = defineDestructiveTool(
   `Update (modify/edit) Kontent.ai content type schema using patch operations (add, move, remove, replace elements/fields). Add new fields, rearrange or remove existing elements. Call ${getPatchGuideToolName} first for operations reference.`,
   {
     id: z.guid().describe("Content type ID"),
-    operations: patchOperationsSchema.describe(
-      `Patch operations array. CRITICAL: Always call get-content-type first.
+    operations: coerceJsonString(
+      patchOperationsSchema.describe(
+        `Patch operations array. CRITICAL: Always call get-content-type first.
 - Use addInto/remove for arrays, replace for primitives/objects
 - Only one url_slug element allowed per content type
 - To remove content groups: set ALL elements' content_group to null AND remove ALL groups in one request
 - URL slug with snippet: add snippet element first, then url_slug with depends_on reference`,
+      ),
     ),
   },
   async ({ id, operations }, { authInfo: { token, clientId } = {} }) => {

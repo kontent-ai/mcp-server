@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
+import { coerceJsonString } from "../schemas/coerceJsonString.js";
 import {
   contentGroupSchema,
   elementSchema,
@@ -18,11 +19,12 @@ export const createContentType = defineAdditiveTool(
       .optional()
       .describe("Codename (auto-generated if omitted)"),
     external_id: z.string().optional().describe("External ID"),
-    elements: z.array(elementSchema).describe("Elements defining structure"),
-    content_groups: z
-      .array(contentGroupSchema)
-      .optional()
-      .describe("Content groups"),
+    elements: coerceJsonString(
+      z.array(elementSchema).describe("Elements defining structure"),
+    ),
+    content_groups: coerceJsonString(
+      z.array(contentGroupSchema).describe("Content groups"),
+    ).optional(),
   },
   async (
     { name, codename, external_id, elements, content_groups },

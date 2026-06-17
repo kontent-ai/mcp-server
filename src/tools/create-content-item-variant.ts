@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
+import { coerceJsonString } from "../schemas/coerceJsonString.js";
 import { languageVariantElementSchema } from "../schemas/contentItemSchemas.js";
 import {
   createValidationErrorResponse,
@@ -21,9 +22,13 @@ export const createContentItemVariant = defineAdditiveTool(
     languageId: z
       .string()
       .describe("Language ID (default: 00000000-0000-0000-0000-000000000000)"),
-    elements: z
-      .array(languageVariantElementSchema)
-      .describe("Content elements array"),
+    elements: coerceJsonString(
+      z
+        .array(languageVariantElementSchema)
+        .describe(
+          'Content elements array. Pass a JSON array of element objects directly — e.g. [{"element":{"id":"..."},"value":"..."}] — not a JSON-encoded string.',
+        ),
+    ),
     workflow_step_id: z.string().optional().describe("Workflow step ID"),
     note: z
       .string()
