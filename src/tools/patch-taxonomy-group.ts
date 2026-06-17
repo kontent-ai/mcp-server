@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
+import { coerceJsonString } from "../schemas/coerceJsonString.js";
 import { taxonomyPatchOperationsSchema } from "../schemas/patchSchemas/taxonomyPatchSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
@@ -14,8 +15,10 @@ export const patchTaxonomyGroup = defineDestructiveTool(
   `Update (modify/edit) and organize Kontent.ai taxonomy group terms using patch operations (addInto, move, remove, replace). Call ${getPatchGuideToolName} first for operations reference.`,
   {
     id: z.guid().describe("Taxonomy group ID"),
-    operations: taxonomyPatchOperationsSchema.describe(
-      `Patch operations array. Call ${getTaxonomyGroupToolName} first. Use addInto to add terms (with optional reference for parent), move to reorder/nest terms (before/after/under - mutually exclusive), remove to delete terms, replace for name/codename/terms.`,
+    operations: coerceJsonString(
+      taxonomyPatchOperationsSchema.describe(
+        `Patch operations array. Call ${getTaxonomyGroupToolName} first. Use addInto to add terms (with optional reference for parent), move to reorder/nest terms (before/after/under - mutually exclusive), remove to delete terms, replace for name/codename/terms.`,
+      ),
     ),
   },
   async ({ id, operations }, { authInfo: { token, clientId } = {} }) => {

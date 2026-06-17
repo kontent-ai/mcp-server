@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { coerceJsonString } from "./coerceJsonString.js";
 import { referenceObjectSchema } from "./referenceObjectSchema.js";
 
 export const addLanguageSchema = z.object({
@@ -32,10 +33,12 @@ const languageReplaceOperationSchema = z.discriminatedUnion("property_name", [
 
 export const patchLanguageSchema = z.object({
   languageId: z.string().describe("Language ID to modify"),
-  operations: z
-    .array(languageReplaceOperationSchema)
-    .min(1)
-    .describe(
-      "Array of replace operations for codename, name, or fallback_language. Note: Only active languages can be modified. To activate/deactivate languages, use the Kontent.ai web UI.",
-    ),
+  operations: coerceJsonString(
+    z
+      .array(languageReplaceOperationSchema)
+      .min(1)
+      .describe(
+        "Array of replace operations for codename, name, or fallback_language. Note: Only active languages can be modified. To activate/deactivate languages, use the Kontent.ai web UI.",
+      ),
+  ),
 });

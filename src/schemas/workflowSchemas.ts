@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { coerceJsonString } from "./coerceJsonString.js";
 import { referenceObjectSchema } from "./referenceObjectSchema.js";
 
 // Step color options (matching SDK WorkflowColor type)
@@ -97,14 +98,16 @@ export const workflowInputSchema = z.object({
     .string()
     .optional()
     .describe("Codename for API operations (auto-generated if omitted)"),
-  scopes: z
-    .array(workflowScopeInputSchema)
-    .describe(
-      "Array of scopes defining which combinations of content types and collections this workflow applies to. If both content types and collections are empty, the workflow can be used for any type of content in collection that isn't limited to any other workflow.",
-    ),
-  steps: z
-    .array(workflowStepInputSchema)
-    .describe("Array of custom workflow steps"),
+  scopes: coerceJsonString(
+    z
+      .array(workflowScopeInputSchema)
+      .describe(
+        "Array of scopes defining which combinations of content types and collections this workflow applies to. If both content types and collections are empty, the workflow can be used for any type of content in collection that isn't limited to any other workflow.",
+      ),
+  ),
+  steps: coerceJsonString(
+    z.array(workflowStepInputSchema).describe("Array of custom workflow steps"),
+  ),
   published_step: publishedStepInputSchema.describe(
     "Configuration for the published step",
   ),

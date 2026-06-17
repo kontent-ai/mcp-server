@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
+import { coerceJsonString } from "../schemas/coerceJsonString.js";
 import { snippetPatchOperationsSchema } from "../schemas/patchSchemas/snippetPatchSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
@@ -11,10 +12,12 @@ export const patchContentTypeSnippet = defineDestructiveTool(
   `Update (modify/edit) Kontent.ai content type snippet using patch operations (move, addInto, remove, replace elements). Call ${getPatchGuideToolName} first for operations reference.`,
   {
     id: z.guid().describe("Content type snippet ID"),
-    operations: snippetPatchOperationsSchema.describe(
-      `Patch operations array. CRITICAL: Always call get-content-type-snippet first.
+    operations: coerceJsonString(
+      snippetPatchOperationsSchema.describe(
+        `Patch operations array. CRITICAL: Always call get-content-type-snippet first.
 - Use addInto/remove for arrays, replace for primitives/objects
 - Snippets cannot contain: content_groups, snippet, or url_slug elements`,
+      ),
     ),
   },
   async ({ id, operations }, { authInfo: { token, clientId } = {} }) => {

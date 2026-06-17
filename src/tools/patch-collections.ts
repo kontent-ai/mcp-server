@@ -1,4 +1,5 @@
 import { createMapiClient } from "../clients/kontentClients.js";
+import { coerceJsonString } from "../schemas/coerceJsonString.js";
 import { collectionPatchOperationsSchema } from "../schemas/collectionSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
@@ -12,8 +13,10 @@ export const patchCollections = defineDestructiveTool(
   "patch-collections",
   `Update (modify/edit) Kontent.ai collections using patch operations (addInto, move, rename, remove). Call ${getPatchGuideToolName} first for operations reference.`,
   {
-    operations: collectionPatchOperationsSchema.describe(
-      `Patch operations array. Call ${listCollectionsToolName} first. Use addInto to add new collections, move to reorder, remove to delete empty collections, replace to rename.`,
+    operations: coerceJsonString(
+      collectionPatchOperationsSchema.describe(
+        `Patch operations array. Call ${listCollectionsToolName} first. Use addInto to add new collections, move to reorder, remove to delete empty collections, replace to rename.`,
+      ),
     ),
   },
   async ({ operations }, { authInfo: { token, clientId } = {} }) => {

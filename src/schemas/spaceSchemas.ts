@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { coerceJsonString } from "./coerceJsonString.js";
 import { referenceObjectSchema } from "./referenceObjectSchema.js";
 
 const nameReplaceOperationSchema = z.object({
@@ -32,5 +33,5 @@ export const spacePatchOperationsSchema = z
 export const addSpaceSchema = z.object({
   name: z.string(),
   codename: z.string().optional(),
-  collections: z.array(referenceObjectSchema).optional(),
+  collections: coerceJsonString(z.array(referenceObjectSchema)).optional(),
 });

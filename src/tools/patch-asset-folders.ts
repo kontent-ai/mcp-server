@@ -1,6 +1,7 @@
 import type { AssetFolderModels } from "@kontent-ai/management-sdk";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { assetFolderPatchOperationsSchema } from "../schemas/assetFolderSchemas.js";
+import { coerceJsonString } from "../schemas/coerceJsonString.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { getPatchGuideToolName } from "./referencedToolNames.js";
@@ -10,7 +11,7 @@ export const patchAssetFolders = defineDestructiveTool(
   "patch-asset-folders",
   `Update (modify/edit) Kontent.ai asset folders using patch operations (addInto, rename, remove). Call ${getPatchGuideToolName} first for operations reference.`,
   {
-    operations: assetFolderPatchOperationsSchema,
+    operations: coerceJsonString(assetFolderPatchOperationsSchema),
   },
   async ({ operations }, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);

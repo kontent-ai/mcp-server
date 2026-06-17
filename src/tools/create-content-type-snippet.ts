@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
+import { coerceJsonString } from "../schemas/coerceJsonString.js";
 import { snippetElementSchema } from "../schemas/contentTypeAndSnippetSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
@@ -15,9 +16,9 @@ export const createContentTypeSnippet = defineAdditiveTool(
       .optional()
       .describe("Codename (auto-generated if omitted)"),
     external_id: z.string().optional().describe("External ID"),
-    elements: z
-      .array(snippetElementSchema)
-      .describe("Elements defining structure"),
+    elements: coerceJsonString(
+      z.array(snippetElementSchema).describe("Elements defining structure"),
+    ),
   },
   async (
     { name, codename, external_id, elements },
