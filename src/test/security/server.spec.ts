@@ -14,6 +14,7 @@ type ToolKind = "read-only" | "additive" | "destructive" | "unknown";
 const READ_ONLY_PREFIXES = ["bulk-get-", "get-", "list-", "search-"];
 const ADDITIVE_PREFIXES = ["create-"];
 const DESTRUCTIVE_PREFIXES = [
+  "cancel-",
   "change-",
   "delete-",
   "patch-",

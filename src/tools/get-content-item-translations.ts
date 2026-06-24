@@ -7,7 +7,7 @@ import { defineReadOnlyTool } from "./toolDefinition.js";
 
 export const getContentItemTranslations = defineReadOnlyTool(
   "get-content-item-translations",
-  `Get all Kontent.ai content item translations — every language version (variant) of a specific content item. Returns each language's current version (draft if one exists, otherwise the last one saved), which may differ from the version currently live on the Delivery API. Retrieve translated content across all languages to examine details of a specific item in translation scenarios, rather than to search for items — for finding or disambiguating among candidates, use ${listContentItemVariantsToolName}'s search_phrase filter.`,
+  `Get all Kontent.ai content item translations — every language version (variant) of a specific content item. Returns each language's current version (draft if one exists, otherwise the last one saved), which may differ from the version currently live on the Delivery API. Retrieve translated content across all languages to examine details of a specific item in translation scenarios, rather than to search for items — for finding or disambiguating among candidates, use ${listContentItemVariantsToolName}'s search_phrase filter. Each variant includes 'agent_metadata.editability': 'is_editable' plus plain-text 'guidance' naming the operation required first when a variant is not directly editable.`,
   {
     itemId: z.string().describe("Content item ID"),
   },
@@ -18,6 +18,7 @@ export const getContentItemTranslations = defineReadOnlyTool(
       const response = await client
         .listLanguageVariantsOfItem()
         .byItemId(itemId)
+        .withAgentMetadata()
         .toPromise();
 
       return createMcpToolSuccessResponse(response.rawData);

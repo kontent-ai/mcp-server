@@ -2,10 +2,11 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import { createNewContentItemVariantVersionToolName } from "./referencedToolNames.js";
 import { defineAdditiveTool } from "./toolDefinition.js";
 
 export const createNewContentItemVariantVersion = defineAdditiveTool(
-  "create-new-content-item-variant-version",
+  createNewContentItemVariantVersionToolName,
   "Create new draft version of a published Kontent.ai content item variant (language version/translation). Required before editing published content.",
   {
     itemId: z.guid().describe("Content item ID"),

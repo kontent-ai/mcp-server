@@ -8,7 +8,7 @@ import { defineReadOnlyTool } from "./toolDefinition.js";
 
 export const bulkGetContentItemVariants = defineReadOnlyTool(
   bulkGetContentItemVariantsToolName,
-  "Bulk/batch retrieve full details and content for multiple (2 or more) Kontent.ai content item variants by item and language reference pairs. Fetch full content for several items whose IDs were found via other tools.",
+  "Bulk/batch retrieve full details and content for multiple (2 or more) Kontent.ai content item variants by item and language reference pairs. Fetch full content for several items whose IDs were found via other tools. Each variant includes 'agent_metadata.editability': 'is_editable' plus plain-text 'guidance' naming the operation required first when a variant is not directly editable.",
   bulkGetItemsWithVariantsSchema.shape,
   async (
     { variants, continuation_token },
@@ -22,9 +22,12 @@ export const bulkGetContentItemVariants = defineReadOnlyTool(
 
       const client = createMapiClient(environmentId, token);
 
-      const query = client.bulkGetItemsWithVariants().withData({
-        variants,
-      });
+      const query = client
+        .bulkGetItemsWithVariants()
+        .withData({
+          variants,
+        })
+        .withAgentMetadata();
 
       const response = await (continuation_token
         ? query.xContinuationToken(continuation_token)

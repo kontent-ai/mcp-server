@@ -1,4 +1,5 @@
 import { bulkGetContentItemVariants } from "./bulk-get-content-item-variants.js";
+import { cancelScheduledPublishingContentItemVariant } from "./cancel-scheduled-publishing-content-item-variant.js";
 import { changeContentItemVariantWorkflowStep } from "./change-content-item-variant-workflow-step.js";
 import { createContentItem } from "./create-content-item.js";
 import { createContentItemVariant } from "./create-content-item-variant.js";
@@ -60,6 +61,7 @@ export const allTools = {
   createTaxonomyGroup,
   createWorkflow,
   bulkGetContentItemVariants,
+  cancelScheduledPublishingContentItemVariant,
   changeContentItemVariantWorkflowStep,
   createContentItemVariant,
   createNewContentItemVariantVersion,

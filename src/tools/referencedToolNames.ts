@@ -6,6 +6,12 @@ export const bulkGetContentItemVariantsToolName =
 export const createContentItemToolName = "create-content-item";
 export const createContentItemVariantToolName = "create-content-item-variant";
 export const updateContentItemVariantToolName = "update-content-item-variant";
+export const createNewContentItemVariantVersionToolName =
+  "create-new-content-item-variant-version";
+export const cancelScheduledPublishingContentItemVariantToolName =
+  "cancel-scheduled-publishing-content-item-variant";
+export const changeContentItemVariantWorkflowStepToolName =
+  "change-content-item-variant-workflow-step";
 export const getPatchGuideToolName = "get-patch-guide";
 export const getPublishedContentItemVariantVersionToolName =
   "get-published-content-item-variant-version";

@@ -4,6 +4,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { describe, it } from "mocha";
 import { allTools } from "../../tools/index.js";
+import * as referencedToolNames from "../../tools/referencedToolNames.js";
 
 // Guards against the easy mistake of adding a new tool file under src/tools but
 // forgetting to register it in src/tools/index.ts (allTools) — or leaving a
@@ -67,5 +68,25 @@ describe("allTools registry", () => {
       discoveredNames,
       "allTools (src/tools/index.ts) must list every tool defined under src/tools and nothing that no longer exists",
     );
+  });
+});
+
+// Tool descriptions point agents at other tools by name (e.g. the EN-786
+// editability guidance tells the agent which tool resolves a non-editable
+// variant). Those references go through referencedToolNames.ts, so a renamed or
+// deleted tool would otherwise leave a description sending the agent to a tool
+// that does not exist — a silent failure, since nothing loads the name.
+describe("referencedToolNames", () => {
+  it("only names tools that are actually registered", () => {
+    const registeredNames = new Set(
+      Object.values(allTools).map((tool) => tool.name),
+    );
+
+    for (const [constant, toolName] of Object.entries(referencedToolNames)) {
+      assert.ok(
+        registeredNames.has(toolName),
+        `${constant} is "${toolName}", which is not a registered tool`,
+      );
+    }
   });
 });
