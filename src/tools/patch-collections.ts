@@ -11,7 +11,7 @@ import { defineDestructiveTool } from "./toolDefinition.js";
 
 export const patchCollections = defineDestructiveTool(
   "patch-collections",
-  `Update (modify/edit) Kontent.ai collections using patch operations (addInto, move, rename, remove). Call ${getPatchGuideToolName} first for operations reference.`,
+  `Update (modify/edit) Kontent.ai collections using patch operations. Always call ${getPatchGuideToolName}(entityType='collection') first — it documents constraints not visible in this schema (e.g. remove only works on empty collections).`,
   {
     operations: coerceJsonString(
       collectionPatchOperationsSchema.describe(

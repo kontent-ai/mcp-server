@@ -9,7 +9,7 @@ import { defineDestructiveTool } from "./toolDefinition.js";
 
 export const patchAssetFolders = defineDestructiveTool(
   "patch-asset-folders",
-  `Update (modify/edit) Kontent.ai asset folders using patch operations (addInto, rename, remove). Call ${getPatchGuideToolName} first for operations reference.`,
+  `Update (modify/edit) Kontent.ai asset folders using patch operations. Always call ${getPatchGuideToolName}(entityType='asset-folder') first — it documents constraints not visible in this schema (e.g. which operations are unsupported).`,
   {
     operations: coerceJsonString(assetFolderPatchOperationsSchema),
   },
