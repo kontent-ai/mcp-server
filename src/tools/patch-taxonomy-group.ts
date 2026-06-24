@@ -12,7 +12,7 @@ import { defineDestructiveTool } from "./toolDefinition.js";
 
 export const patchTaxonomyGroup = defineDestructiveTool(
   "patch-taxonomy-group",
-  `Update (modify/edit) and organize Kontent.ai taxonomy group terms using patch operations (addInto, move, remove, replace). Call ${getPatchGuideToolName} first for operations reference.`,
+  `Update (modify/edit) and organize Kontent.ai taxonomy group terms using patch operations. Always call ${getPatchGuideToolName}(entityType='taxonomy') first — it documents ordering rules and constraints not visible in this schema.`,
   {
     id: z.guid().describe("Taxonomy group ID"),
     operations: coerceJsonString(

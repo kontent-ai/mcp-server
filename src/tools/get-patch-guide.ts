@@ -35,7 +35,7 @@ const getGuideForEntity = (entityType: EntityType): string => {
 
 export const getPatchGuide = defineReadOnlyTool(
   getPatchGuideToolName,
-  "REQUIRED before any patch operation. Retrieve patch operations guide for modifying Kontent.ai content types, snippets, taxonomies, collections, asset folders, spaces, or languages.",
+  "REQUIRED before any patch operation. Returns operation constraints and caveats not visible in the patch tool schemas — including unsupported operations, conditions under which operations fail, and ordering rules. Call this before constructing any patch.",
   {
     entityType: entityTypeSchema.describe(
       "Entity type to get patch guide for: content-type, snippet, taxonomy, collection, asset-folder, space, language",
