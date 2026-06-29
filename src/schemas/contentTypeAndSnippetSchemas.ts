@@ -217,7 +217,9 @@ const richTextElementSchema = {
   type: z.literal("rich_text"),
   ...namedElementSchema,
   allowed_blocks: z.array(allowedBlockSchema).optional(),
-  allowed_formatting: z.array(allowedFormattingSchema).optional(),
+  allowed_formatting: z.array(allowedFormattingSchema).optional().describe(
+    "Omit to allow all formatting options. If specified, 'unstyled' must be included.",
+  ),
   allowed_text_blocks: z.array(allowedTextBlockSchema).optional(),
   allowed_table_blocks: z.array(allowedTableBlockSchema).optional(),
   allowed_table_formatting: z.array(allowedTableFormattingSchema).optional(),
