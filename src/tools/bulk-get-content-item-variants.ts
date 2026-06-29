@@ -8,7 +8,7 @@ import { defineReadOnlyTool } from "./toolDefinition.js";
 
 export const bulkGetContentItemVariants = defineReadOnlyTool(
   bulkGetContentItemVariantsToolName,
-  "Bulk/batch retrieve multiple Kontent.ai content items with their content item variants (language versions/translations) by item and language reference pairs. Fetch full content for item and variant IDs found via other tools.",
+  "Bulk/batch retrieve 2 or more Kontent.ai content item variants by item and language reference pairs. Fetch full content for IDs found via other tools.",
   bulkGetItemsWithVariantsSchema.shape,
   async (
     { variants, continuation_token },
