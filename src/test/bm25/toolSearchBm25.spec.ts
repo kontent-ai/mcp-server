@@ -120,6 +120,19 @@ const testGroups: ReadonlyArray<TestGroup> = [
         query: "content template fields",
         expected: [allTools.createContentType.name],
       },
+      // Agent-observed queries — build / from-scratch / elements (from discovery loop in test runs)
+      {
+        query: "build content type",
+        expected: [allTools.createContentType.name],
+      },
+      {
+        query: "content type from scratch",
+        expected: [allTools.createContentType.name],
+      },
+      {
+        query: "create content type elements",
+        expected: [allTools.createContentType.name],
+      },
     ],
   },
   {
@@ -160,6 +173,23 @@ const testGroups: ReadonlyArray<TestGroup> = [
       {
         query: "remove snippet",
         expected: [allTools.deleteContentTypeSnippet.name],
+      },
+      // Agent-observed queries — build / from-scratch / reusable (from discovery loop in test runs)
+      {
+        query: "build new snippet",
+        expected: [allTools.createContentTypeSnippet.name],
+      },
+      {
+        query: "snippet from scratch",
+        expected: [allTools.createContentTypeSnippet.name],
+      },
+      {
+        query: "new reusable snippet",
+        expected: [allTools.createContentTypeSnippet.name],
+      },
+      {
+        query: "create reusable snippet",
+        expected: [allTools.createContentTypeSnippet.name],
       },
     ],
   },
@@ -292,6 +322,15 @@ const testGroups: ReadonlyArray<TestGroup> = [
       },
       {
         query: "fetch variant draft",
+        expected: [allTools.getContentItemVariant.name],
+      },
+      // Single-item qualifier — should prefer get-content-item-variant over bulk
+      {
+        query: "get single content item variant",
+        expected: [allTools.getContentItemVariant.name],
+      },
+      {
+        query: "fetch single variant",
         expected: [allTools.getContentItemVariant.name],
       },
       // get published version — when a newer draft exists and you need the live content

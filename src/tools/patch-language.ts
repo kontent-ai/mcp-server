@@ -7,7 +7,7 @@ import { defineDestructiveTool } from "./toolDefinition.js";
 
 export const patchLanguage = defineDestructiveTool(
   "patch-language",
-  `Update (modify/edit) Kontent.ai language properties using replace patch operations. Call ${getPatchGuideToolName} first. Only active languages can be edited - to activate/deactivate, use the Kontent.ai web UI.`,
+  `Update (modify/edit) Kontent.ai language properties using replace patch operations. Always call ${getPatchGuideToolName}(entityType='language') first — it documents constraints and available properties not visible in this schema.`,
   patchLanguageSchema.shape,
   async (
     { languageId, operations },
