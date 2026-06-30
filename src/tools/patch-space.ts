@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { coerceJsonString } from "../schemas/coerceJsonString.js";
+import { patchGuideIdParam } from "../schemas/patchSchemas/patchGuideIdSchema.js";
 import { spacePatchOperationsSchema } from "../schemas/spaceSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
@@ -9,12 +10,16 @@ import { defineDestructiveTool } from "./toolDefinition.js";
 
 export const patchSpace = defineDestructiveTool(
   "patch-space",
-  `Update (modify/edit) Kontent.ai space properties using replace patch operations. Call ${getPatchGuideToolName} first for operations reference.`,
+  `Update (modify/edit) Kontent.ai space properties using replace patch operations. Always call ${getPatchGuideToolName}(entityType='space') first for operations reference.`,
   {
+    ...patchGuideIdParam("space"),
     id: z.guid().describe("Space ID"),
     operations: coerceJsonString(spacePatchOperationsSchema),
   },
-  async ({ id, operations }, { authInfo: { token, clientId } = {} }) => {
+  async (
+    { patchGuideId: _patchGuideId, id, operations },
+    { authInfo: { token, clientId } = {} },
+  ) => {
     const client = createMapiClient(clientId, token);
 
     try {

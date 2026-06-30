@@ -2,6 +2,7 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { coerceJsonString } from "../schemas/coerceJsonString.js";
 import { patchOperationsSchema } from "../schemas/patchSchemas/contentTypePatchSchemas.js";
+import { patchGuideIdParam } from "../schemas/patchSchemas/patchGuideIdSchema.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { getPatchGuideToolName } from "./referencedToolNames.js";
@@ -9,8 +10,9 @@ import { defineDestructiveTool } from "./toolDefinition.js";
 
 export const patchContentType = defineDestructiveTool(
   "patch-content-type",
-  `Update (modify/edit) Kontent.ai content type schema using patch operations (add, move, remove, replace elements/fields). Add new fields, rearrange or remove existing elements. Call ${getPatchGuideToolName} first for operations reference.`,
+  `Update (modify/edit) Kontent.ai content type schema using patch operations (add, move, remove, replace elements/fields). Add new fields, rearrange or remove existing elements. Always call ${getPatchGuideToolName}(entityType='content-type') first for operations reference.`,
   {
+    ...patchGuideIdParam("content-type"),
     id: z.guid().describe("Content type ID"),
     operations: coerceJsonString(
       patchOperationsSchema.describe(
@@ -22,7 +24,10 @@ export const patchContentType = defineDestructiveTool(
       ),
     ),
   },
-  async ({ id, operations }, { authInfo: { token, clientId } = {} }) => {
+  async (
+    { patchGuideId: _patchGuideId, id, operations },
+    { authInfo: { token, clientId } = {} },
+  ) => {
     const client = createMapiClient(clientId, token);
 
     try {
