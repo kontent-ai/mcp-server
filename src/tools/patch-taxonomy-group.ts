@@ -7,6 +7,7 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import {
   getPatchGuideToolName,
   getTaxonomyGroupToolName,
+  patchGuideIdParam,
 } from "./referencedToolNames.js";
 import { defineDestructiveTool } from "./toolDefinition.js";
 
@@ -14,6 +15,7 @@ export const patchTaxonomyGroup = defineDestructiveTool(
   "patch-taxonomy-group",
   `Update (modify/edit) and organize Kontent.ai taxonomy group terms using patch operations. Always call ${getPatchGuideToolName}(entityType='taxonomy') first — it documents ordering rules and constraints not visible in this schema.`,
   {
+    ...patchGuideIdParam("taxonomy"),
     id: z.guid().describe("Taxonomy group ID"),
     operations: coerceJsonString(
       taxonomyPatchOperationsSchema.describe(
@@ -21,7 +23,7 @@ export const patchTaxonomyGroup = defineDestructiveTool(
       ),
     ),
   },
-  async ({ id, operations }, { authInfo: { token, clientId } = {} }) => {
+  async ({ patchGuideId: _patchGuideId, id, operations }, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);
 
     try {

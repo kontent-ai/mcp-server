@@ -4,16 +4,17 @@ import { assetFolderPatchOperationsSchema } from "../schemas/assetFolderSchemas.
 import { coerceJsonString } from "../schemas/coerceJsonString.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { getPatchGuideToolName } from "./referencedToolNames.js";
+import { getPatchGuideToolName, patchGuideIdParam } from "./referencedToolNames.js";
 import { defineDestructiveTool } from "./toolDefinition.js";
 
 export const patchAssetFolders = defineDestructiveTool(
   "patch-asset-folders",
   `Update (modify/edit) Kontent.ai asset folders using patch operations. Always call ${getPatchGuideToolName}(entityType='asset-folder') first — it documents constraints not visible in this schema that the API enforces.`,
   {
+    ...patchGuideIdParam("asset-folder"),
     operations: coerceJsonString(assetFolderPatchOperationsSchema),
   },
-  async ({ operations }, { authInfo: { token, clientId } = {} }) => {
+  async ({ patchGuideId: _patchGuideId, operations }, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);
 
     try {
