@@ -6,20 +6,22 @@ import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import {
   getPatchGuideToolName,
   listCollectionsToolName,
+  patchGuideIdParam,
 } from "./referencedToolNames.js";
 import { defineDestructiveTool } from "./toolDefinition.js";
 
 export const patchCollections = defineDestructiveTool(
   "patch-collections",
-  `Update (modify/edit) Kontent.ai collections using patch operations (addInto, move, rename, remove). Call ${getPatchGuideToolName} first for operations reference.`,
+  `Update (modify/edit) Kontent.ai collections using patch operations. Always call ${getPatchGuideToolName}(entityType='collection') first — it documents constraints not visible in this schema that the API enforces.`,
   {
+    ...patchGuideIdParam("collection"),
     operations: coerceJsonString(
       collectionPatchOperationsSchema.describe(
         `Patch operations array. Call ${listCollectionsToolName} first. Use addInto to add new collections, move to reorder, remove to delete empty collections, replace to rename.`,
       ),
     ),
   },
-  async ({ operations }, { authInfo: { token, clientId } = {} }) => {
+  async ({ patchGuideId: _patchGuideId, operations }, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);
 
     try {

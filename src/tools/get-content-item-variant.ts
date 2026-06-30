@@ -6,7 +6,7 @@ import { defineReadOnlyTool } from "./toolDefinition.js";
 
 export const getContentItemVariant = defineReadOnlyTool(
   "get-content-item-variant",
-  "Retrieve Kontent.ai content item variant (language version/translation). Returns the current version of the variant — draft if one exists, otherwise published. Variants hold translated, language-specific content with structure defined by content type.",
+  "Retrieve a single Kontent.ai content item variant (language version/translation) by item and language ID. Returns the current version — draft if one exists, otherwise published.",
   {
     itemId: z.string().describe("Content item ID"),
     languageId: z.string().describe("Language ID"),
