@@ -58,7 +58,11 @@ This is a Model Context Protocol (MCP) server for Kontent.ai that enables AI mod
    - Implements a specific Kontent.ai operation
    - Uses standardized error handling via `errorHandler.ts`
    - Returns responses using `createMcpToolSuccessResponse`
-   - Must call `get-patch-guide` before any patch operation
+   - Must call `get-patch-guide` before any patch operation — the patch tool's own description
+     must say **"Always call `get-patch-guide`(entityType='…') first"** with that exact
+     "Always" emphasis. A weaker phrasing ("Call… first" without "Always") is regularly ignored
+     by the agent in practice. All `patch-*` tool descriptions must use this exact phrasing —
+     check for drift when adding or editing one.
 
 4. **API Clients** (`src/clients/kontentClients.ts`): Manages Kontent.ai SDK instances:
    - Management API client for content operations
@@ -237,6 +241,11 @@ When contributing:
    - Update relevant file in `src/schemas/`
    - Ensure backward compatibility
    - Update related tool implementations
+   - If an agent has been observed calling the same create/patch tool twice in a row for what
+     should be one operation, that's usually a schema validation failure on the first attempt
+     (wrong payload shape), not a description/discoverability problem — add a `.describe()`
+     annotation documenting the non-obvious constraint it got wrong (e.g. `allowed_formatting`
+     requiring `"unstyled"` as the first value if set) rather than editing the tool description
 
 4. **Debugging API issues**:
    - Check request IDs in error responses

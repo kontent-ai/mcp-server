@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { z } from "zod";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { pathBasedPatchGuide } from "./context/patch-guide-path-based.js";
@@ -43,7 +44,13 @@ export const getPatchGuide = defineReadOnlyTool(
   },
   async ({ entityType }) => {
     try {
-      return createMcpToolSuccessResponse(getGuideForEntity(entityType));
+      const patchGuideId = randomUUID();
+
+      return createMcpToolSuccessResponse(
+        `patchGuideId: ${patchGuideId}\n` +
+          "Pass this exact value as the patchGuideId parameter when calling the matching patch-* tool.\n\n" +
+          getGuideForEntity(entityType),
+      );
     } catch (error) {
       throw new Error(
         `Failed to read patch guide: ${

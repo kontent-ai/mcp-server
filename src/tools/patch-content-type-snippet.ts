@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { coerceJsonString } from "../schemas/coerceJsonString.js";
+import { patchGuideIdParam } from "../schemas/patchSchemas/patchGuideIdSchema.js";
 import { snippetPatchOperationsSchema } from "../schemas/patchSchemas/snippetPatchSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
@@ -9,8 +10,9 @@ import { defineDestructiveTool } from "./toolDefinition.js";
 
 export const patchContentTypeSnippet = defineDestructiveTool(
   "patch-content-type-snippet",
-  `Update (modify/edit) Kontent.ai content type snippet using patch operations (move, addInto, remove, replace elements). Call ${getPatchGuideToolName} first for operations reference.`,
+  `Update (modify/edit) Kontent.ai content type snippet using patch operations (move, addInto, remove, replace elements). Always call ${getPatchGuideToolName}(entityType='snippet') first for operations reference.`,
   {
+    ...patchGuideIdParam("snippet"),
     id: z.guid().describe("Content type snippet ID"),
     operations: coerceJsonString(
       snippetPatchOperationsSchema.describe(
@@ -20,7 +22,10 @@ export const patchContentTypeSnippet = defineDestructiveTool(
       ),
     ),
   },
-  async ({ id, operations }, { authInfo: { token, clientId } = {} }) => {
+  async (
+    { patchGuideId: _patchGuideId, id, operations },
+    { authInfo: { token, clientId } = {} },
+  ) => {
     const client = createMapiClient(clientId, token);
 
     try {
