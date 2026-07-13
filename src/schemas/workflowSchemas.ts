@@ -53,7 +53,9 @@ const workflowStepInputSchema = z.object({
   transitions_to: z
     .array(transitionToSchema)
     .min(1)
-    .describe("Array of step references this step can transition to."),
+    .describe(
+      "Array of step references this step can transition to. Every custom step must eventually be able to reach the built-in 'published' step, whether directly or via a chain through other custom steps (reference the published step as {\"step\":{\"codename\":\"published\"}}) - a step with no path to Published makes the workflow invalid.",
+    ),
   role_ids: z
     .array(z.guid())
     .describe(
@@ -110,7 +112,11 @@ export const workflowInputSchema = z.object({
       ),
   ),
   steps: coerceJsonString(
-    z.array(workflowStepInputSchema).describe("Array of custom workflow steps"),
+    z
+      .array(workflowStepInputSchema)
+      .describe(
+        "Array of custom workflow steps. Every step's transitions_to must form a path that eventually reaches the built-in 'published' step (directly or through other custom steps) - a step with no route to Published makes the whole workflow invalid.",
+      ),
   ),
   published_step: publishedStepInputSchema.describe(
     "Configuration for the published step",
