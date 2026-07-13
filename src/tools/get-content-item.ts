@@ -2,11 +2,15 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
+import {
+  bulkGetContentItemVariantsToolName,
+  listContentItemVariantsToolName,
+} from "./referencedToolNames.js";
 import { defineReadOnlyTool } from "./toolDefinition.js";
 
 export const getContentItem = defineReadOnlyTool(
   "get-content-item",
-  "Retrieve Kontent.ai content item by ID. Items are language-neutral containers; one item has multiple content item variants (translations).",
+  `Retrieve a single Kontent.ai content item by ID. Items are language-neutral containers; one item has multiple content item variants (translations). Do NOT call this in a loop to identify an item among several candidates by name — narrow down first with ${listContentItemVariantsToolName}'s search_phrase filter, or if you already have several candidate IDs, resolve them all in one call with ${bulkGetContentItemVariantsToolName} instead of calling this tool repeatedly.`,
   {
     id: z.string().describe("Content item ID"),
   },
