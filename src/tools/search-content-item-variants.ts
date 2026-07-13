@@ -53,7 +53,7 @@ const extractSearchResults = (response: AiOperationResultResponse): object => {
 
 export const searchContentItemVariants = defineReadOnlyTool(
   searchContentItemVariantsToolName,
-  `AI semantic search for Kontent.ai content items with content item variants (language versions/translations) by topic, theme, or meaning. Find content by natural language query. Returns only top 50 results. This feature may be unavailable. Use ${listContentItemVariantsToolName} for full content inventory filtering or exact keyword matching. Use ${bulkGetContentItemVariantsToolName} to retrieve full content of the variants.`,
+  `AI semantic search for Kontent.ai content items with content item variants (language versions/translations) by topic, theme, or meaning. Use when you know what content is *about* — not when looking for an item by name or title; use ${listContentItemVariantsToolName} for that. Returns only top 50 results. This feature may be unavailable. Use ${bulkGetContentItemVariantsToolName} to retrieve full content of the variants.`,
   searchOperationSchema.shape,
   async ({ searchPhrase, filter }, { authInfo: { token, clientId } = {} }) => {
     try {
@@ -97,7 +97,7 @@ export const searchContentItemVariants = defineReadOnlyTool(
         ) {
           return createMcpToolSuccessResponse({
             status: "unavailable",
-            result: `AI search feature is not available for environment ${clientId}`,
+            result: `AI search feature is not available for environment ${clientId}. Do not retry this tool. Use ${listContentItemVariantsToolName} instead (its search_phrase parameter supports exact keyword matching).`,
           });
         }
         throw error;

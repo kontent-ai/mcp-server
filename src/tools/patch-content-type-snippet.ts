@@ -10,7 +10,7 @@ import { defineDestructiveTool } from "./toolDefinition.js";
 
 export const patchContentTypeSnippet = defineDestructiveTool(
   "patch-content-type-snippet",
-  `Update (modify/edit) Kontent.ai content type snippet using patch operations (move, addInto, remove, replace elements). Always call ${getPatchGuideToolName}(entityType='snippet') first for operations reference.`,
+  `Update (modify/edit) Kontent.ai content type snippet using patch operations (add, move, remove, replace elements/fields). Add new fields to an existing snippet, or rearrange or remove existing elements. Always call ${getPatchGuideToolName}(entityType='snippet') first for operations reference.`,
   {
     ...patchGuideIdParam("snippet"),
     id: z.guid().describe("Content type snippet ID"),

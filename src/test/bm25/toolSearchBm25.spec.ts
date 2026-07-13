@@ -166,6 +166,16 @@ const testGroups: ReadonlyArray<TestGroup> = [
         query: "patch snippet",
         expected: [allTools.patchContentTypeSnippet.name],
       },
+      // Agent-observed regression — "add field(s)" queries used to lose to patchContentType
+      // because the description only said "addInto", never the standalone word "add"/"field".
+      {
+        query: "add field to snippet",
+        expected: [allTools.patchContentTypeSnippet.name],
+      },
+      {
+        query: "add elements to snippet",
+        expected: [allTools.patchContentTypeSnippet.name],
+      },
       {
         query: "delete snippet",
         expected: [allTools.deleteContentTypeSnippet.name],
@@ -222,6 +232,16 @@ const testGroups: ReadonlyArray<TestGroup> = [
       },
       {
         query: "edit content item",
+        expected: [allTools.updateContentItem.name],
+      },
+      // Agent-observed regression — "rename" queries used to rank updateContentItem 8th,
+      // losing to get/create/delete-content-item on shared "content item" tokens.
+      {
+        query: "rename content item",
+        expected: [allTools.updateContentItem.name],
+      },
+      {
+        query: "rename article",
         expected: [allTools.updateContentItem.name],
       },
       // delete / remove
@@ -399,6 +419,17 @@ const testGroups: ReadonlyArray<TestGroup> = [
       },
       {
         query: "bulk retrieve variants",
+        expected: [allTools.bulkGetContentItemVariants.name],
+      },
+      // Agent-observed regression — "get details of multiple/several items" queries used to
+      // lose to get-content-item because the description only said "2 or more", never the
+      // words "multiple"/"several".
+      {
+        query: "get details of multiple items",
+        expected: [allTools.bulkGetContentItemVariants.name],
+      },
+      {
+        query: "retrieve details of several matched items",
         expected: [allTools.bulkGetContentItemVariants.name],
       },
       // delete / remove — full and partial name combinations
