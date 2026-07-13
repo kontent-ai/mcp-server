@@ -56,28 +56,32 @@ const workflowStepInputSchema = z.object({
     .describe("Array of step references this step can transition to."),
   role_ids: z
     .array(z.guid())
-    .min(1)
-    .describe("Array of role IDs that have permissions for this step."),
+    .describe(
+      "Array of role IDs that have permissions for this step. Leave empty to allow all roles.",
+    ),
 });
 
 // Published step input schema
 const publishedStepInputSchema = z.object({
   unpublish_role_ids: z
     .array(z.guid())
-    .min(1)
-    .describe("Array of role IDs that can unpublish content."),
+    .describe(
+      "Array of role IDs that can unpublish content. Leave empty to allow all roles.",
+    ),
   create_new_version_role_ids: z
     .array(z.guid())
-    .min(1)
-    .describe("Array of role IDs that can create new versions."),
+    .describe(
+      "Array of role IDs that can create new versions. Leave empty to allow all roles.",
+    ),
 });
 
 // Archived step input schema
 const archivedStepInputSchema = z.object({
   role_ids: z
     .array(z.guid())
-    .min(1)
-    .describe("Array of role IDs that can restore archived content."),
+    .describe(
+      "Array of role IDs that can restore archived content. Leave empty to allow all roles.",
+    ),
 });
 
 // Workflow scope input schema
