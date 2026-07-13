@@ -47,6 +47,8 @@ Use JSON Pointer 'path' property with id:{uuid} format.
 - Only one url_slug element allowed per content type
 - To remove content groups: set ALL elements' content_group to null AND remove ALL groups in one request
 - URL slug with snippet: add snippet element first, then url_slug with depends_on reference
+- To move an element to a different content_group, combine two ops in one patch: replace its
+  content_group, then move it to the desired position
 
 ## Snippet Specifics
 - Cannot contain: content_groups, snippet, or url_slug elements
