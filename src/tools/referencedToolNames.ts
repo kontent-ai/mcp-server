@@ -7,6 +7,8 @@ export const createContentItemToolName = "create-content-item";
 export const createContentItemVariantToolName = "create-content-item-variant";
 export const updateContentItemVariantToolName = "update-content-item-variant";
 export const getPatchGuideToolName = "get-patch-guide";
+export const getPublishedContentItemVariantVersionToolName =
+  "get-published-content-item-variant-version";
 export const getTaxonomyGroupToolName = "get-taxonomy-group";
 export const listCollectionsToolName = "list-collections";
 export const listLanguagesToolName = "list-languages";

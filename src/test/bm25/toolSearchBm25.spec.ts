@@ -76,6 +76,16 @@ const testGroups: ReadonlyArray<TestGroup> = [
         expected: [allTools.getContentType.name],
       },
       { query: "fetch content type", expected: [allTools.getContentType.name] },
+      // Agent-observed regression — "by id"/"fetch retrieve" queries used to lose
+      // get-content-type to list/create/delete/snippet tools sharing "content type" tokens.
+      {
+        query: "get content type by id",
+        expected: [allTools.getContentType.name],
+      },
+      {
+        query: "get single content type fetch retrieve",
+        expected: [allTools.getContentType.name],
+      },
       // Action verb variations: delete / remove
       {
         query: "delete content type",
@@ -259,6 +269,24 @@ const testGroups: ReadonlyArray<TestGroup> = [
         expected: [allTools.createContentItem.name],
       },
       { query: "get content entry", expected: [allTools.getContentItem.name] },
+      // Agent-observed regression — a 7-call BM25 loop in a test run never surfaced
+      // get-content-item for these phrasings, falling back to get-content-item-translations.
+      {
+        query: "get content item by id",
+        expected: [allTools.getContentItem.name],
+      },
+      {
+        query: "get single content item details",
+        expected: [allTools.getContentItem.name],
+      },
+      {
+        query: "get content item retrieve fetch",
+        expected: [allTools.getContentItem.name],
+      },
+      {
+        query: "get content item name type codename",
+        expected: [allTools.getContentItem.name],
+      },
       // Finding specific content items should also surface filter/search
       {
         query: "find content item",
@@ -369,6 +397,17 @@ const testGroups: ReadonlyArray<TestGroup> = [
       {
         query: "published content delivery",
         expected: [allTools.getPublishedContentItemVariantVersion.name],
+      },
+      // Agent-observed regression — this generic phrasing used to let
+      // get-content-item-translations bury get-published-content-item-variant-version
+      // far outside the top-5, so the agent never learned it needed the published-specific
+      // tool. Both must stay visible together so the agent can disambiguate.
+      {
+        query: "get content item variant details",
+        expected: [
+          allTools.getContentItemTranslations.name,
+          allTools.getPublishedContentItemVariantVersion.name,
+        ],
       },
       // update / edit / write — full and partial name combinations
       {
