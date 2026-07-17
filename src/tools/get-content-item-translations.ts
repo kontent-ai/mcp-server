@@ -4,13 +4,14 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import {
   bulkGetContentItemVariantsToolName,
+  getPublishedContentItemVariantVersionToolName,
   listContentItemVariantsToolName,
 } from "./referencedToolNames.js";
 import { defineReadOnlyTool } from "./toolDefinition.js";
 
 export const getContentItemTranslations = defineReadOnlyTool(
   "get-content-item-translations",
-  `Get all Kontent.ai content item translations — every language version (variant) of a specific content item. Retrieve translated content across all languages to examine details of a specific item in translation scenarios, rather than to search for items — for finding or disambiguating among candidates, use ${listContentItemVariantsToolName}'s search_phrase filter, or ${bulkGetContentItemVariantsToolName} to resolve several candidate IDs at once.`,
+  `Get all Kontent.ai content item translations — every language version (variant) of a specific content item. Returns each language's current version (draft if one exists, otherwise the last one saved) — not guaranteed to match what is currently live; when that distinction specifically matters, use ${getPublishedContentItemVariantVersionToolName} instead. Retrieve translated content across all languages to examine details of a specific item in translation scenarios, rather than to search for items — for finding or disambiguating among candidates, use ${listContentItemVariantsToolName}'s search_phrase filter. Do NOT call this in a loop across multiple items — resolve several candidate IDs in one call with ${bulkGetContentItemVariantsToolName} instead.`,
   {
     itemId: z.string().describe("Content item ID"),
   },

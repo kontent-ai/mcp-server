@@ -10,7 +10,7 @@ import { defineReadOnlyTool } from "./toolDefinition.js";
 
 export const getContentItem = defineReadOnlyTool(
   "get-content-item",
-  `Retrieve a single Kontent.ai content item by ID. Items are language-neutral containers; one item has multiple content item variants (translations). Do NOT call this in a loop to identify an item among several candidates by name — narrow down first with ${listContentItemVariantsToolName}'s search_phrase filter, or if you already have several candidate IDs, resolve them all in one call with ${bulkGetContentItemVariantsToolName} instead of calling this tool repeatedly.`,
+  `Retrieve (fetch) a single Kontent.ai content item by ID — returns its details: name, codename, and content type. Items are language-neutral containers; one item has multiple content item variants (translations). Do NOT call this in a loop to identify an item among several candidates by name — narrow down first with ${listContentItemVariantsToolName}'s search_phrase filter, or if you already have several candidate IDs, resolve them all in one call with ${bulkGetContentItemVariantsToolName} instead of calling this tool repeatedly.`,
   {
     id: z.string().describe("Content item ID"),
   },
