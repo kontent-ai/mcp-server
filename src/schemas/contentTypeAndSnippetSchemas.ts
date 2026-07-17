@@ -216,14 +216,24 @@ export const allowedTableTextBlockSchema = z.enum([
 const richTextElementSchema = {
   type: z.literal("rich_text"),
   ...namedElementSchema,
-  allowed_blocks: z.array(allowedBlockSchema).optional(),
-  allowed_formatting: z.array(allowedFormattingSchema).optional().describe(
-    "Omit to allow all formatting options. If specified, 'unstyled' must be included.",
+  allowed_blocks: z.array(allowedBlockSchema).optional().describe(
+    "Omit to allow all blocks. Do not list every possible value explicitly - that is rejected as redundant; use an empty array or omit the property instead.",
   ),
-  allowed_text_blocks: z.array(allowedTextBlockSchema).optional(),
-  allowed_table_blocks: z.array(allowedTableBlockSchema).optional(),
-  allowed_table_formatting: z.array(allowedTableFormattingSchema).optional(),
-  allowed_table_text_blocks: z.array(allowedTableTextBlockSchema).optional(),
+  allowed_formatting: z.array(allowedFormattingSchema).optional().describe(
+    "Omit to allow all formatting options. If specified, 'unstyled' must be included. Do not list every possible value explicitly - that is rejected as redundant; use an empty array or omit the property instead.",
+  ),
+  allowed_text_blocks: z.array(allowedTextBlockSchema).optional().describe(
+    "Omit to allow all text blocks. Do not list every possible value explicitly - that is rejected as redundant; use an empty array or omit the property instead.",
+  ),
+  allowed_table_blocks: z.array(allowedTableBlockSchema).optional().describe(
+    "Omit to allow all blocks in tables. Do not list every possible value explicitly - that is rejected as redundant; use an empty array or omit the property instead.",
+  ),
+  allowed_table_formatting: z.array(allowedTableFormattingSchema).optional().describe(
+    "Omit to allow all table text formatting. Do not list every possible value explicitly - that is rejected as redundant; use an empty array or omit the property instead.",
+  ),
+  allowed_table_text_blocks: z.array(allowedTableTextBlockSchema).optional().describe(
+    "Omit to allow all text blocks in tables. Do not list every possible value explicitly - that is rejected as redundant; use an empty array or omit the property instead.",
+  ),
   allowed_content_types: z.array(referenceObjectSchema).optional(),
   allowed_item_link_types: z.array(referenceObjectSchema).optional(),
   ...imageLimitSchema,
