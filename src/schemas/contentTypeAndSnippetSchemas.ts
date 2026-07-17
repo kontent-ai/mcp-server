@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { referenceObjectSchema } from "./referenceObjectSchema.js";
+import { writeReferenceObjectSchema } from "./referenceObjectSchema.js";
 
 // Common property schemas
 const baseElementSchema = {
@@ -9,7 +9,9 @@ const baseElementSchema = {
 
 // Content group schema for content type elements only
 const contentGroupElementSchema = {
-  content_group: referenceObjectSchema.optional(),
+  content_group: writeReferenceObjectSchema
+    .optional()
+    .describe("Reference to the content group this element belongs to."),
 };
 
 const namedElementSchema = {
@@ -52,7 +54,11 @@ const imageLimitSchema = {
 export const arrayDefaultSchema = z
   .object({
     global: z.object({
-      value: z.array(referenceObjectSchema),
+      value: z
+        .array(writeReferenceObjectSchema)
+        .describe(
+          "Array of references to the default selected values (assets, linked items, multiple choice options, or taxonomy terms, depending on the element type).",
+        ),
     }),
   })
   .optional();
@@ -107,7 +113,12 @@ const customElementSchema = {
   ...namedElementSchema,
   source_url: z.url(),
   json_parameters: z.string().optional(),
-  allowed_elements: z.array(referenceObjectSchema).optional(),
+  allowed_elements: z
+    .array(writeReferenceObjectSchema)
+    .optional()
+    .describe(
+      "Array of references to other elements in this content type (or snippet) that this custom element is allowed to access.",
+    ),
 };
 
 const dateTimeElementSchema = {
@@ -127,7 +138,12 @@ const guidelinesElementSchema = {
 const modularContentElementSchema = {
   type: z.literal("modular_content"),
   ...namedElementSchema,
-  allowed_content_types: z.array(referenceObjectSchema).optional(),
+  allowed_content_types: z
+    .array(writeReferenceObjectSchema)
+    .optional()
+    .describe(
+      "Array of references to the content types allowed as linked items. Use an empty array to allow all content types.",
+    ),
   item_count_limit: countLimitSchema,
   default: arrayDefaultSchema,
 };
@@ -136,12 +152,11 @@ const subpagesElementSchema = {
   type: z.literal("subpages"),
   ...namedElementSchema,
   allowed_content_types: z
-    .array(
-      referenceObjectSchema.describe(
-        "An object with an id or codename property referencing a content type. Use an empty array to allow all content types.",
-      ),
-    )
-    .optional(),
+    .array(writeReferenceObjectSchema)
+    .optional()
+    .describe(
+      "Array of references to the content types allowed as sub-pages. Use an empty array to allow all content types.",
+    ),
   item_count_limit: countLimitSchema,
 };
 
@@ -216,26 +231,54 @@ export const allowedTableTextBlockSchema = z.enum([
 const richTextElementSchema = {
   type: z.literal("rich_text"),
   ...namedElementSchema,
-  allowed_blocks: z.array(allowedBlockSchema).optional().describe(
-    "Omit to allow all blocks. Do not list every possible value explicitly - that is rejected as redundant; use an empty array or omit the property instead.",
-  ),
-  allowed_formatting: z.array(allowedFormattingSchema).optional().describe(
-    "Omit to allow all formatting options. If specified, 'unstyled' must be included. Do not list every possible value explicitly - that is rejected as redundant; use an empty array or omit the property instead.",
-  ),
-  allowed_text_blocks: z.array(allowedTextBlockSchema).optional().describe(
-    "Omit to allow all text blocks. Do not list every possible value explicitly - that is rejected as redundant; use an empty array or omit the property instead.",
-  ),
-  allowed_table_blocks: z.array(allowedTableBlockSchema).optional().describe(
-    "Omit to allow all blocks in tables. Do not list every possible value explicitly - that is rejected as redundant; use an empty array or omit the property instead.",
-  ),
-  allowed_table_formatting: z.array(allowedTableFormattingSchema).optional().describe(
-    "Omit to allow all table text formatting. Do not list every possible value explicitly - that is rejected as redundant; use an empty array or omit the property instead.",
-  ),
-  allowed_table_text_blocks: z.array(allowedTableTextBlockSchema).optional().describe(
-    "Omit to allow all text blocks in tables. Do not list every possible value explicitly - that is rejected as redundant; use an empty array or omit the property instead.",
-  ),
-  allowed_content_types: z.array(referenceObjectSchema).optional(),
-  allowed_item_link_types: z.array(referenceObjectSchema).optional(),
+  allowed_blocks: z
+    .array(allowedBlockSchema)
+    .optional()
+    .describe(
+      "Omit to allow all blocks. Do not list every possible value explicitly - that is rejected as redundant; use an empty array or omit the property instead.",
+    ),
+  allowed_formatting: z
+    .array(allowedFormattingSchema)
+    .optional()
+    .describe(
+      "Omit to allow all formatting options. If specified, 'unstyled' must be included. Do not list every possible value explicitly - that is rejected as redundant; use an empty array or omit the property instead.",
+    ),
+  allowed_text_blocks: z
+    .array(allowedTextBlockSchema)
+    .optional()
+    .describe(
+      "Omit to allow all text blocks. Do not list every possible value explicitly - that is rejected as redundant; use an empty array or omit the property instead.",
+    ),
+  allowed_table_blocks: z
+    .array(allowedTableBlockSchema)
+    .optional()
+    .describe(
+      "Omit to allow all blocks in tables. Do not list every possible value explicitly - that is rejected as redundant; use an empty array or omit the property instead.",
+    ),
+  allowed_table_formatting: z
+    .array(allowedTableFormattingSchema)
+    .optional()
+    .describe(
+      "Omit to allow all table text formatting. Do not list every possible value explicitly - that is rejected as redundant; use an empty array or omit the property instead.",
+    ),
+  allowed_table_text_blocks: z
+    .array(allowedTableTextBlockSchema)
+    .optional()
+    .describe(
+      "Omit to allow all text blocks in tables. Do not list every possible value explicitly - that is rejected as redundant; use an empty array or omit the property instead.",
+    ),
+  allowed_content_types: z
+    .array(writeReferenceObjectSchema)
+    .optional()
+    .describe(
+      "Array of references to the content types allowed as linked content items embedded in the rich text. Use an empty array to allow all content types.",
+    ),
+  allowed_item_link_types: z
+    .array(writeReferenceObjectSchema)
+    .optional()
+    .describe(
+      "Array of references to the content types allowed as link targets within the rich text. Use an empty array to allow all content types.",
+    ),
   ...imageLimitSchema,
   allowed_image_types: z.enum(["adjustable", "any"]).optional(),
   maximum_image_size: z.number().optional(),
@@ -244,13 +287,17 @@ const richTextElementSchema = {
 
 const snippetElement = {
   type: z.literal("snippet"),
-  snippet: referenceObjectSchema,
+  snippet: writeReferenceObjectSchema.describe(
+    "Reference to the content type snippet this element set is inherited from.",
+  ),
   ...baseElementSchema,
 };
 
 const taxonomyElementSchema = {
   type: z.literal("taxonomy"),
-  taxonomy_group: referenceObjectSchema,
+  taxonomy_group: writeReferenceObjectSchema.describe(
+    "Reference to the taxonomy group this element's terms are selected from.",
+  ),
   ...namedElementSchema,
   term_count_limit: countLimitSchema,
   default: arrayDefaultSchema,
@@ -265,8 +312,14 @@ const textElementSchema = {
 };
 
 export const dependsOnSchema = z.object({
-  element: referenceObjectSchema,
-  snippet: referenceObjectSchema.optional(),
+  element: writeReferenceObjectSchema.describe(
+    "Reference to the text element this URL slug is generated from.",
+  ),
+  snippet: writeReferenceObjectSchema
+    .optional()
+    .describe(
+      "Reference to the snippet containing the depended-on element, if it is defined in a snippet rather than directly on the content type.",
+    ),
 });
 
 const urlSlugElementSchema = {

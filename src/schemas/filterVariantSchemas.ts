@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { coerceJsonString } from "./coerceJsonString.js";
 import { continuationTokenField } from "./listSchemas.js";
-import { referenceObjectSchema } from "./referenceObjectSchema.js";
+import { readReferenceObjectSchema } from "./referenceObjectSchema.js";
 
 // UserReferenceDataContract is a union type - either id or email, but not both
 const userReferenceSchema = z
@@ -25,11 +25,9 @@ export const filterVariantsSchema = z.object({
     .describe("Specific phrase or keywords to look for in content"),
   content_types: coerceJsonString(
     z
-      .array(referenceObjectSchema)
+      .array(readReferenceObjectSchema)
       .min(1)
-      .describe(
-        "Array of references to content types by their id, codename, or external id",
-      ),
+      .describe("Array of ID references to content types."),
   ).optional(),
   contributors: coerceJsonString(
     z
@@ -53,23 +51,21 @@ export const filterVariantsSchema = z.object({
         "Array of completion statuses to filter by. It is not the same thing as workflow steps, it reflects e.g. not filled in required elements",
       ),
   ).optional(),
-  language: referenceObjectSchema
+  language: readReferenceObjectSchema
     .optional()
-    .describe(
-      "Reference to a language by its id, codename, or external id (defaults to default language)",
-    ),
+    .describe("ID reference to a language (defaults to default language)."),
   workflow_steps: coerceJsonString(
     z
       .array(
         z.object({
-          workflow_identifier: referenceObjectSchema.describe(
-            "Reference to a workflow by its id, codename, or external id",
+          workflow_identifier: readReferenceObjectSchema.describe(
+            "ID reference to a workflow.",
           ),
           step_identifiers: z
-            .array(referenceObjectSchema)
+            .array(readReferenceObjectSchema)
             .min(1)
             .describe(
-              "Array of references to workflow steps by their id, codename, or external id",
+              "Array of ID references to workflow steps (from the same workflow's steps, as returned by list-workflows).",
             ),
         }),
       )
@@ -80,14 +76,14 @@ export const filterVariantsSchema = z.object({
     z
       .array(
         z.object({
-          taxonomy_identifier: referenceObjectSchema.describe(
-            "Reference to a taxonomy group by its id, codename, or external id",
+          taxonomy_identifier: readReferenceObjectSchema.describe(
+            "ID reference to a taxonomy group.",
           ),
           term_identifiers: z
-            .array(referenceObjectSchema)
+            .array(readReferenceObjectSchema)
             .optional()
             .describe(
-              "Array of references to taxonomy terms by their id, codename, or external id",
+              "Array of ID references to taxonomy terms (from the same taxonomy group, as returned by list-taxonomy-groups).",
             ),
           include_uncategorized: z
             .boolean()
@@ -102,26 +98,22 @@ export const filterVariantsSchema = z.object({
   ).optional(),
   spaces: coerceJsonString(
     z
-      .array(referenceObjectSchema)
+      .array(readReferenceObjectSchema)
       .min(1)
-      .describe(
-        "Array of references to spaces by their id or codename (external_id is not supported for spaces)",
-      ),
+      .describe("Array of ID references to spaces."),
   ).optional(),
   collections: coerceJsonString(
     z
-      .array(referenceObjectSchema)
+      .array(readReferenceObjectSchema)
       .min(1)
-      .describe(
-        "Array of references to collections by their id, codename, or external id",
-      ),
+      .describe("Array of ID references to collections."),
   ).optional(),
   component_types: coerceJsonString(
     z
-      .array(referenceObjectSchema)
+      .array(readReferenceObjectSchema)
       .min(1)
       .describe(
-        "Array of references to content component types stored in variants by their type id, codename, or external id",
+        "Array of ID references to content component types stored in variants.",
       ),
   ).optional(),
   publishing_states: coerceJsonString(

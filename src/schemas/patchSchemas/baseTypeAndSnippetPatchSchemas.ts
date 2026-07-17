@@ -14,13 +14,21 @@ import {
   stringDefaultSchema,
   textLengthLimitSchema,
 } from "../contentTypeAndSnippetSchemas.js";
-import { referenceObjectSchema } from "../referenceObjectSchema.js";
+import { writeReferenceObjectSchema } from "../referenceObjectSchema.js";
 
 export const moveOperationSchema = z.object({
   op: z.literal("move"),
   path: z.string().describe("Path to object (format: id:{uuid})"),
-  before: referenceObjectSchema.optional(),
-  after: referenceObjectSchema.optional(),
+  before: writeReferenceObjectSchema
+    .optional()
+    .describe(
+      "Reference to the sibling element, option, or content group (matching the item at path) to position before.",
+    ),
+  after: writeReferenceObjectSchema
+    .optional()
+    .describe(
+      "Reference to the sibling element, option, or content group (matching the item at path) to position after.",
+    ),
 });
 
 export const removeOperationSchema = z.object({
@@ -30,7 +38,7 @@ export const removeOperationSchema = z.object({
 
 export const sharedAddIntoValueSchemas = [
   optionSchema,
-  referenceObjectSchema,
+  writeReferenceObjectSchema,
   allowedBlockSchema,
   allowedFormattingSchema,
   allowedTextBlockSchema,

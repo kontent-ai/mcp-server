@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { coerceJsonString } from "./coerceJsonString.js";
-import { referenceObjectSchema } from "./referenceObjectSchema.js";
+import { writeReferenceObjectSchema } from "./referenceObjectSchema.js";
 
 // Step color options (matching SDK WorkflowColor type)
 const workflowStepColorSchema = z
@@ -54,7 +54,7 @@ const workflowStepInputSchema = z.object({
     .array(transitionToSchema)
     .min(1)
     .describe(
-      "Array of step references this step can transition to. Every custom step must eventually be able to reach the built-in 'published' step, whether directly or via a chain through other custom steps (reference the published step as {\"step\":{\"codename\":\"published\"}}) - a step with no path to Published makes the workflow invalid.",
+      'Array of step references this step can transition to. Every custom step must eventually be able to reach the built-in \'published\' step, whether directly or via a chain through other custom steps (reference the published step as {"step":{"codename":"published"}}) - a step with no path to Published makes the workflow invalid.',
     ),
   role_ids: z
     .array(z.guid())
@@ -89,10 +89,10 @@ const archivedStepInputSchema = z.object({
 // Workflow scope input schema
 const workflowScopeInputSchema = z.object({
   content_types: z
-    .array(referenceObjectSchema)
+    .array(writeReferenceObjectSchema)
     .describe("Content types this workflow applies to"),
   collections: z
-    .array(referenceObjectSchema)
+    .array(writeReferenceObjectSchema)
     .optional()
     .describe("Collections this workflow applies to"),
 });

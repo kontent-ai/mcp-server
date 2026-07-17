@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { referenceObjectSchema } from "../referenceObjectSchema.js";
+import { writeReferenceObjectSchema } from "../referenceObjectSchema.js";
 
 type TaxonomyTermValue = {
   name: string;
@@ -17,7 +17,7 @@ const taxonomyTermValueSchema: z.ZodType<TaxonomyTermValue> = z.object({
 
 const addIntoBaseSchema = {
   op: z.literal("addInto"),
-  reference: referenceObjectSchema
+  reference: writeReferenceObjectSchema
     .optional()
     .describe(
       "Parent term reference. Omit to add at root level of taxonomy group.",
@@ -27,46 +27,58 @@ const addIntoBaseSchema = {
 
 const addIntoBeforeOperationSchema = z.object({
   ...addIntoBaseSchema,
-  before: referenceObjectSchema,
+  before: writeReferenceObjectSchema.describe(
+    "Reference to the sibling term to insert before.",
+  ),
 });
 
 const addIntoAfterOperationSchema = z.object({
   ...addIntoBaseSchema,
-  after: referenceObjectSchema,
+  after: writeReferenceObjectSchema.describe(
+    "Reference to the sibling term to insert after.",
+  ),
 });
 
 const addIntoDefaultOperationSchema = z.object(addIntoBaseSchema);
 
 const moveBaseSchema = {
   op: z.literal("move"),
-  reference: referenceObjectSchema,
+  reference: writeReferenceObjectSchema.describe(
+    "Reference to the term to move.",
+  ),
 };
 
 const moveBeforeOperationSchema = z.object({
   ...moveBaseSchema,
-  before: referenceObjectSchema,
+  before: writeReferenceObjectSchema.describe(
+    "Reference to the sibling term to move before.",
+  ),
 });
 
 const moveAfterOperationSchema = z.object({
   ...moveBaseSchema,
-  after: referenceObjectSchema,
+  after: writeReferenceObjectSchema.describe(
+    "Reference to the sibling term to move after.",
+  ),
 });
 
 const moveUnderOperationSchema = z.object({
   ...moveBaseSchema,
-  under: referenceObjectSchema.describe(
+  under: writeReferenceObjectSchema.describe(
     "Move as child of this term (tree nesting)",
   ),
 });
 
 const removeOperationSchema = z.object({
   op: z.literal("remove"),
-  reference: referenceObjectSchema,
+  reference: writeReferenceObjectSchema.describe(
+    "Reference to the term to remove.",
+  ),
 });
 
 const replaceOperationSchema = z.object({
   op: z.literal("replace"),
-  reference: referenceObjectSchema
+  reference: writeReferenceObjectSchema
     .optional()
     .describe(
       "Term reference. Omit when modifying group-level properties (name, codename). Required when modifying specific term.",

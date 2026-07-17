@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { coerceJsonString } from "./coerceJsonString.js";
-import { referenceObjectSchema } from "./referenceObjectSchema.js";
+import { writeReferenceObjectSchema } from "./referenceObjectSchema.js";
 
 const nameReplaceOperationSchema = z.object({
   op: z.literal("replace"),
@@ -17,7 +17,9 @@ const codenameReplaceOperationSchema = z.object({
 const collectionsReplaceOperationSchema = z.object({
   op: z.literal("replace"),
   property_name: z.literal("collections"),
-  value: z.array(referenceObjectSchema),
+  value: z
+    .array(writeReferenceObjectSchema)
+    .describe("Array of references to the collections this space includes."),
 });
 
 export const spacePatchOperationSchema = z.discriminatedUnion("property_name", [
@@ -33,5 +35,9 @@ export const spacePatchOperationsSchema = z
 export const addSpaceSchema = z.object({
   name: z.string(),
   codename: z.string().optional(),
-  collections: coerceJsonString(z.array(referenceObjectSchema)).optional(),
+  collections: coerceJsonString(
+    z
+      .array(writeReferenceObjectSchema)
+      .describe("Array of references to the collections this space includes."),
+  ).optional(),
 });

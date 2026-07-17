@@ -1,15 +1,13 @@
 import { z } from "zod";
 import { coerceJsonString } from "./coerceJsonString.js";
-import { referenceObjectSchema } from "./referenceObjectSchema.js";
+import { writeReferenceObjectSchema } from "./referenceObjectSchema.js";
 
 export const addLanguageSchema = z.object({
   name: z.string().describe("Display name of the language"),
   codename: z.string().describe("Codename identifier for the language"),
-  fallback_language: referenceObjectSchema
+  fallback_language: writeReferenceObjectSchema
     .optional()
-    .describe(
-      "Reference to fallback language (by id, codename, or external_id)",
-    ),
+    .describe("Reference to the fallback language."),
   external_id: z.string().optional().describe("External ID for the language"),
 });
 
@@ -27,7 +25,9 @@ const languageReplaceOperationSchema = z.discriminatedUnion("property_name", [
   z.object({
     op: z.literal("replace"),
     property_name: z.literal("fallback_language"),
-    value: referenceObjectSchema,
+    value: writeReferenceObjectSchema.describe(
+      "Reference to the new fallback language.",
+    ),
   }),
 ]);
 

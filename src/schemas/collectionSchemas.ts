@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { referenceObjectSchema } from "./referenceObjectSchema.js";
+import { writeReferenceObjectSchema } from "./referenceObjectSchema.js";
 
 const addIntoOperationSchema = z.object({
   op: z.literal("addInto"),
@@ -8,25 +8,39 @@ const addIntoOperationSchema = z.object({
     codename: z.string().optional(),
     external_id: z.string().optional(),
   }),
-  before: referenceObjectSchema.optional(),
-  after: referenceObjectSchema.optional(),
+  before: writeReferenceObjectSchema
+    .optional()
+    .describe("Reference to the sibling collection to insert before."),
+  after: writeReferenceObjectSchema
+    .optional()
+    .describe("Reference to the sibling collection to insert after."),
 });
 
 const moveOperationSchema = z.object({
   op: z.literal("move"),
-  reference: referenceObjectSchema,
-  before: referenceObjectSchema.optional(),
-  after: referenceObjectSchema.optional(),
+  reference: writeReferenceObjectSchema.describe(
+    "Reference to the collection to move.",
+  ),
+  before: writeReferenceObjectSchema
+    .optional()
+    .describe("Reference to the sibling collection to move before."),
+  after: writeReferenceObjectSchema
+    .optional()
+    .describe("Reference to the sibling collection to move after."),
 });
 
 const removeOperationSchema = z.object({
   op: z.literal("remove"),
-  reference: referenceObjectSchema,
+  reference: writeReferenceObjectSchema.describe(
+    "Reference to the collection to remove.",
+  ),
 });
 
 const replaceOperationSchema = z.object({
   op: z.literal("replace"),
-  reference: referenceObjectSchema,
+  reference: writeReferenceObjectSchema.describe(
+    "Reference to the collection to update.",
+  ),
   property_name: z.enum(["name"]),
   value: z.string(),
 });
