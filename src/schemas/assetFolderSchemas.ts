@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { referenceObjectSchema } from "./referenceObjectSchema.js";
+import { writeReferenceObjectSchema } from "./referenceObjectSchema.js";
 
 type AssetFolderValue = {
   name: string;
@@ -17,7 +17,7 @@ const assetFolderValueSchema: z.ZodType<AssetFolderValue> = z.object({
 
 const addIntoBaseSchema = {
   op: z.literal("addInto"),
-  reference: referenceObjectSchema
+  reference: writeReferenceObjectSchema
     .optional()
     .describe("Parent folder reference. Omit to add at root level."),
   value: assetFolderValueSchema,
@@ -25,25 +25,33 @@ const addIntoBaseSchema = {
 
 const addIntoBeforeOperationSchema = z.object({
   ...addIntoBaseSchema,
-  before: referenceObjectSchema,
+  before: writeReferenceObjectSchema.describe(
+    "Reference to the sibling folder to insert before.",
+  ),
 });
 
 const addIntoAfterOperationSchema = z.object({
   ...addIntoBaseSchema,
-  after: referenceObjectSchema,
+  after: writeReferenceObjectSchema.describe(
+    "Reference to the sibling folder to insert after.",
+  ),
 });
 
 const addIntoDefaultOperationSchema = z.object(addIntoBaseSchema);
 
 const renameOperationSchema = z.object({
   op: z.literal("rename"),
-  reference: referenceObjectSchema,
+  reference: writeReferenceObjectSchema.describe(
+    "Reference to the folder to rename.",
+  ),
   value: z.string(),
 });
 
 const removeOperationSchema = z.object({
   op: z.literal("remove"),
-  reference: referenceObjectSchema,
+  reference: writeReferenceObjectSchema.describe(
+    "Reference to the folder to remove.",
+  ),
 });
 
 const assetFolderPatchOperationSchema = z.union([

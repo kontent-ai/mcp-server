@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
+import { writeReferenceObjectSchema } from "../schemas/referenceObjectSchema.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { createContentItemVariantToolName } from "./referencedToolNames.js";
@@ -10,26 +11,17 @@ export const createContentItem = defineAdditiveTool(
   `Create (add) new Kontent.ai content item (creates the container only, use ${createContentItemVariantToolName} to add language versions/translations). Items are language-neutral and hold content item variants for each language.`,
   {
     name: z.string().min(1).max(200).describe("Item name (1-200 chars)"),
-    type: z
-      .object({
-        id: z.string().optional(),
-        codename: z.string().optional(),
-        external_id: z.string().optional(),
-      })
-      .describe("Content type reference"),
+    type: writeReferenceObjectSchema.describe(
+      "Reference to the content type this item is an instance of.",
+    ),
     codename: z
       .string()
       .optional()
       .describe("Codename (auto-generated if omitted)"),
     external_id: z.string().optional().describe("External ID"),
-    collection: z
-      .object({
-        id: z.string().optional(),
-        codename: z.string().optional(),
-        external_id: z.string().optional(),
-      })
+    collection: writeReferenceObjectSchema
       .optional()
-      .describe("Collection reference"),
+      .describe("Reference to the collection this item belongs to."),
   },
   async (
     { name, type, codename, external_id, collection },

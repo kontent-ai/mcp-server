@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
+import { writeReferenceObjectSchema } from "../schemas/referenceObjectSchema.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { createContentItemToolName } from "./referencedToolNames.js";
@@ -16,14 +17,9 @@ export const updateContentItem = defineDestructiveTool(
       .max(200)
       .optional()
       .describe("New name (1-200 chars)"),
-    collection: z
-      .object({
-        id: z.string().optional(),
-        codename: z.string().optional(),
-        external_id: z.string().optional(),
-      })
+    collection: writeReferenceObjectSchema
       .optional()
-      .describe("Collection reference"),
+      .describe("Reference to the collection this item belongs to."),
   },
   async ({ id, name, collection }, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);

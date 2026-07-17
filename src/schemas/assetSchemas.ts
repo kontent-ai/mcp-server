@@ -1,18 +1,26 @@
 import { z } from "zod";
-import { referenceObjectSchema } from "./referenceObjectSchema.js";
+import { writeReferenceObjectSchema } from "./referenceObjectSchema.js";
 
 const assetDescriptionSchema = z.object({
-  language: referenceObjectSchema,
+  language: writeReferenceObjectSchema.describe(
+    "Reference to the language this description is written in.",
+  ),
   description: z.string(),
 });
 
 const assetTaxonomyElementSchema = z.object({
-  element: referenceObjectSchema,
-  value: z.array(referenceObjectSchema),
+  element: writeReferenceObjectSchema.describe(
+    "Reference to the taxonomy element this value is for.",
+  ),
+  value: z
+    .array(writeReferenceObjectSchema)
+    .describe("Array of references to the selected taxonomy terms."),
 });
 
 const assetCollectionReferenceSchema = z.object({
-  reference: referenceObjectSchema,
+  reference: writeReferenceObjectSchema.describe(
+    "Reference to the collection to assign this asset to.",
+  ),
 });
 
 export const updateAssetDataSchema = z
@@ -20,7 +28,9 @@ export const updateAssetDataSchema = z
     title: z.string().optional(),
     codename: z.string().optional(),
     collection: assetCollectionReferenceSchema.optional(),
-    folder: referenceObjectSchema.optional(),
+    folder: writeReferenceObjectSchema
+      .optional()
+      .describe("Reference to the destination asset folder."),
     descriptions: z.array(assetDescriptionSchema).optional(),
     elements: z.array(assetTaxonomyElementSchema).optional(),
   })

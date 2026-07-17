@@ -1,18 +1,18 @@
 import { z } from "zod";
 import { coerceJsonString } from "./coerceJsonString.js";
 import { continuationTokenField } from "./listSchemas.js";
-import { referenceObjectSchema } from "./referenceObjectSchema.js";
+import { readReferenceObjectSchema } from "./referenceObjectSchema.js";
 
 export const bulkGetItemsWithVariantsSchema = z.object({
   variants: coerceJsonString(
     z
       .array(
         z.object({
-          item: referenceObjectSchema.describe(
-            "Reference to a content item by its id, codename, or external id",
+          item: readReferenceObjectSchema.describe(
+            "ID reference to a content item",
           ),
-          language: referenceObjectSchema.describe(
-            "Reference to a language by its id, codename, or external id",
+          language: readReferenceObjectSchema.describe(
+            "ID reference to a language",
           ),
         }),
       )
