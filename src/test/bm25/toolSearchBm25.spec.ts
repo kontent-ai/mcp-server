@@ -211,6 +211,13 @@ const testGroups: ReadonlyArray<TestGroup> = [
         query: "create reusable snippet",
         expected: [allTools.createContentTypeSnippet.name],
       },
+      // Agent-observed regression — a 7-call BM25 loop in a test run barely found
+      // create-content-type-snippet for this MAPI-flavored phrasing (won by a margin of 0.1
+      // over get-content-type-snippet before the description mentioned "upsert").
+      {
+        query: "upsert snippet mapi",
+        expected: [allTools.createContentTypeSnippet.name],
+      },
     ],
   },
   {

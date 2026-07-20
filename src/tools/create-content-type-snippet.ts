@@ -8,7 +8,7 @@ import { defineAdditiveTool } from "./toolDefinition.js";
 
 export const createContentTypeSnippet = defineAdditiveTool(
   "create-content-type-snippet",
-  "Build a new Kontent.ai content type snippet from scratch — a reusable set of elements you can include in multiple content types. Use this to add a snippet that does not yet exist.",
+  "Build (upsert) a new Kontent.ai content type snippet from scratch — a reusable set of elements you can include in multiple content types. Use this to add a snippet that does not yet exist.",
   {
     name: z.string().describe("Snippet name"),
     codename: z
