@@ -4,7 +4,6 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { throwError } from "../utils/throwError.js";
 import {
-  bulkGetContentItemVariantsToolName,
   listContentItemVariantsToolName,
   searchContentItemVariantsToolName,
 } from "./referencedToolNames.js";
@@ -12,7 +11,7 @@ import { defineReadOnlyTool } from "./toolDefinition.js";
 
 export const listContentItemVariants = defineReadOnlyTool(
   listContentItemVariantsToolName,
-  `List, find, filter Kontent.ai content items with content item variants (language versions/translations) returning references (item ID + language ID). Filter by content item content type, collection, space, workflow step, taxonomy, contained content component content type, or publishing state. Search items and variants by EXACT keyword matching (terms use OR). Use ${searchContentItemVariantsToolName} when you know what content is *about* (topic, theme) rather than its name or identity. Use ${bulkGetContentItemVariantsToolName} to retrieve full content of the content item variants.`,
+  `List, find, filter Kontent.ai content items with content item variants (language versions/translations), returning lightweight item ID + language ID references for further lookup. Filter by content item content type, collection, space, workflow step, taxonomy, contained content component content type, or publishing state. Search items and variants by EXACT keyword matching (terms use OR). Use ${searchContentItemVariantsToolName} when you know what content is *about* (topic, theme) rather than its name or identity.`,
   filterVariantsSchema.shape,
   async (
     {

@@ -86,6 +86,13 @@ Tool descriptions must follow a standardized pattern (enforced in `.cursor/rules
 - Pattern: `"[Action] [Kontent.ai entity] [method/context]"`
 - **Always include "Kontent.ai"** explicitly
 - Example: "Retrieve Kontent.ai content type by ID"
+- **Never phrase a caveat by negation of another tool's keywords, and never embed another
+  tool's literal hyphenated name as a cross-reference** — BM25 tool search (see
+  `src/test/bm25/CLAUDE.md`) has no concept of negation or reference; both patterns just add
+  that other tool's tokens as positive relevance signal to *this* tool's document and can make
+  it outrank (or bury) the tool it was trying to point away from/to. State behavior directly
+  instead. See `src/test/bm25/CLAUDE.md` ("Two description anti-patterns...") for real regressions
+  this caused and how they were fixed.
 
 #### README Synchronization
 When modifying tools (enforced in `.cursor/rules/tools-in-readme.mdc`):
