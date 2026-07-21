@@ -492,6 +492,29 @@ const testGroups: ReadonlyArray<TestGroup> = [
         query: "retrieve details of several matched items",
         expected: [allTools.bulkGetContentItemVariants.name],
       },
+      // Agent-observed regression (MCP Tool Coverage e2e suite) — "...details batch" queries
+      // used to lose to get-content-item-translations, which had the word "details" and this
+      // tool didn't. Fixed by adding "full details" to the description.
+      {
+        query: "get content items by multiple IDs batch",
+        expected: [allTools.bulkGetContentItemVariants.name],
+      },
+      {
+        query: "get content items bulk batch details",
+        expected: [allTools.bulkGetContentItemVariants.name],
+      },
+      {
+        query: "batch get multiple content items names",
+        expected: [allTools.bulkGetContentItemVariants.name],
+      },
+      {
+        query: "get content items details batch",
+        expected: [allTools.bulkGetContentItemVariants.name],
+      },
+      {
+        query: "get content items by IDs batch",
+        expected: [allTools.bulkGetContentItemVariants.name],
+      },
       // Agent-observed regression — get-content-item, get-content-item-variant, and
       // get-content-item-translations used to name-drop the full
       // "bulk-get-content-item-variants" string in their own descriptions as a cross-reference,
