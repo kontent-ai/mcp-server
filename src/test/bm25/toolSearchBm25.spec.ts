@@ -405,6 +405,20 @@ const testGroups: ReadonlyArray<TestGroup> = [
         query: "published content delivery",
         expected: [allTools.getPublishedContentItemVariantVersion.name],
       },
+      // Regression — get-published-content-item-variant-version's own description used to say
+      // "not the current/latest draft", which duplicated the tokens "current"/"draft" that
+      // get-content-item-variant's description legitimately owns. That let the published-version
+      // tool outrank the draft tool for plain "current draft" queries, even though it returns
+      // the opposite of what those queries ask for. Fixed by describing the tool positively
+      // (what it does) instead of by negation (what it isn't).
+      {
+        query: "get current draft variant",
+        expected: [allTools.getContentItemVariant.name],
+      },
+      {
+        query: "get current version variant",
+        expected: [allTools.getContentItemVariant.name],
+      },
       // Agent-observed regression — this generic phrasing used to let
       // get-content-item-translations bury get-published-content-item-variant-version
       // far outside the top-5, so the agent never learned it needed the published-specific
@@ -476,6 +490,26 @@ const testGroups: ReadonlyArray<TestGroup> = [
       },
       {
         query: "retrieve details of several matched items",
+        expected: [allTools.bulkGetContentItemVariants.name],
+      },
+      // Agent-observed regression — get-content-item, get-content-item-variant, and
+      // get-content-item-translations used to name-drop the full
+      // "bulk-get-content-item-variants" string in their own descriptions as a cross-reference,
+      // which duplicated every token of these queries and let those single-item tools compete
+      // with (and sometimes beat) the actual bulk tool. A live run burned 3-4 search attempts on
+      // these exact phrasings before falling back to calling a single-item tool in a loop. Fixed
+      // by dropping the literal cross-references; the "prefer batching" guidance now lives in the
+      // agent's system prompt instead of being repeated in every related tool's description.
+      {
+        query: "bulk get content item variants details",
+        expected: [allTools.bulkGetContentItemVariants.name],
+      },
+      {
+        query: "bulk get content item variants names",
+        expected: [allTools.bulkGetContentItemVariants.name],
+      },
+      {
+        query: "bulk-get-content-item-variants resolve candidate IDs",
         expected: [allTools.bulkGetContentItemVariants.name],
       },
       // delete / remove — full and partial name combinations

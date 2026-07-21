@@ -2,12 +2,11 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { bulkGetContentItemVariantsToolName } from "./referencedToolNames.js";
 import { defineReadOnlyTool } from "./toolDefinition.js";
 
 export const getContentItemVariant = defineReadOnlyTool(
   "get-content-item-variant",
-  `Retrieve a single Kontent.ai content item variant (language version/translation) by item and language ID. Returns the current version — draft if one exists, otherwise published. Do NOT call this in a loop to fetch multiple variants — if you already have several item/language ID pairs, resolve them all in one call with ${bulkGetContentItemVariantsToolName} instead.`,
+  `Retrieve a single Kontent.ai content item variant (language version/translation) by item and language ID. Returns the current version — draft if one exists, otherwise published.`,
   {
     itemId: z.string().describe("Content item ID"),
     languageId: z.string().describe("Language ID"),

@@ -98,6 +98,48 @@ Common fixes:
 
 After changing a description, just run `npm test` — descriptions are read directly from the tool source files, no fixture to sync.
 
+## Two description anti-patterns that silently hurt discoverability
+
+BM25 has no concept of negation or reference — it only sees tokens. These two patterns read
+fine to a human but actively work against the tool they're trying to help, and the existing
+`npm test` assertions (inclusion in top 5) won't always catch them — see the note at the end of
+this section.
+
+**1. Negative-form phrasing that repeats another tool's keywords.** Writing "not the
+current/latest draft" or "only, not full content" still adds the tokens "draft"/"full content"
+as positive relevance signal to *this* tool's document — BM25 has no way to apply the "not".
+That can let a tool outrank the one that should actually own those terms for a plain query,
+even though it returns the opposite of what the query is asking for. This happened for real:
+`get-published-content-item-variant-version` said "not the current/latest draft", which let it
+outrank `get-content-item-variant` for the query "get current draft variant" (77 vs 73 points)
+— the published-version tool won a query asking for exactly what it doesn't return. Fix: describe
+what the tool *does*, not what it isn't (e.g. "...exactly as served on the Delivery API right
+now, even when a newer draft version exists").
+
+**2. Embedding another tool's literal hyphenated name as a cross-reference.** Writing
+`` `...resolve several candidate IDs in one call with ${bulkGetContentItemVariantsToolName}
+instead` `` duplicates every token of that other tool's name into *this* tool's own document.
+When several tools all do this for the same target, the target competes against — and can lose
+to — its own callers for its own plain-name query. This happened for real: five tools
+(`get-content-item`, `get-content-item-variant`, `get-content-item-translations`,
+`list-content-item-variants`, `search-content-item-variants`) all name-dropped
+`bulk-get-content-item-variants` in their descriptions, and a live agent run burned 3-4 search
+attempts on plain queries like "bulk get content item variants" before giving up and calling a
+single-item tool in a loop instead (which every one of those descriptions explicitly says not to
+do — see anti-pattern 1). Fix: state the behavior directly instead of naming another tool
+(`Returns lightweight references, not full content` → `Returns lightweight ... references for
+further lookup`, dropping the literal name). If a behavioral preference needs to apply broadly
+(e.g. "prefer a single batch call over calling a single-item tool in a loop"), put it once in
+the agent's system prompt (`ai-agent` repo, `src/copilot/conversation/prompts.ts`) instead of
+repeating a tool name in every related description.
+
+**Both anti-patterns can pass `npm test` while still being broken**, because the test assertions
+only check that the expected tool appears somewhere in the top 5 — not that it out-ranks a tool
+that shouldn't win. A tool can keep passing its own test while silently losing rank to another
+tool's document. After any description change (yours or one you're reviewing), run the debug
+script from "Debugging a failing test" above for a few plausible real queries and actually look
+at the score gap to the runner-up, not just whether your target is present.
+
 ## Adding a new tool
 
 1. Create the tool file using one of the factories in `src/tools/toolDefinition.ts`, by what it does to the environment:

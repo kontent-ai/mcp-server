@@ -5,7 +5,6 @@ import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { throwError } from "../utils/throwError.js";
 import {
-  bulkGetContentItemVariantsToolName,
   listContentItemVariantsToolName,
   searchContentItemVariantsToolName,
 } from "./referencedToolNames.js";
@@ -53,7 +52,7 @@ const extractSearchResults = (response: AiOperationResultResponse): object => {
 
 export const searchContentItemVariants = defineReadOnlyTool(
   searchContentItemVariantsToolName,
-  `AI semantic search for Kontent.ai content items with content item variants (language versions/translations) by topic, theme, or meaning. Use when you know what content is *about* — not when looking for an item by name or title; use ${listContentItemVariantsToolName} for that. Returns only top 50 results. This feature may be unavailable. Use ${bulkGetContentItemVariantsToolName} to retrieve full content of the variants.`,
+  `AI semantic search for Kontent.ai content items with content item variants (language versions/translations) by topic, theme, or meaning. Use when you know what content is *about* — not when looking for an item by name or title; use ${listContentItemVariantsToolName} for that. Returns lightweight references, top 50 results max. This feature may be unavailable.`,
   searchOperationSchema.shape,
   async ({ searchPhrase, filter }, { authInfo: { token, clientId } = {} }) => {
     try {
