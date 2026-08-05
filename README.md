@@ -148,6 +148,7 @@ npx @kontent-ai/mcp-server@latest shttp
 * **change-content-item-variant-workflow-step** – Change the workflow step of a content item variant in Kontent.ai. This operation moves a content item variant to a different step in the workflow, enabling content lifecycle management such as moving content from draft to review, review to published, etc.
 * **publish-content-item-variant** – Publish or schedule a content item variant of a content item in Kontent.ai. This operation can either immediately publish the variant or schedule it for publication at a specific future date and time with optional timezone specification
 * **unpublish-content-item-variant** – Unpublish or schedule unpublishing of a content item variant of a content item in Kontent.ai. This operation can either immediately unpublish the variant (making it unavailable through the Delivery API) or schedule it for unpublishing at a specific future date and time with optional timezone specification
+* **cancel-scheduled-publishing-content-item-variant** – Cancel scheduled publishing of a content item variant in Kontent.ai. This operation reverts a variant that was scheduled for publishing back to its previous workflow step, enabling further edits
 
 ## ⚙️ Configuration
 

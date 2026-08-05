@@ -736,6 +736,19 @@ const testGroups: ReadonlyArray<TestGroup> = [
         query: "take content offline",
         expected: [allTools.unpublishContentItemVariant.name],
       },
+      // cancel scheduled publishing
+      {
+        query: "cancel scheduled publishing",
+        expected: [allTools.cancelScheduledPublishingContentItemVariant.name],
+      },
+      {
+        query: "cancel schedule publish",
+        expected: [allTools.cancelScheduledPublishingContentItemVariant.name],
+      },
+      {
+        query: "revert scheduled content",
+        expected: [allTools.cancelScheduledPublishingContentItemVariant.name],
+      },
       // Synonym: approve / review / lifecycle / archive
       {
         query: "approve content review",
