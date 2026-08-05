@@ -4,6 +4,11 @@ import { throwError } from "../utils/throwError.js";
 
 const sourceTrackingHeaderName = "X-KC-SOURCE";
 
+export const agentMetadataHeader = {
+  header: "X-KC-Agent-Metadata",
+  value: "true",
+};
+
 /**
  * Creates a Kontent.ai Management API client
  * @param environmentId Optional environment ID (defaults to process.env.KONTENT_ENVIRONMENT_ID)

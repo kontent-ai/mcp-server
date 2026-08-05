@@ -1,4 +1,7 @@
-import { createMapiClient } from "../clients/kontentClients.js";
+import {
+  agentMetadataHeader,
+  createMapiClient,
+} from "../clients/kontentClients.js";
 import { bulkGetItemsWithVariantsSchema } from "../schemas/bulkGetItemsWithVariantsSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
@@ -22,9 +25,12 @@ export const bulkGetContentItemVariants = defineReadOnlyTool(
 
       const client = createMapiClient(environmentId, token);
 
-      const query = client.bulkGetItemsWithVariants().withData({
-        variants,
-      });
+      const query = client
+        .bulkGetItemsWithVariants()
+        .withData({
+          variants,
+        })
+        .withHeader(agentMetadataHeader);
 
       const response = await (continuation_token
         ? query.xContinuationToken(continuation_token)

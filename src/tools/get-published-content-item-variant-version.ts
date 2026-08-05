@@ -1,5 +1,8 @@
 import { z } from "zod";
-import { createMapiClient } from "../clients/kontentClients.js";
+import {
+  agentMetadataHeader,
+  createMapiClient,
+} from "../clients/kontentClients.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineReadOnlyTool } from "./toolDefinition.js";
@@ -20,6 +23,7 @@ export const getPublishedContentItemVariantVersion = defineReadOnlyTool(
         .byItemId(itemId)
         .byLanguageId(languageId)
         .published()
+        .withHeader(agentMetadataHeader)
         .toPromise();
 
       return createMcpToolSuccessResponse(response.rawData);
