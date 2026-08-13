@@ -27,7 +27,9 @@ export const updateContentItemVariant = defineDestructiveTool(
       .string()
       .max(4000)
       .optional()
-      .describe("Additional plain text only instructions or notes for content creators. Use line breaks/dashes for structure."),
+      .describe(
+        "Additional plain text only instructions or notes for content creators. Use line breaks/dashes for structure.",
+      ),
   },
   async (
     { itemId, languageId, elements, workflow_step_id, note },
