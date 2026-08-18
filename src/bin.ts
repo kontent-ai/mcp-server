@@ -15,6 +15,8 @@ import { isValidGuid } from "./utils/isValidGuid.js";
 
 const version = packageJson.version;
 
+process.env.NODE_ENV = process.env.NODE_ENV || "production";
+
 async function startStreamableHTTP() {
   const app = express();
   app.use(express.json());
@@ -113,11 +115,21 @@ async function startStreamableHTTP() {
     (
       err: Error,
       _req: express.Request,
-      _res: express.Response,
-      next: express.NextFunction,
+      res: express.Response,
+      _next: express.NextFunction,
     ) => {
       trackException(err, "Express Error Handler");
-      next(err);
+      if (!res.headersSent) {
+        const status = (err as { status?: number }).status ?? 500;
+        res.status(status).json({
+          jsonrpc: "2.0",
+          error: {
+            code: -32603,
+            message: "Internal server error",
+          },
+          id: null,
+        });
+      }
     },
   );
 
