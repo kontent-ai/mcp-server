@@ -34,7 +34,9 @@ export const createContentItemVariant = defineAdditiveTool(
       .string()
       .max(4000)
       .optional()
-      .describe("Additional instructions or notes for content creators"),
+      .describe(
+        "Additional plain text only instructions or notes for content creators. Use line breaks/dashes for structure.",
+      ),
   },
   async (
     { itemId, languageId, elements, workflow_step_id, note },
