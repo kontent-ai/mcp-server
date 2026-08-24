@@ -37,8 +37,16 @@ export const bulkGetContentItemVariants = defineReadOnlyTool(
         : query
       ).toPromise();
 
+      // The MAPI omits the variant property entirely when an item has no
+      // variant in the requested language, and an agent reads that absence as
+      // "unknown" rather than "does not exist", then re-fetches item by item.
+      const data = response.rawData.data.map((entry) => ({
+        variant_exists: Boolean(entry.variant),
+        ...entry,
+      }));
+
       return createMcpToolSuccessResponse({
-        data: response.rawData.data,
+        data,
         pagination: {
           continuation_token: response.data.pagination.continuationToken,
         },
