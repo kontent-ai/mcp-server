@@ -23,11 +23,7 @@ export const createContentItemVariant = defineAdditiveTool(
       .string()
       .describe("Language ID (default: 00000000-0000-0000-0000-000000000000)"),
     elements: coerceJsonString(
-      z
-        .array(languageVariantElementSchema)
-        .describe(
-          'Content elements array. Pass a JSON array of element objects directly — e.g. [{"element":{"id":"..."},"value":"..."}] — not a JSON-encoded string.',
-        ),
+      z.array(languageVariantElementSchema).describe("Element values to set"),
     ),
     workflow_step_id: z.string().optional().describe("Workflow step ID"),
     note: z
