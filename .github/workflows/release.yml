@@ -33,8 +33,17 @@ jobs:
       # Publish to MCP Registry only for non-prerelease releases
       - name: Install MCP Publisher
         if: ${{!github.event.release.prerelease}}
+        env:
+          MCP_PUBLISHER_VERSION: "1.8.1"
+          # SHA-256 of mcp-publisher_linux_amd64.tar.gz for the pinned version above.
+          # Recompute from the upstream release and update both values together when bumping.
+          MCP_PUBLISHER_SHA256: "a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc"
         run: |
-          curl -L "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher
+          set -euo pipefail
+          asset="mcp-publisher_linux_amd64.tar.gz"
+          curl --fail --silent --show-error --location --remote-name "https://github.com/modelcontextprotocol/registry/releases/download/v${MCP_PUBLISHER_VERSION}/${asset}"
+          echo "${MCP_PUBLISHER_SHA256}  ${asset}" | sha256sum --check -
+          tar -xzf "${asset}" mcp-publisher
       
       - name: Login to MCP Registry
         if: ${{!github.event.release.prerelease}}
