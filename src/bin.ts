@@ -3,6 +3,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import "dotenv/config";
 import express from "express";
+import helmet from "helmet";
 import packageJson from "../package.json" with { type: "json" };
 import { createServer } from "./server.js";
 import {
@@ -19,6 +20,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || "production";
 
 async function startStreamableHTTP() {
   const app = express();
+  app.use(helmet());
   app.use(express.json());
 
   app.post("/:environmentId/mcp", async (req, res) => {
