@@ -8,7 +8,7 @@ export const deleteContentType = defineDestructiveTool(
   "delete-content-type",
   "Delete (remove) Kontent.ai content type by ID. Removes the schema/model definition.",
   {
-    id: z.string().describe("Content type ID"),
+    id: z.guid().describe("Content type ID"),
   },
   async ({ id }, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);

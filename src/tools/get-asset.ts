@@ -8,7 +8,7 @@ export const getAsset = defineReadOnlyTool(
   "get-asset",
   "Retrieve Kontent.ai asset by ID. Assets are digital media files (images, videos, documents, PDFs) standalone, or referenced from other entities, typically content item variants.",
   {
-    assetId: z.string().describe("Asset ID"),
+    assetId: z.guid().describe("Asset ID"),
   },
   async ({ assetId }, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);

@@ -8,7 +8,7 @@ export const deleteContentItem = defineDestructiveTool(
   "delete-content-item",
   "Delete (remove) Kontent.ai content item and all its content item variants.",
   {
-    id: z.string().describe("Content item ID"),
+    id: z.guid().describe("Content item ID"),
   },
   async ({ id }, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);

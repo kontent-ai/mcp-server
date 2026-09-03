@@ -10,7 +10,7 @@ export const updateContentItem = defineDestructiveTool(
   "update-content-item",
   "Update (edit/rename) Kontent.ai content item metadata: name, collection.",
   {
-    id: z.string().describe("Content item ID"),
+    id: z.guid().describe("Content item ID"),
     name: z
       .string()
       .min(1)
