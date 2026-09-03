@@ -8,7 +8,7 @@ export const deleteContentTypeSnippet = defineDestructiveTool(
   "delete-content-type-snippet",
   "Delete (remove) Kontent.ai content type snippet by ID. Removes the reusable shared element set definition.",
   {
-    id: z.string().describe("Content type snippet ID"),
+    id: z.guid().describe("Content type snippet ID"),
   },
   async ({ id }, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);

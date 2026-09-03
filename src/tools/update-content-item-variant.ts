@@ -11,9 +11,9 @@ export const updateContentItemVariant = defineDestructiveTool(
   updateContentItemVariantToolName,
   "Update Kontent.ai content item variant (language version/translation). Send only the elements you want to change — omitted elements are left untouched on the existing variant. Values must fulfill validation rules defined in the content type.",
   {
-    itemId: z.string().describe("Content item ID"),
+    itemId: z.guid().describe("Content item ID"),
     languageId: z
-      .string()
+      .guid()
       .describe("Language ID (default: 00000000-0000-0000-0000-000000000000)"),
     elements: coerceJsonString(
       z.array(languageVariantElementSchema).describe("Element values to set"),

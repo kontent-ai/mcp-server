@@ -32,7 +32,7 @@ const languageReplaceOperationSchema = z.discriminatedUnion("property_name", [
 ]);
 
 export const patchLanguageSchema = z.object({
-  languageId: z.string().describe("Language ID to modify"),
+  languageId: z.guid().describe("Language ID to modify"),
   operations: coerceJsonString(
     z
       .array(languageReplaceOperationSchema)

@@ -8,7 +8,7 @@ export const getContentType = defineReadOnlyTool(
   "get-content-type",
   "Retrieve (fetch) a single Kontent.ai content type by ID — its schema/model definition. Content types define content structure: elements, field validation rules, and content groups.",
   {
-    id: z.string().describe("Content type ID"),
+    id: z.guid().describe("Content type ID"),
   },
   async ({ id }, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);

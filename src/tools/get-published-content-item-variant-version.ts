@@ -11,8 +11,8 @@ export const getPublishedContentItemVariantVersion = defineReadOnlyTool(
   "get-published-content-item-variant-version",
   "Retrieve the published (live) version and details of a Kontent.ai content item variant, exactly as served on the Delivery API right now, even when a newer draft version exists.",
   {
-    itemId: z.string().describe("Content item ID"),
-    languageId: z.string().describe("Language ID"),
+    itemId: z.guid().describe("Content item ID"),
+    languageId: z.guid().describe("Language ID"),
   },
   async ({ itemId, languageId }, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);

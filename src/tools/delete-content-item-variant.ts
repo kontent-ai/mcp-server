@@ -8,8 +8,8 @@ export const deleteContentItemVariant = defineDestructiveTool(
   "delete-content-item-variant",
   "Delete (remove) Kontent.ai content item variant (language version/translation). Removes translated content for a specific language from an item.",
   {
-    itemId: z.string().describe("Content item ID"),
-    languageId: z.string().describe("Language ID"),
+    itemId: z.guid().describe("Content item ID"),
+    languageId: z.guid().describe("Language ID"),
   },
   async ({ itemId, languageId }, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);

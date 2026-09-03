@@ -18,9 +18,9 @@ export const createContentItemVariant = defineAdditiveTool(
   createContentItemVariantToolName,
   "Create Kontent.ai content item variant — translate and localize content into a specific language. Adds a new language version (translation) for a content item. Send only the elements you want to set (omitted ones initialize with default value). Element values must fulfill the content type definition.",
   {
-    itemId: z.string().describe("Content item ID"),
+    itemId: z.guid().describe("Content item ID"),
     languageId: z
-      .string()
+      .guid()
       .describe("Language ID (default: 00000000-0000-0000-0000-000000000000)"),
     elements: coerceJsonString(
       z.array(languageVariantElementSchema).describe("Element values to set"),
