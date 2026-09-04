@@ -6,7 +6,7 @@ import { defineReadOnlyTool } from "./toolDefinition.js";
 
 export const listContentTypes = defineReadOnlyTool(
   "list-content-types",
-  "List all Kontent.ai content types (paginated). Retrieve every content type (schema/model) definition. Get an overview of all content type models, their elements, field validation rules, and content groups.",
+  "List all Kontent.ai content types (paginated). Retrieve every content type (schema/model) definition. Get an overview of all content type models, which define the structure of content item variants and of content components inside rich text elements.",
   listContentTypesSchema.shape,
   async ({ continuation_token }, { authInfo: { token, clientId } = {} }) => {
     const client = createMapiClient(clientId, token);

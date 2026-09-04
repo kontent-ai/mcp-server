@@ -38,8 +38,10 @@ export const listVariantsCollectionSchema = z.object({
   continuation_token: continuationTokenField,
 });
 
-export const listVariantsTypeSchema = z.object({
-  contentTypeId: z.string().describe("Content type ID"),
+export const listContentTypeUsagesSchema = z.object({
+  contentTypeId: z
+    .guid()
+    .describe("ID of the content type whose usage to report"),
   continuation_token: continuationTokenField,
 });
 

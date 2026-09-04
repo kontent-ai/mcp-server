@@ -11,7 +11,7 @@ import { defineAdditiveTool } from "./toolDefinition.js";
 
 export const createContentType = defineAdditiveTool(
   "create-content-type",
-  "Build a new Kontent.ai content type (schema/model) from scratch — define its elements, validation rules, and content groups. Use this to add a content type that does not yet exist.",
+  "Build a new Kontent.ai content type (schema/model) from scratch — define its elements (fields), validation rules, and content groups. Use this to add a content type that does not yet exist.",
   {
     name: z.string().describe("Content type name"),
     codename: z

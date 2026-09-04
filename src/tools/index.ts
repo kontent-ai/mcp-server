@@ -31,6 +31,7 @@ import { listAssets } from "./list-assets.js";
 import { listCollections } from "./list-collections.js";
 import { listContentItemVariants } from "./list-content-item-variants.js";
 import { listContentTypeSnippets } from "./list-content-type-snippets.js";
+import { listContentTypeUsages } from "./list-content-type-usages.js";
 import { listContentTypes } from "./list-content-types.js";
 import { listLanguages } from "./list-languages.js";
 import { listRoles } from "./list-roles.js";
@@ -85,6 +86,7 @@ export const allTools = {
   listAssets,
   listCollections,
   listContentTypeSnippets,
+  listContentTypeUsages,
   listContentTypes,
   listContentItemVariants,
   listLanguages,
