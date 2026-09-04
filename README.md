@@ -69,6 +69,7 @@ npx @kontent-ai/mcp-server@latest shttp
 
 * **get-content-type** – Get Kontent.ai content type by ID
 * **list-content-types** – Get all Kontent.ai content types
+* **list-content-type-usages** – List where a Kontent.ai content type is used
 * **create-content-type** – Create new Kontent.ai content type
 * **patch-content-type** – Update an existing Kontent.ai content type by codename using patch operations (move, addInto, remove, replace)
 * **delete-content-type** – Delete a Kontent.ai content type by ID

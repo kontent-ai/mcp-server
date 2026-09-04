@@ -146,6 +146,52 @@ const testGroups: ReadonlyArray<TestGroup> = [
     ],
   },
   {
+    name: "content type usage",
+    cases: [
+      // "Where is type X used" — the usage-report vocabulary observed in agent traffic
+      {
+        query: "content type usage",
+        expected: [allTools.listContentTypeUsages.name],
+      },
+      {
+        query: "where is content type used",
+        expected: [allTools.listContentTypeUsages.name],
+      },
+      {
+        query: "list content type usages",
+        expected: [allTools.listContentTypeUsages.name],
+      },
+      {
+        query: "items using content type",
+        expected: [allTools.listContentTypeUsages.name],
+      },
+      // Use by content components — the case observed in agent traffic
+      // ("on which pages is the X component used")
+      {
+        query: "content type used in components",
+        expected: [allTools.listContentTypeUsages.name],
+      },
+      // Impact analysis before a schema change
+      {
+        query: "content type dependencies",
+        expected: [allTools.listContentTypeUsages.name],
+      },
+      {
+        query: "impact of deleting content type",
+        expected: [allTools.listContentTypeUsages.name],
+      },
+      // Plain "content type" queries must keep surfacing the schema tools
+      {
+        query: "get content type by id",
+        expected: [allTools.getContentType.name],
+      },
+      {
+        query: "list content types",
+        expected: [allTools.listContentTypes.name],
+      },
+    ],
+  },
+  {
     name: "content type snippet operations",
     cases: [
       {

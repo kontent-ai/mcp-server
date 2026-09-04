@@ -6,7 +6,7 @@ import { defineReadOnlyTool } from "./toolDefinition.js";
 
 export const getContentType = defineReadOnlyTool(
   "get-content-type",
-  "Retrieve (fetch) a single Kontent.ai content type by ID — its schema/model definition. Content types define content structure: elements, field validation rules, and content groups.",
+  "Retrieve (fetch) a single Kontent.ai content type by ID — its schema/model definition. Content types define the structure (elements/fields) of content item variants or structure of content components inside rich text elements, validation rules, and content groups.",
   {
     id: z.guid().describe("Content type ID"),
   },
