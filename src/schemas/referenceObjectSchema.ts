@@ -9,7 +9,7 @@ import z from "zod";
  * rather than repeating a generic description here.
  */
 export const readReferenceObjectSchema = z.object({
-  id: z.string(),
+  id: z.guid(),
 });
 
 /**
@@ -23,6 +23,6 @@ export const readReferenceObjectSchema = z.object({
  * generic description here.
  */
 export const writeReferenceObjectSchema = z.object({
-  id: z.string().optional(),
+  id: z.guid().optional(),
   external_id: z.string().optional(),
 });
