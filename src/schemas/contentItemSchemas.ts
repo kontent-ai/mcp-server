@@ -170,7 +170,7 @@ const richTextComponentSchema: z.ZodType<RichTextComponent> = z.lazy(() =>
   z
     .object({
       id: z
-        .string()
+        .guid()
         .describe(
           "Unique identifier of the component within the rich text element.",
         ),

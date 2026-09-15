@@ -34,7 +34,7 @@ export const listAssetsSchema = z.object({
 });
 
 export const listVariantsCollectionSchema = z.object({
-  collectionId: z.string().describe("Collection ID"),
+  collectionId: z.guid().describe("Collection ID"),
   continuation_token: continuationTokenField,
 });
 
@@ -46,11 +46,11 @@ export const listContentTypeUsagesSchema = z.object({
 });
 
 export const listVariantsComponentsTypeSchema = z.object({
-  contentTypeId: z.string().describe("Content type ID"),
+  contentTypeId: z.guid().describe("Content type ID"),
   continuation_token: continuationTokenField,
 });
 
 export const listVariantsSpaceSchema = z.object({
-  spaceId: z.string().describe("Space ID"),
+  spaceId: z.guid().describe("Space ID"),
   continuation_token: continuationTokenField,
 });

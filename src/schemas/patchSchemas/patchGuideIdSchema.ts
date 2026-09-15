@@ -19,7 +19,7 @@ export const patchGuideIdParam = (
     | "language",
 ) => ({
   patchGuideId: z
-    .string()
+    .guid()
     .describe(
       `The patchGuideId value returned by the ${getPatchGuideToolName}(entityType='${entityType}') tool result in this conversation. ` +
         `Call ${getPatchGuideToolName}(entityType='${entityType}') first if you have not done so, then copy the patchGuideId it returned here — ` +

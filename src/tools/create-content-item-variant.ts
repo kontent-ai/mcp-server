@@ -25,7 +25,7 @@ export const createContentItemVariant = defineAdditiveTool(
     elements: coerceJsonString(
       z.array(languageVariantElementSchema).describe("Element values to set"),
     ),
-    workflow_step_id: z.string().optional().describe("Workflow step ID"),
+    workflow_step_id: z.guid().optional().describe("Workflow step ID"),
     note: z
       .string()
       .max(4000)
