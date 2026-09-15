@@ -4,6 +4,7 @@ import express from "express";
 import helmet from "helmet";
 import packageJson from "../package.json" with { type: "json" };
 import { trackException } from "./telemetry/applicationInsights.js";
+import { runWithClientId } from "./telemetry/requestContext.js";
 import { extractBearerToken } from "./utils/extractBearerToken.js";
 import { isValidGuid } from "./utils/isValidGuid.js";
 
@@ -49,20 +50,24 @@ export const createApp = ({
       });
 
       await server.connect(transport);
-      await transport.handleRequest(
-        Object.assign(req, {
-          auth: {
-            clientId: environmentId,
-            token: authToken,
-            scopes: [],
-          },
-        }),
-        res,
-        req.body,
+      await runWithClientId(environmentId, () =>
+        transport.handleRequest(
+          Object.assign(req, {
+            auth: {
+              clientId: environmentId,
+              token: authToken,
+              scopes: [],
+            },
+          }),
+          res,
+          req.body,
+        ),
       );
     } catch (error) {
       console.error("Error handling MCP request:", error);
-      trackException(error, "MCP Multi-tenant Request Handler");
+      runWithClientId(req.params.environmentId, () =>
+        trackException(error, "MCP Multi-tenant Request Handler"),
+      );
       if (!res.headersSent) {
         res.status(500).json({
           jsonrpc: "2.0",
@@ -113,11 +118,13 @@ export const createApp = ({
   app.use(
     (
       err: Error,
-      _req: express.Request,
+      req: express.Request,
       res: express.Response,
       _next: express.NextFunction,
     ) => {
-      trackException(err, "Express Error Handler");
+      runWithClientId(req.params.environmentId, () =>
+        trackException(err, "Express Error Handler"),
+      );
       if (!res.headersSent) {
         const status = (err as { status?: number }).status ?? 500;
         res.status(status).json({
