@@ -353,6 +353,7 @@ npm run dev:shttp  # For Streamable HTTP transport
   - `utils/` - Utility functions
     - `errorHandler.ts` - Standardized error handling for MCP tools
     - `throwError.ts` - Generic error throwing utility
+  - `app.ts` - Express app factory for the Streamable HTTP transport
   - `server.ts` - Main server setup and tool registration
   - `bin.ts` - Single entry point that handles both transport types
 

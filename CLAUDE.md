@@ -45,7 +45,7 @@ This is a Model Context Protocol (MCP) server for Kontent.ai that enables AI mod
 
 ### Core Components
 
-1. **Transport Layer** (`src/bin.ts`): Single entry point supporting two transport protocols:
+1. **Transport Layer** (`src/bin.ts`, with the Streamable HTTP app built by `src/app.ts`): Single entry point supporting two transport protocols:
    - STDIO: Direct process communication (single-tenant only)
    - Streamable HTTP: Request-response based HTTP communication (supports multi-tenant)
 
