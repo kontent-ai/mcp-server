@@ -11,7 +11,7 @@ import { defineReadOnlyTool } from "./toolDefinition.js";
 
 export const listContentItemVariants = defineReadOnlyTool(
   listContentItemVariantsToolName,
-  `List, find, filter Kontent.ai content items with content item variants (language versions/translations), returning lightweight item ID + language ID references for further lookup. Filter by content item content type, collection, space, workflow step, taxonomy, contained content component content type, or publishing state. Search items and variants by EXACT keyword matching (terms use OR). Use ${searchContentItemVariantsToolName} when you know what content is *about* (topic, theme) rather than its name or identity.`,
+  `List, find, filter Kontent.ai content items with content item variants (language versions/translations), returning lightweight item ID + language ID references for further lookup. Filter by content item content type, collection, space, workflow step, taxonomy, or publishing state. Search items and variants by keywords. Use ${searchContentItemVariantsToolName} when you know what content is *about* (topic, theme) rather than its name or identity.`,
   filterVariantsSchema.shape,
   async (
     {
@@ -25,7 +25,6 @@ export const listContentItemVariants = defineReadOnlyTool(
       taxonomy_groups,
       spaces,
       collections,
-      component_types,
       publishing_states,
       order_by,
       order_direction,
@@ -53,7 +52,6 @@ export const listContentItemVariants = defineReadOnlyTool(
           taxonomy_groups,
           spaces,
           collections,
-          component_types,
           publishing_states,
         },
         order: order_by
