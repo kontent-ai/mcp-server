@@ -108,14 +108,6 @@ export const filterVariantsSchema = z.object({
       .min(1)
       .describe("Array of ID references to collections."),
   ).optional(),
-  component_types: coerceJsonString(
-    z
-      .array(readReferenceObjectSchema)
-      .min(1)
-      .describe(
-        "Array of ID references to content component types stored in variants.",
-      ),
-  ).optional(),
   publishing_states: coerceJsonString(
     z
       .array(z.enum(["published", "unpublished", "not_published_yet"]))

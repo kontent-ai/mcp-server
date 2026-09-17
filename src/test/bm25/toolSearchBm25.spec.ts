@@ -706,10 +706,6 @@ const testGroups: ReadonlyArray<TestGroup> = [
         query: "variants by space",
         expected: [allTools.listContentItemVariants.name],
       },
-      {
-        query: "items with inline components",
-        expected: [allTools.listContentItemVariants.name],
-      },
       // listContentItemVariants can also filter by workflow step, taxonomy, publishing state
       {
         query: "items by workflow step",
