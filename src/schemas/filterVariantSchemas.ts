@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { listLanguagesToolName } from "../tools/referencedToolNames.js";
 import { coerceJsonString } from "./coerceJsonString.js";
 import { continuationTokenField } from "./listSchemas.js";
 import { readReferenceObjectSchema } from "./referenceObjectSchema.js";
@@ -37,23 +38,17 @@ export const filterVariantsSchema = z.object({
         "Array of references to users by their id or email (but not both per user)",
       ),
   ).optional(),
-  has_no_contributors: z
-    .boolean()
-    .optional()
-    .describe(
-      "Filter for content item variants that have no contributors assigned",
-    ),
   completion_statuses: coerceJsonString(
     z
-      .array(z.enum(["unfinished", "ready", "not_translated", "all_done"]))
+      .array(z.enum(["unfinished", "ready", "all_done"]))
       .min(1)
       .describe(
         "Array of completion statuses to filter by. It is not the same thing as workflow steps, it reflects e.g. not filled in required elements",
       ),
   ).optional(),
-  language: readReferenceObjectSchema
-    .optional()
-    .describe("ID reference to a language (defaults to default language)."),
+  language: readReferenceObjectSchema.describe(
+    `ID reference to a language. Required - a query runs against one language at a time. Use ${listLanguagesToolName} to find it; the project's default language is "00000000-0000-0000-0000-000000000000".`,
+  ),
   workflow_steps: coerceJsonString(
     z
       .array(
