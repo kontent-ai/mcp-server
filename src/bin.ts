@@ -4,6 +4,7 @@ import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/
 import "dotenv/config";
 import packageJson from "../package.json" with { type: "json" };
 import { createApp } from "./app.js";
+import { setSingleTenantCredentials } from "./clients/credentials.js";
 import { createServer } from "./server.js";
 import {
   initializeApplicationInsights,
@@ -35,6 +36,12 @@ Available endpoint:
 }
 
 async function startStdio() {
+  const apiKey = process.env.KONTENT_API_KEY;
+  const environmentId = process.env.KONTENT_ENVIRONMENT_ID;
+  if (apiKey && environmentId) {
+    setSingleTenantCredentials({ apiKey, environmentId });
+  }
+
   const { server } = createServer();
   const transport = new StdioServerTransport();
   console.error(`Kontent.ai MCP Server v${version} (stdio) starting`);
