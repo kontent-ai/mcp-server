@@ -186,8 +186,10 @@ export const myTool = defineReadOnlyTool(
     "tool-name",
     "Tool description", // Following the pattern
     { /* Zod schema for parameters */ },
-    async (params) => {
-      const client = createMapiClient();
+    async (params, { authInfo: { token, clientId } = {} }) => {
+      // Credentials always come from the request. Never read them from
+      // process.env here - see "Security Considerations" below.
+      const client = createMapiClient(clientId, token);
       try {
         // Implementation
         return createMcpToolSuccessResponse(response);
@@ -229,6 +231,12 @@ When contributing:
 
 - Never commit API keys or secrets
 - Use environment variables for sensitive configuration
+- **`KONTENT_API_KEY` and `KONTENT_ENVIRONMENT_ID` are read in exactly one place: the stdio startup
+  in `src/bin.ts`.** Tool modules must never read `process.env` for credentials, and
+  `createMapiClient` must never fall back to it. In Streamable HTTP mode every request carries its
+  own credentials, so there is deliberately nothing configured to fall back on — a request that
+  arrives without them has to fail rather than run under the server's own. Enforced by
+  `src/test/security/noAmbientCredentials.spec.ts`; see also `src/clients/credentials.ts`
 - Report security issues privately to security@kontent.ai
 - All public members should be documented
 

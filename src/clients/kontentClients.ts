@@ -1,6 +1,6 @@
 import { createManagementClient } from "@kontent-ai/management-sdk";
 import packageJson from "../../package.json" with { type: "json" };
-import { throwError } from "../utils/throwError.js";
+import { resolveCredentials } from "./credentials.js";
 
 const sourceTrackingHeaderName = "X-KC-SOURCE";
 
@@ -10,17 +10,24 @@ export const agentMetadataHeader = {
 };
 
 /**
- * Creates a Kontent.ai Management API client
- * @param environmentId Optional environment ID (defaults to process.env.KONTENT_ENVIRONMENT_ID)
- * @param apiKey Optional API key (defaults to process.env.KONTENT_API_KEY)
+ * Creates a Kontent.ai Management API client.
+ *
+ * Credentials are never read from the environment here. They come from the
+ * request in multi-tenant mode, or from the single-tenant credentials the stdio
+ * entry point configures at startup - see `resolveCredentials`.
+ *
+ * @param environmentId Environment ID the request runs under
+ * @param apiKey Management API key the request runs under
  * @param additionalHeaders Optional additional headers to include in requests
  * @returns Management API client instance
  */
 export const createMapiClient = (
-  environmentId?: string,
-  apiKey?: string,
+  environmentId: string | undefined,
+  apiKey: string | undefined,
   additionalHeaders?: Array<{ header: string; value: string }>,
 ) => {
+  const credentials = resolveCredentials(environmentId, apiKey);
+
   const allHeaders = [
     {
       header: sourceTrackingHeaderName,
@@ -32,14 +39,8 @@ export const createMapiClient = (
   const manageApiUrl = process.env.manageApiUrl;
 
   return createManagementClient({
-    apiKey:
-      apiKey ??
-      process.env.KONTENT_API_KEY ??
-      throwError("KONTENT_API_KEY is not set"),
-    environmentId:
-      environmentId ??
-      process.env.KONTENT_ENVIRONMENT_ID ??
-      throwError("KONTENT_ENVIRONMENT_ID is not set"),
+    apiKey: credentials.apiKey,
+    environmentId: credentials.environmentId,
     baseUrl: manageApiUrl ? `${manageApiUrl}v2` : undefined,
     headers: allHeaders,
   });

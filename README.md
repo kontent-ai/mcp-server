@@ -180,6 +180,8 @@ For the Streamable HTTP transport, credentials are provided per request:
 
 This allows a single server instance to handle requests for multiple Kontent.ai environments without requiring credential environment variables.
 
+`KONTENT_API_KEY` and `KONTENT_ENVIRONMENT_ID` are ignored on this transport, even if they happen to be set in the server's environment. Every request must carry its own credentials; one that doesn't is rejected rather than served with the server's.
+
 | Variable | Description | Required |
 |----------|-------------|----------|
 | PORT | Port for HTTP transport (defaults to 3001) | ❌ |

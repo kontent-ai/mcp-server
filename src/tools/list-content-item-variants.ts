@@ -1,8 +1,8 @@
+import { resolveCredentials } from "../clients/credentials.js";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { filterVariantsSchema } from "../schemas/filterVariantSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { throwError } from "../utils/throwError.js";
 import {
   listContentItemVariantsToolName,
   searchContentItemVariantsToolName,
@@ -58,14 +58,10 @@ export const listContentItemVariants = defineReadOnlyTool(
     },
     { authInfo: { token, clientId } = {} },
   ) => {
+    const { environmentId, apiKey } = resolveCredentials(clientId, token);
+    const client = createMapiClient(environmentId, apiKey);
+
     try {
-      const environmentId =
-        clientId ??
-        process.env.KONTENT_ENVIRONMENT_ID ??
-        throwError("Missing required environment ID");
-
-      const client = createMapiClient(environmentId, token);
-
       const query = client
         .post()
         .withAction(searchAction(environmentId))
