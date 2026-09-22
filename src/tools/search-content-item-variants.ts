@@ -1,9 +1,9 @@
 import pRetry, { AbortError } from "p-retry";
+import { resolveCredentials } from "../clients/credentials.js";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { searchOperationSchema } from "../schemas/searchOperationSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { throwError } from "../utils/throwError.js";
 import {
   listContentItemVariantsToolName,
   searchContentItemVariantsToolName,
@@ -56,12 +56,8 @@ export const searchContentItemVariants = defineReadOnlyTool(
   searchOperationSchema.shape,
   async ({ searchPhrase, filter }, { authInfo: { token, clientId } = {} }) => {
     try {
-      const environmentId = clientId ?? process.env.KONTENT_ENVIRONMENT_ID;
-      if (!environmentId) {
-        throwError("Missing required environment ID");
-      }
-
-      const client = createMapiClient(environmentId, token);
+      const { environmentId, apiKey } = resolveCredentials(clientId, token);
+      const client = createMapiClient(environmentId, apiKey);
 
       // Step 1: Initiate the AI search operation
       const searchPayload = {
@@ -96,7 +92,7 @@ export const searchContentItemVariants = defineReadOnlyTool(
         ) {
           return createMcpToolSuccessResponse({
             status: "unavailable",
-            result: `AI search feature is not available for environment ${clientId}. Do not retry this tool. Use ${listContentItemVariantsToolName} instead (its search_phrase parameter supports exact keyword matching).`,
+            result: `AI search feature is not available for environment ${environmentId}. Do not retry this tool. Use ${listContentItemVariantsToolName} instead (its search_phrase parameter supports exact keyword matching).`,
           });
         }
         throw error;

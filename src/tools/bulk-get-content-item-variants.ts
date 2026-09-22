@@ -5,7 +5,6 @@ import {
 import { bulkGetItemsWithVariantsSchema } from "../schemas/bulkGetItemsWithVariantsSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { throwError } from "../utils/throwError.js";
 import { bulkGetContentItemVariantsToolName } from "./referencedToolNames.js";
 import { defineReadOnlyTool } from "./toolDefinition.js";
 
@@ -18,12 +17,7 @@ export const bulkGetContentItemVariants = defineReadOnlyTool(
     { authInfo: { token, clientId } = {} },
   ) => {
     try {
-      const environmentId = clientId ?? process.env.KONTENT_ENVIRONMENT_ID;
-      if (!environmentId) {
-        throwError("Missing required environment ID");
-      }
-
-      const client = createMapiClient(environmentId, token);
+      const client = createMapiClient(clientId, token);
 
       const query = client
         .bulkGetItemsWithVariants()

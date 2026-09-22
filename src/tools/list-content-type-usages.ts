@@ -1,5 +1,6 @@
 import type { ManagementClient } from "@kontent-ai/management-sdk";
 import { z } from "zod";
+import { resolveCredentials } from "../clients/credentials.js";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { listContentTypeUsagesSchema } from "../schemas/listSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
@@ -165,14 +166,10 @@ export const listContentTypeUsages = defineReadOnlyTool(
     { contentTypeId, continuation_token },
     { authInfo: { token, clientId } = {} },
   ) => {
-    const client = createMapiClient(clientId, token);
+    const { environmentId, apiKey } = resolveCredentials(clientId, token);
+    const client = createMapiClient(environmentId, apiKey);
 
     try {
-      const environmentId =
-        clientId ??
-        process.env.KONTENT_ENVIRONMENT_ID ??
-        throwError("Missing required environment ID");
-
       const cursor: UsageCursor = continuation_token
         ? decodeCursor(continuation_token)
         : { usedIn: usedInLocations[0], continuationToken: null };
