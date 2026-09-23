@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { coerceJsonString } from "../schemas/coerceJsonString.js";
+import { coerceNumberToString } from "../schemas/coerceNumberToString.js";
 import {
   contentGroupSchema,
   elementSchema,
@@ -14,10 +15,9 @@ export const createContentType = defineAdditiveTool(
   "Build a new Kontent.ai content type (schema/model) from scratch — define its elements (fields), validation rules, and content groups. Use this to add a content type that does not yet exist.",
   {
     name: z.string().describe("Content type name"),
-    codename: z
-      .string()
-      .optional()
-      .describe("Codename (auto-generated if omitted)"),
+    codename: coerceNumberToString(
+      z.string().describe("Codename (auto-generated if omitted)"),
+    ).optional(),
     external_id: z.string().optional().describe("External ID"),
     elements: coerceJsonString(
       z.array(elementSchema).describe("Elements defining structure"),

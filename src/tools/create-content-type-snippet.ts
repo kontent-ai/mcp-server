@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { coerceJsonString } from "../schemas/coerceJsonString.js";
+import { coerceNumberToString } from "../schemas/coerceNumberToString.js";
 import { snippetElementSchema } from "../schemas/contentTypeAndSnippetSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
@@ -11,10 +12,9 @@ export const createContentTypeSnippet = defineAdditiveTool(
   "Build (upsert) a new Kontent.ai content type snippet from scratch — a reusable set of elements you can include in multiple content types. Use this to add a snippet that does not yet exist.",
   {
     name: z.string().describe("Snippet name"),
-    codename: z
-      .string()
-      .optional()
-      .describe("Codename (auto-generated if omitted)"),
+    codename: coerceNumberToString(
+      z.string().describe("Codename (auto-generated if omitted)"),
+    ).optional(),
     external_id: z.string().optional().describe("External ID"),
     elements: coerceJsonString(
       z.array(snippetElementSchema).describe("Elements defining structure"),
