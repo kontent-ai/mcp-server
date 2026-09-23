@@ -31,21 +31,58 @@ describe("coerceJsonString", () => {
       assert.strictEqual(result.success, true);
     });
 
-    it("reports the real type error for a non-JSON string", () => {
+    it("names the JSON parse failure for a non-JSON string (EN-901)", () => {
       const result = schema.safeParse({ items: "not json" });
+      assert.strictEqual(result.success, false);
+      if (!result.success) {
+        // The parse issue stops the pipe: no "expected array" issue on top.
+        assert.strictEqual(result.error.issues.length, 1);
+        const issue = result.error.issues[0];
+        assert.strictEqual(issue.code, "custom");
+        assert.deepStrictEqual(issue.path, ["items"]);
+        assert.match(issue.message, /could not be parsed: .*not valid JSON/);
+        assert.match(issue.message, /Send the array or object directly/);
+      }
+    });
+
+    it("reports the position and the surrounding text for an unescaped quote", () => {
+      // The EN-901 shape: valid JSON except one unescaped `"` inside a value.
+      const value = '[{"a":"Řekl „ano" a odešel"}]';
+      const result = schema.safeParse({ items: value });
+      assert.strictEqual(result.success, false);
+      if (!result.success) {
+        const issue = result.error.issues[0];
+        assert.strictEqual(issue.code, "custom");
+        assert.match(issue.message, /at position \d+/);
+        assert.match(issue.message, /Near: …/);
+        assert.ok(
+          issue.message.includes('ano" a ode'),
+          `excerpt missing in: ${issue.message}`,
+        );
+      }
+    });
+
+    it("rejects a string that parses to the wrong type with the type error", () => {
+      // Valid JSON, but an object — not the expected array.
+      const result = schema.safeParse({ items: '{"a":"x"}' });
       assert.strictEqual(result.success, false);
       if (!result.success) {
         const issue = result.error.issues[0];
         assert.strictEqual(issue.code, "invalid_type");
         assert.strictEqual((issue as { expected?: string }).expected, "array");
-        assert.deepStrictEqual(issue.path, ["items"]);
       }
     });
 
-    it("rejects a string that parses to the wrong type", () => {
-      // Valid JSON, but an object — not the expected array.
-      const result = schema.safeParse({ items: '{"a":"x"}' });
+    it("parses a JSON scalar string and reports the array type error, not a parse error", () => {
+      // "42" is valid JSON, so the pipe continues into the inner schema.
+      const result = schema.safeParse({ items: "42" });
       assert.strictEqual(result.success, false);
+      if (!result.success) {
+        const issue = result.error.issues[0];
+        assert.strictEqual(issue.code, "invalid_type");
+        assert.strictEqual((issue as { expected?: string }).expected, "array");
+        assert.ok(!issue.message.includes("could not be parsed"));
+      }
     });
 
     it("enforces inner constraints (min) after parsing", () => {
