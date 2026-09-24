@@ -2,6 +2,7 @@ import type { AssetFolderModels } from "@kontent-ai/management-sdk";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { assetFolderPatchOperationsSchema } from "../schemas/assetFolderSchemas.js";
 import { coerceJsonString } from "../schemas/coerceJsonString.js";
+import { environmentIdSchema } from "../schemas/environmentIdSchema.js";
 import { patchGuideIdParam } from "../schemas/patchSchemas/patchGuideIdSchema.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
@@ -12,14 +13,15 @@ export const patchAssetFolders = defineDestructiveTool(
   "patch-asset-folders",
   `Update (modify/edit) Kontent.ai asset folders using patch operations. Always call ${getPatchGuideToolName}(entityType='asset-folder') first — it documents constraints not visible in this schema that the API enforces.`,
   {
+    environmentId: environmentIdSchema,
     ...patchGuideIdParam("asset-folder"),
     operations: coerceJsonString(assetFolderPatchOperationsSchema),
   },
   async (
-    { patchGuideId: _patchGuideId, operations },
-    { authInfo: { token, clientId } = {} },
+    { environmentId, patchGuideId: _patchGuideId, operations },
+    { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(clientId, token);
+    const client = createMapiClient(environmentId, token);
 
     try {
       const response = await client

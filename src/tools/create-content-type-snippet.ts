@@ -2,6 +2,7 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { coerceJsonString } from "../schemas/coerceJsonString.js";
 import { snippetElementSchema } from "../schemas/contentTypeAndSnippetSchemas.js";
+import { environmentIdSchema } from "../schemas/environmentIdSchema.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineAdditiveTool } from "./toolDefinition.js";
@@ -10,6 +11,7 @@ export const createContentTypeSnippet = defineAdditiveTool(
   "create-content-type-snippet",
   "Build (upsert) a new Kontent.ai content type snippet from scratch — a reusable set of elements you can include in multiple content types. Use this to add a snippet that does not yet exist.",
   {
+    environmentId: environmentIdSchema,
     name: z.string().describe("Snippet name"),
     codename: z
       .string()
@@ -21,10 +23,10 @@ export const createContentTypeSnippet = defineAdditiveTool(
     ),
   },
   async (
-    { name, codename, external_id, elements },
-    { authInfo: { token, clientId } = {} },
+    { environmentId, name, codename, external_id, elements },
+    { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(clientId, token);
+    const client = createMapiClient(environmentId, token);
 
     try {
       const response = await client

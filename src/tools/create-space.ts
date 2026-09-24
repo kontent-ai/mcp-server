@@ -1,4 +1,5 @@
 import { createMapiClient } from "../clients/kontentClients.js";
+import { environmentIdSchema } from "../schemas/environmentIdSchema.js";
 import { addSpaceSchema } from "../schemas/spaceSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
@@ -7,12 +8,12 @@ import { defineAdditiveTool } from "./toolDefinition.js";
 export const createSpace = defineAdditiveTool(
   "create-space",
   "Create (add) new Kontent.ai space for managing a website or channel. Spaces provide channel-specific context with their own domain and preview URLs.",
-  addSpaceSchema.shape,
+  { environmentId: environmentIdSchema, ...addSpaceSchema.shape },
   async (
-    { name, codename, collections },
-    { authInfo: { token, clientId } = {} },
+    { environmentId, name, codename, collections },
+    { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(clientId, token);
+    const client = createMapiClient(environmentId, token);
 
     try {
       const response = await client

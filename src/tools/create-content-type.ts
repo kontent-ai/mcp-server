@@ -5,6 +5,7 @@ import {
   contentGroupSchema,
   elementSchema,
 } from "../schemas/contentTypeAndSnippetSchemas.js";
+import { environmentIdSchema } from "../schemas/environmentIdSchema.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineAdditiveTool } from "./toolDefinition.js";
@@ -13,6 +14,7 @@ export const createContentType = defineAdditiveTool(
   "create-content-type",
   "Build a new Kontent.ai content type (schema/model) from scratch — define its elements (fields), validation rules, and content groups. Use this to add a content type that does not yet exist.",
   {
+    environmentId: environmentIdSchema,
     name: z.string().describe("Content type name"),
     codename: z
       .string()
@@ -27,10 +29,10 @@ export const createContentType = defineAdditiveTool(
     ).optional(),
   },
   async (
-    { name, codename, external_id, elements, content_groups },
-    { authInfo: { token, clientId } = {} },
+    { environmentId, name, codename, external_id, elements, content_groups },
+    { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(clientId, token);
+    const client = createMapiClient(environmentId, token);
 
     try {
       const response = await client

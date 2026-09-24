@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
+import { environmentIdSchema } from "../schemas/environmentIdSchema.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineDestructiveTool } from "./toolDefinition.js";
@@ -8,16 +9,17 @@ export const changeContentItemVariantWorkflowStep = defineDestructiveTool(
   "change-content-item-variant-workflow-step",
   "Move Kontent.ai content item variant (language version/translation) to a different workflow step. Transition content between lifecycle stages (e.g., draft to review, review to approved/published, or archive).",
   {
+    environmentId: environmentIdSchema,
     itemId: z.guid().describe("Content item ID"),
     languageId: z.guid().describe("Language ID"),
     workflowId: z.guid().describe("Workflow ID"),
     workflowStepId: z.guid().describe("Target workflow step ID"),
   },
   async (
-    { itemId, languageId, workflowId, workflowStepId },
-    { authInfo: { token, clientId } = {} },
+    { environmentId, itemId, languageId, workflowId, workflowStepId },
+    { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(clientId, token);
+    const client = createMapiClient(environmentId, token);
 
     try {
       const response = await client

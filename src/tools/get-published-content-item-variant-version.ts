@@ -3,6 +3,7 @@ import {
   agentMetadataHeader,
   createMapiClient,
 } from "../clients/kontentClients.js";
+import { environmentIdSchema } from "../schemas/environmentIdSchema.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineReadOnlyTool } from "./toolDefinition.js";
@@ -11,11 +12,15 @@ export const getPublishedContentItemVariantVersion = defineReadOnlyTool(
   "get-published-content-item-variant-version",
   "Retrieve the published (live) version and details of a Kontent.ai content item variant, exactly as served on the Delivery API right now, even when a newer draft version exists.",
   {
+    environmentId: environmentIdSchema,
     itemId: z.guid().describe("Content item ID"),
     languageId: z.guid().describe("Language ID"),
   },
-  async ({ itemId, languageId }, { authInfo: { token, clientId } = {} }) => {
-    const client = createMapiClient(clientId, token);
+  async (
+    { environmentId, itemId, languageId },
+    { authInfo: { token } = {} },
+  ) => {
+    const client = createMapiClient(environmentId, token);
 
     try {
       const response = await client

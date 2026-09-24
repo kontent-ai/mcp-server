@@ -1,6 +1,7 @@
 import type { ManagementClient } from "@kontent-ai/management-sdk";
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
+import { environmentIdSchema } from "../schemas/environmentIdSchema.js";
 import { listContentTypeUsagesSchema } from "../schemas/listSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
@@ -160,25 +161,25 @@ const fetchNextNonEmptyPage = async (
 export const listContentTypeUsages = defineReadOnlyTool(
   "list-content-type-usages",
   "List where a Kontent.ai content type is used — a usage report to check dependencies and impact before changing or deleting a content type. Returns lightweight references to the entities using the type, tagged with the kind of usage, for further lookup. Results come grouped by kind, one kind exhausted before the next begins.",
-  listContentTypeUsagesSchema.shape,
+  { environmentId: environmentIdSchema, ...listContentTypeUsagesSchema.shape },
   async (
-    { contentTypeId, continuation_token },
-    { authInfo: { token, clientId } = {} },
+    { environmentId, contentTypeId, continuation_token },
+    { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(clientId, token);
+    const client = createMapiClient(environmentId, token);
+    // createMapiClient already throws when neither environmentId nor
+    // KONTENT_ENVIRONMENT_ID is set, so by this point one of them is defined —
+    // resolve it again here since the action URLs below need the string itself.
+    const resolvedEnvironmentId = (environmentId ??
+      process.env.KONTENT_ENVIRONMENT_ID) as string;
 
     try {
-      const environmentId =
-        clientId ??
-        process.env.KONTENT_ENVIRONMENT_ID ??
-        throwError("Missing required environment ID");
-
       const cursor: UsageCursor = continuation_token
         ? decodeCursor(continuation_token)
         : { usedIn: usedInLocations[0], continuationToken: null };
 
       const { usages, nextCursor } = await fetchNextNonEmptyPage(
-        { client, environmentId, contentTypeId },
+        { client, environmentId: resolvedEnvironmentId, contentTypeId },
         cursor,
       );
 

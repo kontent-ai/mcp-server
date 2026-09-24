@@ -158,7 +158,7 @@ The server supports two modes, each tied to its transport:
 | Transport | Mode | Authentication | Use Case |
 |-----------|------|----------------|----------|
 | **STDIO** | Single-tenant | Environment variables | Local communication with a single Kontent.ai environment |
-| **Streamable HTTP** | Multi-tenant | Bearer token per request | Remote/shared server handling multiple environments |
+| **Streamable HTTP** | Multi-tenant | Auth0-issued Bearer token per request | Remote/shared server, callers authenticated via OAuth |
 
 ### Single-Tenant Mode (STDIO)
 
@@ -174,14 +174,16 @@ Configure credentials via environment variables:
 
 ### Multi-Tenant Mode (Streamable HTTP)
 
-For the Streamable HTTP transport, credentials are provided per request:
-- **Environment ID** as a URL path parameter: `/{environmentId}/mcp`
-- **API Key** via Bearer token in the Authorization header: `Authorization: Bearer <api-key>`
+The Streamable HTTP transport is an [OAuth 2.0 Protected Resource](https://datatracker.ietf.org/doc/html/rfc9728), secured with [Auth0](https://auth0.com/). Each request must carry a valid Auth0-issued access token: `Authorization: Bearer <auth0-access-token>`. The server validates the token's signature, issuer, expiration and audience against the configured Auth0 tenant before allowing any tool call, and exposes standard OAuth Protected Resource Metadata so MCP clients can discover how to obtain a token.
 
-This allows a single server instance to handle requests for multiple Kontent.ai environments without requiring credential environment variables.
+> [!IMPORTANT]
+> This is authorization for the MCP server itself. Exchanging the authenticated caller's identity for a Kontent.ai Management API credential (so tool calls can actually reach an environment) is not implemented yet — MAPI-backed tools are currently non-functional over Streamable HTTP.
 
 | Variable | Description | Required |
 |----------|-------------|----------|
+| AUTH0_DOMAIN | Your Auth0 tenant domain, e.g. `tenant.us.auth0.com` | ✅ |
+| AUTH0_AUDIENCE | The Auth0 API identifier for this server | ❌ (defaults to MCP_SERVER_URL) |
+| MCP_SERVER_URL | Public base URL of this server, used as the OAuth resource identifier | ❌ (defaults to `http://localhost:<PORT>`) |
 | PORT | Port for HTTP transport (defaults to 3001) | ❌ |
 | appInsightsConnectionString | Application Insights connection string for telemetry | ❌ |
 | projectLocation | Project location identifier for telemetry tracking | ❌ |
@@ -220,12 +222,14 @@ To run the server with STDIO transport, configure your MCP client with:
 
 ### 🌊 Streamable HTTP Transport (Multi-Tenant)
 
-Streamable HTTP transport serves multiple Kontent.ai environments from a single server instance. Each request provides credentials via URL path parameters and Bearer authentication.
+Streamable HTTP transport is protected by Auth0. Every request must carry a valid Auth0-issued access token; the server validates it before any tool call runs.
 
-First start the server:
+**Setting up Auth0**: create an API in your Auth0 tenant (Applications → APIs) with an identifier matching `MCP_SERVER_URL`, and set `AUTH0_DOMAIN` (and optionally `AUTH0_AUDIENCE`) accordingly. See [Auth0's API setup guide](https://auth0.com/docs/get-started/auth0-overview/set-up-apis) for details.
+
+Then start the server, e.g.:
 
 ```bash
-npx @kontent-ai/mcp-server@latest shttp
+AUTH0_DOMAIN=<tenant>.auth0.com npx @kontent-ai/mcp-server@latest shttp
 ```
 
 <details>
@@ -237,9 +241,9 @@ Create a `.vscode/mcp.json` file in your workspace:
 {
   "servers": {
     "kontent-ai-multi": {
-      "uri": "http://localhost:3001/<environment-id>/mcp",
+      "uri": "http://localhost:3001/mcp",
       "headers": {
-        "Authorization": "Bearer <management-api-key>"
+        "Authorization": "Bearer <auth0-access-token>"
       }
     }
   }
@@ -252,21 +256,16 @@ For secure configuration with input prompts:
 {
   "inputs": [
     {
-      "id": "apiKey",
+      "id": "accessToken",
       "type": "password",
-      "description": "Kontent.ai API Key"
-    },
-    {
-      "id": "environmentId",
-      "type": "text",
-      "description": "Environment ID"
+      "description": "Auth0 Access Token"
     }
   ],
   "servers": {
     "kontent-ai-multi": {
-      "uri": "http://localhost:3001/${inputs.environmentId}/mcp",
+      "uri": "http://localhost:3001/mcp",
       "headers": {
-        "Authorization": "Bearer ${inputs.apiKey}"
+        "Authorization": "Bearer ${inputs.accessToken}"
       }
     }
   }
@@ -292,9 +291,9 @@ Use `mcp-remote` as a proxy to add authentication headers:
       "command": "npx",
       "args": [
         "mcp-remote",
-        "http://localhost:3001/<environment-id>/mcp",
+        "http://localhost:3001/mcp",
         "--header",
-        "Authorization: Bearer <management-api-key>"
+        "Authorization: Bearer <auth0-access-token>"
       ]
     }
   }
@@ -310,8 +309,8 @@ Add the server using the CLI:
 
 ```bash
 claude mcp add --transport http kontent-ai-multi \
-  "http://localhost:3001/<environment-id>/mcp" \
-  --header "Authorization: Bearer <management-api-key>"
+  "http://localhost:3001/mcp" \
+  --header "Authorization: Bearer <auth0-access-token>"
 ```
 
 > **Note**: You can also configure this in your Claude Code settings JSON with the `url` and `headers` properties.
@@ -319,7 +318,7 @@ claude mcp add --transport http kontent-ai-multi \
 </details>
 
 > [!IMPORTANT]
-> Replace `<environment-id>` with your Kontent.ai environment ID (GUID) and `<management-api-key>` with your key.
+> Replace `<auth0-access-token>` with an access token issued by your Auth0 tenant for this server's API. MAPI-backed tools are currently non-functional over Streamable HTTP (see note above) until token exchange to a Kontent.ai Management API credential is implemented.
 
 ## 💻 Development
 
@@ -351,6 +350,7 @@ npm run dev:shttp  # For Streamable HTTP transport
   - `tools/` - MCP tool implementations
   - `clients/` - Kontent.ai API client setup
   - `schemas/` - Data validation schemas
+  - `auth/` - Auth0 OAuth protection for the Streamable HTTP transport
   - `utils/` - Utility functions
     - `errorHandler.ts` - Standardized error handling for MCP tools
     - `throwError.ts` - Generic error throwing utility

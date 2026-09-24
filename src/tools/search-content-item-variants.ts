@@ -1,9 +1,9 @@
 import pRetry, { AbortError } from "p-retry";
 import { createMapiClient } from "../clients/kontentClients.js";
+import { environmentIdSchema } from "../schemas/environmentIdSchema.js";
 import { searchOperationSchema } from "../schemas/searchOperationSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { throwError } from "../utils/throwError.js";
 import {
   listContentItemVariantsToolName,
   searchContentItemVariantsToolName,
@@ -53,15 +53,18 @@ const extractSearchResults = (response: AiOperationResultResponse): object => {
 export const searchContentItemVariants = defineReadOnlyTool(
   searchContentItemVariantsToolName,
   `AI semantic search for Kontent.ai content items with content item variants (language versions/translations) by topic, theme, or meaning. Use when you know what content is *about* — not when looking for an item by name or title; use ${listContentItemVariantsToolName} for that. Returns lightweight references, top 50 results max. This feature may be unavailable.`,
-  searchOperationSchema.shape,
-  async ({ searchPhrase, filter }, { authInfo: { token, clientId } = {} }) => {
+  { environmentId: environmentIdSchema, ...searchOperationSchema.shape },
+  async (
+    { environmentId: rawEnvironmentId, searchPhrase, filter },
+    { authInfo: { token } = {} },
+  ) => {
     try {
-      const environmentId = clientId ?? process.env.KONTENT_ENVIRONMENT_ID;
-      if (!environmentId) {
-        throwError("Missing required environment ID");
-      }
-
-      const client = createMapiClient(environmentId, token);
+      const client = createMapiClient(rawEnvironmentId, token);
+      // createMapiClient already throws when neither environmentId nor
+      // KONTENT_ENVIRONMENT_ID is set, so by this point one of them is defined —
+      // resolve it again here since the action URLs below need the string itself.
+      const environmentId = (rawEnvironmentId ??
+        process.env.KONTENT_ENVIRONMENT_ID) as string;
 
       // Step 1: Initiate the AI search operation
       const searchPayload = {
@@ -96,7 +99,7 @@ export const searchContentItemVariants = defineReadOnlyTool(
         ) {
           return createMcpToolSuccessResponse({
             status: "unavailable",
-            result: `AI search feature is not available for environment ${clientId}. Do not retry this tool. Use ${listContentItemVariantsToolName} instead (its search_phrase parameter supports exact keyword matching).`,
+            result: `AI search feature is not available for environment ${environmentId}. Do not retry this tool. Use ${listContentItemVariantsToolName} instead (its search_phrase parameter supports exact keyword matching).`,
           });
         }
         throw error;

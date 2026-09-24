@@ -2,6 +2,7 @@ import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { coerceJsonString } from "../schemas/coerceJsonString.js";
 import { languageVariantElementSchema } from "../schemas/contentItemSchemas.js";
+import { environmentIdSchema } from "../schemas/environmentIdSchema.js";
 import {
   createValidationErrorResponse,
   handleMcpToolError,
@@ -18,6 +19,7 @@ export const createContentItemVariant = defineAdditiveTool(
   createContentItemVariantToolName,
   "Create Kontent.ai content item variant — translate and localize content into a specific language. Adds a new language version (translation) for a content item. Send only the elements you want to set (omitted ones initialize with default value). Element values must fulfill the content type definition.",
   {
+    environmentId: environmentIdSchema,
     itemId: z.guid().describe("Content item ID"),
     languageId: z
       .guid()
@@ -35,10 +37,10 @@ export const createContentItemVariant = defineAdditiveTool(
       ),
   },
   async (
-    { itemId, languageId, elements, workflow_step_id, note },
-    { authInfo: { token, clientId } = {} },
+    { environmentId, itemId, languageId, elements, workflow_step_id, note },
+    { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(clientId, token);
+    const client = createMapiClient(environmentId, token);
 
     // The variant API is upsert-only, so calling this on an item+language that
     // already has a variant would overwrite its elements and reset its

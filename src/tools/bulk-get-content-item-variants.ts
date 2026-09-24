@@ -3,26 +3,24 @@ import {
   createMapiClient,
 } from "../clients/kontentClients.js";
 import { bulkGetItemsWithVariantsSchema } from "../schemas/bulkGetItemsWithVariantsSchemas.js";
+import { environmentIdSchema } from "../schemas/environmentIdSchema.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
-import { throwError } from "../utils/throwError.js";
 import { bulkGetContentItemVariantsToolName } from "./referencedToolNames.js";
 import { defineReadOnlyTool } from "./toolDefinition.js";
 
 export const bulkGetContentItemVariants = defineReadOnlyTool(
   bulkGetContentItemVariantsToolName,
   "Bulk/batch retrieve full details and content for multiple (2 or more) Kontent.ai content item variants by item and language reference pairs. Fetch full content for several items whose IDs were found via other tools.",
-  bulkGetItemsWithVariantsSchema.shape,
+  {
+    environmentId: environmentIdSchema,
+    ...bulkGetItemsWithVariantsSchema.shape,
+  },
   async (
-    { variants, continuation_token },
-    { authInfo: { token, clientId } = {} },
+    { environmentId, variants, continuation_token },
+    { authInfo: { token } = {} },
   ) => {
     try {
-      const environmentId = clientId ?? process.env.KONTENT_ENVIRONMENT_ID;
-      if (!environmentId) {
-        throwError("Missing required environment ID");
-      }
-
       const client = createMapiClient(environmentId, token);
 
       const query = client

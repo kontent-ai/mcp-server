@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { coerceJsonString } from "../schemas/coerceJsonString.js";
+import { environmentIdSchema } from "../schemas/environmentIdSchema.js";
 import { patchOperationsSchema } from "../schemas/patchSchemas/contentTypePatchSchemas.js";
 import { patchGuideIdParam } from "../schemas/patchSchemas/patchGuideIdSchema.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
@@ -12,6 +13,7 @@ export const patchContentType = defineDestructiveTool(
   "patch-content-type",
   `Update (modify/edit) Kontent.ai content type schema using patch operations (add, move, remove, replace elements/fields). Add new fields, rearrange or remove existing elements. Always call ${getPatchGuideToolName}(entityType='content-type') first for operations reference.`,
   {
+    environmentId: environmentIdSchema,
     ...patchGuideIdParam("content-type"),
     id: z.guid().describe("Content type ID"),
     operations: coerceJsonString(
@@ -26,10 +28,10 @@ export const patchContentType = defineDestructiveTool(
     ),
   },
   async (
-    { patchGuideId: _patchGuideId, id, operations },
-    { authInfo: { token, clientId } = {} },
+    { environmentId, patchGuideId: _patchGuideId, id, operations },
+    { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(clientId, token);
+    const client = createMapiClient(environmentId, token);
 
     try {
       // Apply patch operations using the modifyContentType method

@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { coerceJsonString } from "../schemas/coerceJsonString.js";
+import { environmentIdSchema } from "../schemas/environmentIdSchema.js";
 import { patchGuideIdParam } from "../schemas/patchSchemas/patchGuideIdSchema.js";
 import { snippetPatchOperationsSchema } from "../schemas/patchSchemas/snippetPatchSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
@@ -12,6 +13,7 @@ export const patchContentTypeSnippet = defineDestructiveTool(
   "patch-content-type-snippet",
   `Update (modify/edit) Kontent.ai content type snippet using patch operations (add, move, remove, replace elements/fields). Add new fields to an existing snippet, or rearrange or remove existing elements. Always call ${getPatchGuideToolName}(entityType='snippet') first for operations reference.`,
   {
+    environmentId: environmentIdSchema,
     ...patchGuideIdParam("snippet"),
     id: z.guid().describe("Content type snippet ID"),
     operations: coerceJsonString(
@@ -23,10 +25,10 @@ export const patchContentTypeSnippet = defineDestructiveTool(
     ),
   },
   async (
-    { patchGuideId: _patchGuideId, id, operations },
-    { authInfo: { token, clientId } = {} },
+    { environmentId, patchGuideId: _patchGuideId, id, operations },
+    { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(clientId, token);
+    const client = createMapiClient(environmentId, token);
 
     try {
       const response = await client

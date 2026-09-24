@@ -1,4 +1,5 @@
 import { createMapiClient } from "../clients/kontentClients.js";
+import { environmentIdSchema } from "../schemas/environmentIdSchema.js";
 import { listTaxonomyGroupsSchema } from "../schemas/listSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
@@ -7,9 +8,12 @@ import { defineReadOnlyTool } from "./toolDefinition.js";
 export const listTaxonomyGroups = defineReadOnlyTool(
   "list-taxonomy-groups",
   "List all Kontent.ai taxonomy groups (paginated). Taxonomy groups contain hierarchical tree-structured terms (categories/tags) that can be nested to any depth for content categorization and classification.",
-  listTaxonomyGroupsSchema.shape,
-  async ({ continuation_token }, { authInfo: { token, clientId } = {} }) => {
-    const client = createMapiClient(clientId, token);
+  { environmentId: environmentIdSchema, ...listTaxonomyGroupsSchema.shape },
+  async (
+    { environmentId, continuation_token },
+    { authInfo: { token } = {} },
+  ) => {
+    const client = createMapiClient(environmentId, token);
 
     try {
       const query = client.listTaxonomies();

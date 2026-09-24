@@ -4,32 +4,51 @@ import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/
 import "dotenv/config";
 import packageJson from "../package.json" with { type: "json" };
 import { createApp } from "./app.js";
+import { createAuth0Auth } from "./auth/auth0.js";
 import { createServer } from "./server.js";
 import {
   initializeApplicationInsights,
   trackException,
   trackServerStartup,
 } from "./telemetry/applicationInsights.js";
+import { throwError } from "./utils/throwError.js";
 
 const version = packageJson.version;
 
 process.env.NODE_ENV = process.env.NODE_ENV || "production";
 
 async function startStreamableHTTP() {
-  const app = createApp({
+  const PORT = process.env.PORT || 3001;
+  const resourceServerUrl = new URL(
+    process.env.MCP_SERVER_URL || `http://localhost:${PORT}`,
+  );
+  const domain =
+    process.env.AUTH0_DOMAIN ?? "login.devkontentmasters.com"/*
+    throwError(
+      "AUTH0_DOMAIN environment variable is required for the Streamable HTTP transport",
+    )*/;
+  const audience = process.env.AUTH0_AUDIENCE ?? resourceServerUrl.toString();
+
+  const app = await createApp({
     createMcpServer: createServer,
     createTransport: () =>
       new StreamableHTTPServerTransport({
         sessionIdGenerator: undefined,
       }),
+    createAuth: () =>
+      createAuth0Auth({
+        domain,
+        audience,
+        resourceServerUrl,
+        resourceName: "Kontent.ai MCP Server",
+      }),
   });
 
-  const PORT = process.env.PORT || 3001;
   app.listen(PORT, () => {
     console.log(
       `Kontent.ai MCP Server v${version} (Streamable HTTP) running on port ${PORT}.
 Available endpoint:
-/{environmentId}/mcp (requires Bearer authentication)`,
+/mcp (requires Auth0 Bearer authentication)`,
     );
   });
 }

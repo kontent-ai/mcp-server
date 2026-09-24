@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
+import { environmentIdSchema } from "../schemas/environmentIdSchema.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineDestructiveTool } from "./toolDefinition.js";
@@ -9,6 +10,7 @@ export const cancelScheduledPublishingContentItemVariant =
     "cancel-scheduled-publishing-content-item-variant",
     "Cancel scheduled publishing of Kontent.ai content item variant (language version/translation). Reverts variant back to previous workflow step, enabling further edits.",
     {
+      environmentId: environmentIdSchema,
       itemId: z.guid().describe("Content item ID"),
       languageId: z
         .guid()
@@ -16,8 +18,11 @@ export const cancelScheduledPublishingContentItemVariant =
           "Language ID (default: 00000000-0000-0000-0000-000000000000)",
         ),
     },
-    async ({ itemId, languageId }, { authInfo: { token, clientId } = {} }) => {
-      const client = createMapiClient(clientId, token);
+    async (
+      { environmentId, itemId, languageId },
+      { authInfo: { token } = {} },
+    ) => {
+      const client = createMapiClient(environmentId, token);
 
       try {
         await client

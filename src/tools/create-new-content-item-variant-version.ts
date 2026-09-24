@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
+import { environmentIdSchema } from "../schemas/environmentIdSchema.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineAdditiveTool } from "./toolDefinition.js";
@@ -8,13 +9,17 @@ export const createNewContentItemVariantVersion = defineAdditiveTool(
   "create-new-content-item-variant-version",
   "Create new draft version of a published Kontent.ai content item variant (language version/translation). Required before editing published content.",
   {
+    environmentId: environmentIdSchema,
     itemId: z.guid().describe("Content item ID"),
     languageId: z
       .guid()
       .describe("Language ID (default: 00000000-0000-0000-0000-000000000000)"),
   },
-  async ({ itemId, languageId }, { authInfo: { token, clientId } = {} }) => {
-    const client = createMapiClient(clientId, token);
+  async (
+    { environmentId, itemId, languageId },
+    { authInfo: { token } = {} },
+  ) => {
+    const client = createMapiClient(environmentId, token);
 
     try {
       const response = await client

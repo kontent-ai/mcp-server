@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
 import { coerceJsonString } from "../schemas/coerceJsonString.js";
+import { environmentIdSchema } from "../schemas/environmentIdSchema.js";
 import { patchGuideIdParam } from "../schemas/patchSchemas/patchGuideIdSchema.js";
 import { taxonomyPatchOperationsSchema } from "../schemas/patchSchemas/taxonomyPatchSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
@@ -15,6 +16,7 @@ export const patchTaxonomyGroup = defineDestructiveTool(
   "patch-taxonomy-group",
   `Update (modify/edit) and organize Kontent.ai taxonomy group terms using patch operations. Always call ${getPatchGuideToolName}(entityType='taxonomy') first — it documents ordering rules and constraints not visible in this schema.`,
   {
+    environmentId: environmentIdSchema,
     ...patchGuideIdParam("taxonomy"),
     id: z.guid().describe("Taxonomy group ID"),
     operations: coerceJsonString(
@@ -24,10 +26,10 @@ export const patchTaxonomyGroup = defineDestructiveTool(
     ),
   },
   async (
-    { patchGuideId: _patchGuideId, id, operations },
-    { authInfo: { token, clientId } = {} },
+    { environmentId, patchGuideId: _patchGuideId, id, operations },
+    { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(clientId, token);
+    const client = createMapiClient(environmentId, token);
 
     try {
       const response = await client

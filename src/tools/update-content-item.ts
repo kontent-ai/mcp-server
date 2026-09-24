@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
+import { environmentIdSchema } from "../schemas/environmentIdSchema.js";
 import { writeReferenceObjectSchema } from "../schemas/referenceObjectSchema.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
@@ -10,6 +11,7 @@ export const updateContentItem = defineDestructiveTool(
   "update-content-item",
   "Update (edit/rename) Kontent.ai content item metadata: name, collection.",
   {
+    environmentId: environmentIdSchema,
     id: z.guid().describe("Content item ID"),
     name: z
       .string()
@@ -21,8 +23,11 @@ export const updateContentItem = defineDestructiveTool(
       .optional()
       .describe("Reference to the collection this item belongs to."),
   },
-  async ({ id, name, collection }, { authInfo: { token, clientId } = {} }) => {
-    const client = createMapiClient(clientId, token);
+  async (
+    { environmentId, id, name, collection },
+    { authInfo: { token } = {} },
+  ) => {
+    const client = createMapiClient(environmentId, token);
 
     try {
       // First, verify the item exists by trying to get it

@@ -3,6 +3,7 @@ import {
   agentMetadataHeader,
   createMapiClient,
 } from "../clients/kontentClients.js";
+import { environmentIdSchema } from "../schemas/environmentIdSchema.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { listContentItemVariantsToolName } from "./referencedToolNames.js";
@@ -12,10 +13,11 @@ export const getContentItemTranslations = defineReadOnlyTool(
   "get-content-item-translations",
   `Get all Kontent.ai content item translations — every language version (variant) of a specific content item. Returns each language's current version (draft if one exists, otherwise the last one saved), which may differ from the version currently live on the Delivery API. Retrieve translated content across all languages to examine details of a specific item in translation scenarios, rather than to search for items — for finding or disambiguating among candidates, use ${listContentItemVariantsToolName}'s search_phrase filter.`,
   {
+    environmentId: environmentIdSchema,
     itemId: z.guid().describe("Content item ID"),
   },
-  async ({ itemId }, { authInfo: { token, clientId } = {} }) => {
-    const client = createMapiClient(clientId, token);
+  async ({ environmentId, itemId }, { authInfo: { token } = {} }) => {
+    const client = createMapiClient(environmentId, token);
 
     try {
       const response = await client

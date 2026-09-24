@@ -1,6 +1,7 @@
 import { createMapiClient } from "../clients/kontentClients.js";
 import { coerceJsonString } from "../schemas/coerceJsonString.js";
 import { collectionPatchOperationsSchema } from "../schemas/collectionSchemas.js";
+import { environmentIdSchema } from "../schemas/environmentIdSchema.js";
 import { patchGuideIdParam } from "../schemas/patchSchemas/patchGuideIdSchema.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
@@ -14,6 +15,7 @@ export const patchCollections = defineDestructiveTool(
   "patch-collections",
   `Update (modify/edit) Kontent.ai collections using patch operations. Always call ${getPatchGuideToolName}(entityType='collection') first — it documents constraints not visible in this schema that the API enforces.`,
   {
+    environmentId: environmentIdSchema,
     ...patchGuideIdParam("collection"),
     operations: coerceJsonString(
       collectionPatchOperationsSchema.describe(
@@ -22,10 +24,10 @@ export const patchCollections = defineDestructiveTool(
     ),
   },
   async (
-    { patchGuideId: _patchGuideId, operations },
-    { authInfo: { token, clientId } = {} },
+    { environmentId, patchGuideId: _patchGuideId, operations },
+    { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(clientId, token);
+    const client = createMapiClient(environmentId, token);
 
     try {
       const response = await client

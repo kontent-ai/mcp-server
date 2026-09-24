@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
+import { environmentIdSchema } from "../schemas/environmentIdSchema.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
 import { defineDestructiveTool } from "./toolDefinition.js";
@@ -8,6 +9,7 @@ export const publishContentItemVariant = defineDestructiveTool(
   "publish-content-item-variant",
   "Publish or schedule publishing of Kontent.ai content item variant (language version/translation). Transitions content to the published workflow step, making it live. For scheduling, verify current UTC time before using scheduledTo.",
   {
+    environmentId: environmentIdSchema,
     itemId: z.guid().describe("Content item ID"),
     languageId: z
       .guid()
@@ -22,10 +24,10 @@ export const publishContentItemVariant = defineDestructiveTool(
       .describe("Timezone for UI display (e.g., America/New_York, UTC)"),
   },
   async (
-    { itemId, languageId, scheduledTo, displayTimezone },
-    { authInfo: { token, clientId } = {} },
+    { environmentId, itemId, languageId, scheduledTo, displayTimezone },
+    { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(clientId, token);
+    const client = createMapiClient(environmentId, token);
 
     try {
       // Validate that displayTimezone can only be used with scheduledTo

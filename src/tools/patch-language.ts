@@ -1,4 +1,5 @@
 import { createMapiClient } from "../clients/kontentClients.js";
+import { environmentIdSchema } from "../schemas/environmentIdSchema.js";
 import { patchLanguageSchema } from "../schemas/languageSchemas.js";
 import { patchGuideIdParam } from "../schemas/patchSchemas/patchGuideIdSchema.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
@@ -10,14 +11,15 @@ export const patchLanguage = defineDestructiveTool(
   "patch-language",
   `Update (modify/edit) Kontent.ai language properties using replace patch operations. Always call ${getPatchGuideToolName}(entityType='language') first — it documents constraints and available properties not visible in this schema.`,
   {
+    environmentId: environmentIdSchema,
     ...patchGuideIdParam("language"),
     ...patchLanguageSchema.shape,
   },
   async (
-    { patchGuideId: _patchGuideId, languageId, operations },
-    { authInfo: { token, clientId } = {} },
+    { environmentId, patchGuideId: _patchGuideId, languageId, operations },
+    { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(clientId, token);
+    const client = createMapiClient(environmentId, token);
 
     try {
       const response = await client

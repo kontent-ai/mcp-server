@@ -1,4 +1,5 @@
 import { createMapiClient } from "../clients/kontentClients.js";
+import { environmentIdSchema } from "../schemas/environmentIdSchema.js";
 import { listContentTypeSnippetsSchema } from "../schemas/listSchemas.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
@@ -7,9 +8,15 @@ import { defineReadOnlyTool } from "./toolDefinition.js";
 export const listContentTypeSnippets = defineReadOnlyTool(
   "list-content-type-snippets",
   "List all Kontent.ai content type snippets (paginated). Retrieve every content type snippet — reusable, shared sets of elements included across multiple content types.",
-  listContentTypeSnippetsSchema.shape,
-  async ({ continuation_token }, { authInfo: { token, clientId } = {} }) => {
-    const client = createMapiClient(clientId, token);
+  {
+    environmentId: environmentIdSchema,
+    ...listContentTypeSnippetsSchema.shape,
+  },
+  async (
+    { environmentId, continuation_token },
+    { authInfo: { token } = {} },
+  ) => {
+    const client = createMapiClient(environmentId, token);
 
     try {
       const query = client.listContentTypeSnippets();

@@ -1,17 +1,16 @@
 import * as assert from "node:assert";
 import type { AddressInfo } from "node:net";
+import type { AuthInfo } from "@modelcontextprotocol/sdk/server/auth/types.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
-import type { Response } from "express";
+import type { NextFunction, Request, RequestHandler, Response } from "express";
 import { describe, it } from "mocha";
 import { type CreateAppDeps, createApp } from "../../app.js";
 
 // On the Streamable HTTP transport, neither the McpServer nor its transport may
-// be constructed before the authorization check has passed. A status assertion
-// alone cannot show that, so the tests below inject counting factories and
-// assert they were never called.
-
-const VALID_GUID = "00000000-0000-0000-0000-000000000000";
+// be constructed before the auth middleware has let the request through. A
+// status assertion alone cannot show that, so the tests below inject counting
+// factories and assert they were never called.
 
 type Counters = {
   mcpServer: number;
@@ -22,7 +21,10 @@ const createCounters = (): Counters => ({ mcpServer: 0, transport: 0 });
 
 // Both factories count and then throw: if the ordering ever regresses, the run
 // fails loudly on the counter as well as on the status code.
-const rejectingDeps = (counters: Counters): CreateAppDeps => ({
+const rejectingDeps = (
+  counters: Counters,
+  authMiddleware: RequestHandler,
+): CreateAppDeps => ({
   createMcpServer: () => {
     counters.mcpServer++;
     throw new Error("createMcpServer must not run before authorization");
@@ -31,6 +33,10 @@ const rejectingDeps = (counters: Counters): CreateAppDeps => ({
     counters.transport++;
     throw new Error("createTransport must not run before authorization");
   },
+  createAuth: async () => ({
+    metadataRouter: (_req, _res, next) => next(),
+    authMiddleware,
+  }),
 });
 
 type Captured = {
@@ -41,6 +47,7 @@ type Captured = {
 const workingDeps = (
   counters: Counters,
   captured: Captured,
+  authMiddleware: RequestHandler,
 ): CreateAppDeps => ({
   createMcpServer: () => {
     counters.mcpServer++;
@@ -66,6 +73,10 @@ const workingDeps = (
       close: () => {},
     } as unknown as StreamableHTTPServerTransport;
   },
+  createAuth: async () => ({
+    metadataRouter: (_req, _res, next) => next(),
+    authMiddleware,
+  }),
 });
 
 // A fresh app per test keeps counters isolated. The teardown sits in `finally`
@@ -75,7 +86,7 @@ const withServer = async (
   deps: CreateAppDeps,
   run: (baseUrl: string) => Promise<void>,
 ): Promise<void> => {
-  const server = createApp(deps).listen(0, "127.0.0.1");
+  const server = (await createApp(deps)).listen(0, "127.0.0.1");
   try {
     await new Promise<void>((resolve, reject) => {
       server.once("listening", resolve);
@@ -95,80 +106,74 @@ const withServer = async (
 
 const postMcp = (
   baseUrl: string,
-  environmentId: string,
   headers: Record<string, string> = {},
 ): Promise<globalThis.Response> =>
-  fetch(`${baseUrl}/${environmentId}/mcp`, {
+  fetch(`${baseUrl}/mcp`, {
     method: "POST",
     headers: { "content-type": "application/json", ...headers },
     body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "tools/list" }),
   });
 
+const denyingAuthMiddleware: RequestHandler = (_req, res) => {
+  res.status(401).json({ error: "Unauthorized" });
+};
+
+const ALLOWED_AUTH: AuthInfo = {
+  token: "test-access-token",
+  clientId: "auth0-client-id",
+  scopes: ["openid"],
+  extra: { sub: "auth0|user123", email: "user@example.com" },
+};
+
+const allowingAuthMiddleware: RequestHandler = (
+  req: Request,
+  _res: Response,
+  next: NextFunction,
+) => {
+  req.auth = ALLOWED_AUTH;
+  next();
+};
+
 describe("shttp authorization ordering", () => {
-  it("rejects a missing Authorization header without building a server", async () => {
+  it("rejects a request the auth middleware denies without building a server", async () => {
     const counters = createCounters();
-    await withServer(rejectingDeps(counters), async (baseUrl) => {
-      const response = await postMcp(baseUrl, VALID_GUID);
-      assert.strictEqual(response.status, 401);
-      assert.deepStrictEqual(await response.json(), {
-        error: "Authorization header with Bearer token is required.",
-      });
-      assert.strictEqual(counters.mcpServer, 0);
-      assert.strictEqual(counters.transport, 0);
-    });
+    await withServer(
+      rejectingDeps(counters, denyingAuthMiddleware),
+      async (baseUrl) => {
+        const response = await postMcp(baseUrl);
+        assert.strictEqual(response.status, 401);
+        assert.deepStrictEqual(await response.json(), {
+          error: "Unauthorized",
+        });
+        assert.strictEqual(counters.mcpServer, 0);
+        assert.strictEqual(counters.transport, 0);
+      },
+    );
   });
 
-  it("rejects a non-Bearer Authorization header without building a server", async () => {
-    const counters = createCounters();
-    await withServer(rejectingDeps(counters), async (baseUrl) => {
-      const response = await postMcp(baseUrl, VALID_GUID, {
-        authorization: "Basic dXNlcjpwYXNz",
-      });
-      assert.strictEqual(response.status, 401);
-      assert.strictEqual(counters.mcpServer, 0);
-      assert.strictEqual(counters.transport, 0);
-    });
-  });
-
-  it("rejects a malformed environment ID without building a server", async () => {
-    const counters = createCounters();
-    await withServer(rejectingDeps(counters), async (baseUrl) => {
-      const response = await postMcp(baseUrl, "not-a-guid", {
-        authorization: "Bearer test-key",
-      });
-      assert.strictEqual(response.status, 400);
-      assert.deepStrictEqual(await response.json(), {
-        error: "Invalid environment ID format. Must be a valid GUID.",
-      });
-      assert.strictEqual(counters.mcpServer, 0);
-      assert.strictEqual(counters.transport, 0);
-    });
-  });
-
-  it("builds the server once and forwards auth and parsed body when authorized", async () => {
+  it("builds the server once and forwards auth and parsed body when the auth middleware allows the request", async () => {
     const counters = createCounters();
     const captured: Captured = {};
-    await withServer(workingDeps(counters, captured), async (baseUrl) => {
-      const response = await postMcp(baseUrl, VALID_GUID, {
-        authorization: "Bearer test-key",
-      });
-      assert.strictEqual(response.status, 204);
-      assert.strictEqual(counters.mcpServer, 1);
-      assert.strictEqual(counters.transport, 1);
-      // Every tool handler reads authInfo.token/clientId, so pin the shape the
-      // relocated authorization block produces.
-      assert.deepStrictEqual(captured.auth, {
-        clientId: VALID_GUID,
-        token: "test-key",
-        scopes: [],
-      });
-      // Pins that a JSON body parser ran at all: without one the SDK silently
-      // falls back to reading the raw stream with no size limit.
-      assert.deepStrictEqual(captured.body, {
-        jsonrpc: "2.0",
-        id: 1,
-        method: "tools/list",
-      });
-    });
+    await withServer(
+      workingDeps(counters, captured, allowingAuthMiddleware),
+      async (baseUrl) => {
+        const response = await postMcp(baseUrl, {
+          authorization: "Bearer test-access-token",
+        });
+        assert.strictEqual(response.status, 204);
+        assert.strictEqual(counters.mcpServer, 1);
+        assert.strictEqual(counters.transport, 1);
+        // Every tool handler reads authInfo.token/clientId, so pin that whatever
+        // the auth middleware puts on req.auth reaches the transport unchanged.
+        assert.deepStrictEqual(captured.auth, ALLOWED_AUTH);
+        // Pins that a JSON body parser ran at all: without one the SDK silently
+        // falls back to reading the raw stream with no size limit.
+        assert.deepStrictEqual(captured.body, {
+          jsonrpc: "2.0",
+          id: 1,
+          method: "tools/list",
+        });
+      },
+    );
   });
 });
