@@ -1,6 +1,7 @@
 /**
  * Utility for handling errors in MCP tools and returning standardized error responses
  */
+import { SharedModels } from "@kontent-ai/management-sdk";
 import { trackException } from "../telemetry/applicationInsights.js";
 import type { McpToolSuccessResponse } from "./responseHelper.js";
 
@@ -29,11 +30,15 @@ export const handleMcpToolError = (
 
   trackException(error, context);
 
-  if (error?.name === "ContentManagementBaseKontentError" || error?.requestId) {
+  if (
+    error instanceof SharedModels.ContentManagementBaseKontentError ||
+    error?.errorCode !== undefined ||
+    error?.requestId
+  ) {
     const errorMessage = [
       `${contextPrefix}Kontent.ai Management API Error:`,
       `Message: ${error.message || "Unknown API error"}`,
-      error.errorCode ? `Error Code: ${error.errorCode}` : null,
+      error.errorCode !== undefined ? `Error Code: ${error.errorCode}` : null,
       error.requestId ? `Request ID: ${error.requestId}` : null,
     ]
       .filter(Boolean)
@@ -68,7 +73,7 @@ export const handleMcpToolError = (
   }
 
   // Handle network or other HTTP errors
-  if (error.isAxiosError) {
+  if (error?.isAxiosError) {
     if (error.response) {
       return {
         content: [
@@ -97,7 +102,7 @@ export const handleMcpToolError = (
     content: [
       {
         type: "text",
-        text: `${contextPrefix}Unexpected error: ${error instanceof Error ? error.message : "Unknown error occurred"}\n\nFull error: ${JSON.stringify(error)}`,
+        text: `${contextPrefix}Unexpected error: ${typeof error === "string" ? error : (error?.message ?? "Unknown error occurred")}`,
       },
     ],
     isError: true,

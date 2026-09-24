@@ -4,6 +4,7 @@ import express from "express";
 import helmet from "helmet";
 import packageJson from "../package.json" with { type: "json" };
 import { trackException } from "./telemetry/applicationInsights.js";
+import { sanitizeErrorForLog } from "./telemetry/telemetrySanitizer.js";
 import { extractBearerToken } from "./utils/extractBearerToken.js";
 import { isValidGuid } from "./utils/isValidGuid.js";
 
@@ -61,7 +62,7 @@ export const createApp = ({
         req.body,
       );
     } catch (error) {
-      console.error("Error handling MCP request:", error);
+      console.error("Error handling MCP request:", sanitizeErrorForLog(error));
       trackException(error, "MCP Multi-tenant Request Handler");
       if (!res.headersSent) {
         res.status(500).json({

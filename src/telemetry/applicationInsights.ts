@@ -1,7 +1,12 @@
 import { SharedModels } from "@kontent-ai/management-sdk";
 import appInsights from "applicationinsights";
 import type { AxiosError } from "axios";
-import { sanitizeTelemetry, sanitizeUrl } from "./telemetrySanitizer.js";
+import {
+  sanitizeErrorForLog,
+  sanitizeTelemetry,
+  sanitizeUnknownValue,
+  sanitizeUrl,
+} from "./telemetrySanitizer.js";
 
 let isInitialized = false;
 
@@ -15,7 +20,7 @@ function trackKontentApiError(
   }
 
   const safeError = new Error(error.message);
-  safeError.stack = error.originalError.stack || safeError.stack;
+  safeError.stack = error.originalError?.stack || safeError.stack;
 
   appInsights.defaultClient.trackException({
     exception: safeError,
@@ -72,7 +77,7 @@ function trackHttpError(error: AxiosError, context?: string): void {
 
 function trackGeneralError(error: Error, context?: string): void {
   const safeError = new Error(error.message);
-  safeError.stack = error.stack;
+  safeError.stack = error.stack || safeError.stack;
 
   appInsights.defaultClient.trackException({
     exception: safeError,
@@ -86,7 +91,7 @@ function trackGeneralError(error: Error, context?: string): void {
 
 function trackUnknownError(error: any, context?: string): void {
   appInsights.defaultClient.trackException({
-    exception: new Error("An error occurred"),
+    exception: new Error(`Non-error thrown: ${sanitizeUnknownValue(error)}`),
     properties: {
       errorType: "UnknownError",
       actualType: typeof error,
@@ -106,7 +111,7 @@ export function trackException(error: any, context?: string): void {
       return;
     }
 
-    if (error.isAxiosError) {
+    if (error?.isAxiosError) {
       trackHttpError(error, context);
       return;
     }
@@ -139,19 +144,79 @@ export function trackServerStartup(version: string): void {
   }
 }
 
-function createTelemetryProcessor() {
-  return (envelope: any) => {
-    sanitizeTelemetry(envelope);
+export function createTelemetryProcessor() {
+  // Per-processor rather than module-level: production creates exactly one, so the behaviour is
+  // the same, and tests get a fresh flag instead of one that leaks across spec files.
+  let sanitizationFailureReported = false;
 
-    if (envelope.data?.baseData) {
-      envelope.data.baseData.properties =
-        envelope.data.baseData.properties || {};
-      envelope.data.baseData.properties["component.name"] = "mcp-server";
-      envelope.data.baseData.properties["component.location"] =
-        process.env.projectLocation || "unknown";
+  return (envelope: any) => {
+    try {
+      sanitizeTelemetry(envelope);
+
+      if (envelope.data?.baseData) {
+        envelope.data.baseData.properties =
+          envelope.data.baseData.properties || {};
+        envelope.data.baseData.properties["component.name"] = "mcp-server";
+        envelope.data.baseData.properties["component.location"] =
+          process.env.projectLocation || "unknown";
+      }
+      return true;
+    } catch {
+      // Dropping the item is deliberate. A throw here is caught by Application Insights,
+      // which then sends the unsanitized envelope anyway AND dumps it to its internal log;
+      // only returning false rejects it. Reported once so a rejecting sanitizer is not
+      // silently invisible - deliberately without any envelope content.
+      if (!sanitizationFailureReported) {
+        sanitizationFailureReported = true;
+        console.error(
+          "Telemetry sanitization failed; dropping the affected telemetry item.",
+        );
+      }
+      return false;
     }
-    return true;
   };
+}
+
+const defaultFlushTimeoutMs = 2000;
+
+/**
+ * Sends anything still buffered. Telemetry is batched (default 15s), so a process that exits
+ * without this loses whatever was tracked immediately beforehand.
+ * Always resolves - a failed flush must never block shutdown.
+ */
+export function flushTelemetry(
+  timeoutMs: number = defaultFlushTimeoutMs,
+): Promise<void> {
+  return new Promise((resolve) => {
+    try {
+      if (!isInitialized || !appInsights.defaultClient) {
+        resolve();
+        return;
+      }
+
+      let settled = false;
+      let timer: NodeJS.Timeout | undefined;
+
+      const done = () => {
+        if (settled) return;
+        settled = true;
+        if (timer) clearTimeout(timer);
+        resolve();
+      };
+
+      // Order matters: Channel.triggerSend() fires the callback SYNCHRONOUSLY when the buffer
+      // is empty ("no data to send"), so `timer` must already be assigned when done() runs,
+      // or clearTimeout() is a no-op and the event loop stays alive for timeoutMs.
+      // The timer is deliberately NOT unref'd: every caller exits right after awaiting this,
+      // and an unref'd timer would let the process exit with code 0 before its process.exit(1)
+      // if the sender never invoked the callback.
+      timer = setTimeout(done, timeoutMs);
+
+      appInsights.defaultClient.flush({ callback: () => done() });
+    } catch {
+      resolve();
+    }
+  });
 }
 
 export function initializeApplicationInsights(): void {
@@ -171,13 +236,20 @@ export function initializeApplicationInsights(): void {
       .setAutoCollectHeartbeat(false)
       .setAutoCollectPerformance(false)
       .setAutoCollectIncomingRequestAzureFunctions(false)
-      .setAutoCollectPreAggregatedMetrics(false)
-      .start();
+      .setAutoCollectPreAggregatedMetrics(false);
 
-    isInitialized = true;
-
+    // Must be attached before start(): auto-collected exceptions in the gap would bypass it.
+    // `defaultClient` is created by setup(), so it already exists here.
     appInsights.defaultClient.addTelemetryProcessor(createTelemetryProcessor());
+
+    appInsights.start();
+    isInitialized = true;
   } catch (error) {
-    console.error("Failed to initialize Application Insights:", error);
+    // Nothing else can carry this one: telemetry has just failed to initialize, so there is no
+    // trackException to fall back on.
+    console.error(
+      "Failed to initialize Application Insights:",
+      sanitizeErrorForLog(error),
+    );
   }
 }
