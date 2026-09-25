@@ -347,6 +347,13 @@ npm run dev:stdio  # For STDIO transport
 npm run dev:shttp  # For Streamable HTTP transport
 ```
 
+To try an unreleased version of the Management API SDK, clone [management-sdk-js](https://github.com/kontent-ai/management-sdk-js) next to this repository (`../management-sdk-js`, run `npm ci` in it) and use the `*:local-sdk` scripts. They build the clone and run this server, or its tests, against it in that process only; `node_modules`, `package.json` and the lockfile stay untouched and the default scripts keep using the published SDK. Node 22.15 or newer.
+
+```bash
+npm run dev:shttp:local-sdk   # or dev:stdio:local-sdk
+npm run test:local-sdk        # build:local-sdk for the build alone
+```
+
 ### 📂 Project Structure
 
 - `src/` - Source code

@@ -16,10 +16,24 @@ npm run build
 npm run dev:stdio   # For STDIO transport
 npm run dev:shttp   # For Streamable HTTP transport
 
+# Same, against a clone of the Management API SDK in ../management-sdk-js instead of the published package
+npm run dev:shttp:local-sdk   # or dev:stdio:local-sdk; builds the clone first
+npm run test:local-sdk        # build and test against the clone (build:local-sdk for the build alone)
+
 # Start production server (requires build)
 npm run start:stdio  # For STDIO transport
 npm run start:shttp  # For Streamable HTTP transport
 ```
+
+### Running against an unreleased Management API SDK
+
+The `*:local-sdk` scripts run this server against a clone of [management-sdk-js](https://github.com/kontent-ai/management-sdk-js) checked out next to this repository (`../management-sdk-js`, with `npm ci` run in it) instead of the published package, so an SDK change can be tried and tested here before it is released. Nothing in `node_modules`, `package.json` or the lockfile changes:
+
+- each script first builds the clone (`node scripts/localSdk.mjs build` runs the clone's `build:commonjs`, which produces the `dist/cjs` Node loads and the declarations TypeScript reads),
+- then Node runs with `--import ./scripts/localSdk.mjs`, a resolve hook that answers imports of `@kontent-ai/management-sdk` with the clone in that process only,
+- `build:local-sdk` type-checks with `tsconfig.local-sdk.json`, which maps the package to the clone's declarations.
+
+The default `dev:*`, `build` and `test` scripts always use the published SDK, so there is nothing to undo afterwards. Needs Node 22.15 or newer.
 
 ### Code Quality Commands
 ```bash

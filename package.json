@@ -13,9 +13,13 @@
     "start:shttp": "node build/bin.js shttp",
     "dev:stdio": "tsx watch src/bin.ts stdio",
     "dev:shttp": "tsx watch src/bin.ts shttp",
+    "dev:stdio:local-sdk": "node scripts/localSdk.mjs build && cross-env NODE_OPTIONS=--import=./scripts/localSdk.mjs tsx watch src/bin.ts stdio",
+    "dev:shttp:local-sdk": "node scripts/localSdk.mjs build && cross-env NODE_OPTIONS=--import=./scripts/localSdk.mjs tsx watch src/bin.ts shttp",
     "format": "cross-env biome ci",
     "format:fix": "cross-env biome check --fix --unsafe",
     "test": "npm run build && mocha --timeout 10s -- \"build/test/**/*.spec.js\"",
+    "build:local-sdk": "node scripts/localSdk.mjs build && rimraf build && tsc --project scripts/tsconfig.json && tsc --project tsconfig.local-sdk.json",
+    "test:local-sdk": "npm run build:local-sdk && cross-env NODE_OPTIONS=--import=./scripts/localSdk.mjs mocha --timeout 10s -- \"build/test/**/*.spec.js\"",
     "sync-version": "node --experimental-strip-types scripts/syncVersion.ts",
     "version": "npm run sync-version sync && npm run format:fix -- server.json && git add server.json"
   },
