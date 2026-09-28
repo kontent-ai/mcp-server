@@ -35,3 +35,7 @@ coverage/
 # Optional eslint cache
 .eslintcache 
 nul
+
+# Claude
+.claude/settings.local.json
+.claude/worktrees/
