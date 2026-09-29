@@ -9,6 +9,12 @@ import { isValidGuid } from "./utils/isValidGuid.js";
 
 const version = packageJson.version;
 
+// body-parser's 100 KB default is too small for rich text with embedded
+// components. 4 MB leaves room for the largest content item variant the
+// Management API accepts, including multi-byte characters and JSON escaping.
+// Larger requests would be rejected by the Management API anyway.
+export const MAX_REQUEST_BODY_BYTES = 4 * 1024 * 1024;
+
 export type CreateAppDeps = {
   readonly createMcpServer: () => { server: McpServer };
   readonly createTransport: () => StreamableHTTPServerTransport;
@@ -20,7 +26,7 @@ export const createApp = ({
 }: CreateAppDeps): express.Express => {
   const app = express();
   app.use(helmet());
-  app.use(express.json());
+  app.use(express.json({ limit: MAX_REQUEST_BODY_BYTES }));
 
   app.post("/:environmentId/mcp", async (req, res) => {
     try {
