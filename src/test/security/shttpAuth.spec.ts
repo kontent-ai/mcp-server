@@ -1,108 +1,19 @@
 import * as assert from "node:assert";
-import type { AddressInfo } from "node:net";
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import type { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
-import type { Response } from "express";
 import { describe, it } from "mocha";
-import { type CreateAppDeps, createApp } from "../../app.js";
+import {
+  type Captured,
+  createCounters,
+  postMcp,
+  rejectingDeps,
+  VALID_GUID,
+  withServer,
+  workingDeps,
+} from "./shttpTestServer.js";
 
 // On the Streamable HTTP transport, neither the McpServer nor its transport may
 // be constructed before the authorization check has passed. A status assertion
 // alone cannot show that, so the tests below inject counting factories and
 // assert they were never called.
-
-const VALID_GUID = "00000000-0000-0000-0000-000000000000";
-
-type Counters = {
-  mcpServer: number;
-  transport: number;
-};
-
-const createCounters = (): Counters => ({ mcpServer: 0, transport: 0 });
-
-// Both factories count and then throw: if the ordering ever regresses, the run
-// fails loudly on the counter as well as on the status code.
-const rejectingDeps = (counters: Counters): CreateAppDeps => ({
-  createMcpServer: () => {
-    counters.mcpServer++;
-    throw new Error("createMcpServer must not run before authorization");
-  },
-  createTransport: () => {
-    counters.transport++;
-    throw new Error("createTransport must not run before authorization");
-  },
-});
-
-type Captured = {
-  auth?: unknown;
-  body?: unknown;
-};
-
-const workingDeps = (
-  counters: Counters,
-  captured: Captured,
-): CreateAppDeps => ({
-  createMcpServer: () => {
-    counters.mcpServer++;
-    return {
-      server: {
-        connect: async () => {},
-        close: () => {},
-      } as unknown as McpServer,
-    };
-  },
-  createTransport: () => {
-    counters.transport++;
-    return {
-      handleRequest: async (
-        req: { auth?: unknown },
-        res: Response,
-        body: unknown,
-      ) => {
-        captured.auth = req.auth;
-        captured.body = body;
-        res.status(204).end();
-      },
-      close: () => {},
-    } as unknown as StreamableHTTPServerTransport;
-  },
-});
-
-// A fresh app per test keeps counters isolated. The teardown sits in `finally`
-// because mocha runs without `--exit`: a failed assertion that skipped it would
-// leave the listener holding the event loop open and hang the run.
-const withServer = async (
-  deps: CreateAppDeps,
-  run: (baseUrl: string) => Promise<void>,
-): Promise<void> => {
-  const server = createApp(deps).listen(0, "127.0.0.1");
-  try {
-    await new Promise<void>((resolve, reject) => {
-      server.once("listening", resolve);
-      server.once("error", reject);
-    });
-    const { port } = server.address() as AddressInfo;
-    await run(`http://127.0.0.1:${port}`);
-  } finally {
-    server.closeAllConnections();
-    await new Promise<void>((resolve) => {
-      // Resolve regardless: a teardown error is never the signal worth reading,
-      // and rejecting here would replace the assertion failure that caused it.
-      server.close(() => resolve());
-    });
-  }
-};
-
-const postMcp = (
-  baseUrl: string,
-  environmentId: string,
-  headers: Record<string, string> = {},
-): Promise<globalThis.Response> =>
-  fetch(`${baseUrl}/${environmentId}/mcp`, {
-    method: "POST",
-    headers: { "content-type": "application/json", ...headers },
-    body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "tools/list" }),
-  });
 
 describe("shttp authorization ordering", () => {
   it("rejects a missing Authorization header without building a server", async () => {
