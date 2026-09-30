@@ -1,12 +1,15 @@
 import { z } from "zod";
 import { listLanguagesToolName } from "../tools/referencedToolNames.js";
+import { coerceNumberToString } from "./coerceNumberToString.js";
 
 export const searchOperationSchema = z.object({
-  searchPhrase: z
-    .string()
-    .describe(
-      "Search phrase for AI-powered semantic search. Uses vector database to find content by meaning and similarity, not just exact keyword matching",
-    ),
+  searchPhrase: coerceNumberToString(
+    z
+      .string()
+      .describe(
+        "Search phrase for AI-powered semantic search. Uses vector database to find content by meaning and similarity, not just exact keyword matching",
+      ),
+  ),
   filter: z.object({
     variantId: z
       .guid()
