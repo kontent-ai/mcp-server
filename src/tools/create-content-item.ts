@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createMapiClient } from "../clients/kontentClients.js";
+import { coerceNumberToString } from "../schemas/coerceNumberToString.js";
 import { writeReferenceObjectSchema } from "../schemas/referenceObjectSchema.js";
 import { handleMcpToolError } from "../utils/errorHandler.js";
 import { createMcpToolSuccessResponse } from "../utils/responseHelper.js";
@@ -14,10 +15,9 @@ export const createContentItem = defineAdditiveTool(
     type: writeReferenceObjectSchema.describe(
       "Reference to the content type this item is an instance of.",
     ),
-    codename: z
-      .string()
-      .optional()
-      .describe("Codename (auto-generated if omitted)"),
+    codename: coerceNumberToString(
+      z.string().describe("Codename (auto-generated if omitted)"),
+    ).optional(),
     external_id: z.string().optional().describe("External ID"),
     collection: writeReferenceObjectSchema
       .optional()

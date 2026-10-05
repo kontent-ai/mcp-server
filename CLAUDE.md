@@ -172,6 +172,26 @@ claude mcp add --transport http kontent-ai-multi \
 - Strict TypeScript mode enabled
 - Organize imports on save
 
+### Testing
+
+`npm run test` builds and runs every `src/test/**/*.spec.ts` with mocha. The suites, by what they protect:
+
+- `src/test/schemas/`, `src/test/utils/`: unit tests of schemas and helpers.
+- `src/test/tools/`: registry parity and the read-only / additive / destructive annotation rule.
+- `src/test/bm25/`: tool discoverability (see its `CLAUDE.md`).
+- `src/test/security/`: the Streamable HTTP app with fake dependencies (authorization ordering).
+- `src/test/contract/`: **contract tests**. `contractHarness.ts` starts the real server (Express app, every tool,
+  Streamable HTTP transport, as `bin.ts` wires them) against an in-process stub Management API that records each
+  request, and calls it with the SDK's HTTP client. A spec asserts two things unit tests cannot: the exact result the
+  model receives from a tool call (success text, `isError` text, validation messages) and what the tool sent to the
+  Management API (path, body). Use it for any change to a tool's input handling, error text or request shape:
+  add a case to an existing spec or a new `*.spec.ts` next to it, with `withContractServer(reply, async ({ client,
+  requests }) => ...)`. `reply` decides what the stub answers per request (default: a Management API error body), so
+  a branch that depends on a specific Management API response (a 403, a validation error) is one reply away.
+
+To try a change against a real Management API instead, run the server with `manageApiUrl` pointed at it (`npm run
+dev:shttp`) and call it with any MCP client; the tool results are the same text the tests assert on.
+
 ### Key Implementation Patterns
 
 #### 1. Tool Definition Pattern

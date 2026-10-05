@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { listLanguagesToolName } from "../tools/referencedToolNames.js";
 import { coerceJsonString } from "./coerceJsonString.js";
+import { coerceNumberToString } from "./coerceNumberToString.js";
 import { continuationTokenField } from "./listSchemas.js";
 import { readReferenceObjectSchema } from "./referenceObjectSchema.js";
 
@@ -20,10 +21,9 @@ const userReferenceSchema = z
 
 // Search variants tool input schema
 export const filterVariantsSchema = z.object({
-  search_phrase: z
-    .string()
-    .optional()
-    .describe("Specific phrase or keywords to look for in content"),
+  search_phrase: coerceNumberToString(
+    z.string().describe("Specific phrase or keywords to look for in content"),
+  ).optional(),
   content_types: coerceJsonString(
     z
       .array(readReferenceObjectSchema)
