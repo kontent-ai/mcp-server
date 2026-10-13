@@ -1,6 +1,7 @@
 import { SharedModels } from "@kontent-ai/management-sdk";
 import appInsights from "applicationinsights";
 import type { AxiosError } from "axios";
+import { getCurrentClientId } from "./requestContext.js";
 import { sanitizeTelemetry, sanitizeUrl } from "./telemetrySanitizer.js";
 
 let isInitialized = false;
@@ -149,6 +150,8 @@ function createTelemetryProcessor() {
       envelope.data.baseData.properties["component.name"] = "mcp-server";
       envelope.data.baseData.properties["component.location"] =
         process.env.projectLocation || "unknown";
+      envelope.data.baseData.properties["project_id"] =
+        getCurrentClientId() || process.env.KONTENT_ENVIRONMENT_ID || "unknown";
     }
     return true;
   };
