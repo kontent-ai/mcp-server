@@ -9,7 +9,7 @@ export const listSpaces = defineReadOnlyTool(
   "List all Kontent.ai spaces. Spaces provide channel-specific site configuration for managing multiple websites/channels. Each space has its own domain and preview URLs; collections connect to spaces to organize content per channel.",
   { environmentId: environmentIdSchema },
   async ({ environmentId }, { authInfo: { token } = {} }) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       const response = await client.listSpaces().toPromise();

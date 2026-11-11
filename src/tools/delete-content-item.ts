@@ -13,7 +13,7 @@ export const deleteContentItem = defineDestructiveTool(
     id: z.guid().describe("Content item ID"),
   },
   async ({ environmentId, id }, { authInfo: { token } = {} }) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       const response = await client

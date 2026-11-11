@@ -13,7 +13,7 @@ export const createLanguage = defineAdditiveTool(
     { environmentId, name, codename, fallback_language, external_id },
     { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       const response = await client

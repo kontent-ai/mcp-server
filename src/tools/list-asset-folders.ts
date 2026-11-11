@@ -9,7 +9,7 @@ export const listAssetFolders = defineReadOnlyTool(
   "List all Kontent.ai asset folders. Folders organize digital media files (images, videos, documents) into a hierarchical directory structure.",
   { environmentId: environmentIdSchema },
   async ({ environmentId }, { authInfo: { token } = {} }) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       const response = await client.listAssetFolders().toPromise();

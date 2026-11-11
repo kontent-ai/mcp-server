@@ -16,7 +16,7 @@ export const updateAsset = defineDestructiveTool(
     data: updateAssetDataSchema,
   },
   async ({ environmentId, id, data }, { authInfo: { token } = {} }) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       const response = await client

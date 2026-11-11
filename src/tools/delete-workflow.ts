@@ -13,7 +13,7 @@ export const deleteWorkflow = defineDestructiveTool(
     id: z.guid().describe("Workflow ID"),
   },
   async ({ environmentId, id }, { authInfo: { token } = {} }) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       await client.deleteWorkflow().byWorkflowId(id).toPromise();

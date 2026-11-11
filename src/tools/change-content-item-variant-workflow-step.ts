@@ -19,7 +19,7 @@ export const changeContentItemVariantWorkflowStep = defineDestructiveTool(
     { environmentId, itemId, languageId, workflowId, workflowStepId },
     { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       const response = await client

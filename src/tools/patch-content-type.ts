@@ -31,7 +31,7 @@ export const patchContentType = defineDestructiveTool(
     { environmentId, patchGuideId: _patchGuideId, id, operations },
     { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       // Apply patch operations using the modifyContentType method

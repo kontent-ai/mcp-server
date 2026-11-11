@@ -13,7 +13,7 @@ export const getTaxonomyGroup = defineReadOnlyTool(
     id: z.guid().describe("Taxonomy group ID"),
   },
   async ({ environmentId, id }, { authInfo: { token } = {} }) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       const response = await client.getTaxonomy().byTaxonomyId(id).toPromise();

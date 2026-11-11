@@ -9,7 +9,7 @@ export const listRoles = defineReadOnlyTool(
   "List all Kontent.ai roles. Roles define user permissions and access control within the environment.",
   { environmentId: environmentIdSchema },
   async ({ environmentId }, { authInfo: { token } = {} }) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       const response = await client.listRoles().toPromise();

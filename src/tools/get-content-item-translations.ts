@@ -17,7 +17,7 @@ export const getContentItemTranslations = defineReadOnlyTool(
     itemId: z.guid().describe("Content item ID"),
   },
   async ({ environmentId, itemId }, { authInfo: { token } = {} }) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       const response = await client

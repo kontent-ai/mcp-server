@@ -40,7 +40,7 @@ export const createContentItemVariant = defineAdditiveTool(
     { environmentId, itemId, languageId, elements, workflow_step_id, note },
     { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     // The variant API is upsert-only, so calling this on an item+language that
     // already has a variant would overwrite its elements and reset its

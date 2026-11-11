@@ -27,7 +27,7 @@ export const updateWorkflow = defineDestructiveTool(
     },
     { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     const data: z.infer<typeof workflowInputSchema> = {
       name,

@@ -29,7 +29,7 @@ export const createContentItem = defineAdditiveTool(
     { environmentId, name, type, codename, external_id, collection },
     { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       const response = await client

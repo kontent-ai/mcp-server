@@ -13,7 +13,7 @@ export const deleteSpace = defineDestructiveTool(
     id: z.guid().describe("Space ID"),
   },
   async ({ environmentId, id }, { authInfo: { token } = {} }) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       await client.deleteSpace().bySpaceId(id).toPromise();

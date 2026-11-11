@@ -17,7 +17,7 @@ export const deleteContentItemVariant = defineDestructiveTool(
     { environmentId, itemId, languageId },
     { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       const response = await client

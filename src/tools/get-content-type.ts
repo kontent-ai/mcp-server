@@ -13,7 +13,7 @@ export const getContentType = defineReadOnlyTool(
     id: z.guid().describe("Content type ID"),
   },
   async ({ environmentId, id }, { authInfo: { token } = {} }) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       const response = await client.viewContentType().byTypeId(id).toPromise();

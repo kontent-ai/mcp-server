@@ -10,7 +10,7 @@ export const createTaxonomyGroup = defineAdditiveTool(
   "Create (add) new Kontent.ai taxonomy group for content categorization. Taxonomy groups contain hierarchical terms (categories/tags) for classifying content.",
   { ...taxonomyGroupSchemas, environmentId: environmentIdSchema },
   async ({ environmentId, ...taxonomyGroup }, { authInfo: { token } = {} }) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       const response = await client

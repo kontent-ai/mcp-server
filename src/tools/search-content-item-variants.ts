@@ -59,7 +59,7 @@ export const searchContentItemVariants = defineReadOnlyTool(
     { authInfo: { token } = {} },
   ) => {
     try {
-      const client = createMapiClient(rawEnvironmentId, token);
+      const client = await createMapiClient(rawEnvironmentId, token);
       // createMapiClient already throws when neither environmentId nor
       // KONTENT_ENVIRONMENT_ID is set, so by this point one of them is defined —
       // resolve it again here since the action URLs below need the string itself.

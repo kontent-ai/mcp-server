@@ -174,16 +174,16 @@ Configure credentials via environment variables:
 
 ### Multi-Tenant Mode (Streamable HTTP)
 
-The Streamable HTTP transport is an [OAuth 2.0 Protected Resource](https://datatracker.ietf.org/doc/html/rfc9728), secured with [Auth0](https://auth0.com/). Each request must carry a valid Auth0-issued access token: `Authorization: Bearer <auth0-access-token>`. The server validates the token's signature, issuer, expiration and audience against the configured Auth0 tenant before allowing any tool call, and exposes standard OAuth Protected Resource Metadata so MCP clients can discover how to obtain a token.
-
-> [!IMPORTANT]
-> This is authorization for the MCP server itself. Exchanging the authenticated caller's identity for a Kontent.ai Management API credential (so tool calls can actually reach an environment) is not implemented yet — MAPI-backed tools are currently non-functional over Streamable HTTP.
+The Streamable HTTP transport is an [OAuth 2.0 Protected Resource](https://datatracker.ietf.org/doc/html/rfc9728), secured with [Auth0](https://auth0.com/). Each request must carry a valid Auth0-issued access token: `Authorization: Bearer <auth0-access-token>`. The server validates the token's signature, issuer, expiration and audience against the configured Auth0 tenant before allowing any tool call, then exchanges it for a Kontent.ai Management API credential via Auth0 On-Behalf-Of (RFC 8693) token exchange, scoped to whatever the authenticated caller has access to — so tool calls act with that caller's own Management API permissions, not a shared key.
 
 | Variable | Description | Required |
 |----------|-------------|----------|
 | AUTH0_DOMAIN | Your Auth0 tenant domain, e.g. `tenant.us.auth0.com` | ✅ |
-| AUTH0_AUDIENCE | The Auth0 API identifier for this server | ❌ (defaults to MCP_SERVER_URL) |
-| MCP_SERVER_URL | Public base URL of this server, used as the OAuth resource identifier | ❌ (defaults to `http://localhost:<PORT>`) |
+| AUTH0_AUDIENCE | This server's fixed OAuth resource identifier — must exactly match the Identifier of the API registered for it in Auth0 (e.g. `https://manage-mcp.example.com/`). It is an opaque identity string, not a reachable address, so the same value is used unchanged across every environment (local, staging, production) — only one Auth0 API is ever needed. | ❌ (defaults to MCP_SERVER_URL) |
+| MCP_SERVER_URL | The base URL this specific running instance is actually reachable at (e.g. `http://localhost:3001` locally, the real public URL in production). Used only so MCP clients know where to fetch this server's own OAuth metadata from — it must be a real, reachable address, unlike AUTH0_AUDIENCE. | ❌ (defaults to `http://localhost:<PORT>`) |
+| MCP_AUTH0_CLIENT_ID | Client ID of this MCP server's own confidential Auth0 Application, used to perform the On-Behalf-Of token exchange. | ✅ |
+| MCP_AUTH0_CLIENT_SECRET | Client secret for the same confidential Auth0 Application. | ✅ |
+| MAPI_AUTH0_AUDIENCE | The Kontent.ai Management API's Auth0 API identifier — the exchange target. Fixed across every environment, same as AUTH0_AUDIENCE, since it's never checked by MCP clients (purely a server-to-Auth0 detail). | ✅ |
 | PORT | Port for HTTP transport (defaults to 3001) | ❌ |
 | appInsightsConnectionString | Application Insights connection string for telemetry | ❌ |
 | projectLocation | Project location identifier for telemetry tracking | ❌ |
@@ -224,7 +224,7 @@ To run the server with STDIO transport, configure your MCP client with:
 
 Streamable HTTP transport is protected by Auth0. Every request must carry a valid Auth0-issued access token; the server validates it before any tool call runs.
 
-**Setting up Auth0**: create an API in your Auth0 tenant (Applications → APIs) with an identifier matching `MCP_SERVER_URL`, and set `AUTH0_DOMAIN` (and optionally `AUTH0_AUDIENCE`) accordingly. See [Auth0's API setup guide](https://auth0.com/docs/get-started/auth0-overview/set-up-apis) for details.
+**Setting up Auth0**: create one API in your Auth0 tenant (Applications → APIs) with a fixed identifier (e.g. `https://manage-mcp.example.com/`), and set `AUTH0_AUDIENCE` to that exact identifier and `AUTH0_DOMAIN` to your tenant domain — the same values everywhere, regardless of where this server actually runs. Separately, set `MCP_SERVER_URL` to wherever *this instance* is actually reachable (skip it locally; it already defaults to `http://localhost:<PORT>`). See [Auth0's API setup guide](https://auth0.com/docs/get-started/auth0-overview/set-up-apis) for details.
 
 Then start the server, e.g.:
 
@@ -318,7 +318,7 @@ claude mcp add --transport http kontent-ai-multi \
 </details>
 
 > [!IMPORTANT]
-> Replace `<auth0-access-token>` with an access token issued by your Auth0 tenant for this server's API. MAPI-backed tools are currently non-functional over Streamable HTTP (see note above) until token exchange to a Kontent.ai Management API credential is implemented.
+> Replace `<auth0-access-token>` with an access token issued by your Auth0 tenant for this server's API. Tool calls act with whatever Kontent.ai Management API permissions the authenticated caller has, via On-Behalf-Of token exchange — not a server-wide shared key.
 
 ## 💻 Development
 

@@ -9,7 +9,7 @@ export const listWorkflows = defineReadOnlyTool(
   "List all Kontent.ai workflows and their steps. Workflows define content lifecycle stages: draft, review, approval, published, scheduled, archived.",
   { environmentId: environmentIdSchema },
   async ({ environmentId }, { authInfo: { token } = {} }) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       const response = await client.listWorkflows().toPromise();

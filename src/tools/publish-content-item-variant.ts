@@ -27,7 +27,7 @@ export const publishContentItemVariant = defineDestructiveTool(
     { environmentId, itemId, languageId, scheduledTo, displayTimezone },
     { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       // Validate that displayTimezone can only be used with scheduledTo

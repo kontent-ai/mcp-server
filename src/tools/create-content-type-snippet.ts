@@ -26,7 +26,7 @@ export const createContentTypeSnippet = defineAdditiveTool(
     { environmentId, name, codename, external_id, elements },
     { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       const response = await client

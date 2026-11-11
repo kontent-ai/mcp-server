@@ -13,7 +13,7 @@ export const deleteContentTypeSnippet = defineDestructiveTool(
     id: z.guid().describe("Content type snippet ID"),
   },
   async ({ environmentId, id }, { authInfo: { token } = {} }) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       await client.deleteContentTypeSnippet().byTypeId(id).toPromise();

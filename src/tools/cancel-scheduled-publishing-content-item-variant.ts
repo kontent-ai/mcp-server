@@ -22,7 +22,7 @@ export const cancelScheduledPublishingContentItemVariant =
       { environmentId, itemId, languageId },
       { authInfo: { token } = {} },
     ) => {
-      const client = createMapiClient(environmentId, token);
+      const client = await createMapiClient(environmentId, token);
 
       try {
         await client

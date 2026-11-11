@@ -20,7 +20,7 @@ export const getPublishedContentItemVariantVersion = defineReadOnlyTool(
     { environmentId, itemId, languageId },
     { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       const response = await client

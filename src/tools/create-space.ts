@@ -13,7 +13,7 @@ export const createSpace = defineAdditiveTool(
     { environmentId, name, codename, collections },
     { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       const response = await client

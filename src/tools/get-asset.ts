@@ -13,7 +13,7 @@ export const getAsset = defineReadOnlyTool(
     assetId: z.guid().describe("Asset ID"),
   },
   async ({ environmentId, assetId }, { authInfo: { token } = {} }) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       const response = await client.viewAsset().byAssetId(assetId).toPromise();

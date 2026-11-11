@@ -13,7 +13,7 @@ export const listContentTypes = defineReadOnlyTool(
     { environmentId, continuation_token },
     { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       const query = client.listContentTypes();

@@ -33,7 +33,7 @@ export const updateContentItemVariant = defineDestructiveTool(
     { environmentId, itemId, languageId, elements, workflow_step_id, note },
     { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     const data: any = {
       elements,

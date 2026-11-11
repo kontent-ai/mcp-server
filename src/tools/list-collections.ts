@@ -9,7 +9,7 @@ export const listCollections = defineReadOnlyTool(
   "List all Kontent.ai collections. Collections organize and group content items by team, brand, or project for access control and content separation.",
   { environmentId: environmentIdSchema },
   async ({ environmentId }, { authInfo: { token } = {} }) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       const response = await client.listCollections().toPromise();

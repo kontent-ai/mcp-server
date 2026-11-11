@@ -13,7 +13,7 @@ export const deleteTaxonomyGroup = defineDestructiveTool(
     id: z.guid().describe("Taxonomy group ID"),
   },
   async ({ environmentId, id }, { authInfo: { token } = {} }) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       await client.deleteTaxonomy().byTaxonomyId(id).toPromise();

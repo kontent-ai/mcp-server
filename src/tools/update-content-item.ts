@@ -27,7 +27,7 @@ export const updateContentItem = defineDestructiveTool(
     { environmentId, id, name, collection },
     { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       // First, verify the item exists by trying to get it

@@ -28,7 +28,7 @@ export const patchContentTypeSnippet = defineDestructiveTool(
     { environmentId, patchGuideId: _patchGuideId, id, operations },
     { authInfo: { token } = {} },
   ) => {
-    const client = createMapiClient(environmentId, token);
+    const client = await createMapiClient(environmentId, token);
 
     try {
       const response = await client

@@ -21,7 +21,7 @@ export const bulkGetContentItemVariants = defineReadOnlyTool(
     { authInfo: { token } = {} },
   ) => {
     try {
-      const client = createMapiClient(environmentId, token);
+      const client = await createMapiClient(environmentId, token);
 
       const query = client
         .bulkGetItemsWithVariants()

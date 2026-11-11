@@ -19,15 +19,20 @@ process.env.NODE_ENV = process.env.NODE_ENV || "production";
 
 async function startStreamableHTTP() {
   const PORT = process.env.PORT || 3001;
-  const resourceServerUrl = new URL(
+  // Where THIS instance is actually reachable — defaults to localhost for
+  // local dev; a real deployment sets MCP_SERVER_URL to its public URL.
+  const metadataBaseUrl = new URL(
     process.env.MCP_SERVER_URL || `http://localhost:${PORT}`,
   );
   const domain =
-    process.env.AUTH0_DOMAIN ?? "login.devkontentmasters.com"/*
+    process.env.AUTH0_DOMAIN ??
     throwError(
       "AUTH0_DOMAIN environment variable is required for the Streamable HTTP transport",
-    )*/;
-  const audience = process.env.AUTH0_AUDIENCE ?? resourceServerUrl.toString();
+    );
+  // Fixed Auth0 API identifier — the same value in every environment, so
+  // only one Auth0 API ever needs to exist. Falls back to metadataBaseUrl
+  // for the common case where the two coincide (e.g. a simple deployment).
+  const audience = process.env.AUTH0_AUDIENCE ?? metadataBaseUrl.toString();
 
   const app = await createApp({
     createMcpServer: createServer,
@@ -39,7 +44,7 @@ async function startStreamableHTTP() {
       createAuth0Auth({
         domain,
         audience,
-        resourceServerUrl,
+        metadataBaseUrl,
         resourceName: "Kontent.ai MCP Server",
       }),
   });
