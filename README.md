@@ -1,5 +1,12 @@
 # Kontent.ai MCP Server
 
+> [!WARNING]
+> **This repository and the `@kontent-ai/mcp-server` npm package are deprecated and no longer maintained.**
+>
+> Kontent.ai now provides a hosted MCP server, which replaces this project. There's nothing to install or run yourself. To connect your AI tools to Kontent.ai, follow the [Kontent.ai MCP server documentation](https://kontent.ai/learn/docs/ai/mcp-server).
+>
+> This repository will receive no further updates, fixes or security patches. Existing versions of the package stay available but aren't supported, so we recommend moving to the hosted server.
+
 [![NPM Version][npm-shield]][npm-url]
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
